@@ -1,0 +1,160 @@
+// Paisa: sign-in, per-user cloud sync (Firestore) and app updates.
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+// Firebase web config is public by design; access is protected by Firestore rules and sign-in.
+const firebaseConfig = {
+  apiKey: 'AIzaSyATsnZaOcBWxa_Kz8nbvGq2D5Hhd3a9HEY',
+  authDomain: 'paisa-95df7.firebaseapp.com',
+  projectId: 'paisa-95df7',
+  storageBucket: 'paisa-95df7.firebasestorage.app',
+  messagingSenderId: '948947665726',
+  appId: '1:948947665726:web:b9cfbe18a916a657dfe26f'
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+window.__fbReady = true;
+
+const $ = id => document.getElementById(id);
+const MAIN_KEYS = ['pt.cfg','pt.watch','pt.n50cfg','pt.icol','pt.ovl','pt.zoom','pt.lab','pt.palerts','pt.olock','pt.wopen'];
+const LOG_KEYS = ['pt.log','pt.lablog'];
+let cur = null, dirtyMain = false, dirtyLogs = false, tMain = null, tLogs = null, pushing = false;
+const last = { main: '', logs: '', secrets: '' };
+
+/* ---------------- login screen ---------------- */
+const EYE = '<svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+const EYE_OFF = '<svg viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.6 10.6 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.1 4.1M6.6 6.6C3.9 8.4 2 12 2 12s3.6 7 10 7a9.8 9.8 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
+const eye = $('lgEye'), pass = $('lgPass'), email = $('lgEmail');
+eye.innerHTML = EYE;
+eye.onclick = () => { const show = pass.type === 'password'; pass.type = show ? 'text' : 'password'; eye.innerHTML = show ? EYE_OFF : EYE;
+  eye.setAttribute('aria-pressed', String(show)); eye.setAttribute('aria-label', show ? 'Hide password' : 'Show password'); pass.focus(); };
+function msg(t, ok) { const m = $('lgMsg'); m.textContent = t || ''; m.className = 'lg-msg' + (ok ? ' ok' : ''); }
+function state(t) { $('lgState').hidden = !t; $('lgFields').hidden = !!t; if (t) $('lgStateTx').textContent = t; }
+function clearForm() { email.value = ''; pass.value = ''; pass.type = 'password'; eye.innerHTML = EYE; eye.setAttribute('aria-pressed', 'false'); }
+const ERR = {
+  'auth/invalid-credential': 'Email or password is incorrect.', 'auth/wrong-password': 'Email or password is incorrect.',
+  'auth/user-not-found': 'Email or password is incorrect.', 'auth/invalid-email': 'Enter a valid email address.',
+  'auth/too-many-requests': 'Too many attempts. Wait a few minutes, then try again.', 'auth/network-request-failed': 'No internet connection. Check it and try again.',
+  'auth/user-disabled': 'This account has been disabled. Contact the admin.'
+};
+$('lgForm').addEventListener('submit', async e => {
+  e.preventDefault(); msg('');
+  const em = email.value.trim(), pw = pass.value;
+  if (!em || !pw) { msg('Enter your email and password.'); return; }
+  const btn = $('lgGo'); btn.disabled = true; btn.textContent = 'Signing in…';
+  try { await signInWithEmailAndPassword(auth, em, pw); }
+  catch (err) { msg(ERR[err.code] || 'Sign-in failed. Try again.'); btn.disabled = false; btn.textContent = 'Sign in'; }
+});
+$('lgForgot').onclick = async () => {
+  const em = email.value.trim(); if (!em) { msg('Type your email above first, then tap Forgot password.'); email.focus(); return; }
+  try { await sendPasswordResetEmail(auth, em); msg('If an account exists for that email, a reset link has been sent.', true); }
+  catch (err) { msg(ERR[err.code] || 'Could not send the reset email. Try again.'); }
+};
+
+/* ---------------- local data helpers ---------------- */
+function clearLocal() {
+  try { for (const k of Object.keys(localStorage)) if (k.startsWith('pt.')) localStorage.removeItem(k); } catch (e) {}
+  try { sessionStorage.removeItem('pt.synced'); } catch (e) {}
+}
+const ref = (uid, a, b) => doc(db, 'users', uid, a, b);
+function splitCfg(raw) { let c = {}; try { c = JSON.parse(raw || '{}') || {}; } catch (e) {}
+  const sec = { token: c.token || '', fkey: c.fkey || '' }; delete c.token; delete c.fkey; return { cfg: JSON.stringify(c), sec }; }
+
+async function pull(uid) {
+  const [m, l, s] = await Promise.all([getDoc(ref(uid, 'state', 'main')), getDoc(ref(uid, 'state', 'logs')), getDoc(ref(uid, 'private', 'secrets'))]);
+  if (!m.exists()) return false;
+  const d = m.data().data || {};
+  for (const k of MAIN_KEYS) if (typeof d[k] === 'string') localStorage.setItem(k, d[k]);
+  if (l.exists()) { const x = l.data(); for (const k of LOG_KEYS) if (typeof x[k] === 'string') localStorage.setItem(k, x[k]); }
+  let c = {}; try { c = JSON.parse(localStorage.getItem('pt.cfg') || '{}') || {}; } catch (e) {}
+  if (s.exists()) { const x = s.data(); c.token = x.token || ''; c.fkey = x.fkey || ''; }
+  localStorage.setItem('pt.cfg', JSON.stringify(c));
+  localStorage.setItem('pt.syncAt', String(m.data().updatedAt || Date.now()));
+  return true;
+}
+
+function capJSON(raw, n) { try { const a = JSON.parse(raw || '[]'); return JSON.stringify(Array.isArray(a) ? a.slice(-n) : []); } catch (e) { return '[]'; } }
+async function push(full) {
+  if (!cur || pushing) return; pushing = true; const uid = cur.uid; const now = Date.now();
+  try {
+    const data = {}; let sec = { token: '', fkey: '' };
+    for (const k of MAIN_KEYS) { const v = localStorage.getItem(k); if (v == null) continue;
+      if (k === 'pt.cfg') { const s = splitCfg(v); data[k] = s.cfg; sec = s.sec; } else data[k] = v; }
+    const mainStr = JSON.stringify(data);
+    if (full || (dirtyMain && mainStr !== last.main)) { await setDoc(ref(uid, 'state', 'main'), { v: 1, updatedAt: now, data }); last.main = mainStr; localStorage.setItem('pt.syncAt', String(now)); }
+    dirtyMain = false;
+    const secStr = JSON.stringify(sec);
+    if (full || secStr !== last.secrets) { await setDoc(ref(uid, 'private', 'secrets'), { ...sec, updatedAt: now }); last.secrets = secStr; }
+    if (full || dirtyLogs) { const logs = { 'pt.log': capJSON(localStorage.getItem('pt.log'), 1500), 'pt.lablog': capJSON(localStorage.getItem('pt.lablog'), 1000) };
+      const ls = JSON.stringify(logs); if (full || ls !== last.logs) { await setDoc(ref(uid, 'state', 'logs'), { ...logs, updatedAt: now }); last.logs = ls; } dirtyLogs = false; }
+    const s = $('acSync'); if (s) s.textContent = 'Synced to your account at ' + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) + '.';
+  } catch (err) {
+    const s = $('acSync'); if (s) s.textContent = 'Sync failed (' + (err.code || err.message || err) + '). Your data is safe on this device and will sync when possible.';
+  } finally { pushing = false; }
+}
+// called by the app every time it saves something; main settings sync within ~8 s, logs within ~60 s
+window.syncMark = k => {
+  if (!cur || !k || !k.startsWith('pt.')) return;
+  if (LOG_KEYS.includes(k)) { dirtyLogs = true; if (!tLogs) tLogs = setTimeout(() => { tLogs = null; push(false); }, 60000); }
+  else if (MAIN_KEYS.includes(k)) { dirtyMain = true; clearTimeout(tMain); tMain = setTimeout(() => push(false), 8000); }
+};
+document.addEventListener('visibilitychange', async () => {
+  if (!cur) return;
+  if (document.visibilityState === 'hidden') { if (dirtyMain || dirtyLogs) push(false); return; }
+  // back in front: has another device saved newer settings?
+  try { const m = await getDoc(ref(cur.uid, 'state', 'main')); const t = m.exists() ? (m.data().updatedAt || 0) : 0;
+    if (t > Number(localStorage.getItem('pt.syncAt') || 0) + 1000 && !dirtyMain) { sessionStorage.removeItem('pt.synced'); window.appToast && window.appToast('Updated on another device', 'Close and reopen Paisa (or reload) to load those changes.', 9000); } } catch (e) {}
+});
+
+/* ---------------- account panel ---------------- */
+let outArm = 0;
+function wireAccount(u) {
+  const who = $('acWho'); if (who) who.innerHTML = 'Signed in as <b>' + (u.email || '').replace(/[<>&]/g, '') + '</b>';
+  const sn = $('acSyncNow'); if (sn) sn.onclick = async () => { $('acMsg').className = 'msg'; $('acMsg').textContent = 'Syncing…'; await push(true); $('acMsg').className = 'msg ok'; $('acMsg').textContent = 'Done'; };
+  const out = $('acOut'); if (out) out.onclick = async () => {
+    if (Date.now() - outArm > 4000) { outArm = Date.now(); out.textContent = 'Tap again to sign out'; setTimeout(() => out.textContent = 'Sign out', 4000); return; }
+    out.disabled = true; out.textContent = 'Signing out…';
+    try { await push(false); } catch (e) {}
+    try { await signOut(auth); } catch (e) {}
+    clearLocal(); clearForm(); location.reload();
+  };
+}
+
+/* ---------------- session flow ---------------- */
+function start(u) { wireAccount(u); window.startApp && window.startApp(); }
+onAuthStateChanged(auth, async u => {
+  if (!u) { cur = null; state(null); clearForm(); setTimeout(() => email.focus(), 300); return; }
+  cur = u; msg(''); state('Loading your data…');
+  try {
+    const owner = localStorage.getItem('pt.owner');
+    if (owner && owner !== u.uid) clearLocal();          // never show another person's data
+    if (sessionStorage.getItem('pt.synced') === u.uid) { localStorage.setItem('pt.owner', u.uid); start(u); return; }
+    const had = await pull(u.uid);
+    localStorage.setItem('pt.owner', u.uid); sessionStorage.setItem('pt.synced', u.uid);
+    if (had) { location.reload(); return; }               // reload so the app reads your synced data
+    await push(true);                                      // first sign-in: create your cloud copy
+    start(u);
+  } catch (err) {
+    localStorage.setItem('pt.owner', u.uid); sessionStorage.setItem('pt.synced', u.uid); start(u);
+    setTimeout(() => window.appToast && window.appToast('Cloud sync not available', (err && err.code === 'permission-denied') ? 'Firestore rules are blocking access. Check the rules in Firebase.' : 'Check that the Firestore database exists and you are online. The app works on this device meanwhile.', 9000), 1500);
+  }
+});
+
+/* ---------------- installable app + updates ---------------- */
+if ('serviceWorker' in navigator) {
+  let refreshing = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (!refreshing) { refreshing = true; location.reload(); } });
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    const offer = w => { const b = document.createElement('div'); b.className = 'upd';
+      b.innerHTML = '<span>A new version of Paisa is ready.</span><button type="button">Update</button>';
+      b.querySelector('button').onclick = async () => { b.querySelector('button').textContent = 'Updating…'; try { await push(false); } catch (e) {} w.postMessage('skipWaiting'); };
+      document.body.appendChild(b); };
+    if (reg.waiting && navigator.serviceWorker.controller) offer(reg.waiting);
+    reg.addEventListener('updatefound', () => { const w = reg.installing; if (!w) return;
+      w.addEventListener('statechange', () => { if (w.state === 'installed' && navigator.serviceWorker.controller) offer(w); }); });
+    setInterval(() => reg.update().catch(() => {}), 30 * 60 * 1000);
+  }).catch(() => {});
+}
