@@ -1,5 +1,6 @@
-// Paisa service worker: makes the app installable, opens fast, and shows an "update" prompt for new versions.
-const VERSION = 'paisa-v2';
+// Paisa service worker: makes the app installable, opens fast, shows an "update" prompt for new versions,
+// and displays push notifications from the Paisa server.
+const VERSION = 'paisa-v3';
 const SHELL = ['./', './index.html', './auth.js', './manifest.webmanifest', './coin.svg', './icon-192.png', './icon-512.png',
   './maskable-192.png', './maskable-512.png', './apple-touch-icon.png', './favicon-32.png'];
 const LIBS = ['www.gstatic.com', 'unpkg.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
@@ -30,4 +31,24 @@ self.addEventListener('fetch', e => {
       return hit || net; }));
   }
   // market data, Firebase and everything else: always live, never cached
+});
+
+// push notifications (sent by the Paisa server through Firebase Cloud Messaging as data messages)
+self.addEventListener('push', e => {
+  let j = {}; try { j = e.data ? e.data.json() : {}; } catch (x) { j = { data: { title: 'Paisa', body: e.data ? e.data.text() : '' } }; }
+  const d = j.data || j.notification || j; const n = j.notification || {};
+  const title = d.title || n.title || 'Paisa', body = d.body || n.body || '', url = d.url || './#news', tag = d.tag || 'paisa';
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(cs => {
+    const vis = cs.find(c => c.visibilityState === 'visible');
+    if (vis) { vis.postMessage({ type: 'paisa-push', title, body, url, kind: d.kind || '' }); return; }   // app open in front: show a toast instead
+    return self.registration.showNotification(title, { body, tag, renotify: true, icon: './icon-192.png', badge: './favicon-32.png', data: { url }, vibrate: [120, 60, 120] });
+  }));
+});
+self.addEventListener('notificationclick', e => {
+  e.notification.close(); const url = (e.notification.data && e.notification.data.url) || './#news';
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(cs => {
+    const c = cs.find(x => x.url.startsWith(self.registration.scope));
+    if (c) { c.postMessage({ type: 'paisa-open', url }); return c.focus(); }
+    return self.clients.openWindow(new URL(url, self.registration.scope).href);
+  }));
 });

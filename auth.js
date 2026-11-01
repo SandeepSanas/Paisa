@@ -1,7 +1,8 @@
-// Paisa: sign-in, per-user cloud sync (Firestore) and app updates.
+// Paisa: sign-in, per-user cloud sync (Firestore), market feeds from the Paisa server, push notifications and app updates.
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { getFirestore, doc, getDoc, setDoc, deleteDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+const SDK = 'https://www.gstatic.com/firebasejs/10.12.2/';
 
 // Firebase web config is public by design; access is protected by Firestore rules and sign-in.
 const firebaseConfig = {
@@ -118,13 +119,96 @@ function wireAccount(u) {
     if (Date.now() - outArm > 4000) { outArm = Date.now(); out.textContent = 'Tap again to sign out'; setTimeout(() => out.textContent = 'Sign out', 4000); return; }
     out.disabled = true; out.textContent = 'Signing out…';
     try { await push(false); } catch (e) {}
+    try { await dropDevice(); } catch (e) {}
+    stopFeeds();
     try { await signOut(auth); } catch (e) {}
     clearLocal(); clearForm(); location.reload();
   };
 }
 
+/* ---------------- market feeds written by the Paisa server ---------------- */
+const FEEDS = ['news', 'releases', 'calendar', 'macro', 'moves', 'nse', 'status', 'config'];
+window.FEED = window.FEED || {};
+let unsubs = [];
+function startFeeds() {
+  if (unsubs.length) return;
+  for (const n of FEEDS) unsubs.push(onSnapshot(doc(db, 'feed', n), snap => {
+    window.FEED[n] = snap.exists() ? snap.data() : null; window.FEED.err = null;
+    window.dispatchEvent(new CustomEvent('paisa-feed', { detail: n }));
+  }, err => { window.FEED.err = err.code || err.message; window.dispatchEvent(new CustomEvent('paisa-feed', { detail: 'err' })); }));
+}
+function stopFeeds() { for (const u of unsubs) try { u(); } catch (e) {} unsubs = []; }
+
+/* ---------------- push notifications ---------------- */
+const DEV_KEY = 'pt.dev';
+const devInfo = () => { try { return JSON.parse(localStorage.getItem(DEV_KEY) || 'null'); } catch (e) { return null; } };
+async function sha(s) { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)); return [...new Uint8Array(b)].slice(0, 12).map(x => x.toString(16).padStart(2, '0')).join(''); }
+let msgMod = null;
+async function messaging() {
+  if (!msgMod) { const m = await import(SDK + 'firebase-messaging.js'); if (!(await m.isSupported())) throw new Error('unsupported'); msgMod = { m, inst: m.getMessaging(app) }; }
+  return msgMod;
+}
+const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+async function vapidKey() {
+  if (window.FEED.config && window.FEED.config.vapid) return window.FEED.config.vapid;
+  const d = await getDoc(doc(db, 'feed', 'config')); return d.exists() ? d.data().vapid : '';
+}
+window.paisaPush = {
+  info() {
+    const d = devInfo();
+    if (!('Notification' in window) || !('serviceWorker' in navigator)) return { state: isIOS && !standalone ? 'ios-home' : 'unsupported' };
+    if (Notification.permission === 'denied') return { state: 'blocked' };
+    return { state: d && cur && d.uid === cur.uid && Notification.permission === 'granted' ? 'on' : 'off', prefs: d && d.prefs };
+  },
+  async enable(prefs) {
+    if (!cur) throw new Error('Sign in first');
+    if (isIOS && !standalone) throw new Error('On iPhone/iPad, add Paisa to the Home Screen first, then open it from there.');
+    const p = await Notification.requestPermission();
+    if (p !== 'granted') throw new Error(p === 'denied' ? 'Notifications are blocked for this site. Allow them in the browser settings.' : 'Permission was not given.');
+    let mm; try { mm = await messaging(); } catch (e) { throw new Error('This browser does not support push notifications.'); }
+    const key = await vapidKey(); if (!key) throw new Error('The server has not published its push key yet. Deploy the server, wait a minute, then try again.');
+    const reg = await navigator.serviceWorker.ready;
+    const token = await mm.m.getToken(mm.inst, { vapidKey: key, serviceWorkerRegistration: reg });
+    if (!token) throw new Error('Could not get a push token. Try again.');
+    const id = await sha(token);
+    const old = devInfo(); if (old && old.uid === cur.uid && old.id !== id) { try { await deleteDoc(doc(db, 'users', cur.uid, 'devices', old.id)); } catch (e) {} }
+    await setDoc(doc(db, 'users', cur.uid, 'devices', id), { token, prefs, ua: navigator.userAgent.slice(0, 160), updatedAt: Date.now() });
+    localStorage.setItem(DEV_KEY, JSON.stringify({ id, uid: cur.uid, prefs, at: Date.now() }));
+    return true;
+  },
+  async prefs(prefs) {
+    const d = devInfo(); if (!d || !cur || d.uid !== cur.uid) return false;
+    await setDoc(doc(db, 'users', cur.uid, 'devices', d.id), { prefs, updatedAt: Date.now() }, { merge: true });
+    d.prefs = prefs; localStorage.setItem(DEV_KEY, JSON.stringify(d)); return true;
+  },
+  async disable() { await dropDevice(); try { const mm = await messaging(); await mm.m.deleteToken(mm.inst); } catch (e) {} },
+  async test() { return call('test'); },
+};
+window.paisaRefresh = () => call('refresh');
+async function call(what) {
+  const f = await import(SDK + 'firebase-functions.js');
+  const fn = f.httpsCallable(f.getFunctions(app, 'asia-south1'), 'paisaAction', { timeout: 70000 });
+  const r = await fn({ what }); return r.data;
+}
+async function dropDevice() {
+  const d = devInfo(); localStorage.removeItem(DEV_KEY);
+  if (d && cur && d.uid === cur.uid) await deleteDoc(doc(db, 'users', cur.uid, 'devices', d.id));
+}
+// tokens can rotate; refresh this device's registration about once a week
+async function refreshDevice() {
+  const d = devInfo(); if (!d || !cur || d.uid !== cur.uid || !('Notification' in window) || Notification.permission !== 'granted') return;
+  if (Date.now() - (d.at || 0) < 6 * 86400000) return;
+  setTimeout(() => window.paisaPush.enable(d.prefs).catch(() => {}), 8000);
+}
+// a push arriving while Paisa is open: the service worker hands it over and the app shows a toast
+if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('message', e => {
+  const d = e.data; if (d && d.type === 'paisa-push') { window.appToast && window.appToast(d.title, d.body, 9000); window.dispatchEvent(new CustomEvent('paisa-push', { detail: d })); }
+  if (d && d.type === 'paisa-open') window.dispatchEvent(new CustomEvent('paisa-open', { detail: d.url }));
+});
+
 /* ---------------- session flow ---------------- */
-function start(u) { wireAccount(u); window.startApp && window.startApp(); }
+function start(u) { wireAccount(u); window.startApp && window.startApp(); startFeeds(); refreshDevice(); }
 onAuthStateChanged(auth, async u => {
   if (!u) { cur = null; state(null); clearForm(); setTimeout(() => email.focus(), 300); return; }
   cur = u; msg(''); state('Loading your data…');

@@ -1,11 +1,16 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Each user can read and write only their own data (settings, logs, alerts, Upstox token).
+    // Each user can read and write only their own data (settings, logs, alerts, Upstox token, notification devices).
     match /users/{uid}/{document=**} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
     }
-    // Everything else is closed.
+    // Market news, data releases, calendar, risk and big moves: written by the Paisa server, readable by signed-in users.
+    match /feed/{doc} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+    // Everything else (including the server's own state) is closed.
     match /{document=**} {
       allow read, write: if false;
     }
