@@ -241,6 +241,12 @@ main{flex:1;min-width:0;padding-block:10px 92px;padding-left:max(16px,env(safe-a
 .ovl{display:flex;gap:6px;flex-wrap:wrap}
 .ovl label{display:inline-flex;align-items:center;gap:6px;font:600 12px var(--f-ui);color:var(--dim);padding:6px 9px;border:1px solid var(--line);border-radius:9px;cursor:pointer}
 .ovl input{accent-color:var(--cyan)}
+.ovl .og{display:inline-flex;align-items:center;gap:6px;padding:3px 8px 3px 3px;border:1px solid var(--line-hi);border-radius:10px;background:var(--raise);white-space:nowrap}
+.ovl .og label{border:0;padding:4px 4px 4px 6px}
+.ovl .og.lv{padding:4px 8px;gap:10px;font:600 12px var(--f-ui);color:var(--dim);flex-wrap:wrap}
+.ovl .og.lv b{color:var(--text)}
+.ovl .og.lv span{display:inline-flex;align-items:center;gap:4px}
+.ovl input[type=checkbox]{width:16px;height:16px;margin:0}
 .sw{width:10px;height:3px;border-radius:2px;display:inline-block}
 
 /* ---------- options view ---------- */
@@ -415,6 +421,7 @@ main{flex:1;min-width:0;padding-block:10px 92px;padding-left:max(16px,env(safe-a
 .wc b{color:var(--text);font-weight:700}
 .wc i{width:7px;height:7px;border-radius:50%;flex:none}
 .wc .cd{font-family:var(--f-num)}
+.wc .cd.op{color:var(--sbuy)}.wc .cd.cl{color:#ffb84d}
 .st-open{background:var(--sbuy);box-shadow:0 0 6px var(--sbuy)}.st-brk{background:var(--t1)}.st-cls{background:var(--faint)}
 .wpanel{padding:8px}
 .wtab{width:100%;border-collapse:collapse;font-size:13px}
@@ -571,7 +578,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" aria-hidden="true"><img src="coin.svg" alt="" width="36" height="36"></span>
-    <div><div class="logo">PAISA</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v3</span></div></div>
+    <div><div class="logo">PAISA</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v3.1</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -680,7 +687,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">Paisa v3 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">Paisa v3.1 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -1573,8 +1580,9 @@ function renderChartHead(){const it=chartInst();const sel=$('#chSym');
   $('#chTf').querySelectorAll('button').forEach(b=>b.onclick=()=>{S.chart.tf=+b.dataset.tf;S.chart.range=null;loadChart()});
   if(!it)return;updChartLive();
   const pick=k=>`<input type="color" class="cpick" data-c="${k}" value="${toHex(indCol(k))}" aria-label="Colour" title="Change colour">`;
+  const shw=CH?CH.show:store.get('pt.ovl',{e9:1,e21:1,vw:1,st:1,vol:1});
   $('#chOvl').innerHTML=[['e9','EMA 9',['e9']],['e21','EMA 21',['e21']],['vw','VWAP',['vw']],['st','Supertrend',['stU','stD']],['vol','Volume',[]]].map(([k,n,cs])=>
-    `<label><input type="checkbox" data-o="${k}" ${CH&&CH.show[k]?'checked':''}>${n}</label>${cs.map(pick).join('')}`).join('')+`<label style="cursor:default">Levels</label><span class="label">Entry</span>${pick('lE')}<span class="label">SL</span>${pick('lS')}<span class="label">T1</span>${pick('lT1')}<span class="label">T2</span>${pick('lT2')}<button class="btn ghost" id="cReset" style="padding:5px 10px">Reset colours</button>`;
+    `<span class="og"><label><input type="checkbox" data-o="${k}" ${shw[k]?'checked':''}>${n}</label>${cs.map(pick).join('')}</span>`).join('')+`<span class="og lv"><b>Levels</b><span>Entry ${pick('lE')}</span><span>SL ${pick('lS')}</span><span>T1 ${pick('lT1')}</span><span>T2 ${pick('lT2')}</span></span><button class="btn ghost" id="cReset" style="padding:5px 10px">Reset colours</button>`;
   $('#chOvl').querySelectorAll('input[data-o]').forEach(i=>i.onchange=()=>{CH.show[i.dataset.o]=i.checked?1:0;store.set('pt.ovl',CH.show);drawChart(it,false)});
   $('#chOvl').querySelectorAll('.cpick').forEach(i=>i.oninput=()=>{const m=store.get('pt.icol',{});m[i.dataset.c]=i.value;store.set('pt.icol',m);if(CH&&CH[i.dataset.c])CH[i.dataset.c].applyOptions({color:i.value});if(/^l/.test(i.dataset.c))drawLines(it)});
   $('#cReset').onclick=()=>{store.set('pt.icol',{});if(CH)for(const k of Object.keys(IND_DEF))if(CH[k])CH[k].applyOptions({color:indCol(k)});drawLines(it);renderChartHead()}}
@@ -1997,10 +2005,10 @@ const istHM=ms=>new Date(ms+IST*1000).toISOString().slice(11,16);
 const WSHORT={'NSE':'NSE','MCX':'MCX','Tokyo':'TYO','HK':'HK','Shanghai':'SHA','Singapore':'SGP','Sydney':'SYD','Frankfurt':'FRA','London':'LON','New York':'NY','24/7':'Crypto'};
 const fmtDurS=ms=>fmtDur(ms).replace(/ /g,'');
 function renderWorld(){const sts=MKTS.map(m=>({m,s:mktState(m)}));const narrow=innerWidth<600;
-  const chips=sts.map(({m,s})=>`<span class="wc" title="${m.n}: ${s.lbl}"><i class="st-${s.st}"></i><b>${narrow?WSHORT[m.c]||m.c:(m.c==='24/7'?'Crypto':m.c)}</b>${String(s.L.hh).padStart(2,'0')}:${String(s.L.mm).padStart(2,'0')}${s.ms!=null?` <span class="cd">${s.ev==='closes'?'⏱':'⏵'}${fmtDurS(s.ms)}</span>`:''}</span>`).join('');
+  const chips=sts.map(({m,s})=>`<span class="wc" title="${m.n}: ${s.lbl}"><i class="st-${s.st}"></i><b>${narrow?WSHORT[m.c]||m.c:(m.c==='24/7'?'Crypto':m.c)}</b>${String(s.L.hh).padStart(2,'0')}:${String(s.L.mm).padStart(2,'0')}${s.ms!=null?` <span class="cd ${s.ev==='closes'?'cl':'op'}">${s.ev==='closes'?'▼':'▲'}${fmtDurS(s.ms)}</span>`:''}</span>`).join('');
   const table=`<table class="wtab"><thead><tr><th>Market</th><th>Local time</th><th>Status</th><th>Next</th><th>In IST</th></tr></thead><tbody>${sts.map(({m,s})=>`<tr><td><b>${m.n}</b></td><td class="t">${String(s.L.hh).padStart(2,'0')}:${String(s.L.mm).padStart(2,'0')}</td>
     <td><span class="wstat" style="color:var(${s.st==='open'?'--sbuy':s.st==='brk'?'--t1':'--dim'})"><i class="st-${s.st}"></i>${s.lbl}</span></td><td class="t">${s.ms!=null?`${s.ev} in ${fmtDur(s.ms)}`:'—'}</td><td class="t">${s.evAt?istHM(s.evAt):'—'}</td></tr>`).join('')}</tbody></table>
-    <p class="note" style="margin:6px 4px 0">⏱ = closes in · ⏵ = opens in. Regular weekday hours; exchange holidays not included yet.</p>`;
+    <p class="note" style="margin:6px 4px 0">▼ = closes in · ▲ = opens in. Regular weekday hours; exchange holidays not included yet.</p>`;
   for(const [r,pn] of [['#wrow','#wpanel'],['#wrow2','#wpanel2']]){const row=$(r),pan=$(pn);if(!row)continue;row.innerHTML=chips;if(!pan.hidden)pan.innerHTML=table}}
 for(const [r,pn] of [['#wrow','#wpanel'],['#wrow2','#wpanel2']])$(r).onclick=()=>{const p=$(pn);p.hidden=!p.hidden;$(r).setAttribute('aria-expanded',!p.hidden);store.set('pt.wopen',!$('#wpanel').hidden);renderWorld()};
 
