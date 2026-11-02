@@ -120,6 +120,30 @@ main{flex:1;min-width:0;padding-block:10px 92px;padding-left:max(16px,env(safe-a
 .chip{padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--raise);color:var(--dim);font:600 12px var(--f-ui);letter-spacing:.06em}
 .chip.on{color:var(--on-acc);background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 14px -2px var(--cyan)}
 .spacer{flex:1}
+.setupln{font:500 12.5px/1.4 var(--f-ui);color:var(--text);padding:6px 9px;border-radius:9px;border:1px dashed color-mix(in srgb,var(--sc) 70%,transparent);background:color-mix(in srgb,var(--sc) 10%,transparent)}
+.setupln b{color:var(--sc)}
+/* signal label on the chart + filled badges */
+.sigbox{position:absolute;z-index:4;pointer-events:none;min-width:150px;padding:7px 10px 8px;border-radius:10px;background:var(--sc);color:#06110c;
+  box-shadow:0 6px 22px -6px var(--sc),0 0 0 2px rgba(0,0,0,.35);font:600 11.5px/1.3 var(--f-num)}
+.sigbox .sb-h{font:900 19px/1 var(--f-ui);letter-spacing:.08em;color:#03080a;display:flex;align-items:center;gap:6px}
+.sigbox .sb-h small{font:800 10px/1 var(--f-ui);letter-spacing:.1em;padding:2px 5px;border-radius:4px;background:rgba(0,0,0,.18)}
+.sigbox .sb-g{display:grid;grid-template-columns:auto auto;gap:1px 10px;margin-top:5px}
+.sigbox .sb-g span{opacity:.75;font-weight:700;letter-spacing:.06em}.sigbox .sb-g b{font-weight:800;text-align:right}
+.sigbox::after{content:"";position:absolute;left:var(--ax,18px);width:0;height:0;border:7px solid transparent}
+.sigbox.up::after{top:-13px;border-bottom-color:var(--sc)}.sigbox.dn::after{bottom:-13px;border-top-color:var(--sc)}
+.sigbox.setup{background:color-mix(in srgb,var(--sc) 78%,#0b1020);outline:2px dashed rgba(0,0,0,.35);outline-offset:-5px}
+.sigbox.done{filter:saturate(.45) brightness(.85);opacity:.9}
+.blink{animation:sigblink 1s steps(2,jump-none) infinite}
+@keyframes sigblink{0%{opacity:1}50%{opacity:.25}}
+.pill.fill{background:var(--sc);color:#04100a;text-shadow:none;font-weight:900;border-color:var(--sc)}
+.runl{display:flex;flex-direction:column;gap:6px;margin:6px 0 10px}
+.runr{display:grid;grid-template-columns:auto 1fr auto;gap:4px 10px;align-items:center;padding:9px 11px;border-radius:12px;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--sc);cursor:pointer}
+.runr .sd{font:900 13px/1 var(--f-ui);letter-spacing:.08em;padding:5px 8px;border-radius:7px;background:var(--sc);color:#04100a}
+.runr .nm{font:700 14px var(--f-ui)}.runr .lv2{grid-column:2/4;font:500 12px var(--f-num);color:var(--dim)}.runr .lv2 b{color:var(--text)}
+.runr .pt{font:800 15px var(--f-num);text-align:right}
+@media (prefers-reduced-motion:reduce){.blink{animation:none}}
+@media (max-width:520px){.sigbox{min-width:0;padding:5px 8px 6px;font-size:10px;border-radius:8px}.sigbox .sb-h{font-size:14px}.sigbox .sb-g{grid-template-columns:auto auto auto auto;gap:0 6px;margin-top:3px}}
+
 .idxeq{font:500 12px/1.4 var(--f-num);color:var(--dim);padding:4px 2px 0}.idxeq b{color:var(--text)}.idxeq span{color:var(--faint)}
 table.oi td.och{cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px}
 table.oi td.och:hover{color:var(--cyan)}
@@ -516,8 +540,39 @@ body:not(.locked) .login{display:none}
 .lg-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .lg-ic:nth-child(2){color:#00ff9d}.lg-ic-c{width:52px;height:52px;color:#ffd54a}.lg-ic:nth-child(4){color:#9b7bff}
 @keyframes lgBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+/* futuristic login: neural network, AI bot, HUD */
+.lg-net{position:absolute;inset:0;width:100%;height:100%;z-index:-2;pointer-events:none}
+.lg-scan{position:absolute;left:0;right:0;top:-20%;height:18%;z-index:-1;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(41,231,255,.07) 60%,rgba(41,231,255,.18) 98%,transparent);animation:lgScan 6s linear infinite}
+@keyframes lgScan{to{top:110%}}
+.lg-top{width:150px;height:150px}
+.lg-halo{position:absolute;inset:-2px;border-radius:50%;border:1px solid rgba(41,231,255,.22);background:radial-gradient(circle,rgba(41,231,255,.16),transparent 64%)}
+.lg-halo::before,.lg-halo::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid transparent;border-top-color:#29e7ff;border-right-color:rgba(155,123,255,.75);filter:drop-shadow(0 0 6px #29e7ff);animation:lgSpin 3.2s linear infinite}
+.lg-halo::after{inset:10px;border-top-color:rgba(255,213,74,.8);border-right-color:transparent;border-bottom-color:rgba(0,255,157,.6);animation-duration:5s;animation-direction:reverse}
+  -webkit-mask:radial-gradient(circle,transparent 60%,#000 61%,#000 66%,transparent 67%),radial-gradient(circle,#000 58%,transparent 60%);mask:radial-gradient(circle,transparent 60%,#000 61%,#000 66%,transparent 67%),radial-gradient(circle,#000 58%,transparent 60%)}
+.lg-bot{position:relative;width:138px;height:138px;filter:drop-shadow(0 0 18px rgba(41,231,255,.35)) drop-shadow(0 14px 18px rgba(0,0,0,.6));animation:lgFloat 3.6s ease-in-out infinite}
+.bt-eyes{transform-origin:100px 95px;animation:btBlink 5.5s infinite}
+@keyframes btBlink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.08)}}
+.bt-sweep{animation:btSweep 2.6s ease-in-out infinite}
+@keyframes btSweep{0%,100%{transform:translateX(0)}50%{transform:translateX(78px)}}
+.bt-ant{animation:btPulse 1.4s ease-in-out infinite}
+@keyframes btPulse{50%{opacity:.35}}
+.bt-led{animation:btPulse .9s steps(2,jump-none) infinite}.bt-led.b{animation-delay:.45s}
+.bt-chart{stroke-dasharray:110;stroke-dashoffset:110;animation:btDraw 3s ease-in-out infinite}
+@keyframes btDraw{55%,100%{stroke-dashoffset:0}}
+.lg-card{position:relative;background:linear-gradient(160deg,rgba(14,22,46,.78),rgba(8,12,28,.7));box-shadow:0 0 0 1px rgba(41,231,255,.18),0 20px 60px -20px rgba(41,231,255,.35),inset 0 1px 0 rgba(255,255,255,.05)}
+.lg-card::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:conic-gradient(from var(--lga,0deg),transparent 0 75%,#29e7ff 85%,#9b7bff 92%,transparent);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);animation:lgBorder 4s linear infinite}
+@property --lga{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes lgBorder{to{--lga:360deg}}
+.lg-cn{position:absolute;width:16px;height:16px;border:2px solid #29e7ff;opacity:.8;pointer-events:none}
+.lg-cn.tl{top:8px;left:8px;border-right:0;border-bottom:0;border-radius:6px 0 0 0}.lg-cn.tr{top:8px;right:8px;border-left:0;border-bottom:0;border-radius:0 6px 0 0}
+.lg-cn.bl{bottom:8px;left:8px;border-right:0;border-top:0;border-radius:0 0 0 6px}.lg-cn.br{bottom:8px;right:8px;border-left:0;border-top:0;border-radius:0 0 6px 0}
+.lg-boot{align-self:center;min-height:1.3em;font:600 11.5px/1.3 ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;letter-spacing:.08em;color:#5dffa4;text-shadow:0 0 8px rgba(93,255,164,.5);margin:-2px 0 2px;text-align:center}
+.lg-cur{display:inline-block;width:7px;height:12px;margin-left:3px;vertical-align:-1px;background:#5dffa4;animation:btPulse .8s steps(2,jump-none) infinite}
+@media (max-height:640px){.lg-top{width:104px;height:104px}.lg-bot{width:96px;height:96px}}
+@media (prefers-reduced-motion:reduce){.lg-scan,.lg-halo::before,.lg-halo::after,.lg-card::before{animation:none}}
 .lg-foot{margin:0;text-align:center;font-size:11.5px;color:#5f6d92;max-width:420px}
-@media (max-height:640px){.lg-top{width:100px;height:100px}.lg-coin{width:72px;height:72px}.lg-bottom{display:none}}
+@media (max-height:640px){.lg-bottom{display:none}}
 @media (prefers-reduced-motion:reduce){.login *{animation:none!important}}
 /* ---------- skins ---------- */
 .skins{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
@@ -553,14 +608,46 @@ body:not(.locked) .login{display:none}
 <body class="locked">
 
 <div class="login" id="login">
+  <canvas class="lg-net" id="lgNet" aria-hidden="true"></canvas>
   <div class="lg-grid" aria-hidden="true"></div>
+  <div class="lg-scan" aria-hidden="true"></div>
   <div class="lg-top" aria-hidden="true">
-    <div class="lg-orbit"><span></span><span></span><span></span></div>
-    <img class="lg-coin" src="coin.svg" alt="">
+    <div class="lg-halo"></div>
+    <svg class="lg-bot" viewBox="0 0 200 200">
+      <defs>
+        <linearGradient id="bH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d2a52"/><stop offset="1" stop-color="#0a1024"/></linearGradient>
+        <linearGradient id="bV" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#03141f"/><stop offset=".5" stop-color="#062a3a"/><stop offset="1" stop-color="#03141f"/></linearGradient>
+        <radialGradient id="bE" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#eaffff"/><stop offset=".35" stop-color="#29e7ff"/><stop offset="1" stop-color="#29e7ff" stop-opacity="0"/></radialGradient>
+        <filter id="bG" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <!-- antenna -->
+      <line x1="100" y1="40" x2="100" y2="18" stroke="#6f86c9" stroke-width="3"/>
+      <circle class="bt-ant" cx="100" cy="14" r="6" fill="#ffd54a" filter="url(#bG)"/>
+      <!-- ears -->
+      <rect x="28" y="84" width="14" height="40" rx="6" fill="#18234a" stroke="#3a4f8f"/><rect x="158" y="84" width="14" height="40" rx="6" fill="#18234a" stroke="#3a4f8f"/>
+      <circle class="bt-led" cx="35" cy="104" r="3" fill="#00ff9d"/><circle class="bt-led b" cx="165" cy="104" r="3" fill="#00ff9d"/>
+      <!-- head -->
+      <rect x="40" y="40" width="120" height="112" rx="34" fill="url(#bH)" stroke="#4a64b4" stroke-width="2"/>
+      <path d="M58 52h22M120 52h22M100 40v12" stroke="#2c3e7a" stroke-width="2" stroke-linecap="round"/>
+      <!-- visor -->
+      <rect x="54" y="72" width="92" height="46" rx="20" fill="url(#bV)" stroke="#29e7ff" stroke-opacity=".55" stroke-width="1.6"/>
+      <g class="bt-eyes"><circle cx="80" cy="95" r="12" fill="url(#bE)"/><circle cx="120" cy="95" r="12" fill="url(#bE)"/>
+        <circle cx="80" cy="95" r="4.2" fill="#ffffff"/><circle cx="120" cy="95" r="4.2" fill="#ffffff"/></g>
+      <rect class="bt-sweep" x="56" y="74" width="10" height="42" rx="5" fill="#29e7ff" opacity=".25"/>
+      <!-- mouth: live chart -->
+      <polyline class="bt-chart" points="66,134 76,128 84,131 94,122 104,126 114,116 124,120 134,112" fill="none" stroke="#00ff9d" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#bG)"/>
+      <!-- circuits -->
+      <path d="M40 120h-10v26h18M160 120h10v26h-18" fill="none" stroke="#29e7ff" stroke-opacity=".35" stroke-width="1.5"/>
+      <circle cx="48" cy="146" r="2.5" fill="#29e7ff"/><circle cx="152" cy="146" r="2.5" fill="#29e7ff"/>
+      <!-- rupee chip -->
+      <rect x="84" y="156" width="32" height="20" rx="6" fill="#f5b82e"/><text x="100" y="171" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="15" fill="#3a2600">₹</text>
+    </svg>
   </div>
   <form class="lg-card" id="lgForm" autocomplete="off" novalidate>
+    <i class="lg-cn tl"></i><i class="lg-cn tr"></i><i class="lg-cn bl"></i><i class="lg-cn br"></i>
     <div class="lg-brand">PAISA</div>
-    <div class="lg-sub">Market intelligence terminal</div>
+    <div class="lg-sub">Algorithmic market intelligence</div>
+    <div class="lg-boot" id="lgBoot" aria-hidden="true"><span id="lgBootTx"></span><i class="lg-cur"></i></div>
     <div class="lg-state" id="lgState" hidden><span class="lg-spin"></span><span id="lgStateTx">Checking your session…</span></div>
     <div id="lgFields">
       <label class="lg-f"><span>Email</span><input type="email" id="lgEmail" inputmode="email" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="you@example.com" required></label>
@@ -582,7 +669,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" aria-hidden="true"><img src="coin.svg" alt="" width="36" height="36"></span>
-    <div><div class="logo">PAISA</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v4.2</span></div></div>
+    <div><div class="logo">PAISA</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v5</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -663,6 +750,7 @@ body:not(.locked) .login{display:none}
     <!-- LOG -->
     <section class="view" id="v-log" hidden>
       <div class="h2"><h2>Signals</h2><div class="seg" id="logPer"></div><span class="sub">Paper trades. Outcomes update live.</span><span class="spacer"></span><button class="btn" id="logCsv">CSV</button><button class="btn" id="logPdf">PDF</button><button class="btn ghost" id="logClear">Clear log</button></div>
+      <div id="logRun"></div>
       <div class="logsum" id="logSum"></div>
       <div id="logStats"></div>
       <div id="logList" style="display:flex;flex-direction:column;gap:8px"></div>
@@ -691,7 +779,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">Paisa v4.2 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">Paisa v5 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -791,9 +879,10 @@ body:not(.locked) .login{display:none}
           <div class="btns"><button class="btn ghost" id="sWlReset">Reset to default list</button><span class="msg" id="sWlMsg"></span></div>
         </div>
         <div class="panel set">
-          <h3>How signals work</h3>
-          <p>On every closed candle: trend on the higher timeframe (EMA 21), EMA 9/21, VWAP, Supertrend (10, 3), RSI 14, ADX 14 and volume. A signal needs a trigger (Supertrend flip or 3-candle breakout). No signals when ADX is below 18 (chop), in the first 5 minutes of NSE, or after 3:00 pm IST.</p>
-          <p>Stop = recent swing ± 0.1 ATR, kept between 0.8 and 2 ATR. T1 = 1R (stop moves to entry), T2 = 2R. The backtest line on each card replays these exact rules on recent candles. Educational tool, not investment advice.</p>
+          <h3>How signals work (v5)</h3>
+          <p>On every closed candle: trend on the higher timeframe (EMA 21), EMA 9/21, VWAP, Supertrend (10, 3), RSI 14, ADX 14 and volume. A signal needs a trigger (Supertrend flip or 3-candle breakout), the higher-timeframe trend, and a volume spike wherever real volume exists. No signals when ADX is below 18 (chop), in the first 5 minutes of NSE, or after 3:00 pm IST.</p>
+          <p><b>Setup, then entry.</b> A signal first shows as BUY SETUP / SELL SETUP with a price 0.6 ATR better than the signal candle's close. The trade opens only if price comes back to it within 3 candles; otherwise it's cancelled. In 60 days of testing on 13 markets this cut the average loss per trade from −0.15R to about −0.01R.</p>
+          <p>Stop = recent swing ± 0.1 ATR, kept between 0.8 and 2 ATR. T1 = 1R (half booked, stop moves to entry), T2 = 2R. Time exit after 24 candles (2 hours on 5-minute). STRONG = 5–6 of 6 checks agree, normal = 4 of 6. Educational tool, not investment advice.</p>
         </div>
       </div>
     </section>
@@ -813,6 +902,9 @@ body:not(.locked) .login{display:none}
 const IST = 19800;
 const HTF = {1:5, 3:15, 5:15};
 const STRICT = {aggressive:0.5, balanced:0.66, strict:0.83};
+// Strategy v5 (tested on 60 days, 13 markets): wait for a pullback before entering, require a volume spike where volume exists, exit after 2 hours
+const STRAT = {pull:0.6, pullBars:3, maxBars:24, volReq:true};
+function levelsAt(side,e,d){return {side,entry:e,sl:e-side*d,t1:e+side*d,t2:e+side*2*d,dist:d}}
 const NSE_OPEN_SEC = 13500; // 03:45 UTC = 09:15 IST, seconds into UTC day
 
 function smaArr(a,n){const o=new Array(a.length).fill(NaN);let s=0;for(let i=0;i<a.length;i++){s+=a[i];if(i>=n)s-=a[i-n];if(i>=n-1)o[i]=s/n;}return o}
@@ -855,7 +947,7 @@ function levels(side,i,b,atr){const e=b[i].c;const w=b.slice(Math.max(0,i-4),i+1
   if(side>0){d=e-Math.min(...w.map(x=>x.l))+0.1*atr}else{d=Math.max(...w.map(x=>x.h))-e+0.1*atr}
   d=Math.min(Math.max(d,0.8*atr),2*atr);return {side,entry:e,sl:e-side*d,t1:e+side*d,t2:e+side*2*d,dist:d}}
 
-function evalBar(i,ctx){const {b,ind,htfTrend,minScore,isNse,S,allow,minDist}=ctx;const x=b[i];
+function evalBar(i,ctx){const {b,ind,htfTrend,minScore,isNse,S,allow,minDist,volReq}=ctx;const x=b[i];
   if(i<50||isNaN(ind.at[i])||isNaN(ind.dx.adx[i])||isNaN(ind.e21[i]))return {state:'warm',t:x?x.t:0};
   const adx=ind.dx.adx[i],rsi=ind.r[i],atr=ind.at[i],sd=ind.st.dir[i],sd1=ind.st.dir[i-1],sd2=ind.st.dir[i-2];
   const tr=htfTrend(x.t+S);
@@ -871,12 +963,12 @@ function evalBar(i,ctx){const {b,ind,htfTrend,minScore,isNse,S,allow,minDist}=ct
   if(adx<18)return {...base,state:'chop',view,bias};
   if(isNse){const m=istMin(x.t);if(m<9*60+20||istMin(x.t+S)>15*60)return {...base,state:'wait',view,bias,note:'outside signal hours'}}
   if(allow&&!allow(x.t+S))return {...base,state:'wait',view,bias,note:'outside signal hours'};
-  let pick=null;
-  if(L.trigger&&L.ck.trend&&L.score>=minScore)pick={s:1,r:L};
-  if(Sh.trigger&&Sh.ck.trend&&Sh.score>=minScore&&(!pick||Sh.score>pick.r.score))pick={s:-1,r:Sh};
+  let pick=null;const vok=r=>!(volReq&&ind.hasVol)||r.ck.vol===true;
+  if(L.trigger&&L.ck.trend&&L.score>=minScore&&vok(L))pick={s:1,r:L};
+  if(Sh.trigger&&Sh.ck.trend&&Sh.score>=minScore&&vok(Sh)&&(!pick||Sh.score>pick.r.score))pick={s:-1,r:Sh};
   if(pick){const lv=levels(pick.s,i,b,atr);
     if(lv.dist/lv.entry>=(minDist||0.0004)){const strong=pick.r.score>=0.83;
-      return {...base,state:pick.s>0?(strong?'sbuy':'buy'):(strong?'ssell':'sell'),view:pick.r,bias:pick.s,signal:{...lv,score:pick.r.score,strong,i,t:x.t}}}}
+      return {...base,state:pick.s>0?(strong?'sbuy':'buy'):(strong?'ssell':'sell'),view:pick.r,bias:pick.s,signal:{...lv,score:pick.r.score,strong,i,t:x.t,atr}}}}
   return {...base,state:bias>0?'bull':bias<0?'bear':'wait',view,bias}}
 
 function stepTrade(tr,hi,lo,o){const s=tr.side;
@@ -888,24 +980,30 @@ function stepTrade(tr,hi,lo,o){const s=tr.side;
   return false}
 function markR(tr,p){const m=(p-tr.entry)*tr.side/tr.dist;return tr.status==='t1'?0.5+0.5*m:m}
 
-function runEngine(b1,isNse,tf,minScore,nowSec,opts){opts=opts||{};
+function runEngine(b1,isNse,tf,minScore,nowSec,opts){opts=opts||{};const ST={...STRAT,...(opts.strat||{})};
   const S=tf*60,H=HTF[tf]*60;const all=aggBars(b1,tf,isNse);let n=all.length;while(n>0&&all[n-1].t+S>nowSec)n--;
   const b=all.slice(0,n);const hb=aggBars(b1,HTF[tf],isNse);const he=emaArr(hb.map(x=>x.c),21);
   const htfTrend=tEnd=>{let lo=0,hi=hb.length-1,j=-1;while(lo<=hi){const m=(lo+hi)>>1;if(hb[m].t+H<=tEnd){j=m;lo=m+1}else hi=m-1}
     if(j<23||isNaN(he[j])||isNaN(he[j-2]))return 0;const c=hb[j].c;if(c>he[j]&&he[j]>he[j-2])return 1;if(c<he[j]&&he[j]<he[j-2])return -1;return 0};
-  const ind=indicators(b,isNse);const ctx={b,ind,htfTrend,minScore,isNse,S,allow:opts.allow,minDist:opts.minDist};
-  const trades=[],sigs=[];let cur=null;const dk=sessKeyFn(isNse);let coolSide=0,coolUntil=-1;
+  const ind=indicators(b,isNse);const ctx={b,ind,htfTrend,minScore,isNse,S,allow:opts.allow,minDist:opts.minDist,volReq:ST.volReq};
+  const trades=[],sigs=[],setups=[];let cur=null,pend=null;const dk=sessKeyFn(isNse);let coolSide=0,coolUntil=-1;
   const fin=(t,i)=>{trades.push(t);if(t.status==='stop'){coolSide=t.side;coolUntil=i+3}};
   for(let i=50;i<b.length;i++){
+    if(pend&&isNse&&dk(b[i].t)!==dk(pend.t))pend=null;
     if(cur&&isNse&&dk(b[i].t)!==dk(cur.t)){cur.r=markR(cur,b[i-1].c);cur.status='expired';fin(cur,i);cur=null}
-    if(cur){cur.bars++;const done=stepTrade(cur,b[i].h,b[i].l,b[i].o);if(done===true){fin(cur,i);cur=null}else if(cur.bars>=36){cur.r=markR(cur,b[i].c);cur.status='expired';fin(cur,i);cur=null}}
+    if(cur){cur.bars++;const done=stepTrade(cur,b[i].h,b[i].l,b[i].o);if(done===true){fin(cur,i);cur=null}else if(cur.bars>=ST.maxBars){cur.r=markR(cur,b[i].c);cur.status='expired';fin(cur,i);cur=null}}
+    else if(pend){if(i>pend.until)pend=null;else{const x=b[i],s=pend.side;if(s>0?x.l<=pend.lim:x.h>=pend.lim){const e=s>0?Math.min(pend.lim,x.o):Math.max(pend.lim,x.o);
+      cur={...pend.sig,...levelsAt(s,e,pend.dist),state:pend.state,bars:0,status:'open',r:null,t:pend.t,fillT:x.t,i:pend.i};cur.slCur=cur.sl;sigs.push(cur);pend=null}}}
     const ev=evalBar(i,ctx);
     if(ev.signal&&ev.signal.side===coolSide&&i<=coolUntil)ev.cooled=true;
-    if(ev.signal&&!ev.cooled){if(cur&&cur.side!==ev.signal.side){cur.r=markR(cur,b[i].c);cur.status='flipped';trades.push(cur);cur=null}
-      if(!cur){cur={...ev.signal,state:ev.state,bars:0,slCur:ev.signal.sl,status:'open',r:null};sigs.push(cur)}}}
+    if(ev.signal&&!ev.cooled){const g=ev.signal;
+      if(cur&&cur.side!==g.side){cur.r=markR(cur,b[i].c);cur.status='flipped';trades.push(cur);cur=null}
+      if(!cur){if(ST.pull>0){pend={side:g.side,lim:g.entry-g.side*ST.pull*g.atr,dist:g.dist,until:i+ST.pullBars,t:g.t,i,state:ev.state,sig:{score:g.score,strong:g.strong}};setups.push(pend)}
+        else{cur={...g,state:ev.state,bars:0,slCur:g.sl,status:'open',r:null};sigs.push(cur)}}}}
   const last=b.length?evalBar(b.length-1,ctx):{state:'warm'};
+  if(pend){pend={...pend,...levelsAt(pend.side,pend.lim,pend.dist),untilT:b[pend.until]?b[pend.until].t+S:(b.length?b[b.length-1].t:0)+(pend.until-(b.length-1)+1)*S}}
   const wins=trades.filter(t=>t.r>0).length;const net=trades.reduce((s,t)=>s+t.r,0);
-  return {b,ind,last,sigs,trades,open:cur,S,stats:{n:trades.length,win:trades.length?wins/trades.length:0,avg:trades.length?net/trades.length:0,net}}}
+  return {b,ind,last,sigs,setups,trades,open:cur,pend,S,strat:ST,stats:{n:trades.length,win:trades.length?wins/trades.length:0,avg:trades.length?net/trades.length:0,net}}}
 
 function analyzeChain(rows){
   const st=[...rows].sort((a,b)=>a.strike_price-b.strike_price).map(r=>{const c=r.call_options||{},p=r.put_options||{};const cm=c.market_data||{},pm=p.market_data||{},cg=c.option_greeks||{},pg=p.option_greeks||{};
@@ -1084,11 +1182,11 @@ const OPT_IDX=[
 const STATES={
   sigoff:['SIGNALS OFF','--closed'],
   info:['INFO','--cyan'],
-  sbuy:['STRONG BUY','--sbuy'],buy:['BUY','--buy'],ssell:['STRONG SELL','--ssell'],sell:['SELL','--sell'],
+  sbuy:['STRONG BUY','--sbuy'],buy:['BUY','--buy'],ssell:['STRONG SELL','--ssell'],sell:['SELL','--sell'],setupb:['BUY SETUP','--buy'],setups:['SELL SETUP','--sell'],
   bull:['BULLISH · WAIT','--bull'],bear:['BEARISH · WAIT','--bear'],wait:['NO SETUP','--wait'],chop:['CHOP · AVOID','--chop'],
   warm:['WARMING UP','--warm'],closed:['MARKET CLOSED','--closed'],off:['FEED OFF','--closed'],err:['NO DATA','--stop'],
   t1:['T1 HIT · RUNNING','--t1'],t2:['T2 HIT · CLOSED','--t2'],stop:['STOP HIT · CLOSED','--stop'],be:['BREAKEVEN · CLOSED','--be'],expired:['TIME EXIT · CLOSED','--wait'],flipped:['REVERSED · CLOSED','--chop'],wall:['OI WALL','--wall']};
-const LEGEND=['sbuy','buy','ssell','sell','bull','bear','chop','wait','t1','t2','stop','be','wall','warm','closed'];
+const LEGEND=['setupb','setups','sbuy','buy','ssell','sell','bull','bear','chop','wait','t1','t2','stop','be','wall','warm','closed'];
 
 const CFG=Object.assign({risk:{cap:100000,pct:1,daily:3,maxOpen:3,usdinr:88},n50:true,tsound:'pro',alerts:true,evPause:true,skin:'neon',tf:5,strict:'balanced',sound:true,vibe:true,wake:true,token:'',fkey:'',welcomed:false,name:''},store.get('pt.cfg',{}));
 const saveCfg=()=>store.set('pt.cfg',CFG);
@@ -1184,11 +1282,13 @@ function renderPA(){const it=chartInst();const box=$('#paList');if(!box||!it)ret
 function renderPAall(){const box=$('#paAll');if(!box)return;box.innerHTML=PA.length?PA.map(a=>`<div><span><b>${esc(a.name)}</b> ${a.dir>0?'▲ above':'▼ below'} <span class="num">${fmtP(a.price)}</span>${a.done?' · triggered':''}</span><button data-pa="${a.id}">Delete</button></div>`).join(''):'<span class="note">No price alerts yet.</span>';
   box.querySelectorAll('[data-pa]').forEach(b=>b.onclick=()=>{PA=PA.filter(x=>x.id!==b.dataset.pa);savePA();renderPAall()})}
 function onPrice(it,p,vol,quiet){if(!(p>0))return;checkPA(it,it.price,p);const t=nowSec();const m=Math.floor(t/60)*60;const b=it.b1;const last=b[b.length-1];
-  if(!last||m>last.t){b.push({t:m,o:p,h:p,l:p,c:p,v:vol||0});trimBars(it)}
+  const sess=!isNse(it.def)||nseOpen();   // after 3:30 pm NSE publishes the official close: show it as the price, but don't paint it into a candle
+  if(!sess){}else if(!last||m>last.t){b.push({t:m,o:p,h:p,l:p,c:p,v:vol||0});trimBars(it)}
   else if(m===last.t){if(p>last.h)last.h=p;if(p<last.l)last.l=p;last.c=p;last.v+=vol||0}
   if(it.price!=null&&p!==it.price)it.dir=p>it.price?1:-1;it.price=p;it.tickAt=Date.now();
+  if(it.pend&&!it.active&&sess)checkPend(it,p,p,null,m,quiet);
   if(!quiet&&it.active)trackLive(it,p);
-  if(S.chart.id===it.def.id)chartTick(p,vol);
+  if(S.chart.id===it.def.id&&sess)chartTick(p,vol);
   markDirty(it)}
 
 /* ---------- engine glue ---------- */
@@ -1208,30 +1308,42 @@ function engine(it,initial){const d=it.def;if(!it.b1.length)return;
   if(initial){it.lastSigT=lastT;
     const done=LOG.filter(x=>x.inst===d.id&&x.r!=null&&x.closedAt).sort((a,b)=>b.closedAt-a.closedAt)[0];if(done&&!it.lastClosed)it.lastClosed=done;
     const row=LOG.find(x=>x.inst===d.id&&x.r==null);
-    if(row&&!it.active){const S1=(row.tf||tfOf(it))*60;const entryT=row.entryT||row.t+S1;const stale=(isNse(d)&&(!nseOpen()||Math.floor((row.t+IST)/86400)!==todayKey()))||nowSec()-entryT>36*S1;
+    if(row&&!it.active){const S1=(row.tf||tfOf(it))*60;const entryT=row.entryT||row.t+S1;const stale=(isNse(d)&&(!nseOpen()||Math.floor((row.t+IST)/86400)!==todayKey()))||nowSec()-entryT>STRAT.maxBars*S1;
       if(stale){row.status='expired';row.r=it.price!=null&&row.dist?markR(row,it.price):0;saveLog()}
       else{it.active={...row,entryT,slCur:row.slCur??(row.status==='t1'?row.entry:row.sl),bars:row.bars||Math.floor((nowSec()-entryT)/S1)};checkWicks(it,true);return}}
     const nseOk=!isNse(d)||(nseOpen()&&Math.floor((r.open?r.open.t:0)/86400+IST/86400)===Math.floor(nowSec()/86400+IST/86400));
-    if(!it.active&&r.open&&nseOk&&r.b.length-1-r.open.i<=36){const tr={...r.open,id:d.id+'@'+r.open.t,inst:d.id,name:d.name,recovered:true,t:r.open.t,entryT:r.open.t+r.S,wickT:lastT+r.S-60};
+    if(!it.active&&r.open&&nseOk&&r.open.bars<STRAT.maxBars){const tr={...r.open,id:d.id+'@'+r.open.t,inst:d.id,name:d.name,recovered:true,t:r.open.t,entryT:(r.open.fillT||r.open.t)+r.S,wickT:lastT+r.S-60};
       if(it.price!=null){const res=stepTrade(tr,it.price,it.price);if(res===true){tr.closedAt=nowSec()}}
       if(!['stop','t2','be'].includes(tr.status)){it.active=tr;upsertLog(tr)}}
+    const pOk=!isNse(d)||(nseOpen()&&r.pend&&Math.floor((r.pend.t+IST)/86400)===todayKey());
+    if(!it.active&&r.pend&&pOk&&d.sig!==false&&nowSec()<r.pend.untilT){const p=r.pend;it.pend={side:p.side,lim:p.lim,dist:p.dist,entry:p.entry,sl:p.sl,t1:p.t1,t2:p.t2,t:p.t,until:p.untilT,score:p.sig.score,strong:p.sig.strong,state:p.state,id:d.id+'@'+p.t,chk:lastT+r.S-60}}
     return}
-  if(it.active){it.active.bars++;if(it.active.bars>=36)closeActive(it,'expired')}
+  if(it.pend&&nowSec()>=it.pend.until)it.pend=null;
+  if(it.active){it.active.bars++;if(it.active.bars>=STRAT.maxBars)closeActive(it,'expired')}
   const ev=r.last;
   const lc=it.lastClosed;const cooled=ev.signal&&lc&&lc.status==='stop'&&lc.side===ev.signal.side&&ev.t+r.S-(lc.closedAt||0)<3*r.S;
   if(ev.signal&&!cooled&&ev.t>it.lastSigT){it.lastSigT=ev.t;if(d.sig===false)return;
     const bo=evBlock(d);if(bo){it.paused={ev:bo.name,t:ev.t};markDirty(it);return}  // big event: skip new signals for this market
     if(it.active&&it.active.side===ev.signal.side)return;
     if(it.active)closeActive(it,'flipped');
-    const tr={...ev.signal,tf:tfOf(it),state:ev.state,bars:0,slCur:ev.signal.sl,status:'open',r:null,id:d.id+'@'+ev.t,inst:d.id,name:d.name,t:ev.t,entryT:ev.t+r.S,wickT:Math.floor(nowSec()/60)*60-60};
-    tr.risk=riskCheck(it,tr);it.active=tr;upsertLog(tr);oddsFor(it,tr);alertSignal(it,tr);it.hot=Date.now()}}
+    // v5: a signal becomes a setup; the trade opens only if price pulls back to the setup price within 3 candles
+    const g=ev.signal,ST=r.strat,lim=g.entry-g.side*ST.pull*g.atr;
+    it.pend={...levelsAt(g.side,lim,g.dist),lim,t:ev.t,until:ev.t+r.S*(1+ST.pullBars),score:g.score,strong:g.strong,state:ev.state,id:d.id+'@'+ev.t,chk:Math.floor(nowSec()/60)*60-60,sigPx:g.entry};
+    alertSetup(it,it.pend);it.hot=Date.now();markDirty(it)}}
+function fillPend(it,e,tMin,quiet){const p=it.pend;it.pend=null;const tr={...levelsAt(p.side,e,p.dist),score:p.score,strong:p.strong,tf:tfOf(it),state:p.state,bars:0,status:'open',r:null,id:p.id,inst:it.def.id,name:it.def.name,t:p.t,fillT:tMin,entryT:tMin+60,wickT:tMin};
+  tr.slCur=tr.sl;tr.risk=riskCheck(it,tr);it.active=tr;upsertLog(tr);oddsFor(it,tr);if(!quiet)alertSignal(it,tr);it.hot=Date.now();markDirty(it);if(S.chart.id===it.def.id&&CH)drawLines(it)}
+function checkPend(it,hi,lo,o,tMin,quiet){const p=it.pend;if(!p||it.active||p.srv)return;
+  if(nowSec()>=p.until||(isNse(it.def)&&!nseOpen())){it.pend=null;markDirty(it);if(S.chart.id===it.def.id&&CH)drawLines(it);return}
+  if(tMin<p.t+tfOf(it)*60)return;
+  if(p.side>0?lo<=p.lim:hi>=p.lim){const e=o==null?p.lim:(p.side>0?Math.min(p.lim,o):Math.max(p.lim,o));fillPend(it,e,tMin,quiet)}}
 
 function applyMove(it,hi,lo,quiet,o){const tr=it.active;if(!tr)return;if(tr.srv&&srvCovers(it.def))return;const before=tr.status;const res=stepTrade(tr,hi,lo,o);
   if(res){if(tr.status!==before){upsertLog(tr);if(!quiet)alertOutcome(it,tr)}
     if(res===true){tr.closedAt=nowSec();it.lastClosed=tr;it.active=null}markDirty(it)}}
 function trackLive(it,p){applyMove(it,p,p);if(S.view==='chart'&&S.chart.id===it.def.id&&CH&&CH.lineSig!==(it.active?it.active.id+it.active.status:''))drawLines(it)}
 // replay real 1-min highs/lows since entry, so wicks between ticks still hit stop/targets (stop checked first)
-function checkWicks(it,quiet){const tr=it.active;if(!tr)return;if(tr.srv&&srvCovers(it.def))return;const from=tr.entryT||tr.t+(tr.tf||CFG.tf)*60;const nowM=Math.floor(nowSec()/60)*60;
+function checkWicks(it,quiet){if(!it.active&&it.pend&&!it.pend.srv){const nowM=Math.floor(nowSec()/60)*60;for(const x of it.b1){if(x.t<=(it.pend.chk||0)||x.t>=nowM)continue;it.pend.chk=x.t;checkPend(it,x.h,x.l,x.o,x.t,quiet);if(!it.pend)break}}
+  const tr=it.active;if(!tr)return;if(tr.srv&&srvCovers(it.def))return;const from=tr.entryT||tr.t+(tr.tf||CFG.tf)*60;const nowM=Math.floor(nowSec()/60)*60;
   for(const x of it.b1){if(x.t<from||x.t<=(tr.wickT||0)||x.t>=nowM)continue;tr.wickT=x.t;applyMove(it,x.h,x.l,quiet,x.o);if(!it.active)break}
   if(it.active)upsertLog(it.active)}
 function closeActive(it,status){const tr=it.active;if(!tr)return;tr.r=markR(tr,it.price);tr.status=status;tr.closedAt=nowSec();upsertLog(tr);it.lastClosed=tr;it.active=null}
@@ -1304,12 +1416,12 @@ const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],MONS=['Jan','Feb','Mar','
 function greet(){const hr=istParts().h;const g=hr>=5&&hr<12?'Good morning':hr>=12&&hr<17?'Good afternoon':hr>=17&&hr<22?'Good evening':'Good night';$('#greet').textContent=g+(CFG.name?', '+CFG.name:'')}
 let labBk=null;
 let cfBk=null;
-async function heartbeat(){tickN++;if(CFG.token&&nseOpen()){const bk=Math.floor(nowSec()/(CFG.tf*60));if(cfBk!=null&&bk!==cfBk&&(S.view==='opt'||CFG.alerts))setTimeout(()=>confLoad(true),15000);cfBk=bk}if(tickN%60===11)for(const it of S.inst.values())if(it.active&&!it.active.odds)oddsFor(it,it.active);{const S1=LAB.tf*60,bk=Math.floor(nowSec()/S1);if(labBk!=null&&bk!==labBk&&(S.view==='lab'||LAB.alerts))setTimeout(()=>labRun(true).then(()=>{labPreviewAll();renderLab()}),20000);labBk=bk;
+async function heartbeat(){tickN++;if(S.view==='chart')renderSigBox();if(S.view==='log'&&tickN%3===0)renderRunning();if(CFG.token&&nseOpen()){const bk=Math.floor(nowSec()/(CFG.tf*60));if(cfBk!=null&&bk!==cfBk&&(S.view==='opt'||CFG.alerts))setTimeout(()=>confLoad(true),15000);cfBk=bk}if(tickN%60===11)for(const it of S.inst.values())if(it.active&&!it.active.odds)oddsFor(it,it.active);{const S1=LAB.tf*60,bk=Math.floor(nowSec()/S1);if(labBk!=null&&bk!==labBk&&(S.view==='lab'||LAB.alerts))setTimeout(()=>labRun(true).then(()=>{labPreviewAll();renderLab()}),20000);labBk=bk;
   if(S.view==='lab'){if(tickN%3===0)labLiquidity();if(tickN%5===0){labPreviewAll();renderLab()}}else if(LAB.alerts&&tickN%600===7)labRun(true)}if(tickN%10===3){for(const it of S.inst.values()){if(it.def.n50&&S.filter!=='n50')continue;previewInst(it);markDirty(it)}}if(tickN%5===0){staleCheck();optWatchdog()}if(S.view==='chart')updTimer();if((S.view==='scan'||S.view==='chart')&&tickN%5===0)renderWorld();const p=istParts();const dd=new Date(Date.now()+IST*1000);
   $('#clk').textContent=`${DAYS[dd.getUTCDay()]} ${dd.getUTCDate()} ${MONS[dd.getUTCMonth()]} · ${String(p.h).padStart(2,'0')}:${String(p.m).padStart(2,'0')}:${String(p.s).padStart(2,'0')} IST`;if(tickN%60===1)greet();
   $('#sess').innerHTML=`<b class="${nseOpen()?'on':''}">NSE</b><b class="${usOpen()?'on':''}">US</b><b class="on">CRYPTO</b>`;
   const t=nowSec();
-  for(const it of S.inst.values()){if(it.active&&isNse(it.def)&&!nseOpen()){closeActive(it,'expired');markDirty(it)}if(it.status!=='ok')continue;const S1=tfOf(it)*60;const bk=bucketOf(t,S1,offFor(isNse(it.def),S1));
+  for(const it of S.inst.values()){if(it.active&&isNse(it.def)&&!nseOpen()&&!(it.active.srv&&srvCovers(it.def))){closeActive(it,'expired');markDirty(it)}if(it.status!=='ok')continue;const S1=tfOf(it)*60;const bk=bucketOf(t,S1,offFor(isNse(it.def),S1));
     if(it.lastBucket==null){it.lastBucket=bk;continue}
     if(bk!==it.lastBucket){it.lastBucket=bk;(async()=>{if(it.def.src==='delta')await deltaResync(it);else if(it.def.src==='upstox')await enqueue(()=>upstoxResyncOne(it));engine(it,false);markDirty(it);if(S.chart.id===it.def.id)loadChart(true)})()}}
   if(tickN%(CFG.n50?3:2)===0)upstoxTick();if(CFG.n50&&nseOpen()&&tickN%6===1)n50Tick();
@@ -1371,6 +1483,8 @@ function riskHTML(it,tr,compact){const rc=tr.risk||riskCheck(it,tr);const ok=rc.
 function alertSignal(it,tr){if(S.view!=='scan'){S.unseen++;const d=$('#navDot');d.hidden=false;d.textContent=S.unseen}if(!CFG.alerts)return;const st=tr.state;const k=tr.side>0?'buy':'sell';if(!tr.risk||tr.risk.verdict==='PASS')tone(SOUNDS[k]);else tone(SOUNDS.info);vibe(k);
   const rc=tr.risk;const sz=rc&&rc.qty!=null?` · ${rc.verdict} ${rc.qty} ${rc.unit}`:rc?` · ${rc.verdict}`:'';
   toast(st,`${STATES[st][0]} · ${it.def.name}`,`E ${fmtP(tr.entry)} · SL ${fmtP(tr.sl)}`,`T1 ${fmtP(tr.t1)}${sz}`,it.def.id,8000);if(!rc||rc.verdict==='PASS')mascot(tr.side,`${STATES[st][0]} · ${it.def.name}`)}
+function alertSetup(it,p){if(!CFG.alerts||it.def.sig===false)return;const up=p.side>0;tone(SOUNDS.info);
+  toast(up?'setupb':'setups',`${up?'BUY':'SELL'} SETUP · ${it.def.name}`,`${up?'Buy':'Sell'} at ${fmtP(p.lim)} if price ${up?'dips':'bounces'} · until ${istT(p.until*1000)}`,`SL ${fmtP(p.sl)} · T1 ${fmtP(p.t1)} · T2 ${fmtP(p.t2)}`,it.def.id,9000)}
 function alertOutcome(it,tr){const k=tr.status;const msg={t1:'Target 1 reached. Stop moved to entry.',t2:'Target 2 reached. Trade complete.',stop:'Stop loss hit.',be:'Back to entry after T1. Closed at breakeven.'}[k];if(!msg||!CFG.alerts||it.def.sig===false)return;
   if(k==='t1'||k==='t2'){celebrate(k,it.def.name,tr)}else tone(SOUNDS[k]||SOUNDS.info);
   vibe(k==='be'?'info':k);toast(k,`${STATES[k][0]} · ${it.def.name}`,msg,tr.r!=null?fmtR(tr.r):'',it.def.id)}
@@ -1436,6 +1550,7 @@ function cardState(it){const d=it.def;
   if(d.src==='finnhub'&&!CFG.fkey)return {k:'off'};
   if(it.status==='err')return {k:'err'};if(it.status==='load'||!it.eng)return {k:'warm'};
   if(it.active)return {k:it.active.status==='t1'?'t1':it.active.state,tr:it.active,sub:it.active.status==='t1'?'Stop at entry':null};
+  if(it.pend&&nowSec()<it.pend.until&&d.sig!==false)return {k:it.pend.side>0?'setupb':'setups',pend:it.pend};
   if(it.lastClosed&&nowSec()-it.lastClosed.closedAt<900)return {k:it.lastClosed.status,tr:it.lastClosed};
   if(d.sig===false)return {k:'sigoff',ev:it.eng.last};
   if(isNse(d)&&!nseOpen())return {k:'closed',ev:it.eng.last};
@@ -1451,6 +1566,7 @@ function renderCard(it){if(it.def.opt)return;const grid=$('#grid');let el=docume
   const ch=it.ref&&it.price?(it.price/it.ref-1)*100:null;
   const ev=it.eng&&it.eng.last;const view=ev&&ev.view;
   const score=cs.tr?cs.tr.score:(view?view.score:0);const stars=Math.round((score||0)*5);
+  if(cs.pend){const p=cs.pend,up=p.side>0;var lvSetup=`<div class="setupln"><b>${up?'Buy':'Sell'} at ${fmtP(p.lim)}</b> if price ${up?'dips':'bounces'} there by <b>${istT(p.until*1000)}</b>. Otherwise no trade.</div><div class="lv"><div class="e"><span>${up?'BUY':'SELL'} AT</span><b class="num">${fmtP(p.lim)}</b></div><div class="s"><span>STOP</span><b class="num">${fmtP(p.sl)}</b></div><div class="a"><span>T1</span><b class="num">${fmtP(p.t1)}</b></div><div class="b"><span>T2</span><b class="num">${fmtP(p.t2)}</b></div></div>${p.basis!=null?`<div class="idxeq">Index ≈ ${up?'buy':'sell'} at <b>${fmtP(p.lim-p.basis)}</b> · SL <b>${fmtP(p.sl-p.basis)}</b> · T1 <b>${fmtP(p.t1-p.basis)}</b></div>`:''}`}
   let lv='';if(cs.tr){const tr=cs.tr;const extra=it.active===tr?riskHTML(it,tr,true)+oddsHTML(tr,it):'';lv=extra+`<div class="lv"><div class="e"><span>ENTRY</span><b class="num">${fmtP(tr.entry)}</b></div><div class="s"><span>STOP</span><b class="num">${fmtP(tr.status==='t1'?tr.entry:tr.sl)}</b></div><div class="a"><span>T1</span><b class="num">${fmtP(tr.t1)}</b></div><div class="b"><span>T2</span><b class="num">${fmtP(tr.t2)}</b></div></div>${tr.basis!=null?`<div class="idxeq">Index ≈ entry <b>${fmtP(tr.entry-tr.basis)}</b> · SL <b>${fmtP(tr.sl-tr.basis)}</b> · T1 <b>${fmtP(tr.t1-tr.basis)}</b> · T2 <b>${fmtP(tr.t2-tr.basis)}</b> <span>(futures ${tr.basis>=0?'+':''}${fmtP(tr.basis)})</span></div>`:''}`}
   let checks='';if(view&&ev.state!=='warm'){const c=view.ck;const ar=ev.trend>0?'▲':ev.trend<0?'▼':'—';
     const ckS=(k,txt)=>`<span class="ck ${c[k]===null?'na':c[k]?'ok':'no'}">${txt}</span>`;
@@ -1464,10 +1580,10 @@ function renderCard(it){if(it.def.opt)return;const grid=$('#grid');let el=docume
   const weak=stt&&stt.n>=8&&stt.avg<0?`<span class="tag" title="These rules lost money on this symbol recently">WEAK EDGE</span>`:'';
   const ush=it.def.usx&&!usOpen()?`<span class="tag" title="US market closed; this token trades 24/7 with thin volume">US CLOSED</span>`:'';
   const ago=it.tickAt?Math.round((Date.now()-it.tickAt)/1000):null;
-  el.innerHTML=`<div class="row"><span class="nm" title="${esc(it.def.name)}">${esc(it.def.name)}</span><span class="pill">${label}</span><button class="sigt ${it.def.sig===false?'':'on'}" data-sig="1" aria-pressed="${it.def.sig!==false}" title="Signals for this market on/off"><i></i>${it.def.sig===false?'OFF':'ON'}</button></div>
+  el.innerHTML=`<div class="row"><span class="nm" title="${esc(it.def.name)}">${esc(it.def.name)}</span><span class="pill${['sbuy','ssell','buy','sell','setupb','setups'].includes(cs.k)?' fill':''}${(cs.tr&&it.active===cs.tr&&isFresh(cs.tr))||cs.pend?' blink':''}">${label}</span><button class="sigt ${it.def.sig===false?'':'on'}" data-sig="1" aria-pressed="${it.def.sig!==false}" title="Signals for this market on/off"><i></i>${it.def.sig===false?'OFF':'ON'}</button></div>
    <div class="row"><span class="px num ${it.dir>0?'fu':it.dir<0?'fd':''}">${fmtP(it.price)}</span>${ch!=null?`<span class="chg ${ch>=0?'up':'dn'}">${ch>=0?'+':''}${ch.toFixed(2)}%</span>`:''}${ptsBadge(it,cs)}
    <span class="stars" title="Signal strength">${[0,1,2,3,4].map(i=>`<i class="${i<stars?'on':''}"></i>`).join('')}</span></div>
-   <canvas class="spark" height="36"></canvas>${lv}${prep}${checks}
+   <canvas class="spark" height="36"></canvas>${lv}${typeof lvSetup!=='undefined'&&cs.pend?lvSetup:''}${prep}${checks}
    <div class="foot"><span class="src">${it.def.src==='delta'?'DELTA':it.def.src==='upstox'?'UPSTOX':'FINNHUB'}</span>${srvCovers(it.def)?'<span class="src shr" title="Signals from the shared Paisa server: the same trade on every device">SHARED</span>':''}${bt}${weak}${ush}${evTagHTML(it)}<span class="ago">${ago==null?'':ago<3?'live':ago+'s ago'}</span></div>`;
   it.dir=0;drawSpark(el.querySelector('canvas'),it,col)}
 
@@ -1482,7 +1598,7 @@ function drawSpark(cv,it,col){const b=it.b1.slice(-90);if(b.length<2)return;cons
 // live preview of the forming candle: shows when a setup is building before the candle closes
 function previewInst(it){const d=it.def;if(!it.b1.length||it.status!=='ok'){it.pv=null;return}if(d.sig===false||(isNse(d)&&!nseOpen())){it.pv=null;return}
   try{it.pv=previewBar(it.b1,isNse(d),tfOf(it),STRICT[strOf(it)],engOpts(d));it.pvAt=Date.now()}catch(e){it.pv=null}}
-function prepBadge(it){if(it.active)return '';const p=it.pv;if(!p||!p.view||p.state==='warm')return '';
+function prepBadge(it){if(it.pend&&nowSec()<it.pend.until)return '';if(it.active)return '';const p=it.pv;if(!p||!p.view||p.state==='warm')return '';
   const v=p.view,side=p.vside||1,need=STRICT[strOf(it)],app=v.app||6,pass=v.pass||0;const trendOk=!!v.ck.trend;
   const col=side>0?'--sbuy':'--ssell',word=side>0?'BUY':'SELL';const left=Math.max(0,Math.ceil(need*app)-pass);
   let txt,cls='';
@@ -1508,7 +1624,7 @@ function toggleSig(id,quiet){let w=WATCH.find(x=>x.id===id);if(!w){const it0=S.i
   if(it&&srvCovers(it.def))srvApply(it,true);
   try{if(window.paisaPush&&window.paisaPush.info().state==='on')window.paisaPush.prefs(npPrefs()).catch(()=>{})}catch(e){}
   if(S.view==='set')renderSettings()}
-const RANK={sigoff:8,sbuy:0,ssell:0,buy:1,sell:1,t1:1,t2:2,stop:2,be:2,expired:3,flipped:3,bull:4,bear:4,wait:5,chop:6,closed:7,warm:8,off:9,err:9};
+const RANK={sigoff:8,setupb:0,setups:0,sbuy:0,ssell:0,buy:1,sell:1,t1:1,t2:2,stop:2,be:2,expired:3,flipped:3,bull:4,bear:4,wait:5,chop:6,closed:7,warm:8,off:9,err:9};
 let touchAt=0,touching=false,lastSort=0;
 function sortGrid(){if(touching||Date.now()-touchAt<1500||Date.now()-lastSort<4000)return;lastSort=Date.now();const grid=$('#grid');const els=[...grid.children];const key=el=>{const it=S.inst.get(el.id.slice(2));if(!it)return 99;return (RANK[cardState(it).k]??5)*100+WATCH.findIndex(w=>w.id===it.def.id)};
   const sorted=[...els].sort((a,b)=>key(a)-key(b));if(sorted.some((e,i)=>e!==els[i]))sorted.forEach(e=>grid.appendChild(e))}
@@ -1557,7 +1673,7 @@ const IND_DEF={e9:'--cyan',e21:'--violet',vw:'--t2',stU:'--up',stD:'--down',lE:'
 function indCol(k){const c=store.get('pt.icol',{})[k];if(c)return c;return getComputedStyle(document.documentElement).getPropertyValue(IND_DEF[k]).trim()||'#888888'}
 function toHex(c){if(/^#[0-9a-f]{6}$/i.test(c))return c;const d=document.createElement('canvas').getContext('2d');d.fillStyle=c;return /^#/.test(d.fillStyle)?d.fillStyle:'#888888'}
 // candle countdown under the live price label, like standard charts
-function updTimer(){const el=$('#chTimer');if(!el)return;const b=S.chart.bars;const it=chartInst();
+function updTimer(){renderSigBox();const el=$('#chTimer');if(!el)return;const b=S.chart.bars;const it=chartInst();
   if(S.view!=='chart'||!CH||!b.length||!it||(isNse(it.def)&&!nseOpen())){el.hidden=true;return}
   const S1=S.chart.tf*60,now=nowSec();const end=bucketOf(now,S1,offFor(isNse(it.def),S1))+S1;let rem=Math.max(0,Math.ceil(end-now));
   const hh=Math.floor(rem/3600),mm=Math.floor(rem%3600/60),ss=rem%60;const txt=(hh?hh+':'+String(mm).padStart(2,'0'):String(mm).padStart(2,'0'))+':'+String(ss).padStart(2,'0');
@@ -1587,18 +1703,41 @@ function drawChart(it,fit){const b=S.chart.bars;if(!CH||!b.length)return;const s
   // markers from backtest + log
   const S1=S.chart.tf*60,off=offFor(isNse(d),S1);const times=new Set(b.map(x=>x.t));const mk=new Map();
   const add=(t,side,txt)=>{const bt=bucketOf(t,S1,off);if(!times.has(bt))return;mk.set(bt+':'+side,{time:sh(bt),position:side>0?'belowBar':'aboveBar',color:side>0?CH.k.up:CH.k.dn,shape:side>0?'arrowUp':'arrowDown',text:txt})};
-  if(it.eng)for(const s of it.eng.sigs)add(s.t,s.side,s.side>0?'B':'S');
-  for(const l of LOG)if(l.inst===d.id)add(l.t,l.side,l.side>0?'BUY':'SELL');
+  if(!d.opt){if(it.eng)for(const s of it.eng.sigs)add(s.t,s.side,s.side>0?'B':'S');
+  for(const l of LOG)if(l.inst===d.id)add(l.t,l.side,l.side>0?'BUY':'SELL')}
   CH.candle.setMarkers([...mk.values()].sort((a,c)=>a.time-c.time));
   drawLines(it);
   if(fit)applyView()
   S.chart.ind=ind;renderReadout(it);updTimer()}
 // trade level lines: after T1 the stop sits on the entry price, so that line is labelled "SL = ENTRY" and drawn thicker
 function drawLines(it){if(!CH)return;for(const pl of CH.lines)try{CH.candle.removePriceLine(pl)}catch(e){}CH.lines=[];const tr=it.active;CH.lineSig=tr?tr.id+tr.status:'';
-  for(const a of PA)if(a.inst===it.def.id&&!a.done)CH.lines.push(CH.candle.createPriceLine({price:a.price,color:'#c49bff',lineWidth:1,lineStyle:1,axisLabelVisible:true,title:'🔔 ALERT'}));if(!tr)return;
+  for(const a of PA)if(a.inst===it.def.id&&!a.done)CH.lines.push(CH.candle.createPriceLine({price:a.price,color:'#c49bff',lineWidth:1,lineStyle:1,axisLabelVisible:true,title:'🔔 ALERT'}));
+  if(!tr&&it.pend&&nowSec()<it.pend.until){const p=it.pend;CH.lineSig='p'+p.id;const L2=(price,color,title,w)=>CH.lines.push(CH.candle.createPriceLine({price,color,lineWidth:w||1,lineStyle:1,axisLabelVisible:true,title}));
+    L2(p.lim,indCol('lE'),(p.side>0?'BUY':'SELL')+' AT',2);L2(p.sl,indCol('lS'),'SL');L2(p.t1,indCol('lT1'),'T1');L2(p.t2,indCol('lT2'),'T2');renderSigBox();return}
+  if(!tr){renderSigBox();return}
   const L=(price,color,title,style,w)=>CH.lines.push(CH.candle.createPriceLine({price,color,lineWidth:w||1,lineStyle:style??2,axisLabelVisible:true,title}));
   if(tr.status==='t1'){L(tr.entry,indCol('lS'),'SL = ENTRY',0,2)}else{L(tr.entry,indCol('lE'),'ENTRY',0,1);L(tr.sl,indCol('lS'),'SL',2,2)}
-  L(tr.t1,indCol('lT1'),tr.status==='t1'?'T1 ✓':'T1',2,1);L(tr.t2,indCol('lT2'),'T2',2,1)}
+  L(tr.t1,indCol('lT1'),tr.status==='t1'?'T1 ✓':'T1',2,1);L(tr.t2,indCol('lT2'),'T2',2,1);renderSigBox()}
+
+/* ---------- signal label on the chart: bold filled BUY/SELL with entry, stop and targets ---------- */
+function sigTrade(it){const tr=it.active;if(tr)return tr;if(it.pend&&nowSec()<it.pend.until)return {...it.pend,status:'setup'};const lc=it.lastClosed;return lc&&nowSec()-(lc.closedAt||0)<1800?lc:null}
+const isFresh=tr=>tr&&['open'].includes(tr.status)&&nowSec()<(tr.entryT||tr.t)+300;
+function renderSigBox(){let el=document.getElementById('sigBox');const it=chartInst();const hide=()=>{if(el)el.hidden=true};
+  if(S.view!=='chart'||!CH||!it||it.def.opt||!S.chart.bars.length)return hide();const tr=sigTrade(it);if(!tr)return hide();
+  if(!el){el=document.createElement('div');el.id='sigBox';el.className='sigbox';document.querySelector('.chartbox').appendChild(el)}
+  const setup=tr.status==='setup';const live=setup||['open','t1'].includes(tr.status);const up=tr.side>0;
+  const word=setup?(up?'BUY SETUP':'SELL SETUP'):(tr.strong?'STRONG ':'')+(up?'BUY':'SELL');const tag=live?(tr.status==='t1'?'T1 ✓':''):(STATES[tr.status]?STATES[tr.status][0].split(' · ')[0]:tr.status.toUpperCase());
+  const sc=up?'--sbuy':'--ssell';
+  const html=setup?`<div class="sb-h">${word}<small>TILL ${istT(tr.until*1000)}</small></div><div class="sb-g"><span>${up?'BUY':'SELL'} AT</span><b>${fmtP(tr.lim)}</b><span>SL</span><b>${fmtP(tr.sl)}</b><span>T1</span><b>${fmtP(tr.t1)}</b><span>T2</span><b>${fmtP(tr.t2)}</b></div>`:`<div class="sb-h">${word}${tag?`<small>${tag}</small>`:''}</div><div class="sb-g"><span>ENTRY</span><b>${fmtP(tr.entry)}</b><span>${tr.status==='t1'?'SL=ENTRY':'SL'}</span><b>${fmtP(tr.status==='t1'?tr.entry:tr.sl)}</b><span>T1</span><b>${fmtP(tr.t1)}</b><span>T2</span><b>${fmtP(tr.t2)}</b></div>`;
+  if(el.dataset.h!==html){el.innerHTML=html;el.dataset.h=html}
+  el.style.setProperty('--sc',`var(${sc})`);el.className='sigbox '+(up?'up':'dn')+(live?'':' done')+(setup||isFresh(tr)?' blink':'')+(setup?' setup':'');el.hidden=false;
+  // anchor to the signal candle on the current chart timeframe
+  const b=S.chart.bars,S1=S.chart.tf*60,bt=bucketOf(tr.t,S1,offFor(isNse(it.def),S1));const bar=b.find(x=>x.t===bt);
+  const box=el.parentElement.getBoundingClientRect(),w=el.offsetWidth,h=el.offsetHeight;
+  let x=null,y=null;try{x=CH.chart.timeScale().timeToCoordinate(bt+IST);y=CH.candle.priceToCoordinate(bar?(up?bar.l:bar.h):tr.entry)}catch(e){}
+  const W=box.width-78,H=box.height-34;if(x==null)x=12;if(y==null)y=H/2;
+  let left=Math.max(6,Math.min(W-w,x-18)),top=up?y+16:y-h-16;top=Math.max(6,Math.min(H-h,top));
+  el.style.left=left+'px';el.style.top=top+'px';el.style.setProperty('--ax',Math.max(8,Math.min(w-22,x-left-7))+'px')}
 // zoom memory: remembers how many candles you like on screen
 function applyView(){if(!CH)return;const n=S.chart.bars.length;CH.applying=true;CH.chart.priceScale('right').applyOptions({autoScale:true});
   const z=store.get('pt.zoom',null);const cnt=z&&z.cnt>=10&&z.cnt<=2000?z.cnt:120;
@@ -1714,6 +1853,7 @@ function confStep(an,ix,lot,cs){if(!cs||!nseOpen())return;const m=(()=>{const p=
   if(CF.pend&&CF.pend.key===key&&CF.pend.side===side)CF.pend.n++;else CF.pend={key,side,n:1};if(CF.pend.n<2)return;CF.pend=null;
   const it=S.inst.get('u:'+ix.key);const ind=it&&it.eng&&it.eng.ind;const atr=ind?ind.at[ind.at.length-1]:NaN;const dist=(isFinite(atr)&&atr>0?atr:an.spot*0.002)*1.2;
   const sig={side,entry:an.spot,dist,sl:an.spot-side*dist,t1:an.spot+side*dist,t2:an.spot+side*2*dist};const pl=optionPlan(an,sig);if(!pl||!pl.cands||!pl.cands.length)return;
+  {const m=masterSide(ix);if(m&&m.side!==side)return}
   createLock(ix,key,pl.cands[0],side,lot,'confirm',{entry:sig.entry,sl:sig.sl,t1:sig.t1,t2:sig.t2,rr:1})}
 function confPanel(an,ix){const key=ix.n+'|'+S.opt.exp;
   if(!CF.rows||CF.key!==key){confLoad(false);return `<div class="panel plan"><div class="verdict"><span class="label">Options confirmation · ${ix.n}</span></div><div class="lg-state" style="padding:8px 0;justify-content:flex-start"><span class="lg-spin"></span><span>Analysing call and put premium charts around ATM (${CF.prog||'starting'})…</span></div></div>`}
@@ -1749,13 +1889,18 @@ function renderOpt(){const an=S.opt.an;if(!an){$('#oBody').innerHTML='<div class
   const it=S.inst.get('u:'+ix.key);const ev=it&&it.eng&&it.eng.last;const bias=ev&&ev.state!=='warm'?{trend:ev.trend,st:ev.st}:null;
   const dte=Math.max(0,Math.round((Date.parse(S.opt.exp+'T15:30:00+05:30')-Date.now())/86400000));
   const lot=S.opt.lot||0;const open=nseOpen();
-  const pl=oiPlan(an,bias,dte);const tr=it&&it.active;optLockStep(an,pl,ix,lot);
-  const col=pl.side>0?'--sbuy':pl.side<0?'--ssell':pl.verdict==='WAIT'?'--wall':'--wait';
+  const tr=it&&it.active;const mst=masterSide(ix);
+  let pl=oiPlan(an,bias,dte);
+  if(mst&&pl.side&&pl.side!==mst.side){pl={...pl,side:0,verdict:'CONFLICT · WAIT',cands:null,idx:null,reason:`The live ${mst.name} signal is ${mst.side>0?'BUY':'SELL'}, but open interest leans ${pl.side>0?'bullish':'bearish'}. Paisa won't suggest a ${pl.side>0?'CE':'PE'} against the live signal. Wait until both agree.`}}
+  optLockStep(an,pl,ix,lot);
+  const col=pl.side>0?'--sbuy':pl.side<0?'--ssell':(pl.verdict==='WAIT'||/CONFLICT/.test(pl.verdict))?'--wall':'--wait';
   const row=(c,lbl)=>{const pnl=v=>lot?` <span class="note" style="display:inline">(${v>=0?'+':'−'}₹${Math.abs(Math.round(v*lot)).toLocaleString('en-IN')}/lot)</span>`:'';
     return `<div class="opt-c"><div class="t"><b style="color:var(${col})">BUY ${ix.n} ${c.strike} ${c.type}</b><span class="label">${lbl||c.label} · Δ ${c.delta.toFixed(2)}</span>${c.thin?'<span class="tag">LOW OI</span>':''}</div>
       <div class="lv"><div class="e"><span>BUY AT</span><b>${fmtP(c.entry)}</b></div><div class="s"><span>STOP</span><b>${fmtP(c.sl)}</b></div><div class="a"><span>TARGET 1</span><b>${fmtP(c.t1)}</b></div><div class="b"><span>TARGET 2</span><b>${fmtP(c.t2)}</b></div></div>
       <div class="note">Risk ${fmtP(c.entry-c.sl)}${pnl(c.sl-c.entry)} · T1 gain ${fmtP(c.t1-c.entry)}${pnl(c.t1-c.entry)}</div></div>`};
   let h=optLockCard(an,ix,lot)+confPanel(an,ix);
+  if(OLOCK&&OLOCK.ix===ix.n&&['open','t1'].includes(OLOCK.status)&&mst&&(OLOCK.type==='CE'?1:-1)!==mst.side)
+    h=`<div class="panel plan" style="border-color:var(--wall);padding:10px 12px"><b style="color:var(--wall)">⚠ CONFLICT</b> <span class="note" style="display:inline">The tracked ${OLOCK.ix} ${OLOCK.strike} ${OLOCK.type} goes against the live ${mst.name} ${mst.side>0?'BUY':'SELL'} signal. Consider exiting it rather than adding to it.</span></div>`+h;
   // 1. live scanner signal on the index, if any
   if(tr){const sp=optionPlan(an,tr);if(sp){const sc=tr.side>0?'--sbuy':'--ssell';
     h+=`<div class="panel plan" style="border-color:color-mix(in srgb,var(${sc}) 60%,transparent)"><div class="verdict"><span class="label">Live scanner signal on ${ix.n}</span>${sp.wall?`<span class="pill" style="--sc:var(--wall);margin:0">OI WALL ${sp.wall}</span>`:''}</div>
@@ -1786,6 +1931,9 @@ function renderOpt(){const an=S.opt.an;if(!an){$('#oBody').innerHTML='<div class
      <td class="och" data-ok="${esc(r.pe.key||'')}" data-on="${esc(ix.n+' '+r.k+' PE · '+expTx())}">${fmtP(r.pe.ltp)}</td><td>${d(r.pe.oi-r.pe.poi)}</td><td><div class="bar pe"><i style="width:${r.pe.oi/mx*100}%"></i><span>${fx(r.pe.oi)}</span></div></td></tr>`).join('')+`</tbody></table></div>
    <p class="note">Tap any CE or PE price to open that option's chart. R = strike with the most call OI (resistance), S = most put OI (support). Educational tool, not investment advice.</p>`;
   $('#oBody').innerHTML=h;$('#oBody').onclick=e=>{const c=e.target.closest('[data-ok]');if(c&&c.dataset.ok)openOptChart(c.dataset.ok,c.dataset.on)}}
+// the price signal that options must agree with: the index's own trade, else its futures trade
+function masterSide(ix){const fid={'NSE_INDEX|Nifty 50':'u:FUT|NIFTY','NSE_INDEX|Nifty Bank':'u:FUT|BANKNIFTY','BSE_INDEX|SENSEX':'u:FUT|SENSEX'}[ix.key];
+  for(const id of ['u:'+ix.key,fid]){const it=id&&S.inst.get(id);if(it&&it.active&&['open','t1'].includes(it.active.status))return {side:it.active.side,name:it.def.name}}return null}
 function expTx(){const e=S.opt.exp;if(!e)return '';const d=new Date(e+'T00:00:00Z');return d.getUTCDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getUTCMonth()]}
 function openOptChart(key,name){S.tmp=S.tmp||[];const id='o:'+key;if(!S.tmp.find(d=>d.id===id)){S.tmp.unshift({id,src:'upstox',key,name,tsym:name,grp:'opt',nse:1,opt:1,sig:false});S.tmp=S.tmp.slice(0,4)}
   syncInstruments();openChart(id)}
@@ -1796,7 +1944,16 @@ function renderStats(rows){const done=rows.filter(r=>r.r!=null);if(done.length<3
   const tbl=(title,arr)=>`<div class="panel" style="padding:8px"><div class="label" style="margin:2px 4px 6px">${title}</div><div class="oiwrap"><table class="wtab"><thead><tr><th></th><th>Trades</th><th>Win</th><th>Net R</th><th>Avg R</th></tr></thead><tbody>${arr.map(([k,g])=>`<tr><td><b>${esc(k)}</b></td><td class="t">${g.n}</td><td class="t">${Math.round(g.w/g.n*100)}%</td><td class="t" style="color:var(${g.R>=0?'--sbuy':'--ssell'})">${fmtR(g.R)}</td><td class="t">${fmtR(g.R/g.n)}</td></tr>`).join('')}</tbody></table></div></div>`;
   $('#logStats').innerHTML=`<div class="tiles" style="grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))">${tbl('By market',grp(r=>r.name))}${tbl('By signal strength',grp(r=>r.opt?(r.src==='confirm'?'Options confirmation':'Option plan'):r.strong?'STRONG':'Normal'))}${tbl('By hour (IST)',grp(r=>{const hh=new Date((r.t+IST)*1000).getUTCHours();return String(hh).padStart(2,'0')+':00'}).sort((a,b)=>a[0].localeCompare(b[0])))}</div>
    <p class="note">Statistics only cover closed paper trades. A market or hour needs 20+ trades before its numbers mean much.</p>`}
-function renderLog(){const today=todayKey();const per=S.logPer||1;
+function renderRunning(){const box=$('#logRun');if(!box)return;const its=[...S.inst.values()].filter(i=>i.active&&['open','t1'].includes(i.active.status)&&i.def.sig!==false);
+  const sets=[...S.inst.values()].filter(i=>!i.active&&i.pend&&nowSec()<i.pend.until&&i.def.sig!==false);
+  const setH=sets.length?`<div class="nwh">Waiting setups · ${sets.length}</div><div class="runl">${sets.map(it=>{const p=it.pend,up=p.side>0;return `<div class="runr" data-id="${esc(it.def.id)}" style="--sc:var(${up?'--buy':'--sell'})"><span class="sd blink">${up?'BUY':'SELL'} SETUP</span><span class="nm">${esc(it.def.name)}${p.srv?' <span class="mtag">SHARED</span>':''}</span><span class="pt" style="color:var(--dim);font-size:12px">till ${istT(p.until*1000)}</span><span class="lv2">${up?'Buy':'Sell'} at <b>${fmtP(p.lim)}</b> · SL <b>${fmtP(p.sl)}</b> · T1 <b>${fmtP(p.t1)}</b> · T2 <b>${fmtP(p.t2)}</b>${it.price!=null?` · now ${fmtP(it.price)}`:''}</span></div>`}).join('')}</div>`:'';
+  if(!its.length){box.innerHTML=setH;box.querySelectorAll('[data-id]').forEach(el=>el.onclick=()=>openChart(el.dataset.id));return}
+  box.innerHTML=setH+`<div class="nwh">Running now · ${its.length}</div><div class="runl">${its.map(it=>{const tr=it.active;const up=tr.side>0;const pts=it.price!=null?(it.price-tr.entry)*tr.side:null;const r=pts!=null?markR(tr,it.price):null;
+    return `<div class="runr" data-id="${esc(it.def.id)}" style="--sc:var(${up?'--sbuy':'--ssell'})"><span class="sd ${isFresh(tr)?'blink':''}">${tr.strong?'STRONG ':''}${up?'BUY':'SELL'}</span><span class="nm">${esc(it.def.name)}${tr.status==='t1'?' <span class="mtag imp3">T1 ✓</span>':''}${tr.srv?' <span class="mtag">SHARED</span>':''}</span>
+      <span class="pt" style="color:var(${pts==null?'--dim':pts>=0?'--sbuy':'--ssell'})">${pts==null?'—':(pts>=0?'+':'')+fmtP(pts)}<br><small style="font-size:11px">${r==null?'':fmtR(r)}</small></span>
+      <span class="lv2">Entry <b>${fmtP(tr.entry)}</b> · SL <b>${fmtP(tr.status==='t1'?tr.entry:tr.sl)}</b> · T1 <b>${fmtP(tr.t1)}</b> · T2 <b>${fmtP(tr.t2)}</b> · ${new Date((tr.entryT||tr.t)*1000).toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit',timeZone:'Asia/Kolkata'})}${tr.basis!=null?` · index ≈ ${fmtP(tr.entry-tr.basis)}`:''}</span></div>`}).join('')}</div>`;
+  box.querySelectorAll('[data-id]').forEach(el=>el.onclick=()=>openChart(el.dataset.id))}
+function renderLog(){renderRunning();const today=todayKey();const per=S.logPer||1;
   $('#logPer').innerHTML=[[1,'Today'],[7,'7 days'],[30,'30 days']].map(([d,n])=>`<button class="${per===d?'on':''}" data-d="${d}">${n}</button>`).join('');
   $('#logPer').querySelectorAll('button').forEach(b=>b.onclick=()=>{S.logPer=+b.dataset.d;renderLog()});
   const rows=LOG.filter(x=>Math.floor((x.t+IST)/86400)>today-per).sort((a,b)=>b.t-a.t);renderStats(rows);
@@ -2193,8 +2350,11 @@ function srvApply(it,quiet){const f=srvLive();if(!f)return;const d=it.def;const 
   else if(cur&&cur.srv){const done=(f.recent||[]).find(t=>t.id===cur.id);const before=cur.status;
     if(done)Object.assign(cur,{status:done.status,r:done.r,closedAt:done.closedAt,slCur:done.slCur});else{cur.status='expired';cur.r=cur.r??0;cur.closedAt=nowSec()}
     upsertLog(cur);it.lastClosed=cur;it.active=null;if(!quiet&&done&&before!==done.status&&nowSec()-(done.closedAt||0)<300)alertOutcome(it,cur)}
+  const sp=f.pend&&f.pend[d.id];
+  if(sp&&!it.active){if(!it.pend||it.pend.id!==sp.id){it.pend={...sp,srv:1};if(!quiet&&!SRV.seen.has('p:'+sp.id)&&nowSec()-sp.t<900)alertSetup(it,it.pend);srvSeen('p:'+sp.id)}}
+  else if(it.pend&&it.pend.srv)it.pend=null;
   if(!it.active&&!it.lastClosed){const lc=(f.recent||[]).find(t=>t.inst===d.id);if(lc)it.lastClosed=lc}
-  it.paused=st.paused||null;markDirty(it)}
+  it.paused=st.paused||null;markDirty(it);if(S.view==='chart'&&S.chart.id===d.id&&CH)drawLines(it);if(S.view==='log')renderRunning()}
 function srvSyncAll(){if(!srvLive())return;for(const it of S.inst.values())if(it.eng&&srvCovers(it.def))srvApply(it,false)}
 function renderSrvMsg(){const el=$('#sSrvMsg');if(!el)return;$('#sFut').checked=CFG.futs!==false;const f=(window.FEED||{}).signals;$('#sSrv').checked=CFG.srv!==false;
   if(CFG.srv===false){el.textContent='Off: every market uses this device and your own candle/strictness settings. Devices can show different trades.';return}
@@ -2300,15 +2460,42 @@ function newsInit(){window.addEventListener('paisa-feed',onFeed);window.addEvent
   wirePush();setInterval(()=>{renderEvStrip();if(S.view==='news'&&NW.tab==='cal')renderNews()},30000);
   const h=location.hash;if(h==='#news'||h==='#risk'){NW.tab=h==='#risk'?'risk':'head';setTimeout(()=>show('news'),300);history.replaceState(null,'',location.pathname+location.search)}onFeed()}
 
-function boot(){document.documentElement.dataset.skin=CFG.skin||'neon';renderBell();if(store.get('pt.wopen',false)){$('#wpanel').hidden=false;$('#wrow').setAttribute('aria-expanded','true')}renderWorld();newsInit();renderFeeds();renderFilters();renderLegend();if(!CFG.welcomed)$('#welcome').hidden=false;
+function weakOffOnce(){if(CFG.weakV5)return;CFG.weakV5=1;const ids=['d:XAUTUSD','d:AAPLXUSD','u:NSE_INDEX|Nifty Bank'];let n=0;
+  for(const id of ids){const w=WATCH.find(x=>x.id===id);if(w&&w.sig!==false){w.sig=false;n++}}saveWatch();
+  N50CFG['u:FUT|BANKNIFTY']={...(N50CFG['u:FUT|BANKNIFTY']||{}),sig:false};saveN50();saveCfg();
+  setTimeout(()=>{toast('info','Strategy v5','Signals now wait for a pullback before entering. Gold, Apple, BANK NIFTY and BANKNIFTY FUT were switched OFF (weak in testing). Turn them back on with the ON/OFF switch on each card.','',null,14000);
+    try{if(window.paisaPush&&window.paisaPush.info().state==='on')window.paisaPush.prefs(npPrefs()).catch(()=>{})}catch(e){}},4000)}
+function boot(){weakOffOnce();document.documentElement.dataset.skin=CFG.skin||'neon';renderBell();if(store.get('pt.wopen',false)){$('#wpanel').hidden=false;$('#wrow').setAttribute('aria-expanded','true')}renderWorld();newsInit();renderFeeds();renderFilters();renderLegend();if(!CFG.welcomed)$('#welcome').hidden=false;
   S.chart.tf=CFG.tf;syncInstruments();connectDelta();connectFinnhub();setInterval(heartbeat,1000);heartbeat();applyWake();
   if(CFG.token)upstoxTick();greet();loadDeltaProducts().then(()=>{for(const it of S.inst.values())markDirty(it)});
   window.addEventListener('resize',()=>{for(const it of S.inst.values())markDirty(it)})}
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=4.2"></script>
+<script type="module" src="auth.js?v=5"></script>
 <script>
+// login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
+(()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W=0,H=0,dpr=Math.min(2,window.devicePixelRatio||1),N=[],P=[];
+  const C=['41,231,255','155,123,255','255,213,74','0,255,157'];
+  function size(){W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;g.setTransform(dpr,0,0,dpr,0,0);const n=Math.round(Math.min(90,Math.max(36,W*H/14000)));
+    N=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:1+Math.random()*1.8,c:C[Math.random()*3|0],ph:Math.random()*6}))}
+  size();addEventListener('resize',size);
+  const near=(a,b)=>{const dx=a.x-b.x,dy=a.y-b.y;return dx*dx+dy*dy};const LINK=Math.pow(Math.min(150,Math.max(100,W/6)),2);
+  let t=0;function frame(){if(!document.body.classList.contains('locked')){g.clearRect(0,0,W,H);return}
+    t+=1;g.clearRect(0,0,W,H);
+    for(const a of N){if(!rm){a.x+=a.vx;a.y+=a.vy;if(a.x<0||a.x>W)a.vx*=-1;if(a.y<0||a.y>H)a.vy*=-1}}
+    for(let i=0;i<N.length;i++)for(let j=i+1;j<N.length;j++){const d=near(N[i],N[j]);if(d<LINK){const al=(1-d/LINK)*.35;g.strokeStyle=`rgba(${N[i].c},${al})`;g.lineWidth=.7;g.beginPath();g.moveTo(N[i].x,N[i].y);g.lineTo(N[j].x,N[j].y);g.stroke();
+      if(!rm&&Math.random()<.0009&&P.length<26)P.push({a:N[i],b:N[j],k:0,c:C[Math.random()*4|0]})}}
+    for(const a of N){const tw=.55+.45*Math.sin(t*.04+a.ph);g.fillStyle=`rgba(${a.c},${.5+.5*tw})`;g.shadowColor=`rgba(${a.c},.9)`;g.shadowBlur=8*tw;g.beginPath();g.arc(a.x,a.y,a.r,0,7);g.fill()}
+    g.shadowBlur=0;
+    P=P.filter(p=>{p.k+=.02;if(p.k>=1)return false;const x=p.a.x+(p.b.x-p.a.x)*p.k,y=p.a.y+(p.b.y-p.a.y)*p.k;const gr=g.createRadialGradient(x,y,0,x,y,7);gr.addColorStop(0,`rgba(${p.c},1)`);gr.addColorStop(1,`rgba(${p.c},0)`);g.fillStyle=gr;g.beginPath();g.arc(x,y,7,0,7);g.fill();return true});
+    if(!rm)requestAnimationFrame(frame)}
+  frame();
+  // boot line
+  const el=document.getElementById('lgBootTx');if(!el)return;const L=['> neural engine online','> scanning 13 markets · 5-min','> shared signals: live','> awaiting operator'];let li=0,ci=0;
+  (function type(){if(!document.body.classList.contains('locked'))return;const s=L[li];el.textContent=s.slice(0,ci);if(ci<s.length){ci++;setTimeout(type,rm?0:45)}else{setTimeout(()=>{li=(li+1)%L.length;ci=0;type()},1500)}})();
+})();
 // if the sign-in service can't load (offline or blocked), say so instead of spinning forever
 setTimeout(()=>{if(!window.__fbReady){const m=document.getElementById('lgMsg');if(m)m.textContent="Can't reach the sign-in service. Check your internet connection, then reload.";}},12000);
 </script>
