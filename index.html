@@ -582,7 +582,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" aria-hidden="true"><img src="coin.svg" alt="" width="36" height="36"></span>
-    <div><div class="logo">PAISA</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v4.1</span></div></div>
+    <div><div class="logo">PAISA</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v4.2</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -691,7 +691,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">Paisa v4.1 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">Paisa v4.2 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -1115,7 +1115,21 @@ const fmtR=r=>(r>=0?'+':'')+r.toFixed(2)+'R';
 
 /* ---------- networking ---------- */
 let tokWarned=0;
-async function jget(url,opt={}){const r=await fetch(url,opt);if(!r.ok){const e=new Error('HTTP '+r.status);e.status=r.status;
+// Upstox sometimes refuses requests from the browser (rate limit / blocked origin: shows as "Failed to fetch").
+// Then the same request goes through the Paisa server for 20 minutes, and the app tries direct again after that.
+let upViaSrv=0;
+async function upProxy(url,opt){if(!window.paisaUpstox)throw new Error('Upstox unreachable');const h=(opt&&opt.headers)||{};
+  const r=await window.paisaUpstox(url.slice(UAPI.length),h.Authorization?h.Authorization.slice(7):'');
+  if(r.status>=400){const e=new Error('HTTP '+r.status);e.status=r.status;throw e}return r.body}
+async function jget(url,opt={}){
+  if(url.startsWith(UAPI)){
+    if(Date.now()<upViaSrv)return jgetVia(url,opt);
+    let r;try{r=await fetch(url,opt)}catch(e){upViaSrv=Date.now()+20*60000;setFeed('upstox','slow');return jgetVia(url,opt)}
+    if(r.status===429){upViaSrv=Date.now()+20*60000;return jgetVia(url,opt)}
+    return jgetDone(r,url,opt)}
+  return jgetDone(await fetch(url,opt),url,opt)}
+async function jgetVia(url,opt){try{return await upProxy(url,opt)}catch(e){if(e.status===401)return jgetDone({ok:false,status:401},url,opt);throw e}}
+async function jgetDone(r,url,opt){if(!r.ok){const e=new Error('HTTP '+r.status);e.status=r.status;
   if(r.status===401&&url.startsWith(UAPI)&&opt.headers&&opt.headers.Authorization&&Date.now()-tokWarned>600000){tokWarned=Date.now();setFeed('upstox','err');setTimeout(()=>toast('stop','Upstox token expired','Paste today\'s token in Settings to restore live Indian prices and options.','',null,9000),0)}
   throw e}return r.json()}
 const ymdIST=ms=>new Date(ms+IST*1000).toISOString().slice(0,10);
@@ -1123,13 +1137,10 @@ async function deltaCandles(sym,tf,n){const res=tf===60?'1h':tf+'m';const end=Ma
   const j=await jget(`${DAPI}/v2/history/candles?resolution=${res}&symbol=${encodeURIComponent(sym)}&start=${start}&end=${end}`);
   return (j.result||[]).map(x=>({t:+x.time,o:+x.open,h:+x.high,l:+x.low,c:+x.close,v:+x.volume||0})).sort((a,b)=>a.t-b.t)}
 function upRows(j){return (j&&j.data&&j.data.candles||[]).map(r=>({t:Math.floor(Date.parse(r[0])/1000),o:+r[1],h:+r[2],l:+r[3],c:+r[4],v:+r[5]||0}))}
-// candle history: uses your token when you have one (higher Upstox limits); if Upstox refuses, wait 90 s before asking again
-let upCool=0;
-async function upGet(url){if(Date.now()<upCool)throw new Error('Upstox busy, retrying shortly');
-  const plain={headers:{Accept:'application/json'}};
-  try{if(CFG.token){try{return await jget(url,{headers:{Accept:'application/json',Authorization:'Bearer '+CFG.token}})}catch(e){if(e.status!==401&&e.status!==403)throw e}}
-    return await jget(url,plain)}
-  catch(e){if(!e.status||e.status===429)upCool=Date.now()+90000;throw e}}
+// candle history: uses your token when you have one (higher Upstox limits)
+async function upGet(url){const plain={headers:{Accept:'application/json'}};
+  if(CFG.token){try{return await jget(url,{headers:{Accept:'application/json',Authorization:'Bearer '+CFG.token}})}catch(e){if(e.status!==401&&e.status!==403)throw e}}
+  return await jget(url,plain)}
 async function upstoxCandles(key,tf,days,intradayOnly){const unit=tf===60?'hours':'minutes',iv=tf===60?1:tf;const k=encodeURIComponent(key);
   const now=Date.now();const jobs=[upGet(`${UAPI}/v3/historical-candle/intraday/${k}/${unit}/${iv}`)];
   if(!intradayOnly)jobs.push(upGet(`${UAPI}/v3/historical-candle/${k}/${unit}/${iv}/${ymdIST(now-86400000)}/${ymdIST(now-days*86400000)}`));
@@ -1301,7 +1312,7 @@ async function heartbeat(){tickN++;if(CFG.token&&nseOpen()){const bk=Math.floor(
   for(const it of S.inst.values()){if(it.active&&isNse(it.def)&&!nseOpen()){closeActive(it,'expired');markDirty(it)}if(it.status!=='ok')continue;const S1=tfOf(it)*60;const bk=bucketOf(t,S1,offFor(isNse(it.def),S1));
     if(it.lastBucket==null){it.lastBucket=bk;continue}
     if(bk!==it.lastBucket){it.lastBucket=bk;(async()=>{if(it.def.src==='delta')await deltaResync(it);else if(it.def.src==='upstox')await enqueue(()=>upstoxResyncOne(it));engine(it,false);markDirty(it);if(S.chart.id===it.def.id)loadChart(true)})()}}
-  if(tickN%(CFG.n50?3:2)===0)upstoxTick();if(CFG.n50&&nseOpen()&&tickN%3===1)n50Tick();
+  if(tickN%(CFG.n50?3:2)===0)upstoxTick();if(CFG.n50&&nseOpen()&&tickN%6===1)n50Tick();
   if(tickN%2===0)deltaPoll();if(tickN%300===0)for(const it of S.inst.values())if(it.def.src==='delta')deltaRef(it);
   if(tickN%15===0&&nseOpen())upstoxResync();
   if(tickN%45===0)for(const it of S.inst.values())if(it.def.src==='delta')deltaResync(it);
@@ -2296,7 +2307,7 @@ function boot(){document.documentElement.dataset.skin=CFG.skin||'neon';renderBel
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=4"></script>
+<script type="module" src="auth.js?v=4.2"></script>
 <script>
 // if the sign-in service can't load (offline or blocked), say so instead of spinning forever
 setTimeout(()=>{if(!window.__fbReady){const m=document.getElementById('lgMsg');if(m)m.textContent="Can't reach the sign-in service. Check your internet connection, then reload.";}},12000);

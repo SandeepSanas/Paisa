@@ -186,6 +186,12 @@ window.paisaPush = {
   async test() { return call('test'); },
 };
 window.paisaRefresh = () => call('refresh');
+// Upstox through the Paisa server (used only when the browser's own request is refused)
+let upFn = null;
+window.paisaUpstox = async (path, token) => {
+  if (!upFn) { const f = await import(SDK + 'firebase-functions.js'); upFn = f.httpsCallable(f.getFunctions(app, 'asia-south1'), 'upstox', { timeout: 30000 }); }
+  return (await upFn({ path, token: token || '' })).data;
+};
 async function call(what) {
   const f = await import(SDK + 'firebase-functions.js');
   const fn = f.httpsCallable(f.getFunctions(app, 'asia-south1'), 'paisaAction', { timeout: 70000 });
