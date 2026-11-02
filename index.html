@@ -120,6 +120,10 @@ main{flex:1;min-width:0;padding-block:10px 92px;padding-left:max(16px,env(safe-a
 .chip{padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--raise);color:var(--dim);font:600 12px var(--f-ui);letter-spacing:.06em}
 .chip.on{color:var(--on-acc);background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 14px -2px var(--cyan)}
 .spacer{flex:1}
+.idxeq{font:500 12px/1.4 var(--f-num);color:var(--dim);padding:4px 2px 0}.idxeq b{color:var(--text)}.idxeq span{color:var(--faint)}
+table.oi td.och{cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px}
+table.oi td.och:hover{color:var(--cyan)}
+.src.shr{color:var(--cyan);border-color:rgba(41,231,255,.45)}
 /* news */
 .nwtabs{margin:10px 0 8px;max-width:100%;overflow-x:auto}
 .nwtabs button{white-space:nowrap}
@@ -181,7 +185,7 @@ main{flex:1;min-width:0;padding-block:10px 92px;padding-left:max(16px,env(safe-a
 .card.hot{animation:ring 1.4s ease-out 3}
 @keyframes ring{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--sc) 70%,transparent)}100%{box-shadow:0 0 0 14px transparent}}
 .card .row{display:flex;align-items:center;gap:8px;min-width:0}
-.card .nm{font:700 15px/1.15 var(--f-ui);letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .nm{font:700 15px/1.15 var(--f-ui);letter-spacing:.02em;min-width:0;flex:1 1 auto;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
 .card .src{font:600 9.5px/1 var(--f-ui);letter-spacing:.12em;color:var(--faint);border:1px solid var(--line);padding:3px 5px;border-radius:5px;flex:none}
 .pill{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;font:700 11.5px/1 var(--f-ui);letter-spacing:.1em;color:var(--sc);
   background:color-mix(in srgb,var(--sc) 14%,transparent);border:1px solid color-mix(in srgb,var(--sc) 55%,transparent);text-shadow:0 0 10px color-mix(in srgb,var(--sc) 60%,transparent);white-space:nowrap}
@@ -578,7 +582,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" aria-hidden="true"><img src="coin.svg" alt="" width="36" height="36"></span>
-    <div><div class="logo">PAISA</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v3.1</span></div></div>
+    <div><div class="logo">PAISA</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v4</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -687,7 +691,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">Paisa v3.1 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">Paisa v4 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -738,6 +742,10 @@ body:not(.locked) .login{display:none}
           <div class="field"><span class="label">Signal candle</span><div class="seg" id="sTf"></div></div>
           <p id="sTfNote"></p>
           <div class="field"><span class="label">Strictness</span><div class="seg" id="sStrict"></div></div>
+          <div class="tg"><span>Shared server signals</span><label class="switch"><input type="checkbox" id="sSrv"><span></span></label></div>
+          <p id="sSrvMsg"></p>
+          <div class="tg"><span>Index futures (NIFTY, BANKNIFTY, SENSEX)</span><label class="switch"><input type="checkbox" id="sFut"><span></span></label></div>
+          <p>Futures have real volume and a true VWAP, which the index itself doesn't. The current month is picked automatically and rolls over 2 days before expiry. Signals also show the matching index levels for option buyers.</p>
           <div class="tg"><span>Scan all NIFTY 50 stocks</span><label class="switch"><input type="checkbox" id="sN50"><span></span></label></div>
           <p>Balanced needs 4 of 6 checks plus the higher-timeframe trend. Strict needs 5 of 6 and gives fewer, cleaner signals.</p>
         </div>
@@ -760,6 +768,7 @@ body:not(.locked) .login{display:none}
         <div class="panel set">
           <h3>Notifications</h3>
           <p id="npState">Market news, US data releases and big moves, even when Paisa is closed.</p>
+          <div class="tg"><span>Trade signals (entries, targets, stops)</span><label class="switch"><input type="checkbox" id="npSig"><span></span></label></div>
           <div class="tg"><span>Breaking news (high impact)</span><label class="switch"><input type="checkbox" id="npNews"><span></span></label></div>
           <div class="tg"><span>Data releases (CPI, jobs, GDP, oil stocks)</span><label class="switch"><input type="checkbox" id="npData"><span></span></label></div>
           <div class="tg"><span>Big moves (BTC, gold, oil, NIFTY, BANK NIFTY)</span><label class="switch"><input type="checkbox" id="npMove"><span></span></label></div>
@@ -1086,7 +1095,7 @@ const saveCfg=()=>store.set('pt.cfg',CFG);
 let WATCH=store.get('pt.watch',null)||DEFAULT_WATCH.slice();
 const saveWatch=()=>store.set('pt.watch',WATCH);
 let LOG=store.get('pt.log',[]);
-const tfOf=it=>it.def.tf||CFG.tf,strOf=it=>it.def.strict||CFG.strict;
+const tfOf=it=>srvCovers(it.def)?srvLive().cfg.tf:(it.def.tf||CFG.tf),strOf=it=>srvCovers(it.def)?srvLive().cfg.strict:(it.def.strict||CFG.strict);
 const todayKey=()=>Math.floor((Date.now()/1000+IST)/86400);
 LOG=LOG.filter(x=>Math.floor((x.t+IST)/86400)>=todayKey()-30);
 const saveLog=()=>store.set('pt.log',LOG.slice(-3000));
@@ -1124,8 +1133,9 @@ function upHeaders(){return {headers:{Accept:'application/json',Authorization:'B
 
 /* ---------- instruments ---------- */
 function mkInst(def){return {def,b1:[],price:null,ref:null,dir:0,status:'load',eng:null,active:null,lastClosed:null,lastSigT:0,lastBucket:null,tickAt:0,warmMsg:''}}
-function allDefs(){const w=WATCH.slice();if(CFG.n50){const ids=new Set(w.map(d=>d.id));for(const d of n50Defs())if(!ids.has(d.id))w.push(d)}return w}
-function syncInstruments(){const defs=allDefs();const ids=new Set(defs.map(d=>d.id));for(const id of [...S.inst.keys()])if(!ids.has(id)){S.inst.delete(id);const el=document.getElementById('c-'+id);if(el)el.remove()}
+function futDefs(){const f=(window.FEED||{}).futures;if(CFG.futs===false||!f||!f.items)return [];return f.items.map(x=>{const c=N50CFG[x.id]||{};return {id:x.id,src:'upstox',key:x.key,name:x.name,tsym:x.sym,grp:'india',nse:1,fut:1,lot:x.lot,idx:x.idx,sig:c.sig}})}
+function allDefs(){const w=WATCH.slice();for(const d of futDefs())if(!w.find(x=>x.id===d.id))w.push(d);for(const d of (S.tmp||[]))if(!w.find(x=>x.id===d.id))w.push(d);if(CFG.n50){const ids=new Set(w.map(d=>d.id));for(const d of n50Defs())if(!ids.has(d.id))w.push(d)}return w}
+function syncInstruments(){const defs=allDefs();const ids=new Set(defs.map(d=>d.id));for(const d of defs){const ex=S.inst.get(d.id);if(ex&&d.fut&&ex.def.key!==d.key){S.inst.delete(d.id);const el=document.getElementById('c-'+d.id);if(el)el.remove()}}for(const id of [...S.inst.keys()])if(!ids.has(id)){S.inst.delete(id);const el=document.getElementById('c-'+id);if(el)el.remove()}
   for(const d of defs)if(!S.inst.has(d.id)){const it=mkInst(d);S.inst.set(d.id,it);d.n50?enqueue(()=>loadInst(it)):loadInst(it)}}
 
 async function loadInst(it){const d=it.def;it.status='load';markDirty(it);
@@ -1175,6 +1185,8 @@ function engOpts(d){return d.usx?{allow:usAllow,minDist:0.001}:{}}
 function engine(it,initial){const d=it.def;if(!it.b1.length)return;
   const r=runEngine(it.b1,isNse(d),tfOf(it),STRICT[strOf(it)],nowSec(),engOpts(d));it.eng=r;
   const lastT=r.b.length?r.b[r.b.length-1].t:0;
+  if(d.opt){it.lastSigT=lastT;return}                                // option premium chart only, no signals
+  if(srvCovers(d)){it.lastSigT=lastT;srvApply(it,initial);return}   // shared server signals: same trade on every device
   if(initial){it.lastSigT=lastT;
     const done=LOG.filter(x=>x.inst===d.id&&x.r!=null&&x.closedAt).sort((a,b)=>b.closedAt-a.closedAt)[0];if(done&&!it.lastClosed)it.lastClosed=done;
     const row=LOG.find(x=>x.inst===d.id&&x.r==null);
@@ -1196,12 +1208,12 @@ function engine(it,initial){const d=it.def;if(!it.b1.length)return;
     const tr={...ev.signal,tf:tfOf(it),state:ev.state,bars:0,slCur:ev.signal.sl,status:'open',r:null,id:d.id+'@'+ev.t,inst:d.id,name:d.name,t:ev.t,entryT:ev.t+r.S,wickT:Math.floor(nowSec()/60)*60-60};
     tr.risk=riskCheck(it,tr);it.active=tr;upsertLog(tr);oddsFor(it,tr);alertSignal(it,tr);it.hot=Date.now()}}
 
-function applyMove(it,hi,lo,quiet,o){const tr=it.active;if(!tr)return;const before=tr.status;const res=stepTrade(tr,hi,lo,o);
+function applyMove(it,hi,lo,quiet,o){const tr=it.active;if(!tr)return;if(tr.srv&&srvCovers(it.def))return;const before=tr.status;const res=stepTrade(tr,hi,lo,o);
   if(res){if(tr.status!==before){upsertLog(tr);if(!quiet)alertOutcome(it,tr)}
     if(res===true){tr.closedAt=nowSec();it.lastClosed=tr;it.active=null}markDirty(it)}}
 function trackLive(it,p){applyMove(it,p,p);if(S.view==='chart'&&S.chart.id===it.def.id&&CH&&CH.lineSig!==(it.active?it.active.id+it.active.status:''))drawLines(it)}
 // replay real 1-min highs/lows since entry, so wicks between ticks still hit stop/targets (stop checked first)
-function checkWicks(it,quiet){const tr=it.active;if(!tr)return;const from=tr.entryT||tr.t+(tr.tf||CFG.tf)*60;const nowM=Math.floor(nowSec()/60)*60;
+function checkWicks(it,quiet){const tr=it.active;if(!tr)return;if(tr.srv&&srvCovers(it.def))return;const from=tr.entryT||tr.t+(tr.tf||CFG.tf)*60;const nowM=Math.floor(nowSec()/60)*60;
   for(const x of it.b1){if(x.t<from||x.t<=(tr.wickT||0)||x.t>=nowM)continue;tr.wickT=x.t;applyMove(it,x.h,x.l,quiet,x.o);if(!it.active)break}
   if(it.active)upsertLog(it.active)}
 function closeActive(it,status){const tr=it.active;if(!tr)return;tr.r=markR(tr,it.price);tr.status=status;tr.closedAt=nowSec();upsertLog(tr);it.lastClosed=tr;it.active=null}
@@ -1315,6 +1327,7 @@ function openCount(exceptId){let n=0;for(const it of S.inst.values())if(it.activ
 function sizeFor(it,tr){const k=RK(),riskINR=k.cap*k.pct/100,d=it.def,dist=Math.abs(tr.entry-tr.sl);let qty=null,unit='',note='',riskReal=null;
   if(d.src==='delta'){const cv=DCV[d.sym];if(cv>0){const riskUSD=riskINR/k.usdinr;qty=Math.floor(riskUSD/(dist*cv));unit=qty===1?'contract':'contracts';riskReal=qty*dist*cv*k.usdinr;note=`1 contract = ${cv} ${d.sym.replace(/USD$/,'')}`}else note='Contract size loading…'}
   else if(d.src==='upstox'&&/NSE_EQ|BSE_EQ/.test(d.key)){qty=Math.floor(riskINR/dist);unit='shares';riskReal=qty*dist}
+  else if(d.fut){const lot=d.lot||1;qty=Math.floor(riskINR/(dist*lot));unit=qty===1?'lot':'lots';riskReal=qty*dist*lot;note=`1 lot = ${lot} units. Buying options instead? Use the index levels shown.`}
   else if(d.src==='upstox'){note='Index: trade it through options. Lots are sized on the Options tab.'}
   else{note=`Set your CFD size so ${fmtP(dist)} points ≈ ₹${Math.round(riskINR).toLocaleString('en-IN')} (₹${(riskINR/dist).toFixed(2)} per point)`}
   return {qty,unit,riskINR,riskReal,note}}
@@ -1411,7 +1424,7 @@ function cardState(it){const d=it.def;
   return {k:it.eng.last.state,ev:it.eng.last}}
 const GRP={crypto:'Crypto',commodity:'Commodities',us:'US',india:'India'};
 
-function renderCard(it){const grid=$('#grid');let el=document.getElementById('c-'+it.def.id);
+function renderCard(it){if(it.def.opt)return;const grid=$('#grid');let el=document.getElementById('c-'+it.def.id);
   if(!el){el=document.createElement('article');el.className='card';el.id='c-'+it.def.id;el.tabIndex=0;el.dataset.id=it.def.id;el.onkeydown=e=>{if(e.key==='Enter')openChart(it.def.id)};grid.appendChild(el)}
   const f=S.filter;const recent=it.active||(it.lastClosed&&nowSec()-it.lastClosed.closedAt<900);el.hidden=it.def.n50?!(f==='n50'||((f==='all'||f==='sig')&&recent)):!(f==='all'||(f==='sig'&&recent)||it.def.grp===f);
   if(el.hidden)return;
@@ -1420,7 +1433,7 @@ function renderCard(it){const grid=$('#grid');let el=document.getElementById('c-
   const ch=it.ref&&it.price?(it.price/it.ref-1)*100:null;
   const ev=it.eng&&it.eng.last;const view=ev&&ev.view;
   const score=cs.tr?cs.tr.score:(view?view.score:0);const stars=Math.round((score||0)*5);
-  let lv='';if(cs.tr){const tr=cs.tr;const extra=it.active===tr?riskHTML(it,tr,true)+oddsHTML(tr,it):'';lv=extra+`<div class="lv"><div class="e"><span>ENTRY</span><b class="num">${fmtP(tr.entry)}</b></div><div class="s"><span>STOP</span><b class="num">${fmtP(tr.status==='t1'?tr.entry:tr.sl)}</b></div><div class="a"><span>T1</span><b class="num">${fmtP(tr.t1)}</b></div><div class="b"><span>T2</span><b class="num">${fmtP(tr.t2)}</b></div></div>`}
+  let lv='';if(cs.tr){const tr=cs.tr;const extra=it.active===tr?riskHTML(it,tr,true)+oddsHTML(tr,it):'';lv=extra+`<div class="lv"><div class="e"><span>ENTRY</span><b class="num">${fmtP(tr.entry)}</b></div><div class="s"><span>STOP</span><b class="num">${fmtP(tr.status==='t1'?tr.entry:tr.sl)}</b></div><div class="a"><span>T1</span><b class="num">${fmtP(tr.t1)}</b></div><div class="b"><span>T2</span><b class="num">${fmtP(tr.t2)}</b></div></div>${tr.basis!=null?`<div class="idxeq">Index ≈ entry <b>${fmtP(tr.entry-tr.basis)}</b> · SL <b>${fmtP(tr.sl-tr.basis)}</b> · T1 <b>${fmtP(tr.t1-tr.basis)}</b> · T2 <b>${fmtP(tr.t2-tr.basis)}</b> <span>(futures ${tr.basis>=0?'+':''}${fmtP(tr.basis)})</span></div>`:''}`}
   let checks='';if(view&&ev.state!=='warm'){const c=view.ck;const ar=ev.trend>0?'▲':ev.trend<0?'▼':'—';
     const ckS=(k,txt)=>`<span class="ck ${c[k]===null?'na':c[k]?'ok':'no'}">${txt}</span>`;
     checks=`<div class="checks"><span class="ck ${ev.trend!==0?(ev.trend>0?'ok':'no'):''}">HTF ${ar}</span>${ckS('ema','EMA')}${ckS('vwap','VWAP')}${ckS('st','ST')}${ckS('rsi','RSI '+(ev.rsi|0))}${ckS('adx','ADX '+(ev.adx|0))}${ckS('vol','VOL')}</div>`}
@@ -1433,11 +1446,11 @@ function renderCard(it){const grid=$('#grid');let el=document.getElementById('c-
   const weak=stt&&stt.n>=8&&stt.avg<0?`<span class="tag" title="These rules lost money on this symbol recently">WEAK EDGE</span>`:'';
   const ush=it.def.usx&&!usOpen()?`<span class="tag" title="US market closed; this token trades 24/7 with thin volume">US CLOSED</span>`:'';
   const ago=it.tickAt?Math.round((Date.now()-it.tickAt)/1000):null;
-  el.innerHTML=`<div class="row"><span class="nm">${esc(it.def.name)}</span><span class="src">${it.def.src==='delta'?'DELTA':it.def.src==='upstox'?'UPSTOX':'FINNHUB'}</span><span class="pill">${label}</span><button class="sigt ${it.def.sig===false?'':'on'}" data-sig="1" aria-pressed="${it.def.sig!==false}" title="Signals for this market on/off"><i></i>${it.def.sig===false?'OFF':'ON'}</button></div>
+  el.innerHTML=`<div class="row"><span class="nm" title="${esc(it.def.name)}">${esc(it.def.name)}</span><span class="pill">${label}</span><button class="sigt ${it.def.sig===false?'':'on'}" data-sig="1" aria-pressed="${it.def.sig!==false}" title="Signals for this market on/off"><i></i>${it.def.sig===false?'OFF':'ON'}</button></div>
    <div class="row"><span class="px num ${it.dir>0?'fu':it.dir<0?'fd':''}">${fmtP(it.price)}</span>${ch!=null?`<span class="chg ${ch>=0?'up':'dn'}">${ch>=0?'+':''}${ch.toFixed(2)}%</span>`:''}${ptsBadge(it,cs)}
    <span class="stars" title="Signal strength">${[0,1,2,3,4].map(i=>`<i class="${i<stars?'on':''}"></i>`).join('')}</span></div>
    <canvas class="spark" height="36"></canvas>${lv}${prep}${checks}
-   <div class="foot">${bt}${weak}${ush}${evTagHTML(it)}<span class="ago">${ago==null?'':ago<3?'live':ago+'s ago'}</span></div>`;
+   <div class="foot"><span class="src">${it.def.src==='delta'?'DELTA':it.def.src==='upstox'?'UPSTOX':'FINNHUB'}</span>${srvCovers(it.def)?'<span class="src shr" title="Signals from the shared Paisa server: the same trade on every device">SHARED</span>':''}${bt}${weak}${ush}${evTagHTML(it)}<span class="ago">${ago==null?'':ago<3?'live':ago+'s ago'}</span></div>`;
   it.dir=0;drawSpark(el.querySelector('canvas'),it,col)}
 
 function drawSpark(cv,it,col){const b=it.b1.slice(-90);if(b.length<2)return;const w=cv.clientWidth||280,h=36,dpr=window.devicePixelRatio||1;cv.width=w*dpr;cv.height=h*dpr;const g=cv.getContext('2d');g.scale(dpr,dpr);
@@ -1472,14 +1485,16 @@ function livePtsLog(r){const it=S.inst.get(r.inst);if(!it||it.price==null)return
   const end=e=>{touching=false;touchAt=Date.now();if(!st||e.type!=='pointerup'){st=null;return}
     if(Math.hypot(e.clientX-st.x,e.clientY-st.y)<12)openChart(st.id);st=null};
   g.addEventListener('pointerup',end);g.addEventListener('pointercancel',end)})();
-function toggleSig(id,quiet){let w=WATCH.find(x=>x.id===id);if(!w){const it0=S.inst.get(id);if(!it0||!it0.def.n50)return;w=it0.def;w.sig=w.sig===false?true:false;N50CFG[id]={...(N50CFG[id]||{}),sig:w.sig};saveN50()}else{w.sig=w.sig===false?true:false;saveWatch()}const it=S.inst.get(id);if(it){it.def.sig=w.sig;markDirty(it)}
+function toggleSig(id,quiet){let w=WATCH.find(x=>x.id===id);if(!w){const it0=S.inst.get(id);if(!it0||!(it0.def.n50||it0.def.fut))return;w=it0.def;w.sig=w.sig===false?true:false;N50CFG[id]={...(N50CFG[id]||{}),sig:w.sig};saveN50()}else{w.sig=w.sig===false?true:false;saveWatch()}const it=S.inst.get(id);if(it){it.def.sig=w.sig;markDirty(it)}
   if(!quiet)toast(w.sig?'sbuy':'wait',`${w.name}: signals ${w.sig?'ON':'OFF'}`,w.sig?'New BUY/SELL signals and alerts are back on.':'No new signals or alerts. Price and chart keep updating.','',null,3000);
+  if(it&&srvCovers(it.def))srvApply(it,true);
+  try{if(window.paisaPush&&window.paisaPush.info().state==='on')window.paisaPush.prefs(npPrefs()).catch(()=>{})}catch(e){}
   if(S.view==='set')renderSettings()}
 const RANK={sigoff:8,sbuy:0,ssell:0,buy:1,sell:1,t1:1,t2:2,stop:2,be:2,expired:3,flipped:3,bull:4,bear:4,wait:5,chop:6,closed:7,warm:8,off:9,err:9};
 let touchAt=0,touching=false,lastSort=0;
 function sortGrid(){if(touching||Date.now()-touchAt<1500||Date.now()-lastSort<4000)return;lastSort=Date.now();const grid=$('#grid');const els=[...grid.children];const key=el=>{const it=S.inst.get(el.id.slice(2));if(!it)return 99;return (RANK[cardState(it).k]??5)*100+WATCH.findIndex(w=>w.id===it.def.id)};
   const sorted=[...els].sort((a,b)=>key(a)-key(b));if(sorted.some((e,i)=>e!==els[i]))sorted.forEach(e=>grid.appendChild(e))}
-function updateSub(){const its=[...S.inst.values()];const act=its.filter(i=>i.active).length;
+function updateSub(){const its=[...S.inst.values()].filter(i=>!i.def.opt);const act=its.filter(i=>i.active).length;
   $('#scanSub').textContent=`${its.length} markets · ${act} active · ${CFG.tf}m · ${CFG.strict}`;if(S.filter==='n50'){const n=its.filter(i=>i.def.n50),ok=n.filter(i=>i.status==='ok').length;$('#scanSub').textContent=`NIFTY 50: ${ok}/${n.length} loaded · ${n.filter(i=>i.active).length} active`}}
 function renderFilters(){const opts=[['all','All'],['sig','Active signals'],['crypto','Crypto'],['commodity','Commodities'],['us','US'],['india','India'],...(CFG.n50?[['n50','NIFTY 50 stocks']]:[])];
   $('#filters').innerHTML=opts.map(([k,n])=>`<button class="chip ${S.filter===k?'on':''}" data-f="${k}">${n}</button>`).join('')+'';
@@ -1575,7 +1590,8 @@ function chartTick(p,vol){if(!CH||!S.chart.bars.length)return;const it=chartInst
   if(bk>last.t){b.push({t:bk,o:p,h:p,l:p,c:p,v:vol||0})}else if(bk===last.t){last.h=Math.max(last.h,p);last.l=Math.min(last.l,p);last.c=p;last.v+=vol||0}else return;
   const x=b[b.length-1];try{CH.candle.update({time:x.t+IST,open:x.o,high:x.h,low:x.l,close:x.c})}catch(e){}updTimer()}
 function renderChartHead(){const it=chartInst();const sel=$('#chSym');
-  sel.innerHTML=WATCH.map(w=>`<option value="${esc(w.id)}" ${w.id===S.chart.id?'selected':''}>${esc(w.name)}</option>`).join('');
+  const list=WATCH.slice();if(it&&!list.find(w=>w.id===it.def.id))list.unshift(it.def);for(const d of (S.tmp||[]))if(!list.find(w=>w.id===d.id))list.push(d);
+  sel.innerHTML=list.map(w=>`<option value="${esc(w.id)}" ${w.id===S.chart.id?'selected':''}>${esc(w.name)}${w.n50?' · NSE':''}</option>`).join('');
   $('#chTf').innerHTML=[1,3,5,15,60].map(t=>`<button class="${S.chart.tf===t?'on':''}" data-tf="${t}">${t===60?'1H':t+'m'}</button>`).join('');
   $('#chTf').querySelectorAll('button').forEach(b=>b.onclick=()=>{S.chart.tf=+b.dataset.tf;S.chart.range=null;loadChart()});
   if(!it)return;updChartLive();
@@ -1747,11 +1763,14 @@ function renderOpt(){const an=S.opt.an;if(!an){$('#oBody').innerHTML='<div class
   const fx=n=>n>=1e7?(n/1e7).toFixed(2)+'Cr':n>=1e5?(n/1e5).toFixed(1)+'L':n>=1e3?(n/1e3).toFixed(0)+'K':String(n|0);
   const d=n=>`<span class="${n>=0?'pos':'neg'}">${n>=0?'+':'-'}${fx(Math.abs(n))}</span>`;
   h+=`<div class="panel oiwrap" style="padding:8px"><table class="oi"><thead><tr><th>Call OI</th><th>Chg OI</th><th>CE LTP</th><th>Strike</th><th>PE LTP</th><th>Chg OI</th><th>Put OI</th></tr></thead><tbody>`+
-   rows.map(r=>`<tr class="${r===an.atm?'atm':''}"><td><div class="bar ce"><i style="width:${r.ce.oi/mx*100}%"></i><span>${fx(r.ce.oi)}</span></div></td><td>${d(r.ce.oi-r.ce.poi)}</td><td>${fmtP(r.ce.ltp)}</td>
+   rows.map(r=>`<tr class="${r===an.atm?'atm':''}"><td><div class="bar ce"><i style="width:${r.ce.oi/mx*100}%"></i><span>${fx(r.ce.oi)}</span></div></td><td>${d(r.ce.oi-r.ce.poi)}</td><td class="och" data-ok="${esc(r.ce.key||'')}" data-on="${esc(ix.n+' '+r.k+' CE · '+expTx())}">${fmtP(r.ce.ltp)}</td>
      <td class="k">${r.k}${an.res.includes(r.k)?' <span style="color:var(--ssell)">R</span>':''}${an.sup.includes(r.k)?' <span style="color:var(--sbuy)">S</span>':''}</td>
-     <td>${fmtP(r.pe.ltp)}</td><td>${d(r.pe.oi-r.pe.poi)}</td><td><div class="bar pe"><i style="width:${r.pe.oi/mx*100}%"></i><span>${fx(r.pe.oi)}</span></div></td></tr>`).join('')+`</tbody></table></div>
-   <p class="note">R = strike with the most call OI (resistance), S = most put OI (support). Educational tool, not investment advice.</p>`;
-  $('#oBody').innerHTML=h}
+     <td class="och" data-ok="${esc(r.pe.key||'')}" data-on="${esc(ix.n+' '+r.k+' PE · '+expTx())}">${fmtP(r.pe.ltp)}</td><td>${d(r.pe.oi-r.pe.poi)}</td><td><div class="bar pe"><i style="width:${r.pe.oi/mx*100}%"></i><span>${fx(r.pe.oi)}</span></div></td></tr>`).join('')+`</tbody></table></div>
+   <p class="note">Tap any CE or PE price to open that option's chart. R = strike with the most call OI (resistance), S = most put OI (support). Educational tool, not investment advice.</p>`;
+  $('#oBody').innerHTML=h;$('#oBody').onclick=e=>{const c=e.target.closest('[data-ok]');if(c&&c.dataset.ok)openOptChart(c.dataset.ok,c.dataset.on)}}
+function expTx(){const e=S.opt.exp;if(!e)return '';const d=new Date(e+'T00:00:00Z');return d.getUTCDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getUTCMonth()]}
+function openOptChart(key,name){S.tmp=S.tmp||[];const id='o:'+key;if(!S.tmp.find(d=>d.id===id)){S.tmp.unshift({id,src:'upstox',key,name,tsym:name,grp:'opt',nse:1,opt:1,sig:false});S.tmp=S.tmp.slice(0,4)}
+  syncInstruments();openChart(id)}
 
 /* ---------- log ---------- */
 function renderStats(rows){const done=rows.filter(r=>r.r!=null);if(done.length<3){$('#logStats').innerHTML='';return}
@@ -1801,7 +1820,7 @@ const SKINS=[['neon','Neon','linear-gradient(135deg,#04060d 40%,#29e7ff 41%,#29e
   ['neud','Neumorphic dark','radial-gradient(circle at 30% 30%,#333a48,#272c37 60%,#1b1f27)','#272c37'],['neul','Neumorphic light','radial-gradient(circle at 30% 30%,#ffffff,#e3e8ef 60%,#c2c8d2)','#e3e8ef']];
 function applySkin(){const s=SKINS.find(x=>x[0]===CFG.skin)||SKINS[0];document.documentElement.dataset.skin=s[0];const m=document.querySelector('meta[name=theme-color]');if(m)m.content=s[3];
   if(CH){try{S.chart.range=CH.chart.timeScale().getVisibleLogicalRange()}catch(e){}try{CH.chart.remove()}catch(e){}CH=null;const t=$('.chtop');if(t)t.remove()}if(S.view==='chart')loadChart(true);for(const it of S.inst.values())markDirty(it)}
-function renderSettings(){renderPush();{const k=RK();$('#rkCap').value=k.cap;$('#rkPct').value=k.pct;$('#rkDaily').value=k.daily;$('#rkMax').value=k.maxOpen;$('#rkFx').value=k.usdinr}renderPAall();
+function renderSettings(){renderPush();renderSrvMsg();{const k=RK();$('#rkCap').value=k.cap;$('#rkPct').value=k.pct;$('#rkDaily').value=k.daily;$('#rkMax').value=k.maxOpen;$('#rkFx').value=k.usdinr}renderPAall();
   $('#sN50').checked=!!CFG.n50;renderTune();$('#sTsound').innerHTML=[['pro','Professional chime'],['stadium','Stadium']].map(([k,n])=>`<button class="${CFG.tsound===k?'on':''}" data-k="${k}">${n}</button>`).join('');
   $('#sTsound').querySelectorAll('button').forEach(b=>b.onclick=()=>{CFG.tsound=b.dataset.k;saveCfg();unlockAudio();jingle(true);renderSettings()});
   $('#sSkins').innerHTML=SKINS.map(([k,n,g])=>`<button class="skin ${CFG.skin===k?'on':''}" data-k="${k}"><i style="background:${g}"></i>${n}</button>`).join('');
@@ -2136,6 +2155,34 @@ async function refreshAll(){if(refreshing)return;refreshing=true;const b=$('#ref
 $('#refreshAll').onclick=refreshAll;
 
 /* ---------- boot ---------- */
+
+/* ================= SHARED SERVER SIGNALS ================= */
+const SRV={seen:new Set(store.get('pt.srvSeen',[]))};
+function srvLive(){const f=(window.FEED||{}).signals;return CFG.srv!==false&&f&&f.upd&&f.cfg&&Date.now()-f.upd<12*60000?f:null}
+function srvCovers(d){const f=srvLive();return !!(f&&f.cover&&f.cover.includes(d.id))}
+function srvSeen(id){SRV.seen.add(id);const a=[...SRV.seen].slice(-300);store.set('pt.srvSeen',a)}
+function srvApply(it,quiet){const f=srvLive();if(!f)return;const d=it.def;const st=(f.mk||{})[d.id]||{};const s=f.active&&f.active[d.id];let cur=it.active;
+  if(d.sig===false){if(cur&&cur.srv)it.active=null;it.paused=null;markDirty(it);return}
+  if(cur&&!cur.srv){closeActive(it,'expired');cur=null}          // a trade this device opened before shared signals: close it once
+  if(s){
+    if(!cur||cur.id!==s.id){const known=LOG.find(x=>x.id===s.id);const tr={...s,srv:1};
+      if(known){tr.risk=known.risk;tr.odds=known.odds}else tr.risk=riskCheck(it,tr);
+      it.active=tr;upsertLog(tr);if(!tr.odds)oddsFor(it,tr);
+      if(!known&&!quiet&&!SRV.seen.has(s.id)&&nowSec()-s.entryT<600){alertSignal(it,tr);it.hot=Date.now()}
+      srvSeen(s.id)}
+    else{const before=cur.status;Object.assign(cur,{status:s.status,slCur:s.slCur,bars:s.bars,wickT:s.wickT,r:s.r});
+      if(before!==cur.status){upsertLog(cur);if(!quiet&&nowSec()-(s.wickT||0)<300)alertOutcome(it,cur)}}}
+  else if(cur&&cur.srv){const done=(f.recent||[]).find(t=>t.id===cur.id);const before=cur.status;
+    if(done)Object.assign(cur,{status:done.status,r:done.r,closedAt:done.closedAt,slCur:done.slCur});else{cur.status='expired';cur.r=cur.r??0;cur.closedAt=nowSec()}
+    upsertLog(cur);it.lastClosed=cur;it.active=null;if(!quiet&&done&&before!==done.status&&nowSec()-(done.closedAt||0)<300)alertOutcome(it,cur)}
+  if(!it.active&&!it.lastClosed){const lc=(f.recent||[]).find(t=>t.inst===d.id);if(lc)it.lastClosed=lc}
+  it.paused=st.paused||null;markDirty(it)}
+function srvSyncAll(){if(!srvLive())return;for(const it of S.inst.values())if(it.eng&&srvCovers(it.def))srvApply(it,false)}
+function renderSrvMsg(){const el=$('#sSrvMsg');if(!el)return;$('#sFut').checked=CFG.futs!==false;const f=(window.FEED||{}).signals;$('#sSrv').checked=CFG.srv!==false;
+  if(CFG.srv===false){el.textContent='Off: every market uses this device and your own candle/strictness settings. Devices can show different trades.';return}
+  if(!f){el.textContent='Waiting for the Paisa server. Until it answers, this device makes its own signals.';return}
+  const age=Math.round((Date.now()-f.upd)/60000);const names=(f.cover||[]).map(id=>{const it=S.inst.get(id);return it?it.def.name:null}).filter(Boolean);
+  el.textContent=srvLive()?`On: ${f.cfg.tf}-minute, ${f.cfg.strict}. Same trade on every device for ${names.join(', ')}. Other markets and NIFTY 50 stocks use this device. Updated ${age<1?'just now':age+' min ago'}.`:`The server has not updated for ${age} minutes, so this device is making its own signals for now.`}
 /* ================= NEWS, DATA, CALENDAR, RISK (from the Paisa server) ================= */
 const NW={tab:'head',mk:'all',imp:false,nse:'all',seenMove:+(store.get('pt.nwSeen',0))||0,rt:0};
 const FD=()=>window.FEED||{};
@@ -2213,23 +2260,25 @@ function renderEvStrip(){const el=$('#evStrip');if(!el)return;const f=FD();const
   if(ev){const live=Math.abs(ev.t-now)<=EV_AFTER||(ev.t-now>0&&ev.t-now<EV_BEFORE);el.hidden=false;el.className='evs'+(ev.imp>=3&&live?' hot':'');
     el.innerHTML=`<span class="k">${live?'NOW':'NEXT'}</span><span><b>${esc(ev.name)}</b> at ${istT(ev.t)} IST ${ev.t>now?'· '+inTx(ev.t):''}${ev.imp>=3&&CFG.evPause!==false?` · new signals pause ${istT(ev.t-EV_BEFORE)}–${istT(ev.t+EV_AFTER)} for ${ev.mk.map(m=>MKN[m]).join(', ')}`:''}</span>`;el.onclick=()=>{NW.tab='cal';show('news')};return}
   el.hidden=true}
-let nwT=0;function onFeed(){clearTimeout(nwT);nwT=setTimeout(()=>{renderNews();newsBadge();renderEvStrip();if(S.view==='scan')for(const it of S.inst.values())markDirty(it)},250)}
+let nwT=0;function onFeed(e){if(e&&e.detail==='signals')srvSyncAll();if(e&&e.detail==='futures'&&typeof booted!=='undefined'&&booted){syncInstruments();renderFilters()}clearTimeout(nwT);nwT=setTimeout(()=>{renderNews();newsBadge();renderEvStrip();if(S.view==='scan')for(const it of S.inst.values())markDirty(it)},250)}
 /* notifications settings */
-function npPrefs(){const p=CFG.push||{};return {news:p.news!==false,data:p.data!==false,move:p.move!==false,nse:!!p.nse}}
+function npPrefs(){const p=CFG.push||{};return {sig:p.sig!==false,news:p.news!==false,data:p.data!==false,move:p.move!==false,nse:!!p.nse,mute:allDefs().filter(d=>d.sig===false).map(d=>d.id)}}
 function npMsg(t,ok){const m=$('#npMsg');m.className='msg'+(ok?' ok':'');m.textContent=t||''}
-function renderPush(){const P=window.paisaPush;const p=npPrefs();$('#npNews').checked=p.news;$('#npData').checked=p.data;$('#npMove').checked=p.move;$('#npNse').checked=p.nse;$('#sEvPause').checked=CFG.evPause!==false;
+function renderPush(){const P=window.paisaPush;const p=npPrefs();$('#npSig').checked=p.sig;$('#npNews').checked=p.news;$('#npData').checked=p.data;$('#npMove').checked=p.move;$('#npNse').checked=p.nse;$('#sEvPause').checked=CFG.evPause!==false;
   const i=P?P.info():{state:'unsupported'};const T={on:'On for this device.',off:'Off on this device.',blocked:'Blocked: allow notifications for this site in the browser settings, then tap Turn on.',unsupported:'This browser does not support push notifications.','ios-home':'On iPhone/iPad: tap Share → Add to Home Screen, open Paisa from the Home Screen, then turn this on.'};
   $('#npState').textContent=T[i.state]||'';$('#npOn').textContent=i.state==='on'?'Re-register':'Turn on';$('#npOff').hidden=i.state!=='on';$('#npTest').hidden=i.state!=='on'}
-function wirePush(){const save=async()=>{CFG.push={news:$('#npNews').checked,data:$('#npData').checked,move:$('#npMove').checked,nse:$('#npNse').checked};saveCfg();
-    try{if(window.paisaPush&&await window.paisaPush.prefs(CFG.push))npMsg('Saved',true)}catch(e){npMsg('Could not save: '+(e.code||e.message))}};
-  ['#npNews','#npData','#npMove','#npNse'].forEach(k=>$(k).onchange=save);
+function wirePush(){const save=async()=>{CFG.push={sig:$('#npSig').checked,news:$('#npNews').checked,data:$('#npData').checked,move:$('#npMove').checked,nse:$('#npNse').checked};saveCfg();
+    try{if(window.paisaPush&&await window.paisaPush.prefs(npPrefs()))npMsg('Saved',true)}catch(e){npMsg('Could not save: '+(e.code||e.message))}};
+  ['#npSig','#npNews','#npData','#npMove','#npNse'].forEach(k=>$(k).onchange=save);
+  $('#sFut').onchange=e=>{CFG.futs=e.target.checked;saveCfg();syncInstruments();renderFilters()};
+  $('#sSrv').onchange=e=>{CFG.srv=e.target.checked;saveCfg();for(const it of S.inst.values()){if(it.active&&it.active.srv&&!srvCovers(it.def))it.active=null;if(it.b1.length)engine(it,false);markDirty(it)}renderSrvMsg()};
   $('#sEvPause').onchange=e=>{CFG.evPause=e.target.checked;saveCfg();onFeed()};
   $('#npOn').onclick=async()=>{if(!window.paisaPush){npMsg('Still loading, try again');return}npMsg('Turning on…');try{await window.paisaPush.enable(npPrefs());npMsg('Notifications on',true)}catch(e){npMsg(e.message||String(e))}renderPush()};
   $('#npOff').onclick=async()=>{npMsg('Turning off…');try{await window.paisaPush.disable();npMsg('Off',true)}catch(e){npMsg(e.message||String(e))}renderPush()};
   $('#npTest').onclick=async()=>{npMsg('Sending…');try{const r=await window.paisaPush.test();npMsg(r.msg||'Sent',!!r.sent)}catch(e){npMsg(e.code==='functions/not-found'?'Server not deployed yet':(e.message||String(e)))}}
   $('#nwRefresh').onclick=async()=>{const b=$('#nwRefresh');if(!window.paisaRefresh)return;b.disabled=true;b.textContent='Refreshing…';
     try{const r=await window.paisaRefresh();toast('info','Server refreshed',r.msg||'Done','',null,7000)}catch(e){toast('warm','Refresh failed',e.code==='functions/not-found'?'The server is not deployed yet.':(e.message||String(e)),'',null,6000)}b.disabled=false;b.textContent='Refresh'}}
-function newsInit(){window.addEventListener('paisa-feed',onFeed);window.addEventListener('paisa-open',e=>{const u=String(e.detail||'');NW.tab=u.includes('risk')?'risk':'head';show('news')});
+function newsInit(){window.addEventListener('paisa-feed',onFeed);window.addEventListener('paisa-open',e=>{const u=String(e.detail||'');if(u.includes('scan')){show('scan');return}NW.tab=u.includes('risk')?'risk':'head';show('news')});
   wirePush();setInterval(()=>{renderEvStrip();if(S.view==='news'&&NW.tab==='cal')renderNews()},30000);
   const h=location.hash;if(h==='#news'||h==='#risk'){NW.tab=h==='#risk'?'risk':'head';setTimeout(()=>show('news'),300);history.replaceState(null,'',location.pathname+location.search)}onFeed()}
 

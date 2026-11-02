@@ -127,7 +127,7 @@ function wireAccount(u) {
 }
 
 /* ---------------- market feeds written by the Paisa server ---------------- */
-const FEEDS = ['news', 'releases', 'calendar', 'macro', 'moves', 'nse', 'status', 'config'];
+const FEEDS = ['futures', 'signals', 'news', 'releases', 'calendar', 'macro', 'moves', 'nse', 'status', 'config'];
 window.FEED = window.FEED || {};
 let unsubs = [];
 function startFeeds() {
