@@ -1,6 +1,6 @@
 // Paisa service worker: makes the app installable, opens fast, shows an "update" prompt for new versions,
 // and displays push notifications from the Paisa server.
-const VERSION = 'paisa-v4';
+const VERSION = 'paisa-v4.1';
 const SHELL = ['./', './index.html', './auth.js', './manifest.webmanifest', './coin.svg', './icon-192.png', './icon-512.png',
   './maskable-192.png', './maskable-512.png', './apple-touch-icon.png', './favicon-32.png'];
 const LIBS = ['www.gstatic.com', 'unpkg.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
@@ -17,7 +17,7 @@ self.addEventListener('fetch', e => {
   // the app itself: network first so updates arrive, cache as fallback when offline
   if (url.origin === location.origin) {
     if (req.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('auth.js')) {
-      e.respondWith(fetch(req).then(r => { const c = r.clone(); caches.open(VERSION).then(x => x.put(req, c)); return r; })
+      e.respondWith(fetch(req, { cache: 'no-cache' }).then(r => { const c = r.clone(); caches.open(VERSION).then(x => x.put(req, c)); return r; })
         .catch(() => caches.match(req).then(r => r || caches.match('./index.html'))));
     } else {
       e.respondWith(caches.match(req).then(r => r || fetch(req).then(n => { const c = n.clone(); caches.open(VERSION).then(x => x.put(req, c)); return n; })));

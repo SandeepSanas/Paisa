@@ -582,7 +582,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" aria-hidden="true"><img src="coin.svg" alt="" width="36" height="36"></span>
-    <div><div class="logo">PAISA</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v4</span></div></div>
+    <div><div class="logo">PAISA</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v4.1</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -691,7 +691,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">Paisa v4 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">Paisa v4.1 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -1123,9 +1123,16 @@ async function deltaCandles(sym,tf,n){const res=tf===60?'1h':tf+'m';const end=Ma
   const j=await jget(`${DAPI}/v2/history/candles?resolution=${res}&symbol=${encodeURIComponent(sym)}&start=${start}&end=${end}`);
   return (j.result||[]).map(x=>({t:+x.time,o:+x.open,h:+x.high,l:+x.low,c:+x.close,v:+x.volume||0})).sort((a,b)=>a.t-b.t)}
 function upRows(j){return (j&&j.data&&j.data.candles||[]).map(r=>({t:Math.floor(Date.parse(r[0])/1000),o:+r[1],h:+r[2],l:+r[3],c:+r[4],v:+r[5]||0}))}
-async function upstoxCandles(key,tf,days,intradayOnly){const unit=tf===60?'hours':'minutes',iv=tf===60?1:tf;const k=encodeURIComponent(key);const H={headers:{Accept:'application/json'}};
-  const now=Date.now();const jobs=[jget(`${UAPI}/v3/historical-candle/intraday/${k}/${unit}/${iv}`,H)];
-  if(!intradayOnly)jobs.push(jget(`${UAPI}/v3/historical-candle/${k}/${unit}/${iv}/${ymdIST(now-86400000)}/${ymdIST(now-days*86400000)}`,H));
+// candle history: uses your token when you have one (higher Upstox limits); if Upstox refuses, wait 90 s before asking again
+let upCool=0;
+async function upGet(url){if(Date.now()<upCool)throw new Error('Upstox busy, retrying shortly');
+  const plain={headers:{Accept:'application/json'}};
+  try{if(CFG.token){try{return await jget(url,{headers:{Accept:'application/json',Authorization:'Bearer '+CFG.token}})}catch(e){if(e.status!==401&&e.status!==403)throw e}}
+    return await jget(url,plain)}
+  catch(e){if(!e.status||e.status===429)upCool=Date.now()+90000;throw e}}
+async function upstoxCandles(key,tf,days,intradayOnly){const unit=tf===60?'hours':'minutes',iv=tf===60?1:tf;const k=encodeURIComponent(key);
+  const now=Date.now();const jobs=[upGet(`${UAPI}/v3/historical-candle/intraday/${k}/${unit}/${iv}`)];
+  if(!intradayOnly)jobs.push(upGet(`${UAPI}/v3/historical-candle/${k}/${unit}/${iv}/${ymdIST(now-86400000)}/${ymdIST(now-days*86400000)}`));
   const rs=await Promise.allSettled(jobs);if(rs.every(r=>r.status==='rejected'))throw rs[0].reason;
   const m=new Map();for(const r of rs)if(r.status==='fulfilled')for(const x of upRows(r.value))m.set(x.t,x);
   return [...m.values()].sort((a,b)=>a.t-b.t)}
@@ -2289,7 +2296,7 @@ function boot(){document.documentElement.dataset.skin=CFG.skin||'neon';renderBel
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js"></script>
+<script type="module" src="auth.js?v=4"></script>
 <script>
 // if the sign-in service can't load (offline or blocked), say so instead of spinning forever
 setTimeout(()=>{if(!window.__fbReady){const m=document.getElementById('lgMsg');if(m)m.textContent="Can't reach the sign-in service. Check your internet connection, then reload.";}},12000);
