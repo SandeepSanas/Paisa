@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs>
+ <radialGradient id="bg" cx=".5" cy=".38" r=".75"><stop offset="0" stop-color="#12306b"/><stop offset=".55" stop-color="#081631"/><stop offset="1" stop-color="#040a18"/></radialGradient>
+ <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#dfe7f5"/><stop offset="1" stop-color="#8f9dbb"/></linearGradient>
+ <linearGradient id="shellS" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7d8bab"/><stop offset=".25" stop-color="#e9eef8"/><stop offset=".75" stop-color="#e9eef8"/><stop offset="1" stop-color="#7d8bab"/></linearGradient>
+ <linearGradient id="visor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a2440"/><stop offset=".5" stop-color="#05070f"/><stop offset="1" stop-color="#0b1226"/></linearGradient>
+ <linearGradient id="eye" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2aa8ff"/><stop offset=".5" stop-color="#e8fbff"/><stop offset="1" stop-color="#2aa8ff"/></linearGradient>
+ <linearGradient id="ear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d6dff"/><stop offset="1" stop-color="#0a2a8a"/></linearGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe27a"/><stop offset=".55" stop-color="#f5b82e"/><stop offset="1" stop-color="#b9780b"/></linearGradient>
+ <filter id="glow" x="-60%" y="-200%" width="220%" height="500%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="14"/></filter>
+</defs>
+<g id="BG"><rect width="512" height="512" rx="112" fill="url(#bg)"/>
+ <path d="M60 400 L150 350 L210 372 L300 290 L360 312 L452 210" fill="none" stroke="#29e7ff" stroke-opacity=".18" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+ <ellipse cx="256" cy="250" rx="170" ry="150" fill="#2a8cff" opacity=".22" filter="url(#soft)"/></g>
+<g id="HEAD">
+ <!-- ear pods -->
+ <rect x="96" y="214" width="46" height="112" rx="20" fill="url(#ear)" stroke="#7fb2ff" stroke-opacity=".6" stroke-width="3"/>
+ <rect x="370" y="214" width="46" height="112" rx="20" fill="url(#ear)" stroke="#7fb2ff" stroke-opacity=".6" stroke-width="3"/>
+ <rect x="108" y="244" width="8" height="52" rx="4" fill="#9fe9ff" filter="url(#glow)"/><rect x="396" y="244" width="8" height="52" rx="4" fill="#9fe9ff" filter="url(#glow)"/>
+ <!-- helmet -->
+ <path d="M256 92 C350 92 392 150 392 238 L392 300 C392 362 344 408 256 408 C168 408 120 362 120 300 L120 238 C120 150 162 92 256 92 Z" fill="url(#shellS)" stroke="#5b6b90" stroke-width="3"/>
+ <path d="M256 92 C320 92 360 120 378 170 L134 170 C152 120 192 92 256 92 Z" fill="url(#shell)" opacity=".9"/>
+ <path d="M236 94 C236 94 244 92 256 92 C268 92 276 94 276 94 L272 170 L240 170 Z" fill="#b9c4dc"/><path d="M246 98 L266 98 L263 166 L249 166 Z" fill="#ffffff" opacity=".8"/>
+ <!-- visor -->
+ <path d="M146 214 C146 192 164 182 186 182 L326 182 C348 182 366 192 366 214 L366 286 C366 330 320 360 256 360 C192 360 146 330 146 286 Z" fill="url(#visor)" stroke="#2a3a66" stroke-width="3"/>
+ <path d="M168 200 C210 190 302 190 344 200" fill="none" stroke="#ffffff" stroke-opacity=".18" stroke-width="6" stroke-linecap="round"/>
+ <!-- eyes -->
+ <g filter="url(#glow)">
+  <path d="M178 250 L238 262 L234 280 L176 266 Z" fill="url(#eye)"/>
+  <path d="M334 250 L274 262 L278 280 L336 266 Z" fill="url(#eye)"/>
+ </g>
+ <!-- chin -->
+ <path d="M206 372 h100" stroke="#5b6b90" stroke-width="6" stroke-linecap="round"/>
+</g>
+<g id="BADGE">
+ <circle cx="392" cy="392" r="66" fill="#040a18"/>
+ <circle cx="392" cy="392" r="56" fill="url(#gold)" stroke="#fff3c4" stroke-width="3"/>
+ <text x="392" y="414" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-weight="700" font-size="64" fill="#3a2600">₹</text>
+ <circle cx="440" cy="346" r="26" fill="#00c46a" stroke="#040a18" stroke-width="6"/><path d="M440 360 V334 M429 344 L440 332 L451 344" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>

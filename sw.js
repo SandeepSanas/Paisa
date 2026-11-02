@@ -1,7 +1,7 @@
-// Paisa service worker: makes the app installable, opens fast, shows an "update" prompt for new versions,
-// and displays push notifications from the Paisa server.
-const VERSION = 'paisa-v5.1';
-const SHELL = ['./', './index.html', './auth.js', './manifest.webmanifest', './coin.svg', './icon-192.png', './icon-512.png',
+// TradeBot service worker: makes the app installable, opens fast, shows an "update" prompt for new versions,
+// and displays push notifications from the TradeBot server.
+const VERSION = 'paisa-v6';
+const SHELL = ['./', './index.html', './auth.js', './manifest.webmanifest', './logo.svg', './icon-192.png', './icon-512.png',
   './maskable-192.png', './maskable-512.png', './apple-touch-icon.png', './favicon-32.png'];
 const LIBS = ['www.gstatic.com', 'unpkg.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 
@@ -35,9 +35,9 @@ self.addEventListener('fetch', e => {
 
 // push notifications (sent by the Paisa server through Firebase Cloud Messaging as data messages)
 self.addEventListener('push', e => {
-  let j = {}; try { j = e.data ? e.data.json() : {}; } catch (x) { j = { data: { title: 'Paisa', body: e.data ? e.data.text() : '' } }; }
+  let j = {}; try { j = e.data ? e.data.json() : {}; } catch (x) { j = { data: { title: 'TradeBot', body: e.data ? e.data.text() : '' } }; }
   const d = j.data || j.notification || j; const n = j.notification || {};
-  const title = d.title || n.title || 'Paisa', body = d.body || n.body || '', url = d.url || './#news', tag = d.tag || 'paisa';
+  const title = d.title || n.title || 'TradeBot', body = d.body || n.body || '', url = d.url || './#news', tag = d.tag || 'paisa';
   e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(cs => {
     const vis = cs.find(c => c.visibilityState === 'visible');
     if (vis) { vis.postMessage({ type: 'paisa-push', title, body, url, kind: d.kind || '' }); return; }   // app open in front: show a toast instead

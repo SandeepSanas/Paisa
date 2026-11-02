@@ -107,7 +107,7 @@ document.addEventListener('visibilitychange', async () => {
   if (document.visibilityState === 'hidden') { if (dirtyMain || dirtyLogs) push(false); return; }
   // back in front: has another device saved newer settings?
   try { const m = await getDoc(ref(cur.uid, 'state', 'main')); const t = m.exists() ? (m.data().updatedAt || 0) : 0;
-    if (t > Number(localStorage.getItem('pt.syncAt') || 0) + 1000 && !dirtyMain) { sessionStorage.removeItem('pt.synced'); window.appToast && window.appToast('Updated on another device', 'Close and reopen Paisa (or reload) to load those changes.', 9000); } } catch (e) {}
+    if (t > Number(localStorage.getItem('pt.syncAt') || 0) + 1000 && !dirtyMain) { sessionStorage.removeItem('pt.synced'); window.appToast && window.appToast('Updated on another device', 'Close and reopen TradeBot (or reload) to load those changes.', 9000); } } catch (e) {}
 });
 
 /* ---------------- account panel ---------------- */
@@ -163,7 +163,7 @@ window.paisaPush = {
   },
   async enable(prefs) {
     if (!cur) throw new Error('Sign in first');
-    if (isIOS && !standalone) throw new Error('On iPhone/iPad, add Paisa to the Home Screen first, then open it from there.');
+    if (isIOS && !standalone) throw new Error('On iPhone/iPad, add TradeBot to the Home Screen first, then open it from there.');
     const p = await Notification.requestPermission();
     if (p !== 'granted') throw new Error(p === 'denied' ? 'Notifications are blocked for this site. Allow them in the browser settings.' : 'Permission was not given.');
     let mm; try { mm = await messaging(); } catch (e) { throw new Error('This browser does not support push notifications.'); }
@@ -245,7 +245,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => { if (!refreshing) { refreshing = true; location.reload(); } });
   navigator.serviceWorker.register('sw.js').then(reg => {
     const offer = w => { const b = document.createElement('div'); b.className = 'upd';
-      b.innerHTML = '<span>A new version of Paisa is ready.</span><button type="button">Update</button>';
+      b.innerHTML = '<span>A new version of TradeBot is ready.</span><button type="button">Update</button>';
       b.querySelector('button').onclick = async () => { b.querySelector('button').textContent = 'Updating…'; try { await push(false); } catch (e) {} w.postMessage('skipWaiting'); };
       document.body.appendChild(b); };
     if (reg.waiting && navigator.serviceWorker.controller) offer(reg.waiting);
