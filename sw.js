@@ -1,6 +1,6 @@
 // TradeBot service worker: makes the app installable, opens fast, shows an "update" prompt for new versions,
 // and displays push notifications from the TradeBot server.
-const VERSION = 'paisa-v6';
+const VERSION = 'paisa-v6.1';
 const SHELL = ['./', './index.html', './auth.js', './manifest.webmanifest', './logo.svg', './icon-192.png', './icon-512.png',
   './maskable-192.png', './maskable-512.png', './apple-touch-icon.png', './favicon-32.png'];
 const LIBS = ['www.gstatic.com', 'unpkg.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];

@@ -209,6 +209,9 @@ table.oi td.och:hover{color:var(--cyan)}
 .card.hot{animation:ring 1.4s ease-out 3}
 @keyframes ring{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--sc) 70%,transparent)}100%{box-shadow:0 0 0 14px transparent}}
 .card .row{display:flex;align-items:center;gap:8px;min-width:0}
+.favb{flex:none;width:26px;height:26px;margin:-3px -2px -3px -4px;border:0;border-radius:8px;background:transparent;color:var(--dim);font:400 19px/1 var(--f-ui);cursor:pointer;display:grid;place-items:center}.favb.on{color:#ffd54a;text-shadow:0 0 10px rgba(255,213,74,.6)}
+.favhint{padding:14px 16px;font:500 13.5px/1.5 var(--f-ui);color:var(--dim)}.favhint b{color:var(--text)}
+.sres .sfav{order:9;margin-left:auto;flex:none;font:400 20px/1 var(--f-ui);color:var(--dim);padding:0 6px}.sres .sfav.on{color:#ffd54a}
 .card .nm{font:700 15px/1.15 var(--f-ui);letter-spacing:.02em;min-width:0;flex:1 1 auto;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
 .card .src{font:600 9.5px/1 var(--f-ui);letter-spacing:.12em;color:var(--faint);border:1px solid var(--line);padding:3px 5px;border-radius:5px;flex:none}
 .pill{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;font:700 11.5px/1 var(--f-ui);letter-spacing:.1em;color:var(--sc);
@@ -347,6 +350,25 @@ table.oi td.och:hover{color:var(--cyan)}
 .shint{padding:14px 16px;color:var(--dim);font-size:13px}
 
 /* ---------- toasts ---------- */
+.lay button{min-width:34px}
+#v-chart.multi .chartbox,#v-chart.multi #chStat,#v-chart.multi #chRead,#v-chart.multi #chOvl,#v-chart.multi #chSym,#v-chart.multi #chTf,#v-chart.multi #chPill,#v-chart.multi #chAlert,#v-chart.multi #chFit,#v-chart.multi #chFloat,#v-chart.multi #paBox{display:none!important}
+.mgrid{display:grid;gap:10px;grid-template-columns:1fr 1fr;--mh:calc((100dvh - 250px) / 2)}
+.mgrid[hidden]{display:none}
+.mgrid.n2 .mp{height:max(300px,calc(100dvh - 250px))}
+.mgrid.n3 .mp:first-child{grid-column:1/-1}
+.mgrid.n3 .mp,.mgrid.n4 .mp{height:max(240px,var(--mh))}
+@media (max-width:640px){.mgrid.n2,.mgrid.n3{grid-template-columns:1fr}.mgrid.n2 .mp,.mgrid.n3 .mp{height:max(240px,calc((100dvh - 230px) / 2))}.mgrid.n4{gap:6px}.mgrid.n4 .mp{height:max(200px,calc((100dvh - 230px) / 2))}}
+.mp{display:flex;flex-direction:column;min-width:0;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--panel)}
+.mp.sig-up{border-color:color-mix(in srgb,var(--sbuy) 70%,transparent);box-shadow:0 0 16px -6px var(--sbuy)}.mp.sig-dn{border-color:color-mix(in srgb,var(--ssell) 70%,transparent);box-shadow:0 0 16px -6px var(--ssell)}
+.mp-h{display:flex;align-items:center;gap:6px;padding:5px 6px;border-bottom:1px solid var(--line);background:var(--raise);min-width:0;flex-wrap:wrap}
+.mp-h select{min-width:0;flex:1 1 90px;max-width:100%;font:700 12px var(--f-ui);padding:4px 6px;border-radius:8px;background:var(--panel);color:var(--text);border:1px solid var(--line)}
+.mp-tf{display:flex;gap:2px}.mp-tf button{font:700 10.5px/1 var(--f-ui);padding:4px 5px;border-radius:6px;border:1px solid transparent;background:none;color:var(--dim);cursor:pointer}.mp-tf button.on{background:var(--cyan);color:#03080a}
+.mp-x{flex:none;width:26px;height:24px;border-radius:7px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:700 13px/1 var(--f-ui);cursor:pointer}
+.mp-i{display:flex;align-items:center;gap:6px;padding:4px 8px 0;min-width:0}.mp-i .px{font:700 14px var(--f-num)}.mp-i .px.up{color:var(--sbuy)}.mp-i .px.dn{color:var(--ssell)}
+.mp-i .flt-pill{margin-left:auto}
+.mp-c{flex:1;min-height:0}
+.mp-st{padding:3px 8px 5px;font:600 11px/1.3 var(--f-ui);color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mp-st b.up{color:var(--sbuy)}.mp-st b.dn{color:var(--ssell)}
+@media (max-width:640px){.mgrid.n4 .mp-tf button{padding:3px 3px;font-size:9.5px}.mgrid.n4 .mp-h select{flex-basis:100%;font-size:11px}.mgrid.n4 .mp-i .px{font-size:12px}}
 .flt{position:fixed;z-index:48;display:flex;flex-direction:column;border-radius:14px;overflow:hidden;background:var(--panel-solid,#0b1226);border:1px solid var(--line-hi);box-shadow:0 18px 48px -12px rgba(0,0,0,.75),0 0 0 1px rgba(41,231,255,.12);touch-action:none;min-width:220px;min-height:150px}
 .flt[hidden]{display:none}
 .flt-h{display:flex;align-items:center;gap:7px;padding:6px 6px 6px 10px;background:var(--raise);border-bottom:1px solid var(--line);cursor:grab;user-select:none;-webkit-user-select:none;font:700 12.5px/1 var(--f-ui)}
@@ -687,7 +709,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" aria-hidden="true"><img src="logo.svg" alt="" width="36" height="36"></span>
-    <div><div class="logo">TRADEBOT</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v6</span></div></div>
+    <div><div class="logo">TRADEBOT</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v6.1</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -728,6 +750,7 @@ body:not(.locked) .login{display:none}
       <div class="panel wpanel oiwrap" id="wpanel" hidden></div>
       <div class="toolbar" id="filters"></div>
       <button class="evs" id="evStrip" hidden></button>
+      <div class="panel favhint" id="favHint" hidden><b>★ Your favourites</b><br>Tap the <b>☆</b> star on any card to add it here. To add a new stock, index, option or coin, tap 🔍 search and press its <b>☆</b>.</div>
       <div class="grid" id="grid"></div>
       <div class="panel" style="padding:12px 14px">
         <div class="label" style="margin-bottom:8px">Colour guide</div>
@@ -745,10 +768,12 @@ body:not(.locked) .login{display:none}
         <button class="btn ghost" id="chAlert" title="Price alerts for this market">🔔 Alert</button>
         <button class="btn ghost" id="chFit" title="Reset zoom and price scale">Fit</button>
         <button class="btn ghost" id="chFloat" title="Keep a small live chart on screen while you use other tabs">⧉ Float</button>
+        <div class="seg lay" id="chLay" role="group" aria-label="Charts on screen"><button data-n="1" title="One chart">1</button><button data-n="2" title="Two charts">2</button><button data-n="3" title="Three charts">3</button><button data-n="4" title="Four charts">4</button></div>
       </div>
       <div class="panel paform" id="paBox" hidden><span class="label">Alert when price reaches</span><input type="text" inputmode="decimal" id="paPrice"><button class="btn pri" id="paAdd">Add alert</button><div class="palist" id="paList" style="flex-basis:100%"></div></div>
       <button class="wrow" id="wrow2" aria-expanded="false" title="World market hours. Tap for details."></button>
       <div class="panel wpanel oiwrap" id="wpanel2" hidden></div>
+      <div class="mgrid" id="mGrid" hidden></div>
       <div class="chstat" id="chStat" hidden></div>
       <div class="panel chartbox"><div id="chart"></div><div class="chmsg" id="chMsg">Loading chart…</div>
         <div class="chov"><div class="chovrow" id="chOvRow"></div><div class="chprice"><span class="px num" id="chPx">—</span><span class="chg num" id="chChg"></span></div></div></div>
@@ -799,7 +824,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v6 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v6.1 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -1205,7 +1230,7 @@ const OPT_IDX=[
   {n:'NIFTY',key:'NSE_INDEX|Nifty 50'},{n:'BANKNIFTY',key:'NSE_INDEX|Nifty Bank'},{n:'FINNIFTY',key:'NSE_INDEX|Nifty Fin Service'},
   {n:'MIDCPNIFTY',key:'NSE_INDEX|NIFTY MID SELECT'},{n:'SENSEX',key:'BSE_INDEX|SENSEX'}];
 const STATES={
-  sigoff:['SIGNALS OFF','--closed'],
+  sigoff:['SIGNALS OFF','--closed'],obuy:['OPTION BUY · OPEN','--sbuy'],optc:['OPTION CHART','--closed'],
   info:['INFO','--cyan'],
   sbuy:['STRONG BUY','--sbuy'],buy:['BUY','--buy'],ssell:['STRONG SELL','--ssell'],sell:['SELL','--sell'],setupb:['BUY SETUP','--buy'],setups:['SELL SETUP','--sell'],
   bull:['BULLISH · WAIT','--bull'],bear:['BEARISH · WAIT','--bear'],wait:['NO SETUP','--wait'],chop:['CHOP · AVOID','--chop'],
@@ -1223,7 +1248,7 @@ const todayKey=()=>Math.floor((Date.now()/1000+IST)/86400);
 LOG=LOG.filter(x=>Math.floor((x.t+IST)/86400)>=todayKey()-30);
 const saveLog=()=>store.set('pt.log',LOG.slice(-3000));
 
-const S={inst:new Map(),view:'scan',filter:'all',feeds:{delta:'off',upstox:'off',finnhub:'off'},chart:{id:null,tf:5,bars:[],busy:false},opt:{idx:0,exp:null,an:null,lot:null,exps:[],at:0},unseen:0};
+const S={inst:new Map(),view:'scan',filter:store.get('pt.filter','all'),feeds:{delta:'off',upstox:'off',finnhub:'off'},chart:{id:null,tf:5,bars:[],busy:false},opt:{idx:0,exp:null,an:null,lot:null,exps:[],at:0},unseen:0};
 const nowSec=()=>Date.now()/1000;
 function isNse(def){return !!def.nse||def.src==='upstox'}
 
@@ -1312,6 +1337,7 @@ function onPrice(it,p,vol,quiet){if(!(p>0))return;checkPA(it,it.price,p);const t
   else if(m===last.t){if(p>last.h)last.h=p;if(p<last.l)last.l=p;last.c=p;last.v+=vol||0}
   if(it.price!=null&&p!==it.price)it.dir=p>it.price?1:-1;it.price=p;it.tickAt=Date.now();
   if(it.pend&&!it.active&&sess)checkPend(it,p,p,null,m,quiet);
+  if(it.def.opt&&sess&&!quiet){const o=optTrade(it);if(o&&!o.done)olPrice(p)}
   if(!quiet&&it.active)trackLive(it,p);
   if(S.chart.id===it.def.id&&sess)chartTick(p,vol);
   markDirty(it)}
@@ -1572,6 +1598,7 @@ function flush(){rafOn=false;if(S.view==='scan'){for(const id of dirty){const it
   if(S.view==='chart'&&S.chart.id&&dirty.has(S.chart.id))updChartLive();dirty.clear();updateSub()}
 
 function cardState(it){const d=it.def;
+  if(d.opt){const o=optTrade(it);if(o&&!o.done)return {k:o.status==='t1'?'t1':'obuy',tr:o};if(o&&o.done&&Date.now()/1000-o.closedAt<1800)return {k:o.status,tr:o};return {k:'optc'}}
   if(d.src==='finnhub'&&!CFG.fkey)return {k:'off'};
   if(it.status==='err')return {k:'err'};if(it.status==='load'||!it.eng)return {k:'warm'};
   if(it.active)return {k:it.active.status==='t1'?'t1':it.active.state,tr:it.active,sub:it.active.status==='t1'?'Stop at entry':null};
@@ -1584,7 +1611,7 @@ const GRP={crypto:'Crypto',commodity:'Commodities',us:'US',india:'India'};
 
 function renderCard(it){if(it.def.opt)return;const grid=$('#grid');let el=document.getElementById('c-'+it.def.id);
   if(!el){el=document.createElement('article');el.className='card';el.id='c-'+it.def.id;el.tabIndex=0;el.dataset.id=it.def.id;el.onkeydown=e=>{if(e.key==='Enter')openChart(it.def.id)};grid.appendChild(el)}
-  const f=S.filter;const recent=it.active||(it.lastClosed&&nowSec()-it.lastClosed.closedAt<900);el.hidden=it.def.n50?!(f==='n50'||((f==='all'||f==='sig')&&recent)):!(f==='all'||(f==='sig'&&recent)||it.def.grp===f);
+  const f=S.filter;const recent=it.active||(it.lastClosed&&nowSec()-it.lastClosed.closedAt<900);const fv=isFav(it.def.id);el.hidden=f==='fav'?!fv:it.def.n50?!(f==='n50'||((f==='all'||f==='sig')&&recent)):!(f==='all'||(f==='sig'&&recent)||it.def.grp===f);
   if(el.hidden)return;
   const cs=cardState(it);const [label,col]=STATES[cs.k]||STATES.wait;el.style.setProperty('--sc',`var(${col})`);el.classList.toggle('muted',it.def.sig===false&&!it.active);
   if(it.hot&&Date.now()-it.hot<5000){el.classList.add('hot');it.hot=0;setTimeout(()=>el.classList.remove('hot'),4500)}
@@ -1605,7 +1632,7 @@ function renderCard(it){if(it.def.opt)return;const grid=$('#grid');let el=docume
   const weak=stt&&stt.n>=8&&stt.avg<0?`<span class="tag" title="These rules lost money on this symbol recently">WEAK EDGE</span>`:'';
   const ush=it.def.usx&&!usOpen()?`<span class="tag" title="US market closed; this token trades 24/7 with thin volume">US CLOSED</span>`:'';
   const ago=it.tickAt?Math.round((Date.now()-it.tickAt)/1000):null;
-  el.innerHTML=`<div class="row"><span class="nm" title="${esc(it.def.name)}">${esc(it.def.name)}</span><span class="pill${['sbuy','ssell','buy','sell','setupb','setups'].includes(cs.k)?' fill':''}${(cs.tr&&it.active===cs.tr&&isFresh(cs.tr))||cs.pend?' blink':''}">${label}</span><button class="sigt ${it.def.sig===false?'':'on'}" data-sig="1" aria-pressed="${it.def.sig!==false}" title="Signals for this market on/off"><i></i>${it.def.sig===false?'OFF':'ON'}</button></div>
+  el.innerHTML=`<div class="row"><button class="favb${fv?' on':''}" data-fav="1" aria-pressed="${fv}" title="${fv?'Remove from':'Add to'} favourites">${fv?'★':'☆'}</button><span class="nm" title="${esc(it.def.name)}">${esc(it.def.name)}</span><span class="pill${['sbuy','ssell','buy','sell','setupb','setups'].includes(cs.k)?' fill':''}${(cs.tr&&it.active===cs.tr&&isFresh(cs.tr))||cs.pend?' blink':''}">${label}</span><button class="sigt ${it.def.sig===false?'':'on'}" data-sig="1" aria-pressed="${it.def.sig!==false}" title="Signals for this market on/off"><i></i>${it.def.sig===false?'OFF':'ON'}</button></div>
    <div class="row"><span class="px num ${it.dir>0?'fu':it.dir<0?'fd':''}">${fmtP(it.price)}</span>${ch!=null?`<span class="chg ${ch>=0?'up':'dn'}">${ch>=0?'+':''}${ch.toFixed(2)}%</span>`:''}${ptsBadge(it,cs)}
    <span class="stars" title="Signal strength">${[0,1,2,3,4].map(i=>`<i class="${i<stars?'on':''}"></i>`).join('')}</span></div>
    <canvas class="spark" height="36"></canvas>${lv}${typeof lvSetup!=='undefined'&&cs.pend?lvSetup:''}${prep}${checks}
@@ -1639,8 +1666,9 @@ function ptsBadge(it,cs){const tr=cs.tr;if(!tr)return '';
   if(tr.r!=null){const v=tr.r*tr.dist;return `<span class="pts ${v>=0?'up':'dn'}" title="Result of the closed trade">${fmtPts(v)} pts</span><span class="subst">${fmtR(tr.r)}</span>`}return ''}
 function livePtsLog(r){const it=S.inst.get(r.inst);if(!it||it.price==null)return 'OPEN';return fmtPts((it.price-r.entry)*r.side)+' pts'}
 (function(){const g=document.getElementById('grid');let st=null;
-  g.addEventListener('pointerdown',e=>{touching=true;if(e.target.closest('.sigt')){st=null;return}const c=e.target.closest('.card');st=c?{id:c.dataset.id,x:e.clientX,y:e.clientY}:null});
-  g.addEventListener('click',e=>{const b=e.target.closest('.sigt');if(!b)return;e.stopPropagation();const c=b.closest('.card');if(c)toggleSig(c.dataset.id)});
+  g.addEventListener('pointerdown',e=>{touching=true;if(e.target.closest('.sigt,.favb')){st=null;return}const c=e.target.closest('.card');st=c?{id:c.dataset.id,x:e.clientX,y:e.clientY}:null});
+  g.addEventListener('click',e=>{const fb=e.target.closest('.favb');if(fb){e.stopPropagation();const c=fb.closest('.card');if(c){const on=!isFav(c.dataset.id);toggleFav(c.dataset.id,on);toast('info',on?'Added to favourites':'Removed from favourites',S.inst.get(c.dataset.id)?.def.name||'','',null,2500)}return}
+    const b=e.target.closest('.sigt');if(!b)return;e.stopPropagation();const c=b.closest('.card');if(c)toggleSig(c.dataset.id)});
   const end=e=>{touching=false;touchAt=Date.now();if(!st||e.type!=='pointerup'){st=null;return}
     if(Math.hypot(e.clientX-st.x,e.clientY-st.y)<12)openChart(st.id);st=null};
   g.addEventListener('pointerup',end);g.addEventListener('pointercancel',end)})();
@@ -1655,18 +1683,22 @@ function sortGrid(){if(touching||Date.now()-touchAt<1500||Date.now()-lastSort<40
   const sorted=[...els].sort((a,b)=>key(a)-key(b));if(sorted.some((e,i)=>e!==els[i]))sorted.forEach(e=>grid.appendChild(e))}
 function updateSub(){const its=[...S.inst.values()].filter(i=>!i.def.opt);const act=its.filter(i=>i.active).length;
   $('#scanSub').textContent=`${its.length} markets · ${act} active · ${CFG.tf}m · ${CFG.strict}`;if(S.filter==='n50'){const n=its.filter(i=>i.def.n50),ok=n.filter(i=>i.status==='ok').length;$('#scanSub').textContent=`NIFTY 50: ${ok}/${n.length} loaded · ${n.filter(i=>i.active).length} active`}}
-function renderFilters(){const opts=[['all','All'],['sig','Active signals'],['crypto','Crypto'],['commodity','Commodities'],['us','US'],['india','India'],...(CFG.n50?[['n50','NIFTY 50 stocks']]:[])];
+const isFav=id=>(CFG.fav||[]).includes(id);
+function toggleFav(id,on){const f=new Set(CFG.fav||[]);if(on??!f.has(id))f.add(id);else f.delete(id);CFG.fav=[...f];saveCfg();renderFilters();const it=S.inst.get(id);if(it)markDirty(it);else for(const x of S.inst.values())markDirty(x)}
+function renderFilters(){const nf=(CFG.fav||[]).filter(id=>S.inst.has(id)).length;const opts=[['fav',`★ Favourites${nf?' · '+nf:''}`],['all','All'],['sig','Active signals'],['crypto','Crypto'],['commodity','Commodities'],['us','US'],['india','India'],...(CFG.n50?[['n50','NIFTY 50 stocks']]:[])];
   $('#filters').innerHTML=opts.map(([k,n])=>`<button class="chip ${S.filter===k?'on':''}" data-f="${k}">${n}</button>`).join('')+'';
-  $('#filters').querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{S.filter=b.dataset.f;renderFilters();for(const it of S.inst.values())markDirty(it)})}
+  $('#filters').querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{S.filter=b.dataset.f;store.set('pt.filter',S.filter);renderFilters();for(const it of S.inst.values())markDirty(it)});
+  const fh=$('#favHint');if(fh){fh.hidden=!(S.filter==='fav'&&!nf);}}
 function renderLegend(){$('#legend').innerHTML=LEGEND.map(k=>`<span class="pill" style="--sc:var(${STATES[k][1]})">${STATES[k][0]}</span>`).join('')}
 
 /* ---------- views ---------- */
 function show(v){if(S.view==='chart'&&v!=='chart'&&CH){try{S.chart.range=CH.chart.timeScale().getVisibleLogicalRange()}catch(e){}}const back=v==='chart'&&S.view!=='chart';S.view=v;for(const s of document.querySelectorAll('.view'))s.hidden=s.id!=='v-'+v;
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
   if(v==='scan'){S.unseen=0;$('#navDot').hidden=true;for(const it of S.inst.values())markDirty(it)}
-  if(v!=='chart'&&$('#chTimer'))$('#chTimer').hidden=true;if(v==='chart')loadChart(back&&!!CH&&S.chart.loaded===(S.chart.id+'@'+S.chart.tf));if(v==='opt')initOpt();if(v==='lab')openLab();if(v==='log')renderLog();if(v==='set')renderSettings();if(v==='news')renderNews();window.scrollTo(0,0)}
+  if(v!=='chart'&&$('#chTimer'))$('#chTimer').hidden=true;if(v==='chart'){if(MC.n>1)renderLayout();else{$('#chLay')&&$('#chLay').querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.n===1));loadChart(back&&!!CH&&S.chart.loaded===(S.chart.id+'@'+S.chart.tf))}}
+  if(v!=='chart'&&MC.panes.length)mcDestroy();if(v==='opt')initOpt();if(v==='lab')openLab();if(v==='log')renderLog();if(v==='set')renderSettings();if(v==='news')renderNews();window.scrollTo(0,0)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>show(b.dataset.v));
-function openChart(id){S.chart.id=id;show('chart')}
+function openChart(id){S.chart.id=id;if(MC.n>1){MC.n=1;mcSave();$('#v-chart').classList.remove('multi');$('#mGrid').hidden=true;mcDestroy()}show('chart')}
 
 /* ---------- chart ---------- */
 let CH=null;
@@ -1735,7 +1767,7 @@ function drawChart(it,fit){const b=S.chart.bars;if(!CH||!b.length)return;const s
   if(fit)applyView()
   S.chart.ind=ind;renderReadout(it);updTimer()}
 // trade level lines: after T1 the stop sits on the entry price, so that line is labelled "SL = ENTRY" and drawn thicker
-function drawLines(it){if(!CH)return;for(const pl of CH.lines)try{CH.candle.removePriceLine(pl)}catch(e){}CH.lines=[];const tr=it.active;CH.lineSig=tr?tr.id+tr.status:'';
+function drawLines(it){if(!CH)return;for(const pl of CH.lines)try{CH.candle.removePriceLine(pl)}catch(e){}CH.lines=[];const tr=actOf(it);CH.lineSig=tr?tr.id+tr.status:'';
   for(const a of PA)if(a.inst===it.def.id&&!a.done)CH.lines.push(CH.candle.createPriceLine({price:a.price,color:'#c49bff',lineWidth:1,lineStyle:1,axisLabelVisible:true,title:'🔔 ALERT'}));
   if(!tr&&it.pend&&nowSec()<it.pend.until&&it.def.sig!==false){const p=it.pend;CH.lineSig='p'+p.id;const L2=(price,color,title,w)=>CH.lines.push(CH.candle.createPriceLine({price,color,lineWidth:w||1,lineStyle:1,axisLabelVisible:true,title}));
     L2(p.lim,indCol('lE'),(p.side>0?'BUY':'SELL')+' AT',2);L2(p.sl,indCol('lS'),'SL');L2(p.t1,indCol('lT1'),'T1');L2(p.t2,indCol('lT2'),'T2');renderSigBox();return}
@@ -1744,11 +1776,21 @@ function drawLines(it){if(!CH)return;for(const pl of CH.lines)try{CH.candle.remo
   if(tr.status==='t1'){L(tr.entry,indCol('lS'),'SL = ENTRY',0,2)}else{L(tr.entry,indCol('lE'),'ENTRY',0,1);L(tr.sl,indCol('lS'),'SL',2,2)}
   L(tr.t1,indCol('lT1'),tr.status==='t1'?'T1 ✓':'T1',2,1);L(tr.t2,indCol('lT2'),'T2',2,1);renderSigBox()}
 
+/* the locked option signal (Options tab) shown on that option's own chart */
+function optTrade(it){const L=OLOCK,d=it&&it.def;if(!L||!d||!d.opt)return null;
+  const m=L.okey?d.key===L.okey:new RegExp('^'+L.ix+'\\s+'+L.strike+'\\s+'+L.type,'i').test(d.name||d.tsym||'');if(!m)return null;
+  if(L.okey==null&&d.key){L.okey=d.key;saveOL()}
+  const t=Math.floor(L.at/1000),dist=L.entry-L.sl;
+  return {opt:1,id:L.id,side:1,type:L.type,strike:L.strike,entry:L.entry,sl:L.sl,slCur:L.slCur,t1:L.t1,t2:L.t2,dist,t,entryT:t,status:L.done?L.status:(L.status==='t1'?'t1':'open'),
+    lot:L.lot||1,done:!!L.done,exit:L.exit,closedAt:L.done?Math.floor((L.ltpAt||L.at)/1000):null,r:L.done?(L.status==='t2'?1.5:L.status==='be'?0.5:(L.exit-L.entry)/dist):null}}
+function actOf(it){if(!it)return null;if(it.active)return it.active;const o=optTrade(it);return o&&!o.done?o:null}
 /* ---------- signal label on the chart: bold filled BUY/SELL with entry, stop and targets ---------- */
-function sigTrade(it){const tr=it.active;if(tr)return tr;if(it.pend&&nowSec()<it.pend.until&&it.def.sig!==false)return {...it.pend,status:'setup'};return null}
+function sigTrade(it){const tr=actOf(it);if(tr)return tr;if(it.pend&&nowSec()<it.pend.until&&it.def.sig!==false)return {...it.pend,status:'setup'};return null}
 // one plain line above the chart that says what is happening right now (so nothing is left to guess)
-function chartStatus(it){const tr=it.active,p=it.pend,lc=it.lastClosed,t=x=>istT(x*1000);
-  if(it.def.opt)return '';
+function chartStatus(it){const tr=actOf(it),p=it.pend,lc=it.lastClosed,t=x=>istT(x*1000);
+  if(it.def.opt){const o=optTrade(it);if(o&&!o.done){const v=it.price!=null?it.price-o.entry:null;return `<b class="up">OPTION BUY running</b> since ${t(o.t)} (Options tab signal) · bought at ${fmtP(o.entry)}${v!=null?` · <b class="${v>=0?'up':'dn'}">${fmtPts(v)} pts (${v>=0?'+':'−'}₹${Math.round(Math.abs(v)*o.lot).toLocaleString('en-IN')}/lot)</b>`:''}${o.status==='t1'?' · T1 hit, stop moved to entry':''}`}
+    if(o&&o.done)return `<b>No option trade running</b> · last: BUY ${o.strike} ${o.type} ${t(o.t)} → ${(STATES[o.status]||[o.status])[0].split(' · ')[0]}${o.r!=null?` <b class="${o.r>=0?'up':'dn'}">${fmtR(o.r)}</b>`:''}`;
+    return '<b>Option price chart</b> · option signals come from the Options tab (open interest + option charts)'}
   if(it.def.sig===false)return `<b>Signals OFF</b> for this market · switch ON from its card`;
   if(tr)return `<b class="${tr.side>0?'up':'dn'}">${tr.side>0?'BUY':'SELL'} running</b> since ${t(tr.entryT||tr.t)} · entry ${fmtP(tr.entry)}${tr.status==='t1'?' · T1 hit, stop moved to entry':''}`;
   if(p&&nowSec()<p.until)return `<b class="${p.side>0?'up':'dn'}">${p.side>0?'BUY':'SELL'} setup</b> · trade opens only if price reaches ${fmtP(p.lim)} by ${t(p.until)}`;
@@ -1758,10 +1800,10 @@ function chartStatus(it){const tr=it.active,p=it.pend,lc=it.lastClosed,t=x=>istT
 const isFresh=tr=>tr&&['open'].includes(tr.status)&&nowSec()<(tr.entryT||tr.t)+300;
 function renderSigBox(){let el=document.getElementById('sigBox');const it=chartInst();const hide=()=>{if(el)el.hidden=true};
   const cs=document.getElementById('chStat');if(cs&&it){const h=chartStatus(it);if(cs.dataset.h!==h){cs.innerHTML=h;cs.dataset.h=h}cs.hidden=!h}
-  if(S.view!=='chart'||!CH||!it||it.def.opt||!S.chart.bars.length)return hide();const tr=sigTrade(it);if(!tr)return hide();
+  if(S.view!=='chart'||!CH||!it||!S.chart.bars.length)return hide();const tr=sigTrade(it);if(!tr)return hide();
   if(!el){el=document.createElement('div');el.id='sigBox';el.className='sigbox';document.querySelector('.chartbox').appendChild(el)}
   const setup=tr.status==='setup';const live=setup||['open','t1'].includes(tr.status);const up=tr.side>0;
-  const word=setup?(up?'BUY SETUP':'SELL SETUP'):(tr.strong?'STRONG ':'')+(up?'BUY':'SELL');const tag=live?(tr.status==='t1'?'T1 ✓':''):(STATES[tr.status]?STATES[tr.status][0].split(' · ')[0]:tr.status.toUpperCase());
+  const word=setup?(up?'BUY SETUP':'SELL SETUP'):tr.opt?'BUY '+tr.type:(tr.strong?'STRONG ':'')+(up?'BUY':'SELL');const tag=live?(tr.status==='t1'?'T1 ✓':''):(STATES[tr.status]?STATES[tr.status][0].split(' · ')[0]:tr.status.toUpperCase());
   const sc=up?'--sbuy':'--ssell';
   const html=setup?`<div class="sb-h">${word}<small>TILL ${istT(tr.until*1000)}</small></div><div class="sb-g"><span>${up?'BUY':'SELL'} AT</span><b>${fmtP(tr.lim)}</b><span>SL</span><b>${fmtP(tr.sl)}</b><span>T1</span><b>${fmtP(tr.t1)}</b><span>T2</span><b>${fmtP(tr.t2)}</b></div>`:`<div class="sb-h">${word}${tag?`<small>${tag}</small>`:''}</div><div class="sb-g"><span>ENTRY</span><b>${fmtP(tr.entry)}</b><span>${tr.status==='t1'?'SL=ENTRY':'SL'}</span><b>${fmtP(tr.status==='t1'?tr.entry:tr.sl)}</b><span>T1</span><b>${fmtP(tr.t1)}</b><span>T2</span><b>${fmtP(tr.t2)}</b></div>`;
   const mini=store.get('pt.sbmin',false);const html2=mini?`<div class="sb-h">${word}<small>${setup?'TILL '+istT(tr.until*1000):(tag||'LIVE')}</small><span class="sb-x">▸</span></div>`:html.replace('</div><div class="sb-g">','<span class="sb-x">▾</span></div><div class="sb-g">');
@@ -1804,16 +1846,16 @@ function renderChartHead(){const it=chartInst();const sel=$('#chSym');
   $('#chOvl').querySelectorAll('input[data-o]').forEach(i=>i.onchange=()=>{CH.show[i.dataset.o]=i.checked?1:0;store.set('pt.ovl',CH.show);drawChart(it,false)});
   $('#chOvl').querySelectorAll('.cpick').forEach(i=>i.oninput=()=>{const m=store.get('pt.icol',{});m[i.dataset.c]=i.value;store.set('pt.icol',m);if(CH&&CH[i.dataset.c])CH[i.dataset.c].applyOptions({color:i.value});if(/^l/.test(i.dataset.c))drawLines(it)});
   $('#cReset').onclick=()=>{store.set('pt.icol',{});if(CH)for(const k of Object.keys(IND_DEF))if(CH[k])CH[k].applyOptions({color:indCol(k)});drawLines(it);renderChartHead()}}
-function updPts(it){const el=$('#chPts');if(!el)return;const tr=it&&it.active;
+function updPts(it){const el=$('#chPts');if(!el)return;const tr=actOf(it);
   if(it&&CH&&S.view==='chart'){const want=tr?tr.id+tr.status:(it.pend&&nowSec()<it.pend.until&&it.def.sig!==false?'p'+it.pend.id:'');if(CH.lineSig!==want)drawLines(it)}   // remove old lines the moment a trade ends
   if(!tr||it.price==null||S.view!=='chart'){el.hidden=true;return}
-  const v=(it.price-tr.entry)*tr.side;el.hidden=false;el.className='chpts '+(v>=0?'up':'dn');el.innerHTML=`${fmtPts(v)} pts<small>${fmtR(markR(tr,it.price))}${tr.status==='t1'?' · T1 ✓':''}</small>`;
+  const v=(it.price-tr.entry)*tr.side;el.hidden=false;el.className='chpts '+(v>=0?'up':'dn');el.innerHTML=`${fmtPts(v)} pts<small>${tr.opt?`${v>=0?'+':'−'}₹${Math.round(Math.abs(v)*tr.lot).toLocaleString('en-IN')}/lot`:fmtR(markR(tr,it.price))}${tr.status==='t1'?' · T1 ✓':''}</small>`;
   const sig=tr.id+tr.status;if(CH&&CH.lineSig!==sig)drawLines(it)}
 function updChartLive(){const it=chartInst();if(!it)return;$('#chPx').textContent=fmtP(it.price);updPts(it);
   if(it.ref&&it.price){const dv=it.price-it.ref,pc=dv/it.ref*100;$('#chChg').textContent=`${dv>=0?'+':'−'}${fmtP(Math.abs(dv))} (${pc>=0?'+':''}${pc.toFixed(2)}%)`;$('#chChg').className='chg num '+(dv>=0?'up':'dn')}else $('#chChg').textContent='';
   const cs=cardState(it);const [label,col]=STATES[cs.k]||STATES.wait;const pill=$('#chPill');pill.textContent=label;pill.style.setProperty('--sc',`var(${col})`);
   renderReadout(it)}
-function renderReadout(it){const ind=S.chart.ind,b=S.chart.bars;if(!ind||!b.length)return;const i=Math.min(b.length,ind.at.length)-1;const tr=it.active;   // a just-started candle has no indicator values yet
+function renderReadout(it){const ind=S.chart.ind,b=S.chart.bars;if(!ind||!b.length)return;const i=Math.min(b.length,ind.at.length)-1;const tr=actOf(it);   // a just-started candle has no indicator values yet
 
   // the signal checklist (same 6 checks the strategy uses, on the last closed signal candle): passing boxes glow
   const ev=it.eng&&it.eng.last;const sig=tr||(it.pend&&nowSec()<it.pend.until?it.pend:null);const sd=sig?sig.side:ev&&ev.vside||1;
@@ -1826,15 +1868,65 @@ function renderReadout(it){const ind=S.chart.ind,b=S.chart.bars;if(!ind||!b.leng
   h+=kv('RSI 14',isNaN(ind.r[i])?'—':ind.r[i].toFixed(1),ind.r[i]>=55?'--sbuy':ind.r[i]<=45?'--ssell':null,'rsi')+kv('ADX 14',isNaN(ind.dx.adx[i])?'—':ind.dx.adx[i].toFixed(1),ind.dx.adx[i]<18?'--chop':null,'adx')
    +kv('ATR 14',fmtP(ind.at[i]))+kv('VWAP',fmtP(ind.vw[i]),b[i].c>=ind.vw[i]?'--sbuy':'--ssell','vwap')+kv('EMA 9',fmtP(ind.e9[i]),null,'ema')+kv('EMA 21',fmtP(ind.e21[i]),null,'ema')+kv('Supertrend',(ind.st.dir[i]>0?'UP ':'DOWN ')+fmtP(ind.st.line[i]),ind.st.dir[i]>0?'--sbuy':'--ssell','st');
   if(ind.hasVol&&sideCk&&sideCk.vol!=null)h+=kv('Volume',sideCk.vol?'SPIKE':'normal',null,'vol');
-  if(tr){const rc=tr.risk||riskCheck(it,tr);h+=kv('Size',rc.qty!=null?`${rc.qty} ${rc.unit}`:'—',rc.verdict==='PASS'?'--sbuy':'--ssell')+kv('Risk check',rc.verdict,rc.verdict==='PASS'?'--sbuy':'--ssell');{const c=oddsCal(tr,it);if(c!=null)h+=kv('T1 before stop',Math.round(c*100)+'%',c>=.56?'--sbuy':c<=.44?'--ssell':null)}}
-  if(tr)h+=kv('Signal',`${tr.side>0?'BUY':'SELL'} @ ${fmtP(tr.entry)}`,tr.side>0?'--sbuy':'--ssell')+kv('Live points',it.price?fmtPts((it.price-tr.entry)*tr.side):'—',it.price&&(it.price-tr.entry)*tr.side>=0?'--sbuy':'--ssell')+kv('Live R',it.price?fmtR(markR(tr,it.price)):'—');
-  const st=it.eng&&it.eng.stats;if(st&&st.n)h+=kv(`Backtest ${tfOf(it)}m`,`${Math.round(st.win*100)}% · ${fmtR(st.avg)}`);
+  if(tr&&!tr.opt){const rc=tr.risk||riskCheck(it,tr);h+=kv('Size',rc.qty!=null?`${rc.qty} ${rc.unit}`:'—',rc.verdict==='PASS'?'--sbuy':'--ssell')+kv('Risk check',rc.verdict,rc.verdict==='PASS'?'--sbuy':'--ssell');{const c=oddsCal(tr,it);if(c!=null)h+=kv('T1 before stop',Math.round(c*100)+'%',c>=.56?'--sbuy':c<=.44?'--ssell':null)}}
+  if(tr&&tr.opt)h+=kv('Option signal',`BUY ${tr.strike} ${tr.type} @ ${fmtP(tr.entry)}`,'--sbuy')+kv('Live points',it.price?fmtPts(it.price-tr.entry):'—',it.price&&it.price>=tr.entry?'--sbuy':'--ssell')+kv('Per lot',it.price?`${it.price>=tr.entry?'+':'−'}₹${Math.round(Math.abs(it.price-tr.entry)*tr.lot).toLocaleString('en-IN')}`:'—',it.price&&it.price>=tr.entry?'--sbuy':'--ssell');
+  else if(tr)h+=kv('Signal',`${tr.side>0?'BUY':'SELL'} @ ${fmtP(tr.entry)}`,tr.side>0?'--sbuy':'--ssell')+kv('Live points',it.price?fmtPts((it.price-tr.entry)*tr.side):'—',it.price&&(it.price-tr.entry)*tr.side>=0?'--sbuy':'--ssell')+kv('Live R',it.price?fmtR(markR(tr,it.price)):'—');
+  const st=it.eng&&it.eng.stats;if(st&&st.n&&!it.def.opt)h+=kv(`Backtest ${tfOf(it)}m`,`${Math.round(st.win*100)}% · ${fmtR(st.avg)}`);
   const ro=$('#chRead');ro.style.setProperty('--ckc',`var(${sd>0?'--sbuy':'--ssell'})`);ro.innerHTML=h}
 $('#chAlert').onclick=()=>{const b=$('#paBox');b.hidden=!b.hidden;const it=chartInst();if(!b.hidden&&it){$('#paPrice').value=it.price!=null?+it.price.toFixed(it.price>=1?2:4):'';renderPA()}};
 $('#paAdd').onclick=()=>{const it=chartInst();const v=parseFloat(String($('#paPrice').value).replace(/,/g,''));if(!it||!(v>0)||it.price==null)return;if(Math.abs(v-it.price)/it.price<0.00005){toast('info','Choose a different price','That is the current price.','',null,3000);return}
   PA.push({id:'pa'+Date.now(),inst:it.def.id,name:it.def.name,price:v,dir:v>it.price?1:-1,at:Date.now()});savePA();renderPA();drawLines(it);toast('info','Alert added',`${it.def.name} ${v>it.price?'above':'below'} ${fmtP(v)}`,'',null,3000)};
 $('#chSym').onchange=e=>{S.chart.id=e.target.value;S.chart.range=null;loadChart()};
 $('#chFit').onclick=()=>fitChart();
+
+/* ---------- multi-chart: 2, 3 or 4 live charts on one screen ---------- */
+const MC={n:1,cells:[],panes:[]};
+(function(){const m=store.get('pt.multi',null);if(m&&m.n>=1&&m.n<=4){MC.n=m.n;MC.cells=m.cells||[]}})();
+function mcSave(){store.set('pt.multi',{n:MC.n,cells:MC.cells})}
+function mcList(){const out=[],seen=new Set();const add=d=>{if(d&&!seen.has(d.id)&&S.inst.has(d.id)){seen.add(d.id);out.push(d)}};
+  for(const id of (CFG.fav||[]))add(S.inst.get(id)&&S.inst.get(id).def);for(const w of WATCH)add(w);for(const d of futDefs())add(d);for(const d of (S.tmp||[]))add(d);return out}
+function mcDefaults(){const L=mcList();while(MC.cells.length<4){const used=new Set(MC.cells.map(c=>c.id));const d=L.find(x=>!used.has(x.id))||L[0];MC.cells.push({id:d?d.id:null,tf:5})}
+  for(const c of MC.cells)if(!S.inst.has(c.id)){const used=new Set(MC.cells.map(x=>x.id));const d=L.find(x=>!used.has(x.id))||L[0];c.id=d?d.id:null}}
+function setLayout(n){MC.n=n;mcSave();renderLayout()}
+function renderLayout(){const v=$('#v-chart'),g=$('#mGrid');$('#chLay').querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.n===MC.n));
+  if(MC.n<=1){v.classList.remove('multi');g.hidden=true;mcDestroy();if(S.view==='chart'){if(CH)try{CH.chart.applyOptions({})}catch(e){}loadChart(true)}return}
+  if(!window.LightweightCharts){loadLib().then(ok=>{if(ok)renderLayout()});return}
+  v.classList.add('multi');g.hidden=false;g.className='mgrid n'+MC.n;mcDefaults();mcDestroy();
+  const L=mcList();g.innerHTML=MC.cells.slice(0,MC.n).map((c,i)=>`<div class="mp" data-i="${i}"><div class="mp-h"><select aria-label="Market for chart ${i+1}">${L.map(d=>`<option value="${esc(d.id)}" ${d.id===c.id?'selected':''}>${isFav(d.id)?'★ ':''}${esc(d.name)}</option>`).join('')}</select>
+    <span class="mp-tf">${[1,3,5,15,60].map(t=>`<button data-tf="${t}" class="${c.tf===t?'on':''}">${t===60?'1H':t+'m'}</button>`).join('')}</span><button class="mp-x" data-open="1" title="Open this chart full size" aria-label="Open full size">⤢</button></div>
+    <div class="mp-i"><span class="px num">—</span><span class="flt-pill"></span></div><div class="mp-c"></div><div class="mp-st"></div></div>`).join('');
+  g.querySelectorAll('.mp').forEach(el=>{const i=+el.dataset.i;const c=MC.cells[i];
+    el.querySelector('select').onchange=e=>{c.id=e.target.value;mcSave();mcDraw(i,true,true)};
+    el.querySelectorAll('.mp-tf button').forEach(b=>b.onclick=()=>{c.tf=+b.dataset.tf;el.querySelectorAll('.mp-tf button').forEach(x=>x.classList.toggle('on',x===b));mcSave();mcDraw(i,true,true)});
+    el.querySelector('[data-open]').onclick=()=>{S.chart.id=c.id;S.chart.tf=c.tf;MC.n=1;mcSave();renderLayout();renderChartHead()};
+    const css=k=>getComputedStyle(document.documentElement).getPropertyValue(k).trim();
+    const ch=LightweightCharts.createChart(el.querySelector('.mp-c'),{autoSize:true,layout:{background:{type:'solid',color:'transparent'},textColor:css('--dim'),fontSize:10,fontFamily:'"Source Serif 4", Georgia, serif'},
+      grid:{vertLines:{visible:false},horzLines:{color:'rgba(110,150,255,.07)'}},rightPriceScale:{borderVisible:false,scaleMargins:{top:.1,bottom:.08}},timeScale:{borderVisible:false,timeVisible:true,secondsVisible:false,rightOffset:3},crosshair:{mode:0}});
+    const up=toHex(CH?CH.k.up:'#00e68a'),dn=toHex(CH?CH.k.dn:'#ff3d6e');
+    const p={el,ch,c:ch.addCandlestickSeries({upColor:up,downColor:dn,wickUpColor:up,wickDownColor:dn,borderVisible:false}),
+      e9:ch.addLineSeries({color:indCol('e9'),lineWidth:1,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false}),
+      e21:ch.addLineSeries({color:indCol('e21'),lineWidth:1,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false}),lines:[],sig:'',t:0,key:''};
+    MC.panes[i]=p;mcDraw(i,true,true)})}
+function mcDestroy(){for(const p of MC.panes)if(p)try{p.ch.remove()}catch(e){}MC.panes=[]}
+function mcDraw(i,full,refit){const p=MC.panes[i],c=MC.cells[i];if(!p||!c)return;const it=S.inst.get(c.id);if(!it)return;const d=it.def;const el=p.el;
+  const px=el.querySelector('.px');px.textContent=fmtP(it.price);px.className='px num '+(it.dir>0?'up':it.dir<0?'dn':'');
+  const cs=cardState(it);const [label,col]=STATES[cs.k]||STATES.wait;const pill=el.querySelector('.flt-pill');pill.textContent=label;pill.style.setProperty('--sc',`var(${col})`);
+  const tr=actOf(it),pd=it.pend&&nowSec()<it.pend.until&&d.sig!==false?it.pend:null;el.classList.toggle('sig-up',!!((tr||pd)&&(tr||pd).side>0));el.classList.toggle('sig-dn',!!((tr||pd)&&(tr||pd).side<0));
+  let st;if(tr&&it.price!=null){const v=(it.price-tr.entry)*tr.side;st=`<b class="${tr.side>0?'up':'dn'}">${tr.opt?'BUY '+tr.type:tr.side>0?'BUY':'SELL'}</b> @ ${fmtP(tr.entry)} · <b class="${v>=0?'up':'dn'}">${fmtPts(v)} pts ${tr.opt?`${v>=0?'+':'−'}₹${Math.round(Math.abs(v)*tr.lot).toLocaleString('en-IN')}/lot`:fmtR(markR(tr,it.price))}</b>`}
+    else if(pd)st=`<b class="${pd.side>0?'up':'dn'}">${pd.side>0?'BUY':'SELL'} setup</b> at ${fmtP(pd.lim)} till ${istT(pd.until*1000)}`;
+    else st=d.opt?'Option price':it.status==='err'?'No data':it.status==='load'?'Loading…':'No trade running';
+  const se=el.querySelector('.mp-st');if(se.dataset.h!==st){se.innerHTML=st;se.dataset.h=st}
+  if(!it.b1||!it.b1.length)return;const now=Date.now();const key=c.id+'@'+c.tf;if(key!==p.key){full=true;refit=true;p.key=key;p.sig='x'}
+  if(full||now-p.t>2000){p.t=now;const b=aggBars(it.b1,c.tf,isNse(d)).slice(-200);if(!b.length)return;const sh=t=>t+IST;
+    p.c.setData(b.map(x=>({time:sh(x.t),open:x.o,high:x.h,low:x.l,close:x.c})));
+    if(!d.opt){const ind=indicators(b,isNse(d));const ser=a=>b.map((x,j)=>isNaN(a[j])?{time:sh(x.t)}:{time:sh(x.t),value:a[j]});p.e9.setData(ser(ind.e9));p.e21.setData(ser(ind.e21))}else{p.e9.setData([]);p.e21.setData([])}
+    if(refit){try{p.ch.timeScale().setVisibleLogicalRange({from:Math.max(0,b.length-90),to:b.length+3})}catch(e){}}}
+  const sig=tr?tr.id+tr.status:pd?'p'+pd.id:'';
+  if(sig!==p.sig){p.sig=sig;for(const l of p.lines)try{p.c.removePriceLine(l)}catch(e){}p.lines=[];const Lp=(price,color,title,w)=>price!=null&&p.lines.push(p.c.createPriceLine({price,color,lineWidth:w||1,lineStyle:2,axisLabelVisible:true,title}));
+    if(tr){Lp(tr.entry,indCol('lE'),tr.status==='t1'?'SL=ENTRY':'ENTRY',1);if(tr.status!=='t1')Lp(tr.sl,indCol('lS'),'SL',2);Lp(tr.t1,indCol('lT1'),'T1');Lp(tr.t2,indCol('lT2'),'T2')}
+    else if(pd){Lp(pd.lim,indCol('lE'),(pd.side>0?'BUY':'SELL')+' AT',2);Lp(pd.sl,indCol('lS'),'SL');Lp(pd.t1,indCol('lT1'),'T1');Lp(pd.t2,indCol('lT2'),'T2')}}}
+$('#chLay').querySelectorAll('button').forEach(b=>b.onclick=()=>setLayout(+b.dataset.n));
+setInterval(()=>{if(S.view==='chart'&&MC.n>1)for(let i=0;i<MC.panes.length;i++)mcDraw(i,false,false)},1000);
 
 /* ---------- floating mini chart: stays on screen across tabs ---------- */
 const FLT={ch:null,c:null,e9:null,e21:null,lines:[],sig:'',id:null,tf:5,t:0};
@@ -1858,8 +1950,8 @@ function fltDraw(full){const el=$('#flt');if(!FLT.id||el.hidden||!FLT.ch)return;
   const dup=S.view==='chart'&&S.chart.id===FLT.id;el.style.visibility=dup?'hidden':'visible';if(dup)return;
   const d=it.def;$('#fltName').textContent=d.name+' · '+(FLT.tf===60?'1H':FLT.tf+'m');
   const px=$('#fltPx');px.textContent=fmtP(it.price);px.className='flt-px num '+(it.dir>0?'up':it.dir<0?'dn':'');
-  const cs=cardState(it);const [label,col]=STATES[cs.k]||STATES.wait;const pill=$('#fltPill');pill.textContent=d.opt?'':label;pill.style.setProperty('--sc',`var(${col})`);
-  const tr=it.active;let st='';if(tr&&it.price!=null){const v=(it.price-tr.entry)*tr.side;st=`<b class="${tr.side>0?'up':'dn'}">${tr.side>0?'BUY':'SELL'}</b> @ ${fmtP(tr.entry)} · <b class="${v>=0?'up':'dn'}">${fmtPts(v)} pts ${fmtR(markR(tr,it.price))}</b>`}
+  const cs=cardState(it);const [label,col]=STATES[cs.k]||STATES.wait;const pill=$('#fltPill');pill.textContent=label;pill.style.setProperty('--sc',`var(${col})`);
+  const tr=actOf(it);let st='';if(tr&&it.price!=null){const v=(it.price-tr.entry)*tr.side;st=`<b class="${tr.side>0?'up':'dn'}">${tr.opt?'BUY '+tr.type:tr.side>0?'BUY':'SELL'}</b> @ ${fmtP(tr.entry)} · <b class="${v>=0?'up':'dn'}">${fmtPts(v)} pts ${tr.opt?`${v>=0?'+':'−'}₹${Math.round(Math.abs(v)*tr.lot).toLocaleString('en-IN')}/lot`:fmtR(markR(tr,it.price))}</b>`}
     else if(it.pend&&nowSec()<it.pend.until&&d.sig!==false)st=`<b class="${it.pend.side>0?'up':'dn'}">${it.pend.side>0?'BUY':'SELL'} setup</b> at ${fmtP(it.pend.lim)} till ${istT(it.pend.until*1000)}`;
     else st=it.def.opt?'Option price':'No trade running';
   const se=$('#fltSt');if(se.dataset.h!==st){se.innerHTML=st;se.dataset.h=st}
@@ -1907,17 +1999,20 @@ let OLOCK=store.get('pt.olock',null);if(OLOCK&&Math.floor((OLOCK.at/1000+IST)/86
 const saveOL=()=>store.set('pt.olock',OLOCK);
 function optLockStep(an,pl,ix,lot){const key=ix.n+'|'+S.opt.exp;
   if(OLOCK&&OLOCK.key===key&&!OLOCK.done){const r=an.st.find(s=>s.k===OLOCK.strike);const o=r&&(OLOCK.type==='CE'?r.ce:r.pe);
-    const ok=o&&o.ltp>0&&Math.abs(o.ltp/(OLOCK.ltp||o.ltp)-1)<0.9;if(!ok){OLOCK.miss=(OLOCK.miss||0)+1;if(OLOCK.miss>=6)optForceClose('Option price stopped updating, so the trade was closed at the last known premium.');else saveOL();return}OLOCK.miss=0;
-    {OLOCK.ltp=o.ltp;OLOCK.ltpAt=Date.now();const p=o.ltp;let ended=null;
-      if(p<=OLOCK.slCur)ended=OLOCK.slCur>=OLOCK.entry?'be':'stop';else if(p>=OLOCK.t2)ended='t2';else if(OLOCK.status!=='t1'&&p>=OLOCK.t1){OLOCK.status='t1';OLOCK.slCur=OLOCK.entry;outcomeOpt('t1')}
-      const pp=istParts();if(!ended&&pp.h*60+pp.m>=915)ended='expired';
-      if(ended){OLOCK.status=ended;OLOCK.done=true;OLOCK.exit=p;outcomeOpt(ended)}saveOL();logOpt()}
+    const ok=o&&o.ltp>0&&Math.abs(o.ltp/(OLOCK.ltp||o.ltp)-1)<0.9;if(o&&o.key&&!OLOCK.okey){OLOCK.okey=o.key;saveOL()}if(!ok){OLOCK.miss=(OLOCK.miss||0)+1;if(OLOCK.miss>=6)optForceClose('Option price stopped updating, so the trade was closed at the last known premium.');else saveOL();return}OLOCK.miss=0;
+    olPrice(o.ltp);
     return}
   if(OLOCK&&OLOCK.key===key&&OLOCK.done&&Date.now()-OLOCK.at<20*60000)return;
   if(!pl||!pl.side||!pl.cands||!nseOpen()){S.opt.pend=null;return}
   if(S.opt.pend&&S.opt.pend.key===key&&S.opt.pend.v===pl.verdict)S.opt.pend.n++;else S.opt.pend={key,v:pl.verdict,n:1};
   if(S.opt.pend.n<2)return;
   S.opt.pend=null;createLock(ix,key,pl.cands[0],pl.side,lot,'oi',pl.idx)}
+// one premium update for the locked option (from the option chain or from the option's own live chart)
+function olPrice(p){if(!OLOCK||OLOCK.done||!(p>0))return;OLOCK.ltp=p;OLOCK.ltpAt=Date.now();let ended=null;
+  if(p<=OLOCK.slCur)ended=OLOCK.slCur>=OLOCK.entry?'be':'stop';else if(p>=OLOCK.t2)ended='t2';else if(OLOCK.status!=='t1'&&p>=OLOCK.t1){OLOCK.status='t1';OLOCK.slCur=OLOCK.entry;outcomeOpt('t1')}
+  const pp=istParts();if(!ended&&pp.h*60+pp.m>=915)ended='expired';
+  if(ended){OLOCK.status=ended;OLOCK.done=true;OLOCK.exit=p;outcomeOpt(ended);if(S.view==='opt')renderOpt()}
+  const sig=OLOCK.status;if(sig!==olPrice.s||Date.now()-(olPrice.t||0)>15000){olPrice.s=sig;olPrice.t=Date.now();saveOL();logOpt()}}   // save at most every 15 s unless something changed
 function createLock(ix,key,c,side,lot,src,idx){const idxIt=S.inst.get('u:'+ix.key);
   OLOCK={key,ix:ix.n,exp:S.opt.exp,type:c.type,strike:c.strike,entry:c.entry,sl:c.sl,slCur:c.sl,t1:c.t1,t2:c.t2,ltp:c.entry,idx,at:Date.now(),status:'open',lot,src,id:'opt:'+key+'@'+Date.now()};
   saveOL();logOpt();
@@ -2185,14 +2280,17 @@ async function runSearch(){const q=$('#sq').value.trim().toUpperCase();const box
   if($('#sq').value.trim().toUpperCase()!==q)return;
   const dres=dp.filter(p=>hit((p.sym+' '+p.name).toUpperCase())).slice(0,12);
   const res=[...dres,...(ures||[])];if(!res.length){box.innerHTML=upErr?'<div class="shint">Could not load the NSE symbol list (network). Check the internet and try again.</div>':'<div class="shint">No matches. Try the trading symbol, e.g. RELIANCE, BTC, XAUT, NIFTY 25000 CE.</div>';return}
-  box.innerHTML=res.map((r,i)=>`<button data-i="${i}"><span class="src">${r.src==='delta'?'DELTA':/^BSE/.test(r.key||'')?'BSE':'NSE'}</span><b>${esc(r.sym)}</b><small>${esc(r.name)}${r.kind?' · '+r.kind:''}${r.exp?' · '+r.exp:''}</small></button>`).join('');
-  box.querySelectorAll('button').forEach(b=>b.onclick=()=>{const r=res[+b.dataset.i];addWatch(r)})}
-function addWatch(r){let def;
+  const rid=r=>r.src==='delta'?'d:'+r.sym:'u:'+r.key;
+  box.innerHTML=res.map((r,i)=>`<button data-i="${i}"><span class="sfav${isFav(rid(r))?' on':''}" data-star="${i}" role="button" aria-label="Add to favourites" title="Add to favourites">${isFav(rid(r))?'★':'☆'}</span><span class="src">${r.src==='delta'?'DELTA':/^BSE/.test(r.key||'')?'BSE':'NSE'}</span><b>${esc(r.sym)}</b><small>${esc(r.name)}${r.kind?' · '+r.kind:''}${r.exp?' · '+r.exp:''}</small></button>`).join('');
+  box.querySelectorAll('button').forEach(b=>b.onclick=e=>{const r=res[+b.dataset.i];const st=e.target.closest('[data-star]');
+    if(st){e.stopPropagation();const id=rid(r);const on=!isFav(id);if(on)addWatch(r,false);toggleFav(id,on);st.textContent=on?'★':'☆';st.classList.toggle('on',on);toast('info',on?'Added to favourites':'Removed from favourites',r.sym,'',null,2500);return}
+    addWatch(r)})}
+function addWatch(r,open=true){let def;
   if(r.src==='delta'){const stock=/(X|B)USD$/.test(r.sym)&&/inc|corp|ltd|xstock|backed|etf|holdings|group|platforms|technolog/i.test(r.name);
     def={id:'d:'+r.sym,src:'delta',sym:r.sym,name:r.name.length>22?r.sym:r.name,grp:/XAU|PAXG|OIL|SLV/.test(r.sym)?'commodity':stock?'us':'crypto',usx:stock?1:0}}
   else def={id:'u:'+r.key,src:'upstox',key:r.key,name:r.sym,tsym:r.sym,grp:'india',nse:1};
   if(!WATCH.find(w=>w.id===def.id)){WATCH.push(def);saveWatch();syncInstruments();if(def.src==='delta')connectDelta()}
-  $('#search').hidden=true;openChart(def.id)}
+  if(open){$('#search').hidden=true;openChart(def.id)}}
 
 /* ---------- 3D bull / bear pop-up (original low-poly art) ---------- */
 const BULL_SVG=`<svg viewBox="0 0 240 170" aria-hidden="true">
@@ -2585,7 +2683,7 @@ function boot(){weakOffOnce();setTimeout(()=>{const f=store.get('pt.float',null)
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=6"></script>
+<script type="module" src="auth.js?v=61"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
