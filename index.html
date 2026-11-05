@@ -196,6 +196,28 @@ table.oi td.och:hover{color:var(--cyan)}
 .rkt{padding:10px 12px;border-radius:12px;background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--sc)}
 .rkt .v{font:700 20px var(--f-num);color:var(--sc)}.rkt .n{font:600 12px var(--f-ui);color:var(--dim)}.rkt .x{font-size:11.5px;color:var(--dim);margin-top:2px}
 .rkt svg{width:100%;height:24px;margin-top:2px}
+.oib{padding:12px 14px;border-width:2px;border-color:color-mix(in srgb,var(--sc) 60%,transparent);background:linear-gradient(135deg,color-mix(in srgb,var(--sc) 16%,var(--panel)),var(--panel))}
+.oib.conf{box-shadow:0 0 22px -6px var(--sc);animation:oibGlow 2.2s ease-in-out infinite}
+@keyframes oibGlow{50%{box-shadow:0 0 34px -4px var(--sc)}}
+.oib-b{display:flex;align-items:center;gap:12px}.oib-ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font:900 22px/1 var(--f-ui);color:#03080a;background:var(--sc);flex:none}
+.oib-b b{display:block;font:900 22px/1.1 var(--f-ui);letter-spacing:.04em;color:var(--sc)}.oib-b small{font:600 12.5px var(--f-ui);color:var(--dim)}
+.oib-sc{margin-left:auto;font:700 12px var(--f-num);color:var(--dim)}
+.oib-why{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.oib-why span{font:600 12px var(--f-ui);padding:4px 9px;border-radius:999px;background:var(--well);color:var(--text)}
+.oib-fii{margin-top:8px;font:500 12px var(--f-ui);color:var(--dim)}.oib-fii b{color:var(--text)}.oib-fii .up{color:var(--sbuy);font-weight:800}.oib-fii .dn{color:var(--ssell);font-weight:800}
+.nav button{position:relative}.nbadge:empty{display:none}.nbadge{position:absolute;top:2px;right:50%;transform:translateX(130%);font:900 8.5px/1 var(--f-ui);padding:2px 4px;border-radius:5px;color:#03080a}
+.nbadge.call{background:var(--sbuy)}.nbadge.put{background:var(--ssell)}
+@media (prefers-reduced-motion:reduce){.oib.conf{animation:none}}
+.logsum .tile{cursor:pointer;text-align:left;font:inherit;color:inherit}.logsum .tile.on{outline:2px solid var(--cyan);outline-offset:-2px}.logsum .tile small{display:block;font:500 11px var(--f-ui);color:var(--dim);margin-top:2px}
+.rhelp{font-style:normal;color:var(--cyan);cursor:pointer;margin-left:2px}
+.pap{padding:12px 14px;margin-bottom:10px;border-color:rgba(255,213,74,.35)}.pap.off{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font:500 13.5px var(--f-ui);color:var(--dim)}.pap.off b{color:var(--text)}
+.pap-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}.pap-h .btn{margin-left:auto}
+.pap-m{display:flex;flex-wrap:wrap;gap:6px 14px;font:600 12.5px var(--f-ui);margin:8px 0 2px}.pap-m b{color:var(--text)}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:6px 0 10px}
+.psub{display:block;font:800 12px var(--f-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin:10px 0 6px}
+.pchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.sd-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:10px}.sd-g>div{padding:8px 10px;border-radius:10px;background:var(--well);min-width:0}.sd-g b{display:block;font:700 14px var(--f-num);margin-top:2px}
+.ckl{display:flex;flex-wrap:wrap;gap:6px}.ckc{font:600 12px var(--f-ui);padding:4px 8px;border-radius:999px;background:var(--well);color:var(--dim)}.ckc.ok{color:var(--sbuy);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--sbuy) 50%,transparent)}
+.logrow{cursor:pointer}
 .olk[data-ok]{cursor:pointer}.olk[data-ok]:hover{transform:translateY(-1px)}
 .cs-line{font:700 14.5px/1.45 var(--f-ui);margin:6px 0 8px;color:var(--text)}
 .cs-tr{font:600 12px var(--f-ui);color:var(--dim)}.cs-tr b.up{color:var(--sbuy)}.cs-tr b.dn{color:var(--ssell)}
@@ -398,9 +420,28 @@ table.oi td.och:hover{color:var(--cyan)}
 .aria-btn.on{color:#03080a;background:var(--cyan);border-color:var(--cyan)}.aria-btn.live{box-shadow:0 0 0 3px rgba(41,231,255,.35),0 0 16px rgba(41,231,255,.7);animation:arPulse 1.4s ease-in-out infinite}
 .aria-btn.wake{border-color:rgba(41,231,255,.6);color:var(--cyan)}
 @keyframes arPulse{50%{box-shadow:0 0 0 6px rgba(41,231,255,.12),0 0 22px rgba(41,231,255,.9)}}
-.ariabar{position:fixed;z-index:49;left:50%;transform:translateX(-50%);bottom:calc(74px + env(safe-area-inset-bottom));width:min(560px,calc(100vw - 16px));display:flex;align-items:center;gap:10px;padding:8px 8px 8px 10px;border-radius:16px;
+.ariafab{position:fixed;z-index:50;right:14px;bottom:calc(150px + env(safe-area-inset-bottom));width:64px;height:64px;padding:0;border:0;border-radius:50%;background:none;cursor:grab;touch-action:none;-webkit-tap-highlight-color:transparent;user-select:none}
+.ariafab[hidden],body.locked .ariafab,body.locked .ariabar{display:none!important}
+.ariafab img{position:relative;width:100%;height:100%;border-radius:50%;display:block;border:2px solid rgba(80,200,255,.9);box-shadow:0 0 0 2px rgba(10,20,50,.9),0 0 16px rgba(41,170,255,.75),0 8px 18px rgba(0,0,0,.55);pointer-events:none}
+.ariafab .af-ring{position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg,#29e7ff,#7b5cff,#ff4fd8,#29e7ff);opacity:.55;filter:blur(3px);animation:afSpin 6s linear infinite}
+.ariafab .af-mic{position:absolute;right:-3px;bottom:-3px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#2a7bff,#7b5cff);color:#fff;border:2px solid #081631;box-shadow:0 0 10px rgba(80,140,255,.8)}
+.ariafab .af-mic svg{width:13px;height:13px}
+.ariafab .af-dot{position:absolute;right:3px;top:3px;width:12px;height:12px;border-radius:50%;background:#556;border:2px solid #081631}
+.ariafab.on .af-dot{background:#2ee66b;box-shadow:0 0 8px #2ee66b}
+.ariafab.wake .af-dot{background:#29e7ff}
+.ariafab.listen .af-ring{opacity:1;animation:afSpin 1.6s linear infinite}
+.ariafab.listen img{animation:afPulse 1.2s ease-in-out infinite}
+.ariafab .af-wave{position:absolute;left:50%;bottom:-14px;transform:translateX(-50%);display:none;gap:2px;align-items:flex-end;height:12px}
+.ariafab.speak .af-wave{display:flex}
+.ariafab .af-wave i{width:3px;height:4px;border-radius:2px;background:#29e7ff;box-shadow:0 0 6px #29e7ff;animation:afBar .6s ease-in-out infinite alternate}
+.ariafab .af-wave i:nth-child(2){animation-delay:.12s}.ariafab .af-wave i:nth-child(3){animation-delay:.24s}.ariafab .af-wave i:nth-child(4){animation-delay:.36s}.ariafab .af-wave i:nth-child(5){animation-delay:.48s}
+.ariafab.drag{cursor:grabbing;opacity:.9}
+@keyframes afSpin{to{transform:rotate(360deg)}}@keyframes afPulse{50%{box-shadow:0 0 0 2px rgba(10,20,50,.9),0 0 28px rgba(41,231,255,1),0 8px 18px rgba(0,0,0,.55)}}@keyframes afBar{to{height:12px}}
+@media (prefers-reduced-motion:reduce){.ariafab .af-ring,.ariafab img,.ariafab .af-wave i{animation:none}}
+.ariabar{position:fixed;z-index:49;left:8px;top:auto;bottom:auto;width:min(330px,calc(100vw - 16px));display:flex;align-items:center;gap:10px;padding:8px 8px 8px 10px;border-radius:16px;
   background:color-mix(in srgb,var(--panel-solid,#0b1226) 92%,transparent);border:1px solid rgba(41,231,255,.45);box-shadow:0 14px 40px -10px rgba(0,0,0,.8),0 0 24px -8px rgba(41,231,255,.6);backdrop-filter:blur(8px)}
 .ariabar[hidden]{display:none}
+.ariabar .ar-av{display:none}
 .ar-av{position:relative;flex:none;width:46px;height:46px}.ar-av img{width:100%;height:100%;display:block;filter:drop-shadow(0 0 6px rgba(41,170,255,.6))}
 .ar-av i{position:absolute;inset:-4px;border-radius:50%;border:2px solid transparent}
 .ariabar.listen .ar-av i{border-color:rgba(41,231,255,.8);animation:arRing 1.2s ease-out infinite}
@@ -531,6 +572,7 @@ table.oi td.och:hover{color:var(--cyan)}
 @media (prefers-reduced-motion:reduce){.mascot *{animation:none!important}}
 /* world market clocks */
 .wrow{display:flex;flex-wrap:wrap;gap:5px;align-items:center;padding:1px;border:0;background:none;width:100%;text-align:left;cursor:pointer}
+.wrow.wmin{flex-wrap:nowrap;overflow:hidden;mask-image:linear-gradient(90deg,#000 88%,transparent)}.wc.wsum{color:var(--text);border-color:rgba(41,231,255,.45)}.wc.wsum .cd{color:var(--cyan)}
 .wrow::-webkit-scrollbar{display:none}
 .wc{flex:none;display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:999px;border:1px solid var(--line);background:var(--raise);font:500 11.5px/1.2 var(--f-ui);white-space:nowrap;color:var(--dim)}
 .wc b{color:var(--text);font-weight:700}
@@ -742,15 +784,12 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TRADEBOT</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v8</span></div></div>
+    <div><div class="logo">TRADEBOT</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v9</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
     <button class="iconbtn" id="refreshAll" aria-label="Refresh all data" title="Refresh all data">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>
-    </button>
-    <button class="iconbtn aria-btn" id="ariaBtn" aria-label="Talk to Aria" title="Talk to Aria (voice assistant)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
     </button>
     <button class="iconbtn" id="openSearch" aria-label="Search any symbol" title="Search any symbol">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -764,7 +803,7 @@ body:not(.locked) .login{display:none}
   <nav class="nav" id="nav">
     <button data-v="scan" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 12 18 6"/></svg>Scanner<span class="dot" id="navDot" hidden></span></button>
     <button data-v="chart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 3v18M12 6v12M18 4v14"/><rect x="4" y="7" width="4" height="7" rx="1"/><rect x="10" y="9" width="4" height="5" rx="1"/><rect x="16" y="6" width="4" height="8" rx="1"/></svg>Chart</button>
-    <button data-v="opt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V10M9 20V4M14 20v-7M19 20V8"/></svg>Options</button>
+    <button data-v="opt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V10M9 20V4M14 20v-7M19 20V8"/></svg>Options<span class="nbadge" aria-live="polite"></span></button>
     <button data-v="log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>Signals</button>
     <button data-v="lab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.5 9.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3"/><path d="M7.5 15h9"/></svg>Lab</button>
     <button data-v="news"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2"/><path d="M7.5 9h6M7.5 12.5h6M7.5 16h3.5"/></svg>News<span class="dot" id="newsDot" hidden></span></button>
@@ -832,6 +871,7 @@ body:not(.locked) .login{display:none}
     <section class="view" id="v-log" hidden>
       <div class="h2"><h2>Signals</h2><div class="seg" id="logPer"></div><span class="sub">Paper trades. Outcomes update live.</span><span class="spacer"></span><button class="btn" id="logCsv">CSV</button><button class="btn" id="logPdf">PDF</button><button class="btn ghost" id="logClear">Clear log</button></div>
       <div id="logRun"></div>
+      <div id="paperBox"></div>
       <div class="logsum" id="logSum"></div>
       <div id="logStats"></div>
       <div id="logList" style="display:flex;flex-direction:column;gap:8px"></div>
@@ -860,7 +900,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v8 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v9 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -934,13 +974,16 @@ body:not(.locked) .login{display:none}
           <div class="btns"><button class="btn" id="sTestAlert">Test alert</button><button class="btn" id="sTestParty">Test target hit</button><button class="btn" id="sTestBull">Test bull</button><button class="btn" id="sTestBear">Test bear</button><span class="msg" id="sWakeMsg"></span></div>
           <p>Keep this tab open in front. Phones and tablets pause background tabs, so alerts stop if you switch apps for long.</p>
         </div>
+        <div class="panel set" id="paperSet"></div>
         <div class="panel set">
           <h3>Aria voice assistant</h3>
-          <p>Tap the 🎙️ mic at the top once and talk. Aria keeps listening until you say "Aria stop" or stay quiet for 2 minutes. Say "what can you do" for the list.</p>
+          <p>Tap Aria's floating picture once and talk; she keeps listening until you say "Aria stop" or stay quiet for 2 minutes. <b>Tap her while she is speaking to stop her at once.</b> Drag her anywhere on the screen. Say "what can you do" for the list.</p>
           <label class="field"><span class="label">Language</span><select id="ariaSetLang"><option value="en">English</option><option value="mr">मराठी (Marathi)</option></select></label>
           <label class="field"><span class="label">Voice</span><select id="ariaSetVoice"></select></label>
           <div class="tg"><span>Wake word "Aria" (listens all the time while TradeBot is open; uses more battery and data)</span><label class="switch"><input type="checkbox" id="ariaSetWake"><span></span></label></div>
           <div class="tg"><span>Aria reads new signals aloud</span><label class="switch"><input type="checkbox" id="ariaSetSpeak"><span></span></label></div>
+          <div class="tg"><span>Hear "stop" while Aria is talking (best with earphones)</span><label class="switch"><input type="checkbox" id="ariaSetBarge"><span></span></label></div>
+          <div class="tg"><span>Show the floating Aria button</span><label class="switch"><input type="checkbox" id="ariaSetFab"><span></span></label></div>
           <div class="btns"><button class="btn" id="ariaTest">Test voice</button></div>
           <p>Marathi voice missing? Android: Settings → Text-to-speech → Google → Install voice data → Marathi.</p>
         </div>
@@ -986,8 +1029,10 @@ body:not(.locked) .login{display:none}
     <div class="sres" id="sres"><div class="shint">Type at least 2 letters. Searches Delta (crypto, gold, oil, US stocks) and Upstox (NSE stocks, indices, futures, options).</div></div>
   </div>
 </div>
+<button type="button" class="ariafab" id="ariaBtn" aria-label="Talk to Aria" title="Aria · tap to talk, tap again to stop · drag to move">
+  <span class="af-ring"></span><img src="aria.webp" alt="Aria" width="64" height="64" draggable="false"><span class="af-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>
+  <span class="af-wave"><i></i><i></i><i></i><i></i><i></i></span><span class="af-dot"></span></button>
 <div class="ariabar" id="ariaBar" hidden role="status" aria-live="polite">
-  <div class="ar-av"><img src="logo-head.webp" alt="" width="46" height="46"><i></i></div>
   <div class="ar-tx"><b id="ariaSt">Aria</b><span class="ar-you" id="ariaYou"></span><span class="ar-re" id="ariaRe"></span></div>
   <button type="button" class="ar-b" id="ariaLang" title="Switch English / Marathi">EN</button><button type="button" class="ar-b" id="ariaX" aria-label="Stop Aria">✕</button>
 </div>
@@ -1458,7 +1503,7 @@ function checkWicks(it,quiet){if(!it.active&&it.pend&&!it.pend.srv){const nowM=M
   for(const x of it.b1){if(x.t<from||x.t<=(tr.wickT||0)||x.t>=nowM)continue;tr.wickT=x.t;applyMove(it,x.h,x.l,quiet,x.o);if(!it.active)break}
   if(it.active)upsertLog(it.active)}
 function closeActive(it,status){const tr=it.active;if(!tr)return;tr.r=markR(tr,it.price);tr.status=status;tr.closedAt=nowSec();upsertLog(tr);it.lastClosed=tr;it.active=null}
-function upsertLog(tr){const row={id:tr.id,src:tr.src,risk:tr.risk,odds:tr.odds,inst:tr.inst,name:tr.name,tf:tr.tf,strong:!!tr.strong,opt:tr.opt,side:tr.side,dist:tr.dist,closedAt:tr.closedAt,slCur:tr.slCur,entryT:tr.entryT,wickT:tr.wickT,bars:tr.bars,state:tr.state,score:tr.score,entry:tr.entry,sl:tr.sl,t1:tr.t1,t2:tr.t2,t:tr.t,status:tr.status,r:tr.r,recovered:!!tr.recovered};
+function upsertLog(tr){const row={okey:tr.okey||null,id:tr.id,src:tr.src,risk:tr.risk,odds:tr.odds,inst:tr.inst,name:tr.name,tf:tr.tf,strong:!!tr.strong,opt:tr.opt,ck:tr.ck||null,fillT:tr.fillT||null,lot:tr.lot||null,srv:!!tr.srv,side:tr.side,dist:tr.dist,closedAt:tr.closedAt,slCur:tr.slCur,entryT:tr.entryT,wickT:tr.wickT,bars:tr.bars,state:tr.state,score:tr.score,entry:tr.entry,sl:tr.sl,t1:tr.t1,t2:tr.t2,t:tr.t,status:tr.status,r:tr.r,recovered:!!tr.recovered};
   const i=LOG.findIndex(x=>x.id===tr.id);if(i>=0)LOG[i]=row;else LOG.push(row);saveLog();if(S.view==='log')renderLog()}
 
 function rerunAll(){for(const it of S.inst.values()){it.active=null;it.lastClosed=null;engine(it,true);markDirty(it)}if(S.view==='chart')loadChart()}
@@ -2013,6 +2058,7 @@ setInterval(()=>{if(S.view==='chart'&&MC.n>1)for(let i=0;i<MC.panes.length;i++)m
    Chrome itself sends to Google to turn speech into text. Aria only operates the app: she never places trades. ---------- */
 const ARIA={on:false,rec:null,speaking:false,heard:0,listening:false,wakeHit:0,lastText:'',noVoiceWarn:false};
 const SRx=window.SpeechRecognition||window.webkitSpeechRecognition;
+const ptsN=v=>fmtPts(Math.abs(v)).replace(/^[+−-]/,'');   // spoken numbers: no sign, the words say profit or loss
 const ariaLang=()=>CFG.ariaLang==='mr'?'mr':'en';
 const T2=(en,mr)=>ariaLang()==='mr'?mr:en;
 const DEVA_DIG={'०':'0','१':'1','२':'2','३':'3','४':'4','५':'5','६':'6','७':'7','८':'8','९':'9'};
@@ -2067,6 +2113,7 @@ function ariaParse(raw){const t=ariaNorm(raw);const mk=ariaMarkets(t);const w=to
   if(has(t,'option signal','options signal','ऑप्शन सिग्नल','ऑप्शनचा सिग्नल'))return R('optSig');
   if(sigW&&(showW||has(t,'active','running','live','current','चालू','सक्रिय'))&&!mk.length){const g=has(t,'crypto','क्रिप्टो')?'crypto':has(t,'commodit','कमोडिटी')?'commodity':has(t,'us','american','अमेरिक','यूएस')?'us':has(t,'india','indian','भारत','इंडिया')?'india':null;return R('active',{g})}
   if(sigW&&mk.length)return R('sigOf');
+  if(has(t,'profit','loss','p&l','pnl','earning','earnings','paper','नफा','तोटा','कमाई','पेपर'))return R('paper');
   if(has(t,'price','rate','quote','value','किंमत','भाव','रेट','किती आहे'))return R('price');
   if(has(t,'risk','धोका','रिस्क'))return R('risk');
   if(has(t,'markets open','market open','markets are open','which market','what market','मार्केट चालू','कोणते मार्केट','मार्केट सुरू','बाजार चालू'))return R('mkOpen');
@@ -2085,19 +2132,20 @@ function ariaParse(raw){const t=ariaNorm(raw);const mk=ariaMarkets(t);const w=to
   if(mk.length)return R('chart',{price:true});
   return R('unknown')}
 /* ----- speaking ----- */
-function ariaVoices(lang){const vs=speechSynthesis.getVoices();const want=lang==='mr'?/^mr/i:/^en[-_]in/i;let L=vs.filter(v=>want.test(v.lang));
+function ariaVoices(lang){if(!window.speechSynthesis)return [];const vs=window.speechSynthesis.getVoices()||[];const want=lang==='mr'?/^mr/i:/^en[-_]in/i;let L=vs.filter(v=>want.test(v.lang));
   if(!L.length&&lang==='mr')L=vs.filter(v=>/^hi/i.test(v.lang));if(!L.length&&lang!=='mr')L=vs.filter(v=>/^en/i.test(v.lang));return L}
 function ariaVoice(lang){const L=ariaVoices(lang);const pick=CFG['ariaVoice_'+lang];const ch=pick&&L.find(v=>v.name===pick);if(ch)return ch;
   return L.find(v=>/female|woman|heera|veena|neerja|kajal|swara|aditi|isha|priya|samantha|zira|-x-(ahp|cxx|ena|ene)/i.test(v.name))||L.find(v=>/google/i.test(v.name))||L[0]||null}
 function ariaSpeak(parts,done){if(!('speechSynthesis' in window)){done&&done();return}if(typeof parts==='string')parts=[{t:parts}];
-  speechSynthesis.cancel();ARIA.speaking=true;try{ARIA.rec&&ARIA.rec.abort()}catch(e){}ariaUI();let i=0;
-  const next=()=>{if(i>=parts.length){ARIA.speaking=false;ariaUI();done&&done();ariaResume();return}const p=parts[i++];const lang=p.lang||ariaLang();
+  window.speechSynthesis.cancel();ARIA.speaking=true;ARIA.spk=parts.map(p=>ariaNorm(p.t)).join(' ');if(!CFG.ariaBarge){try{ARIA.rec&&ARIA.rec.abort()}catch(e){}}ariaUI();let i=0;ARIA.spkId=(ARIA.spkId||0)+1;const myId=ARIA.spkId;
+  const next=()=>{if(myId!==ARIA.spkId)return;if(i>=parts.length){ARIA.speaking=false;ariaUI();done&&done();ariaResume();return}const p=parts[i++];const lang=p.lang||ariaLang();
     const u=new SpeechSynthesisUtterance(p.t);const v=ariaVoice(lang);if(v){u.voice=v;u.lang=v.lang}else{u.lang=lang==='mr'?'mr-IN':'en-IN';if(lang==='mr'&&!ARIA.noVoiceWarn){ARIA.noVoiceWarn=true;toast('info','Marathi voice not installed','Android: Settings → Text-to-speech → Google → Install voice data → Marathi.','',null,9000)}}
-    u.rate=1;u.pitch=1.08;u.onend=next;u.onerror=next;speechSynthesis.speak(u)};
+    u.rate=1;u.pitch=1.08;u.onend=next;u.onerror=next;window.speechSynthesis.speak(u)};
   next()}
+function ariaAsk(en,mr,yes){ARIA.follow={yes};ariaSay(en,mr)}
 function ariaSay(en,mr,extra){const txt=T2(en,mr);ariaShow(null,txt);ariaSpeak([{t:txt},...(extra||[])])}
 /* ----- listening ----- */
-function ariaListen(){if(!SRx||ARIA.speaking||ARIA.listening||document.hidden)return;if(!ARIA.on&&!CFG.ariaWake)return;
+function ariaListen(){if(!SRx||(ARIA.speaking&&!CFG.ariaBarge)||ARIA.listening||document.hidden)return;if(!ARIA.on&&!CFG.ariaWake)return;
   const r=new SRx();ARIA.rec=r;r.lang=ariaLang()==='mr'?'mr-IN':'en-IN';r.interimResults=true;r.continuous=false;r.maxAlternatives=1;
   r.onstart=()=>{ARIA.listening=true;ariaUI()};
   r.onresult=e=>{let fin='',tmp='';for(let i=e.resultIndex;i<e.results.length;i++){const x=e.results[i];if(x.isFinal)fin+=x[0].transcript;else tmp+=x[0].transcript}
@@ -2105,25 +2153,35 @@ function ariaListen(){if(!SRx||ARIA.speaking||ARIA.listening||document.hidden)re
   r.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed'){ARIA.on=false;CFG.ariaWake=false;saveCfg();toast('warn','Microphone blocked','Allow the microphone for this site (tap the lock icon next to the address, then Permissions).','',null,9000)}};
   r.onend=()=>{ARIA.listening=false;ARIA.rec=null;ariaUI();ariaResume()};
   try{r.start()}catch(e){ARIA.listening=false}}
-function ariaResume(){if(ARIA.speaking)return;if(ARIA.on&&Date.now()-ARIA.heard>120000){ariaStop(true);return}
+function ariaResume(){if(ARIA.speaking&&!CFG.ariaBarge)return;if(ARIA.on&&Date.now()-ARIA.heard>120000){ariaStop(true);return}
   if(ARIA.on||CFG.ariaWake)setTimeout(ariaListen,ARIA.on?250:600)}
 const WAKE=/^(hey |hi |ok )?(aria|ariya|arya|area|maria|aaria|आरिया|अरिया|एरिया|आर्या|आरीया|अरीया)(?=\s|$)[ ,]*/i;   // \b does not work after Devanagari
+function ariaHush(){ARIA.spkId=(ARIA.spkId||0)+1;try{window.speechSynthesis.cancel()}catch(e){}ARIA.speaking=false;ARIA.follow=null;ariaUI();ariaShow(null,T2('Okay, stopped.','ठीक आहे, थांबले.'));ariaResume()}
+const STOPW=/(^| )(stop|enough|ok stop|wait|cancel|bas|thamb)( |$)|थांब|बास|बस|पुरे|थांबा/;
+const YESW=/^(yes|yeah|yep|sure|ok|okay|go on|more|details|continue|tell me|हो|होय|हा|हां|हो सांग|सांग|पुढे|अजून|आणखी|डिटेल)/,NOW=/^(no|nope|not now|skip|नको|नाही|नाय)/;
 function ariaHeard(text){const n=ariaNorm(text);
+  if(ARIA.speaking){const sim=ARIA.spk&&n.length>3&&ARIA.spk.includes(n);if(!sim&&STOPW.test(n.replace(WAKE,''))){ariaHush();return}return}   // while she talks only "stop" counts (ignores her own voice)
+  if(ARIA.on&&ARIA.follow){const f=ARIA.follow;const q=n.replace(WAKE,'').trim();if(YESW.test(q)){ARIA.follow=null;ariaShow(text,null);f.yes();return}if(NOW.test(q)){ARIA.follow=null;ariaShow(text,null);ariaSay('Okay.','ठीक आहे.');return}ARIA.follow=null}
   if(!ARIA.on){if(!CFG.ariaWake)return;const m=n.match(WAKE);if(!m)return;const rest=n.slice(m[0].length).trim();ARIA.on=true;ARIA.heard=Date.now();ariaUI();
     if(!rest){ariaSay('Yes?','बोला?');return}text=rest}
   else text=n.replace(WAKE,'').trim()||n;
   ariaShow(text,null);ariaDo(ariaParse(text))}
 function ariaStart(){if(!SRx){toast('warn','Voice not supported here','Use Chrome on Android (or Safari on iPhone) for Aria.','',null,7000);return}
   ARIA.on=true;ARIA.heard=Date.now();ariaUI();ariaSay("Hi, I'm Aria. How can I help?","नमस्कार, मी आरिया. काय मदत करू?")}
-function ariaStop(timeout){ARIA.on=false;try{ARIA.rec&&ARIA.rec.abort()}catch(e){}speechSynthesis&&speechSynthesis.cancel();ARIA.speaking=false;ARIA.listening=false;ariaUI();
+function ariaStop(timeout){ARIA.on=false;try{ARIA.rec&&ARIA.rec.abort()}catch(e){}window.speechSynthesis&&window.speechSynthesis.cancel();ARIA.speaking=false;ARIA.listening=false;ariaUI();
   if(timeout)toast('info','Aria stopped listening','Tap the mic to talk again.','',null,3000);if(CFG.ariaWake)setTimeout(ariaListen,800)}
-document.addEventListener('visibilitychange',()=>{if(document.hidden){try{ARIA.rec&&ARIA.rec.abort()}catch(e){}speechSynthesis&&speechSynthesis.cancel()}else if(ARIA.on||CFG.ariaWake)setTimeout(ariaListen,500)});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){try{ARIA.rec&&ARIA.rec.abort()}catch(e){}window.speechSynthesis&&window.speechSynthesis.cancel()}else if(ARIA.on||CFG.ariaWake)setTimeout(ariaListen,500)});
 /* ----- UI ----- */
-function ariaUI(){const b=$('#ariaBtn');if(b){b.classList.toggle('live',ARIA.listening||ARIA.speaking);b.classList.toggle('on',ARIA.on);b.classList.toggle('wake',!!CFG.ariaWake&&!ARIA.on)}
+function ariaUI(){const b=$('#ariaBtn');if(b){b.hidden=CFG.ariaFab===false;b.classList.toggle('listen',ARIA.listening&&!ARIA.speaking);b.classList.toggle('speak',ARIA.speaking);b.classList.toggle('on',ARIA.on);b.classList.toggle('wake',!!CFG.ariaWake&&!ARIA.on)}
+  ariaPlaceBar()
   const bar=$('#ariaBar');if(!bar)return;bar.hidden=!ARIA.on;bar.classList.toggle('speak',ARIA.speaking);bar.classList.toggle('listen',ARIA.listening&&!ARIA.speaking);
   $('#ariaSt').textContent=ARIA.speaking?T2('Aria is speaking…','आरिया बोलत आहे…'):ARIA.listening?T2('Listening…','ऐकत आहे…'):T2('Aria','आरिया');
   $('#ariaLang').textContent=ariaLang()==='mr'?'मर':'EN'}
-function ariaShow(you,reply,interim){if(you!=null){const y=$('#ariaYou');y.textContent=you;y.classList.toggle('dim',!!interim)}if(reply!=null)$('#ariaRe').textContent=reply}
+function ariaPlaceBar(){const bar=$('#ariaBar'),b=$('#ariaBtn');if(!bar||bar.hidden||!b||b.hidden)return;const r=b.getBoundingClientRect(),W=innerWidth,H=innerHeight,bw=bar.offsetWidth,bh=bar.offsetHeight;
+  let left=r.left+r.width/2>W/2?r.left-bw-10:r.right+10;if(left<8||left+bw>W-8)left=Math.max(8,Math.min(W-bw-8,r.left+r.width/2-bw/2));
+  let top=r.top+r.height/2-bh/2;if(left===Math.max(8,Math.min(W-bw-8,r.left+r.width/2-bw/2)))top=r.top-bh-12<8?r.bottom+12:r.top-bh-12;
+  bar.style.left=Math.round(left)+'px';bar.style.top=Math.round(Math.max(8,Math.min(H-bh-70,top)))+'px'}
+function ariaShow(you,reply,interim){if(you!=null){const y=$('#ariaYou');y.textContent=you;y.classList.toggle('dim',!!interim)}if(reply!=null)$('#ariaRe').textContent=reply;ariaPlaceBar()}
 /* ----- actions ----- */
 const MR_NM={'d:BTCUSD':'बिटकॉइन','d:XAUTUSD':'गोल्ड','d:OILUSD':'यूएस ऑइल','d:SPYXUSD':'एस अँड पी','d:QQQXUSD':'नॅसडॅक','d:NVDAXUSD':'एनव्हिडिया','d:TSLAXUSD':'टेस्ला','d:AAPLXUSD':'ॲपल',
   'u:NSE_INDEX|Nifty 50':'निफ्टी','u:NSE_INDEX|Nifty Bank':'बँक निफ्टी','u:BSE_INDEX|SENSEX':'सेन्सेक्स','u:FUT|NIFTY':'निफ्टी फ्युचर','u:FUT|BANKNIFTY':'बँक निफ्टी फ्युचर','u:FUT|SENSEX':'सेन्सेक्स फ्युचर',
@@ -2136,7 +2194,7 @@ const stName=k=>T2(((STATES[k]||[k])[0]||'').toLowerCase().replace(' · ',', '),
 function ariaDo(c){const one=c.mk[0];const it=one&&S.inst.get(one);
   switch(c.k){
   case 'stop':ariaSpeak(T2('Okay, bye.','ठीक आहे.'),()=>ariaStop());return;
-  case 'help':return ariaSay('I can open charts, show two or four charts, float a chart, tell prices, read signals and running trades, switch signals on or off, read news and events, the option chain summary, and open any tab. Say Aria stop when done.',
+  case 'help':return ariaSay('I can open charts, show two or four charts, float a chart, tell prices, tell your paper profit, read signals and running trades, switch signals on or off, read news and events, the option chain summary, and open any tab. Say Aria stop when done.',
     'मी चार्ट उघडू शकते, दोन किंवा चार चार्ट दाखवू शकते, किंमत सांगू शकते, सिग्नल आणि चालू ट्रेड सांगू शकते, सिग्नल चालू किंवा बंद करू शकते, बातम्या आणि इव्हेंट्स वाचू शकते, ऑप्शन चेन सारांश सांगू शकते. झाल्यावर आरिया थांब म्हणा.');
   case 'lang':CFG.ariaLang=c.v;saveCfg();ariaUI();return ariaSay('Okay, I will speak English.','ठीक आहे, मी आता मराठीत बोलेन.');
   case 'speakAlerts':CFG.ariaSpeak=c.on;saveCfg();setAriaSettings();return ariaSay(c.on?'Okay, I will read new signals aloud.':'Okay, I will not read signals.',c.on?'ठीक आहे, नवीन सिग्नल मी बोलून सांगेन.':'ठीक आहे, सिग्नल बोलून सांगणार नाही.');
@@ -2152,16 +2210,19 @@ function ariaDo(c){const one=c.mk[0];const it=one&&S.inst.get(one);
   case 'favShow':S.filter='fav';store.set('pt.filter','fav');show('scan');renderFilters();for(const x of S.inst.values())markDirty(x);{const f=(CFG.fav||[]).filter(id=>S.inst.has(id));return ariaSay(f.length?`Your favourites: ${f.map(nm).join(', ')}.`:'You have no favourites yet. Say add Bitcoin to favourites.',f.length?`तुमचे आवडते: ${f.map(nm).join(', ')}.`:'अजून कोणतेही आवडते नाहीत. बिटकॉइन आवडीत टाक असे म्हणा.')}
   case 'running':{const L=[...S.inst.values()].filter(x=>x.active&&['open','t1'].includes(x.active.status));const o=OLOCK&&!OLOCK.done?OLOCK:null;
     if(!L.length&&!o)return ariaSay('No trade is running right now.','सध्या कोणताही ट्रेड चालू नाही.');
-    const en=L.map(x=>{const v=x.price!=null?(x.price-x.active.entry)*x.active.side:null;return `${nm(x.def.id)} ${x.active.side>0?'BUY':'SELL'} from ${fmtP(x.active.entry)}${v!=null?`, ${fmtPts(Math.abs(v))} points ${v>=0?'profit':'loss'}`:''}`});
-    const mr=L.map(x=>{const v=x.price!=null?(x.price-x.active.entry)*x.active.side:null;return `${nm(x.def.id)} ${SIDE(x.active.side)}, ${fmtP(x.active.entry)} पासून${v!=null?`, ${fmtPts(Math.abs(v))} पॉइंट्स ${v>=0?'नफा':'तोटा'}`:''}`});
-    if(o){const v=o.ltp-o.entry;en.push(`option BUY ${o.ix} ${o.strike} ${o.type}, ${fmtPts(Math.abs(v))} points ${v>=0?'profit':'loss'}`);mr.push(`ऑप्शन ${o.ix} ${o.strike} ${o.type} बाय, ${fmtPts(Math.abs(v))} पॉइंट्स ${v>=0?'नफा':'तोटा'}`)}
-    return ariaSay(`${en.length} running. ${en.join('. ')}.`,`${en.length} ट्रेड चालू. ${mr.join('. ')}.`)}
+    const pts=x=>x.price!=null?(x.price-x.active.entry)*x.active.side:0;const nb=L.filter(x=>x.active.side>0).length,ns=L.length-nb;const win=L.filter(x=>pts(x)>=0).length;
+    const en=L.map(x=>{const v=pts(x);return `${nm(x.def.id)} ${x.active.side>0?'buy':'sell'} from ${fmtP(x.active.entry)}, ${ptsN((v))} points ${v>=0?'profit':'loss'}`});
+    const mr=L.map(x=>{const v=pts(x);return `${nm(x.def.id)} ${SIDE(x.active.side)}, ${fmtP(x.active.entry)} पासून, ${ptsN((v))} पॉइंट्स ${v>=0?'नफा':'तोटा'}`});
+    if(o){const v=(o.ltp||o.entry)-o.entry;en.push(`option ${o.ix} ${o.strike} ${o.type}, ${ptsN((v))} points ${v>=0?'profit':'loss'}`);mr.push(`ऑप्शन ${o.ix} ${o.strike} ${o.type}, ${ptsN((v))} पॉइंट्स ${v>=0?'नफा':'तोटा'}`)}
+    const n=en.length;if(n===1)return ariaSay(en[0]+'.',mr[0]+'.');
+    return ariaAsk(`${n} trades running: ${nb} buy, ${ns} sell${o?', plus one option':''}. ${win} in profit. Shall I give details?`,`${n} ट्रेड चालू: ${nb} बाय, ${ns} सेल${o?', आणि एक ऑप्शन':''}. ${win} नफ्यात. तपशील सांगू?`,()=>ariaSay(en.join('. ')+'.',mr.join('. ')+'.'))}
   case 'active':{show('scan');S.filter=c.g||'sig';store.set('pt.filter',S.filter);renderFilters();for(const x of S.inst.values())markDirty(x);
     const L=[...S.inst.values()].filter(x=>(!c.g||x.def.grp===c.g)&&(x.active&&['open','t1'].includes(x.active.status)||x.pend&&nowSec()<x.pend.until&&x.def.sig!==false));
     if(!L.length)return ariaSay(`No active ${c.g?c.g+' ':''}signals right now.`,`सध्या ${c.g==='crypto'?'क्रिप्टोचे ':''}कोणतेही चालू सिग्नल नाहीत.`);
     const en=L.map(x=>x.active?`${nm(x.def.id)} ${x.active.side>0?'BUY':'SELL'} running`:`${nm(x.def.id)} ${x.pend.side>0?'buy':'sell'} setup at ${fmtP(x.pend.lim)}`);
     const mr=L.map(x=>x.active?`${nm(x.def.id)} ${SIDE(x.active.side)} चालू`:`${nm(x.def.id)} ${x.pend.side>0?'बाय':'सेल'} सेटअप ${fmtP(x.pend.lim)} वर`);
-    return ariaSay(`${L.length} active: ${en.join(', ')}.`,`${L.length} चालू सिग्नल: ${mr.join(', ')}.`)}
+    if(L.length<=2)return ariaSay(`${L.length} active: ${en.join(', ')}.`,`${L.length} चालू सिग्नल: ${mr.join(', ')}.`);
+    return ariaAsk(`${L.length} active signals. Shall I read them?`,`${L.length} चालू सिग्नल आहेत. वाचून दाखवू?`,()=>ariaSay(en.join(', ')+'.',mr.join(', ')+'.'))}
   case 'chain':{const ixn=c.mk.includes('u:NSE_INDEX|Nifty Bank')?'BANKNIFTY':c.mk.includes('u:BSE_INDEX|SENSEX')?'SENSEX':c.mk.includes('u:NSE_INDEX|Nifty 50')?'NIFTY':null;
     show('opt');if(ixn){const i=OPT_IDX.findIndex(x=>x.n===ixn);if(i>=0&&i!==S.opt.idx){S.opt.idx=i;const sel=$('#oIdx');if(sel)sel.value=i;S.opt.exp=null;S.opt.exps=[];S.opt.an=null;loadExp();return ariaSay(`Loading the ${ixn} option chain. Ask me again in a minute.`,`${ixn} ऑप्शन चेन लोड होत आहे. एका मिनिटाने पुन्हा विचारा.`)}}
     const an=S.opt.an;if(!an)return ariaSay('The option chain is still loading. Ask me again in a minute.','ऑप्शन चेन अजून लोड होत आहे. एका मिनिटाने पुन्हा विचारा.');
@@ -2170,10 +2231,10 @@ function ariaDo(c){const one=c.mk[0];const it=one&&S.inst.get(one);
     return ariaSay(cs.line,`${OPT_IDX[S.opt.idx].n}: ${BM[cs.bias]||cs.bias}. ${cs.sup?`सपोर्ट ${cs.sup.k}`:''}${cs.res?`, रेझिस्टन्स ${cs.res.k}`:''}.${cs.sup&&cs.res?` संभाव्य रेंज ${cs.sup.k} ते ${cs.res.k}.`:''} PCR ${cs.pcr.toFixed(2)}.`)}
   case 'optSig':{const o=OLOCK;if(!o)return ariaSay('There is no locked option signal right now.','सध्या कोणताही ऑप्शन सिग्नल लॉक नाही.');const v=(o.ltp||o.entry)-o.entry,rs=Math.round(Math.abs(v)*(o.lot||1));
     if(o.done)return ariaSay(`The last option signal, ${o.ix} ${o.strike} ${o.type}, has ended: ${stName(o.status)}.`,`शेवटचा ऑप्शन सिग्नल, ${o.ix} ${o.strike} ${o.type}, संपला: ${stName(o.status)}.`);
-    return ariaSay(`BUY ${o.ix} ${o.strike} ${o.type}. Bought at ${fmtP(o.entry)}, now ${fmtP(o.ltp)}. ${fmtPts(Math.abs(v))} points ${v>=0?'profit':'loss'}, ${rs} rupees per lot. Stop ${fmtP(o.slCur)}, target ${fmtP(o.t1)}.`,
-      `${o.ix} ${o.strike} ${o.type} बाय. ${fmtP(o.entry)} ला घेतला, आता ${fmtP(o.ltp)}. ${fmtPts(Math.abs(v))} पॉइंट्स ${v>=0?'नफा':'तोटा'}, प्रति लॉट ${rs} रुपये. स्टॉप ${fmtP(o.slCur)}, टार्गेट ${fmtP(o.t1)}.`)}
+    return ariaSay(`BUY ${o.ix} ${o.strike} ${o.type}. Bought at ${fmtP(o.entry)}, now ${fmtP(o.ltp)}. ${ptsN((v))} points ${v>=0?'profit':'loss'}, ${rs} rupees per lot. Stop ${fmtP(o.slCur)}, target ${fmtP(o.t1)}.`,
+      `${o.ix} ${o.strike} ${o.type} बाय. ${fmtP(o.entry)} ला घेतला, आता ${fmtP(o.ltp)}. ${ptsN((v))} पॉइंट्स ${v>=0?'नफा':'तोटा'}, प्रति लॉट ${rs} रुपये. स्टॉप ${fmtP(o.slCur)}, टार्गेट ${fmtP(o.t1)}.`)}
   case 'whyNo':case 'sigOf':{if(!it)return ariaSay('Which market?','कोणते मार्केट?');const cs=cardState(it);const ev=it.eng&&it.eng.last;
-    if(c.k==='sigOf'&&(it.active||cs.k==='setupb'||cs.k==='setups')){const tr=it.active;if(tr){const v=it.price!=null?(it.price-tr.entry)*tr.side:0;return ariaSay(`${nm(one)}: ${tr.side>0?'BUY':'SELL'} running from ${fmtP(tr.entry)}, ${fmtPts(Math.abs(v))} points ${v>=0?'profit':'loss'}. Stop ${fmtP(tr.slCur)}, target one ${fmtP(tr.t1)}.`,`${nm(one)}: ${SIDE(tr.side)} चालू, ${fmtP(tr.entry)} पासून, ${fmtPts(Math.abs(v))} पॉइंट्स ${v>=0?'नफा':'तोटा'}. स्टॉप ${fmtP(tr.slCur)}, टार्गेट ${fmtP(tr.t1)}.`)}
+    if(c.k==='sigOf'&&(it.active||cs.k==='setupb'||cs.k==='setups')){const tr=it.active;if(tr){const v=it.price!=null?(it.price-tr.entry)*tr.side:0;return ariaSay(`${nm(one)}: ${tr.side>0?'BUY':'SELL'} running from ${fmtP(tr.entry)}, ${ptsN((v))} points ${v>=0?'profit':'loss'}. Stop ${fmtP(tr.slCur)}, target one ${fmtP(tr.t1)}.`,`${nm(one)}: ${SIDE(tr.side)} चालू, ${fmtP(tr.entry)} पासून, ${ptsN((v))} पॉइंट्स ${v>=0?'नफा':'तोटा'}. स्टॉप ${fmtP(tr.slCur)}, टार्गेट ${fmtP(tr.t1)}.`)}
       const p=it.pend;return ariaSay(`${nm(one)}: ${p.side>0?'buy':'sell'} setup. ${p.side>0?'Buy':'Sell'} at ${fmtP(p.lim)} until ${istT(p.until*1000)}.`,`${nm(one)}: ${p.side>0?'बाय':'सेल'} सेटअप. ${fmtP(p.lim)} वर, ${istT(p.until*1000)} पर्यंत.`)}
     if(it.def.sig===false)return ariaSay(`${nm(one)} signals are switched off.`,`${nm(one)} चे सिग्नल बंद आहेत.`);
     if(!mktOpen(it.def))return ariaSay(`${nm(one)}: the market is closed.`,`${nm(one)}: मार्केट बंद आहे.`);
@@ -2183,6 +2244,10 @@ function ariaDo(c){const one=c.mk[0];const it=one&&S.inst.get(one);
     const miss=keys.filter(k=>!ck[k]);const chop=cs.k==='chop';
     return ariaSay(`${nm(one)}: ${stName(cs.k)}. ${side?'Buy':'Sell'} checklist ${pass} of ${keys.length}.${ck.trend?'':' The bigger trend does not agree.'}${miss.length?` Missing: ${miss.map(k=>EN[k]).join(', ')}.`:' All checks pass, waiting for a trigger: a Supertrend flip or a breakout.'}${chop?' ADX is too low, the market is sideways.':''}`,
       `${nm(one)}: ${stName(cs.k)}. ${side?'बाय':'सेल'} चेकलिस्ट ${keys.length} पैकी ${pass}.${ck.trend?'':' मोठा ट्रेंड जुळत नाही.'}${miss.length?` कमी: ${miss.map(k=>MR[k]).join(', ')}.`:' सर्व चेक पूर्ण, ट्रिगरची वाट: सुपरट्रेंड फ्लिप किंवा ब्रेकआउट.'}${chop?' ADX कमी आहे, बाजार बाजूने चालत आहे.':''}`)}
+  case 'paper':{if(!paperOn())return ariaSay('Paper trading is off. Turn it on in Settings, Paper trading.','पेपर ट्रेडिंग बंद आहे. सेटिंग्जमध्ये चालू करा.');
+    const P=PP(),today=todayKey();const all=LOG.filter(r=>paperSel(r));const sum=a=>a.reduce((q,r)=>{const v=r.r!=null?paperRs(r):null;return v==null?q:q+v},0);
+    const dT=sum(all.filter(r=>Math.floor((r.t+IST)/86400)===today)),bal=P.cap+sum(all);const n=all.filter(r=>r.r!=null&&Math.floor((r.t+IST)/86400)===today).length;const R2=v=>Math.abs(Math.round(v)).toLocaleString('en-IN');
+    show('log');return ariaSay(`Today's paper result: ${dT>=0?'profit':'loss'} of ${R2(dT)} rupees from ${n} closed trades. Balance ${R2(bal)} rupees.`,`आजचा पेपर निकाल: ${n} ट्रेडमधून ${R2(dT)} रुपये ${dT>=0?'नफा':'तोटा'}. शिल्लक ${R2(bal)} रुपये.`)}
   case 'price':{if(!it)return ariaSay('Which market?','कोणते मार्केट?');if(it.price==null)return ariaSay(`${nm(one)} has no price yet.`,`${nm(one)} ची किंमत अजून आली नाही.`);const p=pctOf(it);
     return ariaSay(`${nm(one)} is ${fmtP(it.price)}${p!=null?`, ${p>=0?'up':'down'} ${Math.abs(p).toFixed(2)} percent`:''}.`,`${nm(one)} ${fmtP(it.price)} आहे${p!=null?`, ${Math.abs(p).toFixed(2)} टक्के ${p>=0?'वर':'खाली'}`:''}.`)}
   case 'risk':{const m=FD().macro;if(!m)return ariaSay('Risk data has not loaded yet.','धोक्याची माहिती अजून आली नाही.');const RM={'Calm':'शांत','Caution':'सावधानता','Risk-off':'धोका जास्त'};
@@ -2190,14 +2255,18 @@ function ariaDo(c){const one=c.mk[0];const it=one&&S.inst.get(one);
     return ariaSay(`Market risk: ${m.regime}. ${m.reds} red and ${m.ambers} amber.${bad.length?` Watch: ${bad.slice(0,4).join(', ')}.`:''}`,`मार्केट धोका: ${RM[m.regime]||m.regime}. ${m.reds} लाल आणि ${m.ambers} पिवळे.${bad.length?` लक्ष ठेवा: ${bad.slice(0,4).join(', ')}.`:''}`)}
   case 'mkOpen':{const n=nseOpen(),x=mcxOpen(),u=usOpen();
     return ariaSay(`NSE is ${n?'open':'closed'}. MCX is ${x?'open':'closed'}. The US market is ${u?'open':'closed'}. Crypto is always open.`,`NSE ${n?'चालू':'बंद'} आहे. MCX ${x?'चालू':'बंद'} आहे. अमेरिकन मार्केट ${u?'चालू':'बंद'} आहे. क्रिप्टो नेहमी चालू असते.`)}
-  case 'news':{const nw=FD().news;const items=nw&&nw.items?(c.hi?nw.items.filter(x=>x.imp>=3):nw.items).slice(0,5):[];show('news');
-    if(!items.length)return ariaSay(c.hi?'No high-impact news right now.':'No news has loaded yet.',c.hi?'सध्या कोणतीही महत्त्वाची बातमी नाही.':'बातम्या अजून आलेल्या नाहीत.');
-    const intro=T2(`${c.hi?'High-impact news':'Latest news'}. ${items.length} headlines.`,`${c.hi?'महत्त्वाच्या बातम्या':'ताज्या बातम्या'}. ${items.length} बातम्या.`);ariaShow(null,intro+' '+items.map(x=>x.title).join(' · '));
-    return ariaSpeak([{t:intro},...items.map(x=>({t:x.title,lang:'en'}))])}
+  case 'news':{const nw=FD().news;const all=nw&&nw.items?(c.hi?nw.items.filter(x=>x.imp>=3):nw.items).slice(0,9):[];show('news');
+    if(!all.length)return ariaSay(c.hi?'No high-impact news right now.':'No news has loaded yet.',c.hi?'सध्या कोणतीही महत्त्वाची बातमी नाही.':'बातम्या अजून आलेल्या नाहीत.');
+    const readFrom=k=>{const part=all.slice(k,k+3);const more=k+3<all.length;const intro=k?'':T2(`${c.hi?'High-impact news':'Latest news'}.`,`${c.hi?'महत्त्वाच्या बातम्या':'ताज्या बातम्या'}.`);
+      ariaShow(null,(intro?intro+' ':'')+part.map(x=>x.title).join(' · '));const q=more?[{t:T2('Shall I read more?','अजून वाचू?')}]:[];if(more)ARIA.follow={yes:()=>readFrom(k+3)};
+      ariaSpeak([...(intro?[{t:intro}]:[]),...part.map(x=>({t:x.title,lang:'en'})),...q])};
+    return readFrom(0)}
   case 'events':{const cal=FD().calendar;const now=Date.now();if(!cal||!cal.items)return ariaSay('The calendar has not loaded yet.','कॅलेंडर अजून आलेले नाही.');
     if(c.next){const e=cal.items.find(x=>x.imp>=3&&x.t>now);if(!e)return ariaSay('No big event coming up.','पुढे कोणताही मोठा इव्हेंट नाही.');return ariaSay(`Next big event: ${e.name}, ${istD(e.t)} at ${istT(e.t)}.`,`पुढचा मोठा इव्हेंट: ${e.name}, ${istD(e.t)} ${istT(e.t)} ला.`)}
     const tk=dayK(now);const L=cal.items.filter(x=>dayK(x.t)===tk&&x.imp>=2);if(!L.length)return ariaSay('No important events today.','आज कोणतेही महत्त्वाचे इव्हेंट्स नाहीत.');
-    return ariaSay(`Today: ${L.slice(0,5).map(e=>`${e.name} at ${istT(e.t)}${e.imp>=3?', high impact':''}`).join('; ')}.`,`आज: ${L.slice(0,5).map(e=>`${e.name} ${istT(e.t)} ला${e.imp>=3?', महत्त्वाचा':''}`).join('; ')}.`)}
+    const ev=k=>L.slice(k,k+3);const en=k=>ev(k).map(e=>`${e.name} at ${istT(e.t)}${e.imp>=3?', high impact':''}`).join('; '),mr=k=>ev(k).map(e=>`${e.name} ${istT(e.t)} ला${e.imp>=3?', महत्त्वाचा':''}`).join('; ');
+    if(L.length<=3)return ariaSay(`Today: ${en(0)}.`,`आज: ${mr(0)}.`);
+    return ariaAsk(`Today, ${L.length} events. First: ${en(0)}. Shall I read the rest?`,`आज ${L.length} इव्हेंट्स. पहिले: ${mr(0)}. बाकीचे वाचू?`,()=>ariaSay(en(3)+'.',mr(3)+'.'))}
   case 'search':openSearch();{const q=$('#sq');q.value=c.q.toUpperCase();q.dispatchEvent(new Event('input',{bubbles:true}))}return ariaSay(`Searching ${c.q}.`,`${c.q} शोधत आहे.`);
   case 'refresh':$('#refreshAll')&&$('#refreshAll').click();return ariaSay('Refreshing.','रिफ्रेश करत आहे.');
   case 'tf':{if(MC.n>1){MC.n=1;mcSave();renderLayout()}if(S.view!=='chart'){if(one)S.chart.id=one;show('chart')}S.chart.tf=c.v;const b=document.querySelector(`#chTf [data-tf="${c.v}"]`);if(b)b.click();else loadChart();return ariaSay(`${c.v===60?'One hour':c.v+' minute'} chart.`,`${c.v===60?'एक तासाचा':c.v+' मिनिटांचा'} चार्ट.`)}
@@ -2210,15 +2279,23 @@ function ariaAlert(it,tr,setup){if(!CFG.ariaSpeak||ARIA.speaking||document.hidde
   const en=setup?`${up?'Buy':'Sell'} setup on ${n}. ${up?'Buy':'Sell'} at ${fmtP(tr.lim)}.`:`${tr.strong?'Strong ':''}${up?'buy':'sell'} on ${n}, filled at ${fmtP(tr.entry)}.`;
   const mr=setup?`${n} वर ${up?'बाय':'सेल'} सेटअप. ${fmtP(tr.lim)} वर.`:`${n} वर ${tr.strong?'स्ट्रॉंग ':''}${up?'बाय':'सेल'}, ${fmtP(tr.entry)} ला.`;
   const txt=T2(en,mr);ariaSpeak(txt)}
-function setAriaSettings(){const l=$('#ariaSetLang');if(!l)return;l.value=ariaLang();$('#ariaSetWake').checked=!!CFG.ariaWake;$('#ariaSetSpeak').checked=!!CFG.ariaSpeak;
+function setAriaSettings(){const l=$('#ariaSetLang');if(!l)return;l.value=ariaLang();$('#ariaSetWake').checked=!!CFG.ariaWake;$('#ariaSetSpeak').checked=!!CFG.ariaSpeak;$('#ariaSetBarge').checked=!!CFG.ariaBarge;$('#ariaSetFab').checked=CFG.ariaFab!==false;
   const v=$('#ariaSetVoice');const L=('speechSynthesis' in window)?ariaVoices(ariaLang()):[];const cur=ariaVoice(ariaLang());
   v.innerHTML=L.length?L.map(x=>`<option value="${esc(x.name)}" ${cur&&cur.name===x.name?'selected':''}>${esc(x.name)} (${esc(x.lang)})</option>`).join(''):`<option value="">${ariaLang()==='mr'?'No Marathi voice: install it in Android Text-to-speech settings':'Default voice'}</option>`}
-(function(){const b=$('#ariaBtn');if(b)b.onclick=()=>{if(ARIA.on)ariaStop();else ariaStart()};
+(function(){const b=$('#ariaBtn');if(b){let st=null,moved=false;const pos=store.get('pt.ariapos',null);
+    const place=p=>{if(!p)return;const x=Math.max(4,Math.min(innerWidth-68,p.x*innerWidth)),y=Math.max(4,Math.min(innerHeight-130,p.y*innerHeight));b.style.left=x+'px';b.style.top=y+'px';b.style.right='auto';b.style.bottom='auto'};place(pos);
+    addEventListener('resize',()=>{place(store.get('pt.ariapos',null));ariaPlaceBar()});
+    b.addEventListener('pointerdown',e=>{st={x:e.clientX,y:e.clientY,l:b.getBoundingClientRect().left,t:b.getBoundingClientRect().top};moved=false;try{b.setPointerCapture(e.pointerId)}catch(x){}});
+    b.addEventListener('pointermove',e=>{if(!st)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(!moved&&Math.hypot(dx,dy)<8)return;moved=true;b.classList.add('drag');
+      b.style.left=Math.max(4,Math.min(innerWidth-68,st.l+dx))+'px';b.style.top=Math.max(4,Math.min(innerHeight-130,st.t+dy))+'px';b.style.right='auto';b.style.bottom='auto';ariaPlaceBar()});
+    const up=()=>{if(!st)return;st=null;b.classList.remove('drag');if(moved){const r=b.getBoundingClientRect();store.set('pt.ariapos',{x:r.left/innerWidth,y:r.top/innerHeight})}};
+    b.addEventListener('pointerup',up);b.addEventListener('pointercancel',up);
+    b.onclick=()=>{if(moved){moved=false;return}if(ARIA.speaking){ariaHush();return}if(ARIA.on)ariaStop();else ariaStart()}}
   $('#ariaX').onclick=()=>ariaStop();$('#ariaLang').onclick=()=>{CFG.ariaLang=ariaLang()==='mr'?'en':'mr';saveCfg();ariaUI();setAriaSettings();try{ARIA.rec&&ARIA.rec.abort()}catch(e){}ariaSay('English.','मराठी.')};
   const l=$('#ariaSetLang');if(l){l.onchange=()=>{CFG.ariaLang=l.value;saveCfg();setAriaSettings();ariaUI()};$('#ariaSetVoice').onchange=e=>{CFG['ariaVoice_'+ariaLang()]=e.target.value;saveCfg()};
     $('#ariaSetWake').onchange=e=>{CFG.ariaWake=e.target.checked;saveCfg();ariaUI();if(CFG.ariaWake){if(!SRx){toast('warn','Voice not supported here','','',null,4000);return}ariaListen();toast('info','Wake word on','Say "Aria, open Bitcoin chart" while TradeBot is open.','',null,6000)}else if(!ARIA.on){try{ARIA.rec&&ARIA.rec.abort()}catch(x){}}};
-    $('#ariaSetSpeak').onchange=e=>{CFG.ariaSpeak=e.target.checked;saveCfg()};$('#ariaTest').onclick=()=>ariaSpeak(T2("Hi, I'm Aria, your TradeBot assistant.",'नमस्कार, मी आरिया, तुमची ट्रेडबॉट सहाय्यक.'))}
-  if('speechSynthesis' in window){speechSynthesis.onvoiceschanged=setAriaSettings;setTimeout(setAriaSettings,800)}
+    $('#ariaSetSpeak').onchange=e=>{CFG.ariaSpeak=e.target.checked;saveCfg()};$('#ariaSetBarge').onchange=e=>{CFG.ariaBarge=e.target.checked;saveCfg()};$('#ariaSetFab').onchange=e=>{CFG.ariaFab=e.target.checked;saveCfg();ariaUI()};$('#ariaTest').onclick=()=>ariaSpeak(T2("Hi, I'm Aria, your TradeBot assistant.",'नमस्कार, मी आरिया, तुमची ट्रेडबॉट सहाय्यक.'))}
+  if('speechSynthesis' in window){window.speechSynthesis.onvoiceschanged=setAriaSettings;setTimeout(setAriaSettings,800)}
   if(CFG.ariaWake)setTimeout(ariaListen,3000);ariaUI()})();
 
 /* ---------- floating mini chart: stays on screen across tabs ---------- */
@@ -2318,7 +2395,7 @@ function optWatchdog(){if(!OLOCK||OLOCK.done)return;const pp=istParts(),m=pp.h*6
 function outcomeOpt(k){if(!CFG.alerts)return;const L=OLOCK;const name=`${L.ix} ${L.strike} ${L.type}`;const msg={t1:'Target 1 reached. Stop moved to entry.',t2:'Target 2 reached.',stop:'Stop loss hit.',be:'Back to entry after T1.',expired:'Closed at 3:15 pm.'}[k];
   if(k==='t1'||k==='t2')celebrate(k,name,{dist:L.entry-L.sl});else tone(SOUNDS[k==='stop'?'stop':'info']);toast(k==='expired'?'expired':k,`${(STATES[k]||STATES.wait)[0]} · ${name}`,msg,'',null)}
 function logOpt(){const L=OLOCK;if(!L)return;const dist=L.entry-L.sl;const r=L.done?(L.status==='t2'?1.5:L.status==='stop'?(L.exit-L.entry)/dist:L.status==='be'?0.5:markR({side:1,entry:L.entry,dist,status:'open'},L.exit)):null;
-  upsertLog({id:L.id,src:L.src,inst:'opt:'+L.ix,name:`${L.ix} ${L.strike} ${L.type}`+(L.src==='confirm'?' ✓':''),opt:1,tf:CFG.tf,side:1,dist,entry:L.entry,sl:L.sl,t1:L.t1,t2:L.t2,t:Math.floor(L.at/1000),status:L.done?L.status:(L.status==='t1'?'t1':'open'),state:'sbuy',r,closedAt:L.done?nowSec():null})}
+  upsertLog({id:L.id,src:L.src,lot:L.lot||null,okey:L.okey||null,inst:'opt:'+L.ix,name:`${L.ix} ${L.strike} ${L.type}`+(L.src==='confirm'?' ✓':''),opt:1,tf:CFG.tf,side:1,dist,entry:L.entry,sl:L.sl,t1:L.t1,t2:L.t2,t:Math.floor(L.at/1000),status:L.done?L.status:(L.status==='t1'?'t1':'open'),state:'sbuy',r,closedAt:L.done?nowSec():null})}
 /* ================= OPTIONS CONFIRMATION: index + calls + puts + OI must agree ================= */
 const CF={key:null,at:0,busy:false,rows:null,prog:'',pend:null,err:''};
 // one option contract's own premium chart: signal side if the engine fires, otherwise trend (Supertrend, EMA 9/21, VWAP) in -1..+1
@@ -2415,6 +2492,31 @@ function chainSummaryHTML(an,ix){const c=chainSummary(an,ix);if(!c)return '';con
       <div><span class="label">OI change today</span><b>Puts ${cr(c.dPe)}</b><small>Calls ${cr(c.dCe)}</small></div><div><span class="label">Bias, last 30 min</span>${sp||'<small>building…</small>'}</div></div>
     <ul class="why">${c.why.map(t=>`<li><i style="color:var(--dim)">•</i><span>${esc(t)}</span></li>`).join('')}</ul>
     <p class="note">Open interest shows where big option writers are positioned: a strong clue, not a guarantee. Treat this as a bias, not a prediction.</p></div>`}
+/* ---------- one-glance OI badge: CALL SIDE / PUT SIDE / WAIT, alert when it changes and holds ---------- */
+function oiWriters(an){const near=an.st.filter(x=>Math.abs(x.k-an.spot)/an.spot<0.03);const d=(x,s)=>x[s].oi-x[s].poi;
+  const top=(s,dir)=>[...near].sort((a,b)=>dir*(d(b,s)-d(a,s)))[0];const cW=top('ce',1),cC=top('ce',-1),pW=top('pe',1),pC=top('pe',-1);
+  return {cW:cW&&d(cW,'ce')>0?cW:null,cC:cC&&d(cC,'ce')<0?cC:null,pW:pW&&d(pW,'pe')>0?pW:null,pC:pC&&d(pC,'pe')<0?pC:null,d}}
+function oiBadge(an,ix){const c=chainSummary(an,ix);if(!c)return null;const w=oiWriters(an);const L=v=>{const a=Math.abs(v);return (v>=0?'+':'−')+(a>=1e7?(a/1e7).toFixed(1)+'Cr':a>=1e5?(a/1e5).toFixed(1)+'L':Math.round(a))};
+  const st=c.sc>=1.25?'call':c.sc<=-1.25?'put':'wait';const why=[];
+  if(w.pW)why.push(`put writers adding at ${w.pW.k} (${L(w.d(w.pW,'pe'))})`);if(w.cW)why.push(`call writers adding at ${w.cW.k} (${L(w.d(w.cW,'ce'))})`);
+  if(w.cC)why.push(`call writers covering at ${w.cC.k} (${L(w.d(w.cC,'ce'))})`);if(w.pC)why.push(`put writers covering at ${w.pC.k} (${L(w.d(w.pC,'pe'))})`);
+  return {st,c,w,why:why.slice(0,3)}}
+function oiBadgeStep(b,ix){const B=S.opt.badge=S.opt.badge||{};if(S.opt.at===B.at)return;B.at=S.opt.at;const key=ix.n;
+  if(B.key!==key){B.key=key;B.st=b.st;B.cnt=1;B.alerted=null;return}
+  if(b.st===B.st)B.cnt++;else{B.st=b.st;B.cnt=1}
+  if(B.cnt===2&&b.st!=='wait'&&B.alerted!==b.st){B.alerted=b.st;const up=b.st==='call';
+    tone(SOUNDS.info);toast(up?'buy':'sell',`${ix.n}: ${up?'CALL SIDE':'PUT SIDE'}`,`Option writers lean ${up?'bullish':'bearish'} on two checks in a row. ${b.why[0]||''}`,'',null,9000);
+    if(CFG.ariaSpeak&&!ARIA.speaking)ariaSpeak(T2(`${ix.n} option chain turned ${up?'call side, bullish':'put side, bearish'}.`,`${ix.n} ऑप्शन चेन ${up?'कॉल साइड, तेजीकडे':'पुट साइड, मंदीकडे'} वळली.`));
+    try{if(Notification.permission==='granted'&&document.hidden)navigator.serviceWorker.ready.then(r=>r.showNotification(`${ix.n}: ${up?'CALL SIDE':'PUT SIDE'}`,{body:b.why[0]||'Option writers changed side.',tag:'oi-'+ix.n,icon:'icon-192.png'}))}catch(e){}}
+  if(b.st==='wait'&&B.cnt>=2)B.alerted=null;
+  const nb=document.querySelector('[data-v="opt"] .nbadge');if(nb){nb.className='nbadge '+b.st;nb.textContent=b.st==='call'?'CALL':b.st==='put'?'PUT':''}}
+function fiiLine(){const f=FD().fii;if(!f||!f.fii)return '';const x=f.fii;const lp=x.futL+x.futS?x.futL/(x.futL+x.futS)*100:null;
+  const bias=lp==null?'':lp>=60?'bullish':lp<=35?'bearish':'neutral';const n=v=>Math.round(v).toLocaleString('en-IN');
+  return `<div class="oib-fii"><b>FII yesterday (${esc(f.date||'')})</b> · index futures ${lp==null?'—':Math.round(lp)+'% long'} <span class="${bias==='bullish'?'up':bias==='bearish'?'dn':''}">${bias}</span>${f.chg!=null?` (${f.chg>=0?'+':''}${n(f.chg)} net vs day before)`:''} · index calls net ${n(x.ceL-x.ceS)} · puts net ${n(x.peL-x.peS)}</div>`}
+function oiBadgeHTML(an,ix){const b=oiBadge(an,ix);if(!b)return '';oiBadgeStep(b,ix);const M={call:['CALL SIDE','Writers lean bullish · calls favoured','--sbuy','▲'],put:['PUT SIDE','Writers lean bearish · puts favoured','--ssell','▼'],wait:['WAIT · RANGE','No clear side · avoid fresh option buys','--wall','◆']}[b.st];
+  const B=S.opt.badge||{};const conf=b.st!=='wait'&&B.cnt>=2;
+  return `<div class="panel oib ${b.st}${conf?' conf':''}" style="--sc:var(${M[2]})"><div class="oib-b"><span class="oib-ic">${M[3]}</span><div><b>${M[0]}</b><small>${M[1]}${b.st!=='wait'?conf?' · confirmed':' · waiting for a 2nd check':''}</small></div><span class="oib-sc">Bias ${b.c.sc>0?'+':''}${b.c.sc}</span></div>
+    ${b.why.length?`<div class="oib-why">${b.why.map(t=>`<span>${esc(t)}</span>`).join('')}</div>`:''}${fiiLine()}</div>`}
 function renderOpt(){const an=S.opt.an;if(!an){$('#oBody').innerHTML='<div class="empty">No option data for this expiry.</div>';return}const ix=OPT_IDX[S.opt.idx];
   $('#oUpd').textContent='Updated '+new Date(S.opt.at+IST*1000).toISOString().slice(11,19)+' IST';
   const it=S.inst.get('u:'+ix.key);const ev=it&&it.eng&&it.eng.last;const bias=ev&&ev.state!=='warm'?{trend:ev.trend,st:ev.st}:null;
@@ -2429,7 +2531,7 @@ function renderOpt(){const an=S.opt.an;if(!an){$('#oBody').innerHTML='<div class
     return `<div class="opt-c"><div class="t"><b style="color:var(${col})">BUY ${ix.n} ${c.strike} ${c.type}</b><span class="label">${lbl||c.label} · Δ ${c.delta.toFixed(2)}</span>${c.thin?'<span class="tag">LOW OI</span>':''}</div>
       <div class="lv"><div class="e"><span>BUY AT</span><b>${fmtP(c.entry)}</b></div><div class="s"><span>STOP</span><b>${fmtP(c.sl)}</b></div><div class="a"><span>TARGET 1</span><b>${fmtP(c.t1)}</b></div><div class="b"><span>TARGET 2</span><b>${fmtP(c.t2)}</b></div></div>
       <div class="note">Risk ${fmtP(c.entry-c.sl)}${pnl(c.sl-c.entry)} · T1 gain ${fmtP(c.t1-c.entry)}${pnl(c.t1-c.entry)}</div></div>`};
-  let h=optLockCard(an,ix,lot)+chainSummaryHTML(an,ix)+confPanel(an,ix);
+  let h=oiBadgeHTML(an,ix)+optLockCard(an,ix,lot)+chainSummaryHTML(an,ix)+confPanel(an,ix);
   if(OLOCK&&OLOCK.ix===ix.n&&['open','t1'].includes(OLOCK.status)&&mst&&(OLOCK.type==='CE'?1:-1)!==mst.side)
     h=`<div class="panel plan" style="border-color:var(--wall);padding:10px 12px"><b style="color:var(--wall)">⚠ CONFLICT</b> <span class="note" style="display:inline">The tracked ${OLOCK.ix} ${OLOCK.strike} ${OLOCK.type} goes against the live ${mst.name} ${mst.side>0?'BUY':'SELL'} signal. Consider exiting it rather than adding to it.</span></div>`+h;
   // 1. live scanner signal on the index, if any
@@ -2490,13 +2592,81 @@ function renderLog(){renderRunning();const today=todayKey();const per=S.logPer||
   const rows=LOG.filter(x=>Math.floor((x.t+IST)/86400)>today-per).sort((a,b)=>b.t-a.t);renderStats(rows);
   const done=rows.filter(r=>r.r!=null);const wins=done.filter(r=>r.r>0).length;const net=done.reduce((s,r)=>s+r.r,0);
   const tile=(k,v,c)=>`<div class="tile"><span class="label">${k}</span><b ${c?`style="color:var(${c})"`:''}>${v}</b></div>`;
-  $('#logSum').innerHTML=tile('Signals',rows.length)+tile('Open',rows.filter(r=>r.r==null).length,'--cyan')+tile('Win rate',done.length?Math.round(wins/done.length*100)+'%':'—')+tile('Net R',done.length?fmtR(net):'—',net>=0?'--sbuy':'--ssell');
+  const lf=S.logF||'all';const tl=(f,k,v,c,extra)=>`<button type="button" class="tile${lf===f?' on':''}" data-lf="${f}"><span class="label">${k}${extra||''}</span><b ${c?`style="color:var(${c})"`:''}>${v}</b></button>`;
+  $('#logSum').innerHTML=tl('all','Signals',rows.length)+tl('open','Open',rows.filter(r=>r.r==null).length,'--cyan')+tl('win','Wins · rate',done.length?`${wins} · ${Math.round(wins/done.length*100)}%`:'—','--sbuy')+tl('loss','Losses',done.filter(r=>r.r<=0).length,'--ssell')+tl('done','Net R',done.length?fmtR(net):'—',net>=0?'--sbuy':'--ssell',' <i class="rhelp" data-rhelp="1" role="button" aria-label="What is R?">ⓘ</i>');
+  $('#logSum').querySelectorAll('[data-lf]').forEach(b=>b.onclick=e=>{if(e.target.closest('[data-rhelp]')){rHelp();return}S.logF=S.logF===b.dataset.lf?'all':b.dataset.lf;renderLog()});
+  renderPaper(rows);
+  const shown=rows.filter(r=>lf==='all'||(lf==='open'?r.r==null:lf==='win'?r.r!=null&&r.r>0:lf==='loss'?r.r!=null&&r.r<=0:r.r!=null));
   if(!rows.length){$('#logList').innerHTML='<div class="empty">No signals yet today. They appear here the moment the scanner fires one.</div>';return}
-  $('#logList').innerHTML=rows.map(r=>{const k=r.r==null?(r.status==='t1'?'t1':r.state):r.status;const [lab,col]=STATES[k]||STATES.wait;
-    return `<div class="logrow" style="--sc:var(${col})" data-i="${esc(r.inst)}"><span class="pill" style="margin:0">${r.r==null&&r.status!=='t1'?(r.side>0?'BUY':'SELL'):lab}</span>
-     <div class="meta"><b>${esc(r.name)}</b>${r.recovered?' <span class="tm">(found on load)</span>':''}<div>E ${fmtP(r.entry)} · SL ${fmtP(r.sl)} · T1 ${fmtP(r.t1)} · T2 ${fmtP(r.t2)}</div></div>
+  if(!shown.length){$('#logList').innerHTML='<div class="empty">Nothing in this group. Tap the box again to show all.</div>';return}
+  $('#logList').innerHTML=shown.map(r=>{const k=r.r==null?(r.status==='t1'?'t1':r.state):r.status;const [lab,col]=STATES[k]||STATES.wait;
+    return `<div class="logrow" role="button" tabindex="0" style="--sc:var(${col})" data-i="${esc(r.inst)}" data-id="${esc(r.id)}" title="Tap for details"><span class="pill" style="margin:0">${r.r==null&&r.status!=='t1'?(r.side>0?'BUY':'SELL'):lab}</span>
+     <div class="meta"><b>${esc(r.name)}</b>${r.recovered?' <span class="tm">(found on load)</span>':''}<div>E ${fmtP(r.entry)} · SL ${fmtP(r.sl)} · T1 ${fmtP(r.t1)} · T2 ${fmtP(r.t2)}</div>${paperOn()&&paperSel(r)?`<div class="tm">${(()=>{const v=paperRs(r);return v==null?'':`Paper ${v>=0?'+':'−'}₹${Math.abs(Math.round(v)).toLocaleString('en-IN')}`})()}</div>`:''}</div>
      <div><div class="r" style="color:var(${r.r==null?'--cyan':r.r>=0?'--sbuy':'--ssell'})">${r.r==null?livePtsLog(r):fmtPts(r.r*(r.dist||0))+' pts'}</div><div class="tm">${r.r==null?'open':fmtR(r.r)}</div><div class="tm">${fmtT(r.t+(r.tf||CFG.tf)*60)}</div></div></div>`}).join('');
-  $('#logList').querySelectorAll('.logrow').forEach(e=>e.onclick=()=>openChart(e.dataset.i))}
+  $('#logList').querySelectorAll('.logrow').forEach(e=>e.onclick=()=>sigDetail(e.dataset.id))}
+/* ---------- paper trading: your own amount and quantity per segment, only the markets you choose ---------- */
+const PDEF={on:false,cap:100000,usd:88,chg:0,q:{opt:1,idx:1,stk:10,mcx:1,btc:0.01,dlt:1,us:1},sel:null,since:0};
+const PSEG={opt:['Index options','lots'],idx:['Index & index futures','lots'],stk:['Indian stocks','shares'],mcx:['MCX commodities','lots'],btc:['Crypto (Bitcoin)','coins'],dlt:['Gold & Oil (Delta)','qty'],us:['US stocks & US30','qty']};
+const PP=()=>{const p=CFG.paper||{};return {...PDEF,...p,q:{...PDEF.q,...(p.q||{})}}};
+const paperOn=()=>!!(CFG.paper&&CFG.paper.on);
+function paperSeg(r){if(r.opt)return 'opt';const it=S.inst.get(r.inst);const d=it&&it.def;if(!d)return null;
+  if(d.n50||/_EQ\|/.test(d.key||''))return 'stk';if(isMcx(d))return 'mcx';if(d.fut||/_INDEX\|/.test(d.key||''))return 'idx';if(d.src==='delta'){if(d.grp==='crypto')return 'btc';if(d.usx)return 'us';return 'dlt'}if(d.src==='finnhub'||d.grp==='us')return 'us';return null}
+function lotFor(d){if(d.lot)return d.lot;const f=(FD().futures||{}).items||[];const m=f.find(x=>x.idx===d.id);return m?m.lot:null}
+// rupees per 1 point of price move for this row
+function paperUnits(r){const P=PP(),seg=paperSeg(r);if(!seg)return null;const q=+P.q[seg]||0;if(!q)return null;
+  if(seg==='opt')return q*(r.lot||(OLOCK&&OLOCK.lot)||1);const d=S.inst.get(r.inst).def;
+  if(seg==='idx'||seg==='mcx'){const l=lotFor(d);return l?q*l:null}if(seg==='stk')return q;return q*(+P.usd||88)}
+function paperSel(r){const P=PP();if(r.t<(P.since||0))return false;const k=r.opt?'opt':r.inst;if(P.sel)return P.sel.includes(k);if(r.opt)return true;const it=S.inst.get(r.inst);return !!it&&it.def.sig!==false}
+function paperRs(r){const u=paperUnits(r);if(u==null)return null;const P=PP();
+  if(r.r!=null)return r.r*(r.dist||0)*u-(+P.chg||0);
+  const it=r.opt?null:S.inst.get(r.inst);const px=r.opt?(OLOCK&&OLOCK.id===r.id?OLOCK.ltp:null):it&&it.price;if(px==null)return null;return markR(r,px)*(r.dist||0)*u}
+const rs=v=>`${v>=0?'+':'−'}₹${Math.abs(Math.round(v)).toLocaleString('en-IN')}`;
+function renderPaper(){const box=$('#paperBox');if(!box)return;if(!paperOn()){box.innerHTML=`<div class="panel pap off"><b>📒 Paper trading</b> · set your amount and quantity, pick markets, and see your daily ₹ profit or loss. <button class="btn" data-psetup="1">Set up</button></div>`;box.querySelector('[data-psetup]').onclick=()=>{show('set');setTimeout(()=>{const e=$('#paperSet');e&&e.scrollIntoView({behavior:'smooth',block:'start'})},200)};return}
+  const P=PP(),today=todayKey();const all=LOG.filter(r=>paperSel(r));const day=k=>all.filter(r=>Math.floor((r.t+IST)/86400)>today-k);
+  const sum=a=>a.reduce((q,r)=>{const v=r.r!=null?paperRs(r):null;return v==null?q:q+v},0);const openR=all.filter(r=>r.r==null);const mtm=openR.reduce((q,r)=>q+(paperRs(r)||0),0);
+  const tot=sum(all),bal=P.cap+tot,dT=sum(day(1)),startBal=bal-dT;const pct=v=>startBal>0?` (${v>=0?'+':''}${(v/startBal*100).toFixed(2)}%)`:'';
+  const per={};for(const r of day(1)){if(r.r==null)continue;const v=paperRs(r);if(v==null)continue;const k=r.name.split(' · ')[0];per[k]=per[k]||{v:0,n:0};per[k].v+=v;per[k].n++}
+  const T=(f,k,v,sub,c)=>`<button type="button" class="tile" data-pf="${f}"><span class="label">${k}</span><b style="color:var(${c||(v>=0?'--sbuy':'--ssell')})">${typeof v==='number'?rs(v):v}</b>${sub?`<small>${sub}</small>`:''}</button>`;
+  box.innerHTML=`<div class="panel pap"><div class="pap-h"><b>📒 Paper account</b><span class="sub">since ${P.since?istD(P.since*1000):'start'} · start ₹${P.cap.toLocaleString('en-IN')}</span><button class="btn ghost" data-psetup="1">Edit</button></div>
+    <div class="logsum">${T('bal','Balance',`₹${Math.round(bal).toLocaleString('en-IN')}`,`${tot>=0?'+':''}${(tot/P.cap*100).toFixed(2)}% overall`,tot>=0?'--sbuy':'--ssell')}${T(1,'Today',dT,`${day(1).filter(r=>r.r!=null).length} closed${pct(dT).replace(/[()]/g,'')}`)}${T(7,'7 days',sum(day(7)))}${T(30,'30 days',sum(day(30)))}${T('open','Open now',mtm,`${openR.length} running (not booked)`)}</div>
+    ${Object.keys(per).length?`<div class="pap-m">${Object.entries(per).sort((a,b)=>b[1].v-a[1].v).map(([k,x])=>`<span style="color:var(${x.v>=0?'--sbuy':'--ssell'})"><b>${esc(k)}</b> ${rs(x.v)} · ${x.n}</span>`).join('')}</div>`:''}
+    <p class="note">Paper results only: what you would have made with your quantities${P.chg?`, minus ₹${P.chg} charges per trade`:', before brokerage and taxes'}. USD markets at ₹${P.usd}/$.</p></div>`;
+  box.querySelector('[data-psetup]').onclick=()=>{show('set');setTimeout(()=>{const e=$('#paperSet');e&&e.scrollIntoView({behavior:'smooth',block:'start'})},200)};
+  box.querySelectorAll('[data-pf]').forEach(b=>b.onclick=()=>{const f=b.dataset.pf;if(f==='open'){S.logF='open';renderLog();return}if(+f){S.logPer=+f;S.logF='done';renderLog()}})}
+function paperSettings(){const el=$('#paperSet');if(!el)return;const P=PP();
+  const mk=[['opt','Index options (locked option signals)'],...[...S.inst.values()].filter(i=>!i.def.n50&&!i.def.opt).map(i=>[i.def.id,i.def.name.split(' · ')[0]])];
+  const sel=new Set(P.sel||mk.filter(([k])=>k==='opt'||(S.inst.get(k)&&S.inst.get(k).def.sig!==false)).map(x=>x[0]));
+  el.innerHTML=`<h3>Paper trading</h3><p>Counts the signals of the markets you pick with your own quantities, and shows your profit or loss in ₹ every day (Signals tab). No real orders.</p>
+    <div class="tg"><span>Paper trading on</span><label class="switch"><input type="checkbox" id="pOn" ${P.on?'checked':''}><span></span></label></div>
+    <div class="pgrid"><label class="field"><span class="label">Starting amount (₹)</span><input type="number" id="pCap" min="1000" step="1000" value="${P.cap}"></label>
+    <label class="field"><span class="label">USD → ₹ rate</span><input type="number" id="pUsd" min="1" step="0.5" value="${P.usd}"></label>
+    <label class="field"><span class="label">Charges per trade (₹)</span><input type="number" id="pChg" min="0" step="5" value="${P.chg}"></label></div>
+    <b class="psub">Quantity per trade</b><div class="pgrid">${Object.entries(PSEG).map(([k,[n,u]])=>`<label class="field"><span class="label">${n} (${u})</span><input type="number" data-pq="${k}" min="0" step="${k==='btc'?'0.001':'1'}" value="${P.q[k]}"></label>`).join('')}</div>
+    <b class="psub">Markets to paper-trade</b><div class="pchips">${mk.map(([k,n])=>`<button type="button" class="chip ${sel.has(k)?'on':''}" data-pm="${esc(k)}">${esc(n)}</button>`).join('')}</div>
+    <div class="btns"><button class="btn" id="pAll">Select all</button><button class="btn" id="pNone">Clear</button><button class="btn" id="pReset">Start fresh from now</button></div>
+    <p class="note">Index & futures use the exchange lot size (e.g. 1 lot NIFTY = ${lotFor({id:'u:NSE_INDEX|Nifty 50'})||'lot'} qty). MCX uses its lot (Natural Gas 1 lot = 1,250). Bitcoin, Gold, Oil and US are in dollars, converted at your rate.</p>`;
+  const save=()=>{const q={};el.querySelectorAll('[data-pq]').forEach(i=>q[i.dataset.pq]=+i.value||0);const s2=[...el.querySelectorAll('[data-pm].on')].map(b=>b.dataset.pm);
+    CFG.paper={...P,on:$('#pOn').checked,cap:+$('#pCap').value||100000,usd:+$('#pUsd').value||88,chg:+$('#pChg').value||0,q,sel:s2,since:P.since||nowSec()};saveCfg();if(S.view==='log')renderLog()};
+  el.querySelectorAll('input').forEach(i=>i.onchange=save);el.querySelectorAll('[data-pm]').forEach(b=>b.onclick=()=>{b.classList.toggle('on');save()});
+  $('#pAll').onclick=()=>{el.querySelectorAll('[data-pm]').forEach(b=>b.classList.add('on'));save()};$('#pNone').onclick=()=>{el.querySelectorAll('[data-pm]').forEach(b=>b.classList.remove('on'));save()};
+  $('#pReset').onclick=()=>{CFG.paper={...PP(),since:nowSec()};saveCfg();paperSettings();toast('info','Paper account restarted','Only signals from now on will count.','',null,3500)}}
+/* ---------- signal details ---------- */
+function rHelp(){toast('info','What is R?','R = your risk on one trade: entry to stop loss. +1R = you made as much as you risked; −1R = you lost the planned amount; +2R = twice your risk. It lets you compare Bitcoin, NIFTY and Gold trades on one scale.','',null,12000)}
+function sigDetail(id){const r=LOG.find(x=>x.id===id);if(!r)return;const k=r.r==null?(r.status==='t1'?'t1':r.state):r.status;const [lab,col]=STATES[k]||STATES.wait;const tf=r.tf||CFG.tf;
+  const it=r.opt?null:S.inst.get(r.inst);const live=r.r==null?(r.opt?(OLOCK&&OLOCK.id===r.id?OLOCK.ltp:null):it&&it.price):null;
+  const pts=r.r!=null?r.r*(r.dist||0):live!=null?(live-r.entry)*r.side:null;const rv=r.r!=null?r.r:live!=null?markR(r,live):null;const pr=paperOn()&&paperSel(r)?paperRs(r):null;
+  const KV=(k,v,c)=>`<div><span class="label">${k}</span><b ${c?`style="color:var(${c})"`:''}>${v}</b></div>`;const t=x=>x?`${istD(x*1000)} ${fmtT(x)}`:'—';
+  const ck=r.ck?['trend','ema','vwap','st','rsi','adx','vol'].filter(q=>r.ck[q]!=null).map(q=>`<span class="ckc ${r.ck[q]?'ok':''}">${r.ck[q]?'✓':'✗'} ${({trend:'Bigger trend',ema:'EMA 9/21',vwap:'VWAP',st:'Supertrend',rsi:'RSI',adx:'ADX',vol:'Volume spike'})[q]}</span>`).join(''):'';
+  let el=$('#sigDet');if(!el){el=document.createElement('div');el.id='sigDet';el.className='overlay';document.body.appendChild(el);el.onclick=e=>{if(e.target===el||e.target.closest('[data-sdx]'))el.hidden=true}}
+  el.innerHTML=`<div class="panel ikp sdp" role="dialog" aria-label="Signal details" style="--sc:var(${col})"><div class="ik-h"><span class="pill" style="margin:0">${r.side>0?'BUY':'SELL'}${r.strong?' · STRONG':''}</span><b>${esc(r.name)}</b><button class="flt-b" data-sdx="1" aria-label="Close">✕</button></div>
+    <div class="ik-v"><span class="num" style="color:var(${pts==null?'--dim':pts>=0?'--sbuy':'--ssell'})">${pts==null?'—':fmtPts(pts)+' pts'}</span><span class="ik-st">${esc(lab)}</span></div>
+    <div class="sd-g">${KV('Signal candle',t(r.t+tf*60))}${KV('Entered',t(r.entryT||r.fillT))}${KV(r.r!=null?'Closed':'Status',r.r!=null?t(r.closedAt):'running')}${KV('Timeframe',tf+' min')}
+      ${KV('Entry',fmtP(r.entry))}${KV('Stop loss',fmtP(r.sl),'--ssell')}${KV('Target 1',fmtP(r.t1),'--t1')}${KV('Target 2',fmtP(r.t2),'--t1')}
+      ${KV('Result (R)',rv==null?'—':fmtR(rv),rv==null?null:rv>=0?'--sbuy':'--ssell')}${live!=null?KV('Live price',fmtP(live)):''}${pr!=null?KV(`Paper ₹${r.r==null?' (open)':''}`,rs(pr),pr>=0?'--sbuy':'--ssell'):''}${KV('Source',r.opt?'Options tab':r.srv?'Shared server':'This device')}</div>
+    ${ck?`<b class="psub">Checklist when it fired</b><div class="ckl">${ck}</div>`:''}
+    <div class="btns">${r.opt?(r.okey?`<button class="btn" data-sdo="1">View option chart</button>`:`<button class="btn" data-sdopt="1">Open Options</button>`):`<button class="btn" data-sdc="1">View on chart</button>`}<button class="btn ghost" data-sdx="1">Close</button></div></div>`;
+  el.hidden=false;const c=el.querySelector('[data-sdc]');if(c)c.onclick=()=>{el.hidden=true;openChart(r.inst)};const o=el.querySelector('[data-sdo]');if(o)o.onclick=()=>{el.hidden=true;openOptChart(r.okey,r.name.replace(' ✓',''))};
+  const op=el.querySelector('[data-sdopt]');if(op)op.onclick=()=>{el.hidden=true;show('opt')}}
 let clearArm=0;const logRows=()=>{const per=S.logPer||1,today=todayKey();return LOG.filter(x=>Math.floor((x.t+IST)/86400)>today-per)};
 const perLabel=()=>({1:'today',7:'7-days',30:'30-days'})[S.logPer||1];
 $('#logCsv').onclick=()=>{const r=logRows();if(!r.length){toast('info','Nothing to export','No signals in this period yet.','',null,3000);return}exportCsv(r,perLabel());toast('info','CSV saved',`${r.length} signals saved to Downloads.`,'',null,3000)};
@@ -2526,7 +2696,7 @@ const SKINS=[['neon','Neon','linear-gradient(135deg,#04060d 40%,#29e7ff 41%,#29e
   ['neud','Neumorphic dark','radial-gradient(circle at 30% 30%,#333a48,#272c37 60%,#1b1f27)','#272c37'],['neul','Neumorphic light','radial-gradient(circle at 30% 30%,#ffffff,#e3e8ef 60%,#c2c8d2)','#e3e8ef']];
 function applySkin(){const s=SKINS.find(x=>x[0]===CFG.skin)||SKINS[0];document.documentElement.dataset.skin=s[0];const m=document.querySelector('meta[name=theme-color]');if(m)m.content=s[3];
   if(CH){try{S.chart.range=CH.chart.timeScale().getVisibleLogicalRange()}catch(e){}try{CH.chart.remove()}catch(e){}CH=null;const t=$('.chtop');if(t)t.remove()}if(S.view==='chart')loadChart(true);for(const it of S.inst.values())markDirty(it)}
-function renderSettings(){renderPush();renderSrvMsg();{const k=RK();$('#rkCap').value=k.cap;$('#rkPct').value=k.pct;$('#rkDaily').value=k.daily;$('#rkMax').value=k.maxOpen;$('#rkFx').value=k.usdinr}renderPAall();
+function renderSettings(){renderPush();renderSrvMsg();paperSettings();setAriaSettings&&setAriaSettings();{const k=RK();$('#rkCap').value=k.cap;$('#rkPct').value=k.pct;$('#rkDaily').value=k.daily;$('#rkMax').value=k.maxOpen;$('#rkFx').value=k.usdinr}renderPAall();
   $('#sN50').checked=!!CFG.n50;renderTune();$('#sTsound').innerHTML=[['pro','Professional chime'],['stadium','Stadium']].map(([k,n])=>`<button class="${CFG.tsound===k?'on':''}" data-k="${k}">${n}</button>`).join('');
   $('#sTsound').querySelectorAll('button').forEach(b=>b.onclick=()=>{CFG.tsound=b.dataset.k;saveCfg();unlockAudio();jingle(true);renderSettings()});
   $('#sSkins').innerHTML=SKINS.map(([k,n,g])=>`<button class="skin ${CFG.skin===k?'on':''}" data-k="${k}"><i style="background:${g}"></i>${n}</button>`).join('');
@@ -2738,13 +2908,14 @@ function fmtDur(ms){if(ms==null)return '';const m=Math.max(0,Math.round(ms/60000
 const istHM=ms=>new Date(ms+IST*1000).toISOString().slice(11,16);
 const WSHORT={'NSE':'NSE','MCX':'MCX','Tokyo':'TYO','HK':'HK','Shanghai':'SHA','Singapore':'SGP','Sydney':'SYD','Frankfurt':'FRA','London':'LON','New York':'NY','24/7':'Crypto'};
 const fmtDurS=ms=>fmtDur(ms).replace(/ /g,'');
-function renderWorld(){const sts=MKTS.map(m=>({m,s:mktState(m)}));const narrow=innerWidth<600;
-  const chips=sts.map(({m,s})=>`<span class="wc" title="${m.n}: ${s.lbl}"><i class="st-${s.st}"></i><b>${narrow?WSHORT[m.c]||m.c:(m.c==='24/7'?'Crypto':m.c)}</b>${String(s.L.hh).padStart(2,'0')}:${String(s.L.mm).padStart(2,'0')}${s.ms!=null?` <span class="cd ${s.ev==='closes'?'cl':'op'}">${s.ev==='closes'?'▼':'▲'}${fmtDurS(s.ms)}</span>`:''}</span>`).join('');
+function renderWorld(){const sts=MKTS.map(m=>({m,s:mktState(m)}));const narrow=innerWidth<600;const open=store.get('pt.wopen',false);
+  const shown=open?sts:sts.filter(({m})=>['NSE','MCX','New York','24/7'].includes(m.c));const nOpen=sts.filter(x=>x.s.st==='open').length;
+  const chips=`<span class="wc wsum" title="World markets">🌐 <b>${nOpen}/${sts.length}</b> open <span class="cd">${open?'▴ less':'▾ all'}</span></span>`+shown.map(({m,s})=>`<span class="wc" title="${m.n}: ${s.lbl}"><i class="st-${s.st}"></i><b>${narrow?WSHORT[m.c]||m.c:(m.c==='24/7'?'Crypto':m.c)}</b>${String(s.L.hh).padStart(2,'0')}:${String(s.L.mm).padStart(2,'0')}${s.ms!=null?` <span class="cd ${s.ev==='closes'?'cl':'op'}">${s.ev==='closes'?'▼':'▲'}${fmtDurS(s.ms)}</span>`:''}</span>`).join('');
   const table=`<table class="wtab"><thead><tr><th>Market</th><th>Local time</th><th>Status</th><th>Next</th><th>In IST</th></tr></thead><tbody>${sts.map(({m,s})=>`<tr><td><b>${m.n}</b></td><td class="t">${String(s.L.hh).padStart(2,'0')}:${String(s.L.mm).padStart(2,'0')}</td>
     <td><span class="wstat" style="color:var(${s.st==='open'?'--sbuy':s.st==='brk'?'--t1':'--dim'})"><i class="st-${s.st}"></i>${s.lbl}</span></td><td class="t">${s.ms!=null?`${s.ev} in ${fmtDur(s.ms)}`:'—'}</td><td class="t">${s.evAt?istHM(s.evAt):'—'}</td></tr>`).join('')}</tbody></table>
     <p class="note" style="margin:6px 4px 0">▼ = closes in · ▲ = opens in. Regular weekday hours; exchange holidays not included yet.</p>`;
-  for(const [r,pn] of [['#wrow','#wpanel'],['#wrow2','#wpanel2']]){const row=$(r),pan=$(pn);if(!row)continue;row.innerHTML=chips;if(!pan.hidden)pan.innerHTML=table}}
-for(const [r,pn] of [['#wrow','#wpanel'],['#wrow2','#wpanel2']])$(r).onclick=()=>{const p=$(pn);p.hidden=!p.hidden;$(r).setAttribute('aria-expanded',!p.hidden);store.set('pt.wopen',!$('#wpanel').hidden);renderWorld()};
+  for(const [r,pn] of [['#wrow','#wpanel'],['#wrow2','#wpanel2']]){const row=$(r),pan=$(pn);if(!row)continue;row.innerHTML=chips;row.classList.toggle('wmin',!open);pan.hidden=!open;if(open)pan.innerHTML=table}}
+for(const [r,pn] of [['#wrow','#wpanel'],['#wrow2','#wpanel2']])$(r).onclick=()=>{const o=!store.get('pt.wopen',false);store.set('pt.wopen',o);$(r).setAttribute('aria-expanded',o);renderWorld()};
 
 /* ================= REVERSAL LAB (separate test tab) ================= */
 const LAB=Object.assign({tf:5,rsi:20,sweep:false,hours:false,alerts:false,start:Math.floor(Date.now()/1000)},store.get('pt.lab',{}));const saveLab=()=>store.set('pt.lab',LAB);if(!store.get('pt.lab',null))saveLab();
@@ -3043,7 +3214,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{const f=store.get('pt.fl
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=8"></script>
+<script type="module" src="auth.js?v=9"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
