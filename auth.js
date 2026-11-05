@@ -20,7 +20,7 @@ const db = getFirestore(app);
 window.__fbReady = true;
 
 const $ = id => document.getElementById(id);
-const MAIN_KEYS = ['pt.cfg','pt.watch','pt.n50cfg','pt.icol','pt.ovl','pt.zoom','pt.lab','pt.palerts','pt.olock','pt.wopen'];
+const MAIN_KEYS = ['pt.cfg','pt.watch','pt.n50cfg','pt.icol','pt.ovl','pt.zoom','pt.lab','pt.palerts','pt.olock','pt.draw','pt.macdp','pt.sbpos'];
 const LOG_KEYS = ['pt.log','pt.lablog'];
 let cur = null, dirtyMain = false, dirtyLogs = false, tMain = null, tLogs = null, pushing = false;
 const last = { main: '', logs: '', secrets: '' };

@@ -66,7 +66,7 @@ button{cursor:pointer}
 @media (prefers-reduced-motion:reduce){.coin{animation:none}}
 .coin svg,.coin img{width:100%;height:100%;display:block}
 @keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-5px) rotate(4deg)}}
-.logo{font:700 18px/1.05 var(--f-logo);letter-spacing:.08em;background:linear-gradient(90deg,var(--logo-a),var(--cyan) 70%);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+.logo{font:700 19px/1.05 var(--f-logo);letter-spacing:.02em;background:linear-gradient(90deg,var(--logo-a),var(--cyan) 70%);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
 .ver{font:700 10px/1 var(--f-ui);padding:2px 5px;border-radius:5px;border:1px solid var(--line-hi);color:var(--cyan);vertical-align:2px}
 .greet{font:500 13px/1.3 var(--f-ui);color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hbtns{display:flex;gap:8px}
@@ -399,7 +399,7 @@ table.oi td.och:hover{color:var(--cyan)}
 
 /* ---------- toasts ---------- */
 .lay button{min-width:34px}
-#v-chart.multi .chartbox,#v-chart.multi #chStat,#v-chart.multi #chRead,#v-chart.multi #chOvl,#v-chart.multi #chSym,#v-chart.multi #chTf,#v-chart.multi #chPill,#v-chart.multi #chAlert,#v-chart.multi #chFit,#v-chart.multi #chFloat,#v-chart.multi #paBox{display:none!important}
+#v-chart.multi .chartbox,#v-chart.multi #drBar,#v-chart.multi #chDraw,#v-chart.multi #chStat,#v-chart.multi #chRead,#v-chart.multi #chOvl,#v-chart.multi #chSym,#v-chart.multi #chTf,#v-chart.multi #chPill,#v-chart.multi #chAlert,#v-chart.multi #chFit,#v-chart.multi #chFloat,#v-chart.multi #paBox{display:none!important}
 .mgrid{display:grid;gap:10px;grid-template-columns:1fr 1fr;--mh:calc((100dvh - 250px) / 2)}
 .mgrid[hidden]{display:none}
 .mgrid.n2 .mp{height:max(300px,calc(100dvh - 250px))}
@@ -455,6 +455,41 @@ table.oi td.och:hover{color:var(--cyan)}
 .ar-b{flex:none;min-width:34px;height:32px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:800 12px/1 var(--f-ui);cursor:pointer}
 #ariaX{border-color:rgba(255,80,110,.5);color:#ff8fa6}
 @media (prefers-reduced-motion:reduce){.aria-btn.live,.ariabar.listen .ar-av i,.ariabar.speak .ar-av img{animation:none}}
+.macdlbl{position:absolute;left:8px;right:84px;top:calc((100% - 30px) * .74);z-index:2;pointer-events:none;font:600 11px/1.3 var(--f-num);color:var(--dim);border-top:1px solid var(--line);padding-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.macdlbl[hidden]{display:none}.macdlbl b{color:var(--text);margin-right:6px}.macdlbl span{margin-right:8px}
+.og .mpi{width:44px;padding:3px 4px;margin-left:4px;font:600 12px var(--f-num);border-radius:6px;border:1px solid var(--line);background:var(--well);color:var(--text)}
+.drsvg{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;overflow:visible}
+.drsvg.live{pointer-events:auto;touch-action:none;cursor:crosshair}
+.drsvg text{font:700 11px var(--f-num);paint-order:stroke;stroke:rgba(4,10,24,.85);stroke-width:3px}
+.drsvg .dtx{font:700 13px var(--f-ui)}
+.drsvg .hit{stroke:transparent;stroke-width:18;fill:transparent;pointer-events:none}.drsvg.live .hit{pointer-events:stroke}.drsvg.live rect.hit{pointer-events:fill}
+.drsvg .hd{fill:#03080a;stroke:#fff;stroke-width:2;pointer-events:none}.drsvg.live .hd{pointer-events:auto;cursor:grab}
+.drsvg g.sel line,.drsvg g.sel rect:not(.hit){filter:drop-shadow(0 0 4px rgba(255,255,255,.6))}
+.drinp{position:absolute;z-index:5;width:190px;padding:6px 8px;border-radius:8px;border:1px solid var(--cyan);background:var(--panel-solid,#0b1226);color:var(--text);font:600 13px var(--f-ui)}
+.drbar{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin:0 0 8px;padding:6px;border-radius:12px;border:1px solid rgba(41,231,255,.4);background:var(--panel)}
+.drbar[hidden]{display:none}
+.drbar button{display:flex;flex-direction:column;align-items:center;gap:1px;min-width:44px;padding:5px 6px;border-radius:9px;border:1px solid var(--line);background:var(--raise);color:var(--text);font:700 15px/1 var(--f-ui);cursor:pointer}
+.drbar button small{font:600 9.5px/1 var(--f-ui);color:var(--dim)}.drbar button.on{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan) inset;color:var(--cyan)}
+.drbar button.ok{border-color:var(--sbuy);color:var(--sbuy)}.drbar button:disabled{opacity:.4}
+.drbar .drc{min-width:26px;width:26px;height:26px;padding:0;border-radius:50%;background:var(--c)}.drbar .drc.on{outline:2px solid #fff;outline-offset:2px}
+.drhint{flex-basis:100%;font:600 12px/1.35 var(--f-ui);color:var(--cyan);padding:2px 4px 0}
+.drsep{width:1px;align-self:stretch;background:var(--line);margin:0 3px}
+/* neon border lights (Settings → Look): a light that runs around the screen edge */
+.nbord{position:fixed;inset:0;z-index:44;pointer-events:none;display:none}
+.nbm{position:absolute;inset:0;border-radius:var(--nbr,18px);padding:2.5px;overflow:hidden;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
+body.locked .nbord{display:none!important}
+.nbord i{position:absolute;left:50%;top:50%;width:200vmax;height:200vmax;margin:-100vmax 0 0 -100vmax;will-change:transform}
+.nbord[data-k="runner"],.nbord[data-k="dual"],.nbord[data-k="aurora"],.nbord[data-k="pulse"],.nbord[data-k="status"]{display:block}
+.nbord[data-k="runner"] .nb-a{background:conic-gradient(from 0deg,transparent 0 78%,rgba(41,231,255,.2) 84%,#29e7ff 93%,#e9fbff 96%,#29e7ff 97.5%,transparent 100%);animation:nbSpin 5s linear infinite}
+.nbord[data-k="dual"] .nb-a{background:conic-gradient(from 0deg,transparent 0 30%,#29e7ff 44%,#e9fbff 47%,transparent 50%,transparent 80%,#2a6bff 94%,#bcd4ff 97%,transparent 100%);animation:nbSpin 4s linear infinite}
+.nbord[data-k="dual"] .nb-b{background:conic-gradient(from 90deg,transparent 0 86%,#7b5cff 96%,transparent 100%);animation:nbSpin 7s linear infinite reverse;opacity:.8}
+.nbord[data-k="aurora"] .nb-a{background:conic-gradient(#29e7ff,#2a6bff,#7b5cff,#ff4fd8,#29e7ff);animation:nbSpin 9s linear infinite;opacity:.85}
+.nbord[data-k="pulse"] .nb-a,.nbord[data-k="status"] .nb-a{background:var(--nbc,#29e7ff);animation:nbBreath 2.8s ease-in-out infinite}
+.nbord[data-k="status"].up{--nbc:#00e68a}.nbord[data-k="status"].dn{--nbc:#ff3d6e}
+.nbord.glow{filter:drop-shadow(0 0 6px rgba(41,231,255,.9)) drop-shadow(0 0 14px rgba(41,170,255,.55))}
+@keyframes nbSpin{to{transform:rotate(360deg)}}@keyframes nbBreath{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.nbord i{animation:none!important}}
 .flt{position:fixed;z-index:48;display:flex;flex-direction:column;border-radius:14px;overflow:hidden;background:var(--panel-solid,#0b1226);border:1px solid var(--line-hi);box-shadow:0 18px 48px -12px rgba(0,0,0,.75),0 0 0 1px rgba(41,231,255,.12);touch-action:none;min-width:220px;min-height:150px}
 .flt[hidden]{display:none}
 .flt-h{display:flex;align-items:center;gap:7px;padding:6px 6px 6px 10px;background:var(--raise);border-bottom:1px solid var(--line);cursor:grab;user-select:none;-webkit-user-select:none;font:700 12.5px/1 var(--f-ui)}
@@ -645,7 +680,7 @@ body:not(.locked) .login{display:none}
 @keyframes lgSpin{to{transform:rotate(360deg)}}
 .lg-card{width:min(400px,100%);display:flex;flex-direction:column;gap:12px;padding:24px 22px;border-radius:20px;background:rgba(14,20,40,.62);border:1px solid rgba(120,160,255,.22);
   backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 0 0 1px rgba(255,255,255,.03) inset,0 20px 60px rgba(0,0,0,.5),0 0 40px -12px rgba(41,231,255,.35)}
-.lg-brand{text-align:center;font:700 34px/1 "Source Serif 4",Georgia,serif;letter-spacing:.32em;padding-left:.32em;background:linear-gradient(90deg,#ffe27a,#f5b82e 45%,#29e7ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lg-brand{text-align:center;font:700 38px/1 "Source Serif 4",Georgia,serif;letter-spacing:.06em;padding-left:.06em;background:linear-gradient(90deg,#ffe27a,#f5b82e 45%,#29e7ff);-webkit-background-clip:text;background-clip:text;color:transparent}
 .lg-sub{text-align:center;font:500 12px/1.2 "Source Serif 4",Georgia,serif;letter-spacing:.24em;text-transform:uppercase;color:#8fa0c8;margin-top:-4px}
 #lgFields{display:flex;flex-direction:column;gap:12px;margin-top:6px}
 .lg-f{display:flex;flex-direction:column;gap:6px}
@@ -760,7 +795,7 @@ body:not(.locked) .login{display:none}
   </div>
   <form class="lg-card" id="lgForm" autocomplete="off" novalidate>
     <i class="lg-cn tl"></i><i class="lg-cn tr"></i><i class="lg-cn bl"></i><i class="lg-cn br"></i>
-    <div class="lg-brand">TRADEBOT</div>
+    <div class="lg-brand">TradeBot</div>
     <div class="lg-sub">Algorithmic market intelligence</div>
     <div class="lg-boot" id="lgBoot" aria-hidden="true"><span id="lgBootTx"></span><i class="lg-cur"></i></div>
     <div class="lg-state" id="lgState" hidden><span class="lg-spin"></span><span id="lgStateTx">Checking your session…</span></div>
@@ -784,7 +819,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TRADEBOT</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v9</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v10</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -843,11 +878,13 @@ body:not(.locked) .login{display:none}
         <button class="btn ghost" id="chAlert" title="Price alerts for this market">🔔 Alert</button>
         <button class="btn ghost" id="chFit" title="Reset zoom and price scale">Fit</button>
         <button class="btn ghost" id="chFloat" title="Keep a small live chart on screen while you use other tabs">⧉ Float</button>
+        <button class="btn ghost" id="chDraw" title="Draw trend lines, levels, zones, Fibonacci, notes">✏️ Draw</button>
         <div class="seg lay" id="chLay" role="group" aria-label="Charts on screen"><button data-n="1" title="One chart">1</button><button data-n="2" title="Two charts">2</button><button data-n="3" title="Three charts">3</button><button data-n="4" title="Four charts">4</button></div>
       </div>
       <div class="panel paform" id="paBox" hidden><span class="label">Alert when price reaches</span><input type="text" inputmode="decimal" id="paPrice"><button class="btn pri" id="paAdd">Add alert</button><div class="palist" id="paList" style="flex-basis:100%"></div></div>
       <button class="wrow" id="wrow2" aria-expanded="false" title="World market hours. Tap for details."></button>
       <div class="panel wpanel oiwrap" id="wpanel2" hidden></div>
+      <div class="drbar" id="drBar" hidden></div>
       <div class="mgrid" id="mGrid" hidden></div>
       <div class="chstat" id="chStat" hidden></div>
       <div class="panel chartbox"><div id="chart"></div><div class="chmsg" id="chMsg">Loading chart…</div>
@@ -900,7 +937,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v9 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v10 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -974,6 +1011,11 @@ body:not(.locked) .login{display:none}
           <div class="btns"><button class="btn" id="sTestAlert">Test alert</button><button class="btn" id="sTestParty">Test target hit</button><button class="btn" id="sTestBull">Test bull</button><button class="btn" id="sTestBear">Test bear</button><span class="msg" id="sWakeMsg"></span></div>
           <p>Keep this tab open in front. Phones and tablets pause background tabs, so alerts stop if you switch apps for long.</p>
         </div>
+        <div class="panel set">
+          <h3>Look</h3>
+          <label class="field"><span class="label">Screen border light</span><select id="nbSel"><option value="off">Off</option><option value="runner">Neon runner (blue light running around the edge)</option><option value="dual">Twin lasers (two lights chasing)</option><option value="aurora">Aurora (flowing blue–violet–pink)</option><option value="pulse">Neon pulse (soft breathing glow)</option><option value="status">Trade status (blue idle · green BUY · red SELL)</option></select></label>
+          <p>A thin light around the screen edge. Turn it off to save a little battery.</p>
+        </div>
         <div class="panel set" id="paperSet"></div>
         <div class="panel set">
           <h3>Aria voice assistant</h3>
@@ -1029,6 +1071,7 @@ body:not(.locked) .login{display:none}
     <div class="sres" id="sres"><div class="shint">Type at least 2 letters. Searches Delta (crypto, gold, oil, US stocks) and Upstox (NSE stocks, indices, futures, options).</div></div>
   </div>
 </div>
+<div class="nbord" id="nBord" aria-hidden="true"><div class="nbm"><i class="nb-a"></i><i class="nb-b"></i></div></div>
 <button type="button" class="ariafab" id="ariaBtn" aria-label="Talk to Aria" title="Aria · tap to talk, tap again to stop · drag to move">
   <span class="af-ring"></span><img src="aria.webp" alt="Aria" width="64" height="64" draggable="false"><span class="af-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>
   <span class="af-wave"><i></i><i></i><i></i><i></i><i></i></span><span class="af-dot"></span></button>
@@ -1572,9 +1615,10 @@ const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],MONS=['Jan','Feb','Mar','
 function greet(){const hr=istParts().h;const g=hr>=5&&hr<12?'Good morning':hr>=12&&hr<17?'Good afternoon':hr>=17&&hr<22?'Good evening':'Good night';$('#greet').textContent=g+(CFG.name?', '+CFG.name:'')}
 let labBk=null;
 let cfBk=null;
+function nbApply(){const el=$('#nBord');if(!el)return;const k=CFG.border||'runner';el.dataset.k=k;el.classList.toggle('glow',k!=='off');const sel=$('#nbSel');if(sel)sel.value=k}
 function botLight(){const el=$('#botLogo');if(!el)return;let up=0,dn=0;for(const it of S.inst.values())if(it.active&&['open','t1'].includes(it.active.status)){if(it.active.side>0)up++;else dn++}
-  if(OLOCK&&!OLOCK.done)up++;const k=up&&!dn?'up':dn&&!up?'dn':up&&dn?'up':'';el.className='coin'+(k?' '+k:'');el.title=up||dn?`${up} buy · ${dn} sell running`:'No trade running'}
-async function heartbeat(){tickN++;if(tickN%3===0)botLight();if(S.view==='chart')renderSigBox();if(S.view==='log'&&tickN%3===0)renderRunning();if(CFG.token&&nseOpen()){const bk=Math.floor(nowSec()/(CFG.tf*60));if(cfBk!=null&&bk!==cfBk&&(S.view==='opt'||CFG.alerts))setTimeout(()=>confLoad(true),15000);cfBk=bk}if(tickN%60===11)for(const it of S.inst.values())if(it.active&&!it.active.odds)oddsFor(it,it.active);{const S1=LAB.tf*60,bk=Math.floor(nowSec()/S1);if(labBk!=null&&bk!==labBk&&(S.view==='lab'||LAB.alerts))setTimeout(()=>labRun(true).then(()=>{labPreviewAll();renderLab()}),20000);labBk=bk;
+  if(OLOCK&&!OLOCK.done)up++;const k=up&&!dn?'up':dn&&!up?'dn':up&&dn?'up':'';el.className='coin'+(k?' '+k:'');const nb=$('#nBord');if(nb){nb.classList.toggle('up',k==='up');nb.classList.toggle('dn',k==='dn')}el.title=up||dn?`${up} buy · ${dn} sell running`:'No trade running'}
+async function heartbeat(){tickN++;if(tickN%3===0)botLight();if(tickN%60===30)try{divScan()}catch(e){}if(S.view==='chart')renderSigBox();if(S.view==='log'&&tickN%3===0)renderRunning();if(CFG.token&&nseOpen()){const bk=Math.floor(nowSec()/(CFG.tf*60));if(cfBk!=null&&bk!==cfBk&&(S.view==='opt'||CFG.alerts))setTimeout(()=>confLoad(true),15000);cfBk=bk}if(tickN%60===11)for(const it of S.inst.values())if(it.active&&!it.active.odds)oddsFor(it,it.active);{const S1=LAB.tf*60,bk=Math.floor(nowSec()/S1);if(labBk!=null&&bk!==labBk&&(S.view==='lab'||LAB.alerts))setTimeout(()=>labRun(true).then(()=>{labPreviewAll();renderLab()}),20000);labBk=bk;
   if(S.view==='lab'){if(tickN%3===0)labLiquidity();if(tickN%5===0){labPreviewAll();renderLab()}}else if(LAB.alerts&&tickN%600===7)labRun(true)}if(tickN%10===3){for(const it of S.inst.values()){if(it.def.n50&&S.filter!=='n50')continue;previewInst(it);markDirty(it)}}if(tickN%5===0){staleCheck();optWatchdog()}if(S.view==='chart')updTimer();if((S.view==='scan'||S.view==='chart')&&tickN%5===0)renderWorld();const p=istParts();const dd=new Date(Date.now()+IST*1000);
   $('#clk').textContent=`${DAYS[dd.getUTCDay()]} ${dd.getUTCDate()} ${MONS[dd.getUTCMonth()]} · ${String(p.h).padStart(2,'0')}:${String(p.m).padStart(2,'0')}:${String(p.s).padStart(2,'0')} IST`;if(tickN%60===1)greet();
   $('#sess').innerHTML=`<b class="${nseOpen()?'on':''}">NSE</b><b class="${usOpen()?'on':''}">US</b><b class="on">CRYPTO</b>`;
@@ -1830,10 +1874,16 @@ function initChart(){
   chart.priceScale('vol').applyOptions({scaleMargins:{top:.84,bottom:0}});
   const line=(k,title,style)=>chart.addLineSeries({color:indCol(k),title,lineWidth:style==='st'?2:1.4,lineStyle:style==='dash'?2:0,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:false});
   if(chart.timeScale().subscribeVisibleLogicalRangeChange)chart.timeScale().subscribeVisibleLogicalRangeChange(r=>{updTimer();if(!CH||CH.applying||!r)return;S.chart.range=r;clearTimeout(CH.zt);CH.zt=setTimeout(()=>{const cnt=Math.round(r.to-r.from);if(cnt>=10)store.set('pt.zoom',{cnt})},500)});
-  CH={chart,candle,vol,k:{up,dn,text:css('--text'),stop:css('--stop'),t1:css('--t1'),t2:css('--t2')},e9:line('e9','EMA9'),e21:line('e21','EMA21'),vw:line('vw','VWAP','dash'),stU:line('stU','ST','st'),stD:line('stD','ST','st'),lines:[],show:store.get('pt.ovl',{e9:1,e21:1,vw:1,st:1,vol:1})};
+  const mH=chart.addHistogramSeries({priceScaleId:'macd',priceLineVisible:false,lastValueVisible:false,base:0});
+  const mL=chart.addLineSeries({priceScaleId:'macd',color:indCol('mL'),lineWidth:1.4,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
+  const mS=chart.addLineSeries({priceScaleId:'macd',color:indCol('mS'),lineWidth:1.2,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
+  CH={chart,candle,vol,mH,mL,mS,divS:[],divs:[],k:{up,dn,text:css('--text'),stop:css('--stop'),t1:css('--t1'),t2:css('--t2')},e9:line('e9','EMA9'),e21:line('e21','EMA21'),vw:line('vw','VWAP','dash'),stU:line('stU','ST','st'),stD:line('stD','ST','st'),lines:[],show:{e9:1,e21:1,vw:1,st:1,vol:1,macd:1,...store.get('pt.ovl',{})}};
+  chart.subscribeCrosshairMove(q=>{if(!CH)return;CH.xhair=!!(q&&q.point&&q.logical!=null);if(CH.mc)macdLabel(CH.xhair?Math.max(0,Math.min(CH.mc.m.length-1,Math.round(q.logical))):undefined)});
+  if(!$('#macdLbl')){const l=document.createElement('div');l.id='macdLbl';l.className='macdlbl';document.querySelector('.chartbox').appendChild(l)}
+  macdPanes();
   return true}
 // indicator colours (user choice, saved)
-const IND_DEF={e9:'--cyan',e21:'--violet',vw:'--t2',stU:'--up',stD:'--down',lE:'--text',lS:'--stop',lT1:'--t1',lT2:'--t2'};
+const IND_DEF={e9:'--cyan',e21:'--violet',vw:'--t2',stU:'--up',stD:'--down',lE:'--text',lS:'--stop',lT1:'--t1',lT2:'--t2',mL:'--cyan',mS:'--t2'};
 function indCol(k){const c=store.get('pt.icol',{})[k];if(c)return c;return getComputedStyle(document.documentElement).getPropertyValue(IND_DEF[k]).trim()||'#888888'}
 function toHex(c){if(/^#[0-9a-f]{6}$/i.test(c))return c;const d=document.createElement('canvas').getContext('2d');d.fillStyle=c;return /^#/.test(d.fillStyle)?d.fillStyle:'#888888'}
 // candle countdown under the live price label, like standard charts
@@ -1864,13 +1914,15 @@ function drawChart(it,fit){const b=S.chart.bars;if(!CH||!b.length)return;const s
   CH.stU.setData(o.st?b.map((x,i)=>ind.st.dir[i]===1&&!isNaN(ind.st.line[i])?{time:sh(x.t),value:ind.st.line[i]}:{time:sh(x.t)}):[]);
   CH.stD.setData(o.st?b.map((x,i)=>ind.st.dir[i]===-1&&!isNaN(ind.st.line[i])?{time:sh(x.t),value:ind.st.line[i]}:{time:sh(x.t)}):[]);
   const dNow=ind.st.dir[b.length-1];CH.stU.applyOptions({lastValueVisible:dNow===1});CH.stD.applyOptions({lastValueVisible:dNow===-1});
+  drawMacd(it);
   // markers from backtest + log
   const S1=S.chart.tf*60,off=offFor(isNse(d),S1);const times=new Set(b.map(x=>x.t));const mk=new Map();
   const add=(t,side,txt)=>{const bt=bucketOf(t,S1,off);if(!times.has(bt))return;mk.set(bt+':'+side,{time:sh(bt),position:side>0?'belowBar':'aboveBar',color:side>0?CH.k.up:CH.k.dn,shape:side>0?'arrowUp':'arrowDown',text:txt})};
   if(!d.opt){if(it.eng)for(const s of it.eng.sigs)add(s.t,s.side,s.side>0?'B':'S');
   for(const l of LOG)if(l.inst===d.id&&!(it.active&&l.id===it.active.id))add(l.t,l.side,l.side>0?'BUY':'SELL')}
+  if(CH.show.macd&&!d.opt)for(const v of CH.divs||[])mk.set(v.t2+':div'+v.side,{time:sh(v.t2),position:v.side>0?'belowBar':'aboveBar',color:v.side>0?CH.k.up:CH.k.dn,shape:'circle',text:v.side>0?'BULL DIV':'BEAR DIV'});
   CH.candle.setMarkers([...mk.values()].sort((a,c)=>a.time-c.time));
-  drawLines(it);
+  drawLines(it);drRender();drLoop();
   if(fit)applyView()
   S.chart.ind=ind;renderReadout(it);updTimer()}
 // trade level lines: after T1 the stop sits on the entry price, so that line is labelled "SL = ENTRY" and drawn thicker
@@ -1967,9 +2019,13 @@ function renderChartHead(){const it=chartInst();const sel=$('#chSym');
   if(!it)return;updChartLive();
   const pick=k=>`<input type="color" class="cpick" data-c="${k}" value="${toHex(indCol(k))}" aria-label="Colour" title="Change colour">`;
   const shw=CH?CH.show:store.get('pt.ovl',{e9:1,e21:1,vw:1,st:1,vol:1});
-  $('#chOvl').innerHTML=[['e9','EMA 9',['e9']],['e21','EMA 21',['e21']],['vw','VWAP',['vw']],['st','Supertrend',['stU','stD']],['vol','Volume',[]]].map(([k,n,cs])=>
-    `<span class="og"><label><input type="checkbox" data-o="${k}" ${shw[k]?'checked':''}>${n}</label>${cs.map(pick).join('')}</span>`).join('')+`<span class="og lv"><b>Levels</b><span>Entry ${pick('lE')}</span><span>SL ${pick('lS')}</span><span>T1 ${pick('lT1')}</span><span>T2 ${pick('lT2')}</span></span><button class="btn ghost" id="cReset" style="padding:5px 10px">Reset colours</button>`;
+  const MP=MACDP();
+  $('#chOvl').innerHTML=[['e9','EMA 9',['e9']],['e21','EMA 21',['e21']],['vw','VWAP',['vw']],['st','Supertrend',['stU','stD']],['vol','Volume',[]],['macd','MACD',['mL','mS']]].map(([k,n,cs])=>
+    `<span class="og"><label><input type="checkbox" data-o="${k}" ${(shw[k]??(k==='macd'?1:0))?'checked':''}>${n}</label>${cs.map(pick).join('')}${k==='macd'?`<input class="mpi" type="number" data-mp="f" value="${MP.f}" min="2" max="50" aria-label="MACD fast"><input class="mpi" type="number" data-mp="s" value="${MP.s}" min="3" max="100" aria-label="MACD slow"><input class="mpi" type="number" data-mp="g" value="${MP.g}" min="2" max="50" aria-label="MACD signal">`:''}</span>`).join('')+
+    `<span class="og"><label><input type="checkbox" id="divAl" ${CFG.divAlert!==false?'checked':''}>Divergence alerts</label></span>`+`<span class="og lv"><b>Levels</b><span>Entry ${pick('lE')}</span><span>SL ${pick('lS')}</span><span>T1 ${pick('lT1')}</span><span>T2 ${pick('lT2')}</span></span><button class="btn ghost" id="cReset" style="padding:5px 10px">Reset colours</button>`;
   $('#chOvl').querySelectorAll('input[data-o]').forEach(i=>i.onchange=()=>{CH.show[i.dataset.o]=i.checked?1:0;store.set('pt.ovl',CH.show);drawChart(it,false)});
+  $('#chOvl').querySelectorAll('[data-mp]').forEach(i=>i.onchange=()=>{const m=MACDP();m[i.dataset.mp]=Math.max(2,Math.min(100,+i.value||m[i.dataset.mp]));if(m.f>=m.s)m.s=m.f+1;store.set('pt.macdp',m);drawChart(it,false)});
+  $('#divAl').onchange=e=>{CFG.divAlert=e.target.checked;saveCfg()};
   $('#chOvl').querySelectorAll('.cpick').forEach(i=>i.oninput=()=>{const m=store.get('pt.icol',{});m[i.dataset.c]=i.value;store.set('pt.icol',m);if(CH&&CH[i.dataset.c])CH[i.dataset.c].applyOptions({color:i.value});if(/^l/.test(i.dataset.c))drawLines(it)});
   $('#cReset').onclick=()=>{store.set('pt.icol',{});if(CH)for(const k of Object.keys(IND_DEF))if(CH[k])CH[k].applyOptions({color:indCol(k)});drawLines(it);renderChartHead()}}
 function updPts(it){const el=$('#chPts');if(!el)return;const tr=actOf(it);
@@ -1977,7 +2033,7 @@ function updPts(it){const el=$('#chPts');if(!el)return;const tr=actOf(it);
   if(!tr||it.price==null||S.view!=='chart'){el.hidden=true;return}
   const v=(it.price-tr.entry)*tr.side;el.hidden=false;el.className='chpts '+(v>=0?'up':'dn');el.innerHTML=`${fmtPts(v)} pts<small>${tr.opt?`${v>=0?'+':'−'}₹${Math.round(Math.abs(v)*tr.lot).toLocaleString('en-IN')}/lot`:fmtR(markR(tr,it.price))}${tr.status==='t1'?' · T1 ✓':''}</small>`;
   const sig=tr.id+tr.status;if(CH&&CH.lineSig!==sig)drawLines(it)}
-function updChartLive(){const it=chartInst();if(!it)return;$('#chPx').textContent=fmtP(it.price);updPts(it);
+function updChartLive(){const it=chartInst();if(!it)return;$('#chPx').textContent=fmtP(it.price);updPts(it);macdLive();
   if(it.ref&&it.price){const dv=it.price-it.ref,pc=dv/it.ref*100;$('#chChg').textContent=`${dv>=0?'+':'−'}${fmtP(Math.abs(dv))} (${pc>=0?'+':''}${pc.toFixed(2)}%)`;$('#chChg').className='chg num '+(dv>=0?'up':'dn')}else $('#chChg').textContent='';
   const cs=cardState(it);const [label,col]=STATES[cs.k]||STATES.wait;const pill=$('#chPill');pill.textContent=label;pill.style.setProperty('--sc',`var(${col})`);
   renderReadout(it)}
@@ -2005,6 +2061,136 @@ $('#paAdd').onclick=()=>{const it=chartInst();const v=parseFloat(String($('#paPr
 $('#chSym').onchange=e=>{S.chart.id=e.target.value;S.chart.range=null;loadChart()};
 $('#chFit').onclick=()=>fitChart();
 
+/* ---------- MACD panel (under the candles) + divergence detection ---------- */
+const MACDP=()=>({f:12,s:26,g:9,...(store.get('pt.macdp',{}))});
+function emaN(a,n){const o=new Array(a.length).fill(NaN);const k=2/(n+1);let p=NaN;for(let i=0;i<a.length;i++){const x=a[i];if(isNaN(x))continue;p=isNaN(p)?x:x*k+p*(1-k);o[i]=p}return o}
+function macdCalc(b){const P=MACDP();const c=b.map(x=>x.c);const f=emaN(c,P.f),s=emaN(c,P.s);const m=c.map((_,i)=>i>=P.s-1?f[i]-s[i]:NaN);const g=emaN(m,P.g);const h=m.map((v,i)=>isNaN(v)||isNaN(g[i])?NaN:v-g[i]);return {m,g,h}}
+// swing points: lowest low / highest high of k candles each side (confirmed k candles later)
+function swings(b,k){const lo=[],hi=[];for(let i=k;i<b.length-k;i++){let L=true,H=true;for(let j=i-k;j<=i+k;j++){if(j===i)continue;if(b[j].l<b[i].l)L=false;if(b[j].h>b[i].h)H=false}if(L)lo.push(i);if(H)hi.push(i)}return {lo,hi}}
+// regular divergence between the two latest swings: price makes a new extreme, MACD does not
+function findDivs(b,mc,maxAge){const out=[];const n=b.length;const {lo,hi}=swings(b,3);
+  const pair=(arr,side)=>{for(let q=arr.length-1;q>=1&&out.length<6;q--){const i2=arr[q];if(n-1-i2>maxAge)break;
+      for(let p=q-1;p>=0;p--){const i1=arr[p];const gap=i2-i1;if(gap<5)continue;if(gap>60)break;const m1=mc.m[i1],m2=mc.m[i2];if(isNaN(m1)||isNaN(m2))break;
+        if(side>0&&b[i2].l<b[i1].l&&m2>m1&&m1<0){out.push({side:1,i1,i2,p1:b[i1].l,p2:b[i2].l,m1,m2,t1:b[i1].t,t2:b[i2].t,conf:b[Math.min(n-1,i2+3)].t});break}
+        if(side<0&&b[i2].h>b[i1].h&&m2<m1&&m1>0){out.push({side:-1,i1,i2,p1:b[i1].h,p2:b[i2].h,m1,m2,t1:b[i1].t,t2:b[i2].t,conf:b[Math.min(n-1,i2+3)].t});break}
+        break}}};
+  pair(lo,1);pair(hi,-1);return out}
+function macdPanes(){if(!CH)return;const on=!!CH.show.macd;
+  CH.chart.priceScale('right').applyOptions({scaleMargins:on?{top:.06,bottom:.30}:{top:.1,bottom:.08}});
+  CH.chart.priceScale('vol').applyOptions({scaleMargins:on?{top:.6,bottom:.3}:{top:.84,bottom:0}});
+  CH.chart.priceScale('macd').applyOptions({scaleMargins:{top:.76,bottom:.03},visible:false});
+  const L=$('#macdLbl');if(L)L.hidden=!on}
+function drawMacd(it){if(!CH)return;const b=S.chart.bars,sh=t=>t+IST;for(const s of CH.divS||[])try{CH.chart.removeSeries(s)}catch(e){}CH.divS=[];
+  if(!CH.show.macd||!b.length||it.def.opt){CH.mH.setData([]);CH.mL.setData([]);CH.mS.setData([]);CH.mc=null;CH.divs=[];macdPanes();return}
+  const mc=macdCalc(b);CH.mc=mc;const up=toHex(CH.k.up),dn=toHex(CH.k.dn);
+  CH.mH.setData(b.map((x,i)=>isNaN(mc.h[i])?{time:sh(x.t)}:{time:sh(x.t),value:mc.h[i],color:mc.h[i]>=0?(mc.h[i]>=(mc.h[i-1]||0)?up:up+'70'):(mc.h[i]<=(mc.h[i-1]||0)?dn:dn+'70')}));
+  const ln=a=>b.map((x,i)=>isNaN(a[i])?{time:sh(x.t)}:{time:sh(x.t),value:a[i]});CH.mL.setData(ln(mc.m));CH.mS.setData(ln(mc.g));
+  // divergence lines on price and on MACD (closed candles only)
+  const closed=b.length&&b[b.length-1].t+S.chart.tf*60>nowSec()?b.slice(0,-1):b;CH.divs=findDivs(closed,{m:mc.m.slice(0,closed.length)},150);
+  for(const d of CH.divs){const col=d.side>0?up:dn;
+    const a=CH.chart.addLineSeries({color:col,lineWidth:2,lineStyle:0,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});a.setData([{time:sh(d.t1),value:d.p1},{time:sh(d.t2),value:d.p2}]);
+    const m=CH.chart.addLineSeries({priceScaleId:'macd',color:col,lineWidth:2,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});m.setData([{time:sh(d.t1),value:d.m1},{time:sh(d.t2),value:d.m2}]);CH.divS.push(a,m)}
+  macdPanes();macdLabel()}
+function macdLabel(i){const L=$('#macdLbl');if(!L||!CH||!CH.mc)return;const mc=CH.mc;if(i==null)i=mc.m.length-1;const P=MACDP();const f=v=>isNaN(v)?'—':(Math.abs(v)>=100?v.toFixed(1):v.toFixed(Math.abs(v)>=1?2:4));
+  const h=mc.h[i];L.innerHTML=`<b>MACD ${P.f},${P.s},${P.g}</b> <span style="color:${indCol('mL')}">MACD ${f(mc.m[i])}</span> <span style="color:${indCol('mS')}">Signal ${f(mc.g[i])}</span> <span style="color:var(${h>=0?'--sbuy':'--ssell'})">Hist ${h>=0?'+':''}${f(h)}</span>`}
+// live: refresh the last MACD values as the candle moves (every 2 s)
+function macdLive(){if(!CH||!CH.show.macd||!CH.mc||!S.chart.bars.length)return;const now=Date.now();if(now-(CH.mcT||0)<2000)return;CH.mcT=now;const b=S.chart.bars;
+  if(CH.mc.m.length!==b.length){const it=chartInst();if(it)drawMacd(it);return}const mc=macdCalc(b);CH.mc=mc;const i=b.length-1,t=b[i].t+IST;const up=toHex(CH.k.up),dn=toHex(CH.k.dn);
+  try{if(!isNaN(mc.h[i]))CH.mH.update({time:t,value:mc.h[i],color:mc.h[i]>=0?(mc.h[i]>=mc.h[i-1]?up:up+'70'):(mc.h[i]<=mc.h[i-1]?dn:dn+'70')});if(!isNaN(mc.m[i]))CH.mL.update({time:t,value:mc.m[i]});if(!isNaN(mc.g[i]))CH.mS.update({time:t,value:mc.g[i]})}catch(e){}
+  if(!CH.xhair)macdLabel()}
+/* divergence alerts: the chart you are viewing + your favourites (5-minute candles), once per divergence */
+const DIVSEEN=new Set(store.get('pt.divseen',[]));
+function divAlert(it,d,tf){const key=`${it.def.id}|${tf}|${d.side}|${d.t2}`;if(DIVSEEN.has(key))return;DIVSEEN.add(key);store.set('pt.divseen',[...DIVSEEN].slice(-300));
+  if(CFG.divAlert===false||nowSec()-d.conf>tf*60*6)return;const n=it.def.name.split(' · ')[0];const up=d.side>0;
+  tone(SOUNDS.info);toast(up?'buy':'sell',`${up?'BULL':'BEAR'} DIVERGENCE · ${n}`,`${tf}m: price made a ${up?'lower low':'higher high'} but MACD did not. Watch for a turn ${up?'up':'down'}. Information only, not a trade signal.`,'',it.def.id,9000);
+  if(CFG.ariaSpeak&&!ARIA.speaking&&!document.hidden)ariaSpeak(T2(`${up?'Bullish':'Bearish'} divergence on ${n}, ${tf} minute chart.`,`${nm(it.def.id)} वर ${up?'तेजीचा':'मंदीचा'} डायव्हर्जन्स, ${tf} मिनिट चार्ट.`))}
+function divScan(){if(CFG.divAlert===false)return;const ids=new Set(CFG.fav||[]);if(S.view==='chart'&&S.chart.id)ids.add(S.chart.id);
+  for(const id of ids){const it=S.inst.get(id);if(!it||it.def.opt||!it.b1||it.b1.length<200)continue;const tf=id===S.chart.id&&S.view==='chart'?S.chart.tf:5;
+    const b=aggBars(it.b1,tf,isNse(it.def));const closed=b.length&&b[b.length-1].t+tf*60>nowSec()?b.slice(0,-1):b;if(closed.length<60)continue;
+    const mc=macdCalc(closed);for(const d of findDivs(closed,mc,6))divAlert(it,d,tf)}}
+/* ---------- drawing tools: trend line, horizontal, ray, zone, Fibonacci, text. Saved per market, on every timeframe. ---------- */
+const DR={tool:null,edit:false,sel:null,pend:null,mag:store.get('pt.drmag',true),color:store.get('pt.drcol','#29e7ff'),raf:0,undo:[]};
+const DRAWS=()=>store.get('pt.draw',{});
+function drList(){const id=S.chart.id;return (DRAWS()[id]||[])}
+function drSave(list,push=true){const all=DRAWS();if(push)DR.undo.push(JSON.stringify(all[S.chart.id]||[]));DR.undo=DR.undo.slice(-30);all[S.chart.id]=list;store.set('pt.draw',all);drRender()}
+const DR_T={trend:['↗','Trend line'],hline:['━','Horizontal line'],ray:['➚','Ray'],zone:['▭','Zone'],fib:['𝑭','Fibonacci'],text:['T','Text']};
+const FIBS=[0,.236,.382,.5,.618,.786,1];
+// time <-> x using candle index, so lines stay put on every timeframe and can reach into the future
+function drX(t){const b=S.chart.bars;if(!b.length||!CH)return null;const S1=S.chart.tf*60;let lo=0,hi=b.length-1;
+  if(t>=b[hi].t)return CH.chart.timeScale().logicalToCoordinate(hi+(t-b[hi].t)/S1);if(t<=b[0].t)return CH.chart.timeScale().logicalToCoordinate((t-b[0].t)/S1);
+  while(hi-lo>1){const m=(lo+hi)>>1;if(b[m].t<=t)lo=m;else hi=m}const f=(t-b[lo].t)/Math.max(1,b[hi].t-b[lo].t);return CH.chart.timeScale().logicalToCoordinate(lo+f)}
+function drT(x){const b=S.chart.bars;const l=CH.chart.timeScale().coordinateToLogical(x);if(l==null||!b.length)return null;const S1=S.chart.tf*60;const i=Math.floor(l);
+  if(i>=b.length-1)return b[b.length-1].t+(l-(b.length-1))*S1;if(i<0)return b[0].t+l*S1;return b[i].t+(l-i)*Math.max(S1,(b[i+1].t-b[i].t))}
+const drY=p=>{try{return CH.candle.priceToCoordinate(p)}catch(e){return null}},drP=y=>{try{return CH.candle.coordinateToPrice(y)}catch(e){return null}};
+function drSnap(x,y){let t=drT(x),p=drP(y);if(!DR.mag||t==null)return {t,p};const b=S.chart.bars;const l=Math.round(CH.chart.timeScale().coordinateToLogical(x));const bar=b[Math.max(0,Math.min(b.length-1,l))];if(!bar)return {t,p};
+  let best=null,bd=14;for(const v of [bar.h,bar.l,bar.o,bar.c]){const yy=drY(v);if(yy!=null&&Math.abs(yy-y)<bd){bd=Math.abs(yy-y);best=v}}return {t:best!=null?bar.t:t,p:best!=null?best:p}}
+function drEnsure(){const box=document.querySelector('.chartbox');if(!box)return null;let svg=$('#drSvg');
+  if(!svg){svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.id='drSvg';svg.setAttribute('class','drsvg');box.appendChild(svg);drBind(svg)}return svg}
+function drRender(){const svg=drEnsure();if(!svg||!CH||S.view!=='chart'||MC.n>1){if(svg)svg.innerHTML='';return}const it=chartInst();if(!it||!S.chart.bars.length){svg.innerHTML='';return}
+  const W=svg.clientWidth-78,H=svg.clientHeight-30;svg.setAttribute('viewBox',`0 0 ${svg.clientWidth} ${svg.clientHeight}`);svg.classList.toggle('live',!!(DR.tool||DR.edit));
+  const L=[...drList()];if(DR.pend)L.push({...DR.pend,id:'_pend'});let h='';const fmt=v=>fmtP(v);
+  for(const d of L){const c=d.c||DR.color,sel=DR.sel===d.id;const A=d.a,B=d.b||d.a;const x1=drX(A.t),y1=drY(A.p),x2=drX(B.t),y2=drY(B.p);if(y1==null)continue;const cls=`dr${sel?' sel':''}`;const g=`<g class="${cls}" data-id="${d.id}">`;
+    if(d.k==='hline'){h+=`${g}<line x1="0" x2="${W}" y1="${y1}" y2="${y1}" stroke="${c}" stroke-width="${sel?2.5:1.6}"/><line class="hit" x1="0" x2="${W}" y1="${y1}" y2="${y1}"/><text x="6" y="${y1-4}" fill="${c}">${fmt(A.p)}${d.al?' 🔔':''}</text>`}
+    else if(d.k==='text'){h+=`${g}<text x="${x1}" y="${y1}" fill="${c}" class="dtx">${esc(d.txt||'')}</text><rect class="hit" x="${x1-4}" y="${y1-18}" width="${Math.max(30,(d.txt||'').length*8)}" height="24"/>`}
+    else if(x1!=null&&x2!=null&&y2!=null){
+      if(d.k==='trend')h+=`${g}<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${sel?2.5:1.8}"/><line class="hit" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`;
+      else if(d.k==='ray'){const dx=x2-x1,dy=y2-y1;const k=dx===0?0:(W-x1)/dx;const xe=dx>=0?W:0,ye=dx===0?y2:y1+dy*(dx>=0?k:(0-x1)/dx);h+=`${g}<line x1="${x1}" y1="${y1}" x2="${xe}" y2="${ye}" stroke="${c}" stroke-width="${sel?2.5:1.8}"/><line class="hit" x1="${x1}" y1="${y1}" x2="${xe}" y2="${ye}"/>`}
+      else if(d.k==='zone')h+=`${g}<rect x="${Math.min(x1,x2)}" y="${Math.min(y1,y2)}" width="${Math.abs(x2-x1)}" height="${Math.abs(y2-y1)}" fill="${c}" fill-opacity=".14" stroke="${c}" stroke-width="${sel?2:1.2}"/><rect class="hit" x="${Math.min(x1,x2)}" y="${Math.min(y1,y2)}" width="${Math.abs(x2-x1)}" height="${Math.abs(y2-y1)}"/>`;
+      else if(d.k==='fib'){h+=g;const xa=Math.min(x1,x2);for(const f of FIBS){const p=B.p+(A.p-B.p)*f;const y=drY(p);if(y==null)continue;h+=`<line x1="${xa}" x2="${W}" y1="${y}" y2="${y}" stroke="${c}" stroke-width="1" stroke-opacity="${f===0||f===1?1:.75}" ${f===.5||f===.618?'':'stroke-dasharray="4 3"'}/><text x="${W-4}" y="${y-3}" fill="${c}" text-anchor="end">${(f*100).toFixed(1)}% · ${fmt(p)}</text>`}
+        h+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="1" stroke-dasharray="2 3"/><rect class="hit" x="${xa}" y="${Math.min(y1,y2)}" width="${W-xa}" height="${Math.abs(y2-y1)}"/>`}
+      else h+=g;}
+    else h+=g;
+    if(sel||d.id==='_pend'){for(const [P,n] of [[A,'a'],...(d.b?[[B,'b']]:[])]){const x=drX(P.t),y=drY(P.p);if(x!=null&&y!=null)h+=`<circle class="hd" data-h="${n}" cx="${d.k==='hline'?Math.min(W-20,80):x}" cy="${y}" r="9"/>`}}
+    h+='</g>'}
+  svg.innerHTML=h;drBar()}
+function drLoop(){cancelAnimationFrame(DR.raf);const step=()=>{if(S.view!=='chart'||!CH){DR.raf=0;return}if(drList().length||DR.pend||DR.tool)drRender();DR.raf=requestAnimationFrame(step)};DR.raf=requestAnimationFrame(step)}
+function drBind(svg){let drag=null;const pt=e=>{const r=svg.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top]};
+  svg.addEventListener('pointerdown',e=>{if(!DR.tool&&!DR.edit)return;e.preventDefault();const [x,y]=pt(e);const s=drSnap(x,y);if(s.t==null||s.p==null)return;
+    if(DR.tool){if(DR.tool==='hline'){const d={id:'d'+Date.now(),k:'hline',a:s,c:DR.color};drSave([...drList(),d]);DR.sel=d.id;drAlertAsk(d);return}
+      if(DR.tool==='text'){drText(s);return}
+      if(!DR.pend){DR.pend={k:DR.tool,a:s,b:s,c:DR.color};try{svg.setPointerCapture(e.pointerId)}catch(x){}drag={pend:true};return}
+      return}
+    const hd=e.target.closest('.hd'),g=e.target.closest('g.dr');if(!g){DR.sel=null;drRender();return}DR.sel=g.dataset.id;const d=drList().find(q=>q.id===DR.sel);if(!d){drRender();return}
+    drag={id:d.id,h:hd?hd.dataset.h:null,x,y,orig:JSON.parse(JSON.stringify(d)),moved:false};try{svg.setPointerCapture(e.pointerId)}catch(x2){}drRender()});
+  svg.addEventListener('pointermove',e=>{if(!drag)return;const [x,y]=pt(e);
+    if(drag.pend&&DR.pend){const s=drSnap(x,y);if(s.t!=null)DR.pend.b=s;drRender();return}
+    const list=drList();const d=list.find(q=>q.id===drag.id);if(!d)return;drag.moved=true;
+    if(drag.h){const s=drSnap(x,y);if(s.t==null)return;d[drag.h]={t:d.k==='hline'?d[drag.h].t:s.t,p:s.p}}
+    else{const dt=drT(x)-drT(drag.x),dp=drP(y)-drP(drag.y);for(const k of ['a','b'])if(drag.orig[k])d[k]={t:drag.orig[k].t+(d.k==='hline'?0:dt),p:drag.orig[k].p+dp}}
+    const all=DRAWS();all[S.chart.id]=list;store.set('pt.draw',all);drRender()});
+  const up=e=>{if(drag&&drag.pend&&DR.pend){const p=DR.pend;DR.pend=null;const far=Math.hypot((drX(p.b.t)||0)-(drX(p.a.t)||0),(drY(p.b.p)||0)-(drY(p.a.p)||0))>12;
+      if(far){const d={id:'d'+Date.now(),k:p.k,a:p.a,b:p.b,c:p.c};drSave([...drList(),d]);DR.sel=d.id}else{DR.pend={...p};DR.hint='Now tap the second point.';drHint();drag=null;return}}
+    else if(drag&&drag.moved){DR.undo.push(JSON.stringify(drag.orig?drList().map(q=>q.id===drag.id?drag.orig:q):drList()))}
+    drag=null;drRender()};
+  svg.addEventListener('pointerup',e=>{if(DR.tool&&DR.pend&&!drag){const [x,y]=pt(e);const s=drSnap(x,y);if(s.t!=null){const p=DR.pend;DR.pend=null;const d={id:'d'+Date.now(),k:p.k,a:p.a,b:s,c:p.c};drSave([...drList(),d]);DR.sel=d.id;return}}up(e)});
+  svg.addEventListener('pointercancel',up)}
+function drText(s){const box=document.querySelector('.chartbox');const inp=document.createElement('input');inp.className='drinp';inp.placeholder='Type a note, then Enter';inp.maxLength=60;
+  inp.style.left=Math.max(4,Math.min(box.clientWidth-200,drX(s.t)))+'px';inp.style.top=Math.max(4,drY(s.p)-16)+'px';box.appendChild(inp);inp.focus();
+  const done=ok=>{const v=inp.value.trim();inp.remove();if(ok&&v){const d={id:'d'+Date.now(),k:'text',a:s,txt:v,c:DR.color};drSave([...drList(),d]);DR.sel=d.id}};
+  inp.onkeydown=e=>{if(e.key==='Enter')done(true);if(e.key==='Escape')done(false)};inp.onblur=()=>done(true)}
+function drAlertAsk(d){DR.hint=`Line at ${fmtP(d.a.p)}. Tap 🔔 Alert to be told when price reaches it.`;drHint()}
+function drAlert(){const it=chartInst();const d=drList().find(q=>q.id===DR.sel);if(!it||!d||d.k!=='hline')return;
+  if(d.al){PA=PA.filter(a=>a.id!==d.al);savePA();d.al=null;DR.hint='Alert removed.';drHint()}
+  else{if(it.price==null){toast('warn','No live price yet','','',null,2500);return}const id='pa'+Date.now();PA.push({id,inst:it.def.id,name:it.def.name,price:d.a.p,dir:d.a.p>it.price?1:-1,at:Date.now()});savePA();d.al=id;renderPA&&renderPA();DR.hint=`🔔 Alert set: ${it.def.name} at ${fmtP(d.a.p)}.`;drHint()}
+  const list=drList().map(q=>q.id===d.id?d:q);drSave(list,false);drawLines(it)}
+function drBar(){const bar=$('#drBar');if(!bar)return;bar.hidden=!(DR.tool||DR.edit);if(bar.hidden)return;const sel=drList().find(q=>q.id===DR.sel);
+  const cols=['#29e7ff','#ffd54a','#00e68a','#ff3d6e','#c49bff','#ffffff'];
+  const h=`${Object.entries(DR_T).map(([k,[ic,n]])=>`<button class="${DR.tool===k?'on':''}" data-dt="${k}" title="${n}">${ic}<small>${n.split(' ')[0]}</small></button>`).join('')}
+    <span class="drsep"></span><button class="${DR.mag?'on':''}" data-dm="1" title="Magnet: snap to candle high/low">🧲<small>Magnet</small></button>
+    ${cols.map(c=>`<button class="drc${DR.color===c?' on':''}" data-dc="${c}" style="--c:${c}" title="Colour"></button>`).join('')}
+    <span class="drsep"></span>${sel&&sel.k==='hline'?`<button data-dal="1" class="${sel.al?'on':''}" title="Price alert at this line">🔔<small>Alert</small></button>`:''}
+    <button data-du="1" title="Undo">↶<small>Undo</small></button><button data-dd="1" ${sel?'':'disabled'} title="Delete selected">🗑<small>Delete</small></button><button data-dx="1" title="Delete all on this market">✖<small>Clear</small></button><button data-dok="1" class="ok" title="Done">✓<small>Done</small></button><span class="drhint" id="drHint"></span>`;
+  if(bar.dataset.h===h)return;bar.dataset.h=h;bar.innerHTML=h;drHint();
+  bar.querySelectorAll('[data-dt]').forEach(b=>b.onclick=()=>{DR.tool=DR.tool===b.dataset.dt?null:b.dataset.dt;DR.pend=null;DR.edit=true;drRender();DR.hint=DR.tool?(DR.tool==='hline'||DR.tool==='text'?'Tap the chart where you want it.':'Tap the first point, then the second, or drag from one to the other.'):'';drHint()});
+  bar.querySelector('[data-dm]').onclick=()=>{DR.mag=!DR.mag;store.set('pt.drmag',DR.mag);drBar(true)};
+  bar.querySelectorAll('[data-dc]').forEach(b=>b.onclick=()=>{DR.color=b.dataset.dc;store.set('pt.drcol',DR.color);if(DR.sel){drSave(drList().map(q=>q.id===DR.sel?{...q,c:DR.color}:q))}else drRender()});
+  const al=bar.querySelector('[data-dal]');if(al)al.onclick=drAlert;
+  bar.querySelector('[data-du]').onclick=()=>{const p=DR.undo.pop();if(p==null)return;const all=DRAWS();all[S.chart.id]=JSON.parse(p);store.set('pt.draw',all);DR.sel=null;drRender()};
+  bar.querySelector('[data-dd]').onclick=()=>{if(!DR.sel)return;const d=drList().find(q=>q.id===DR.sel);if(d&&d.al){PA=PA.filter(a=>a.id!==d.al);savePA()}drSave(drList().filter(q=>q.id!==DR.sel));DR.sel=null;drRender()};
+  bar.querySelector('[data-dx]').onclick=()=>{if(!drList().length)return;if(bar.dataset.arm!=='1'){bar.dataset.arm='1';toast('warn','Tap Clear again','to delete every drawing on this market.','',null,3000);setTimeout(()=>bar.dataset.arm='',3000);return}bar.dataset.arm='';drSave([]);DR.sel=null};
+  bar.querySelector('[data-dok]').onclick=()=>{DR.tool=null;DR.edit=false;DR.sel=null;DR.pend=null;drRender();drBar()}}
+function drHint(){const el=$('#drHint');if(el)el.textContent=DR.hint||'Pick a tool. Tap a drawing to select it; drag it or its dots to move it. ✓ Done = move the chart again.'}
+function drOpen(){DR.edit=!DR.edit;DR.tool=null;DR.pend=null;DR.hint='';if(!DR.edit)DR.sel=null;drRender();drBar();drLoop()}
 /* ---------- multi-chart: 2, 3 or 4 live charts on one screen ---------- */
 var MC={n:1,cells:[],panes:[]};
 (function(){const m=store.get('pt.multi',null);if(m&&m.n>=1&&m.n<=4){MC.n=m.n;MC.cells=m.cells||[]}})();
@@ -2046,12 +2232,13 @@ function mcDraw(i,full,refit){const p=MC.panes[i],c=MC.cells[i];if(!p||!c)return
   if(full||now-p.t>2000){p.t=now;const b=aggBars(it.b1,c.tf,isNse(d)).slice(-200);if(!b.length)return;const sh=t=>t+IST;
     p.c.setData(b.map(x=>({time:sh(x.t),open:x.o,high:x.h,low:x.l,close:x.c})));
     if(!d.opt){const ind=indicators(b,isNse(d));const ser=a=>b.map((x,j)=>isNaN(a[j])?{time:sh(x.t)}:{time:sh(x.t),value:a[j]});p.e9.setData(ser(ind.e9));p.e21.setData(ser(ind.e21))}else{p.e9.setData([]);p.e21.setData([])}
-    if(refit){try{p.ch.timeScale().setVisibleLogicalRange({from:Math.max(0,b.length-90),to:b.length+3})}catch(e){}}}
+    if(refit){const z=store.get('pt.zoom',null);const cnt=z&&z.cnt>=10?Math.min(200,z.cnt):90;try{p.ch.timeScale().setVisibleLogicalRange({from:Math.max(0,b.length-cnt),to:b.length+3})}catch(e){}}}
   const sig=tr?tr.id+tr.status:pd?'p'+pd.id:'';
   if(sig!==p.sig){p.sig=sig;for(const l of p.lines)try{p.c.removePriceLine(l)}catch(e){}p.lines=[];const Lp=(price,color,title,w)=>price!=null&&p.lines.push(p.c.createPriceLine({price,color,lineWidth:w||1,lineStyle:2,axisLabelVisible:true,title}));
     if(tr){Lp(tr.entry,indCol('lE'),tr.status==='t1'?'SL=ENTRY':'ENTRY',1);if(tr.status!=='t1')Lp(tr.sl,indCol('lS'),'SL',2);Lp(tr.t1,indCol('lT1'),'T1');Lp(tr.t2,indCol('lT2'),'T2')}
     else if(pd){Lp(pd.lim,indCol('lE'),(pd.side>0?'BUY':'SELL')+' AT',2);Lp(pd.sl,indCol('lS'),'SL');Lp(pd.t1,indCol('lT1'),'T1');Lp(pd.t2,indCol('lT2'),'T2')}}}
 $('#chLay').querySelectorAll('button').forEach(b=>b.onclick=()=>setLayout(+b.dataset.n));
+$('#chDraw').onclick=()=>drOpen();
 setInterval(()=>{if(S.view==='chart'&&MC.n>1)for(let i=0;i<MC.panes.length;i++)mcDraw(i,false,false)},1000);
 
 /* ---------- Aria: voice assistant (English + Marathi). Speech runs in the browser; nothing leaves the phone except what
@@ -2677,7 +2864,7 @@ $('#logPdf').onclick=async()=>{const rows=logRows().sort((a,b)=>a.t-b.t);if(!row
   const btn=$('#logPdf');btn.textContent='Preparing…';const ok=await loadPdfLib();btn.textContent='PDF';if(!ok){toast('stop','PDF not available','The PDF tool could not load. Check the internet connection, or use CSV.','',null,5000);return}
   const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'pt',format:'a4'});const W=doc.internal.pageSize.getWidth();
   const done=rows.filter(r=>r.r!=null),wins=done.filter(r=>r.r>0).length,net=done.reduce((s,r)=>s+r.r,0);
-  doc.setFillColor(11,17,34);doc.rect(0,0,W,70,'F');doc.setTextColor(255,226,122);doc.setFontSize(20);doc.text('TRADEBOT',40,34);doc.setTextColor(200,210,235);doc.setFontSize(10);
+  doc.setFillColor(11,17,34);doc.rect(0,0,W,70,'F');doc.setTextColor(255,226,122);doc.setFontSize(20);doc.text('TradeBot',40,34);doc.setTextColor(200,210,235);doc.setFontSize(10);
   doc.text(`Signal report · ${({1:'Today',7:'Last 7 days',30:'Last 30 days'})[S.logPer||1]} · generated ${new Date(Date.now()+IST*1000).toISOString().slice(0,16).replace('T',' ')} IST`,40,54);
   doc.setTextColor(30,30,30);doc.setFontSize(12);doc.text(`Signals: ${rows.length}    Closed: ${done.length}    Win rate: ${done.length?Math.round(wins/done.length*100)+'%':'-'}    Net: ${done.length?fmtR(net):'-'}`,40,96);
   const grp=f=>{const m=new Map();for(const r of done){const k=f(r);const g=m.get(k)||{n:0,w:0,R:0};g.n++;if(r.r>0)g.w++;g.R+=r.r;m.set(k,g)}return [...m.entries()].map(([k,g])=>[k,g.n,Math.round(g.w/g.n*100)+'%',fmtR(g.R),fmtR(g.R/g.n)])};
@@ -2696,7 +2883,7 @@ const SKINS=[['neon','Neon','linear-gradient(135deg,#04060d 40%,#29e7ff 41%,#29e
   ['neud','Neumorphic dark','radial-gradient(circle at 30% 30%,#333a48,#272c37 60%,#1b1f27)','#272c37'],['neul','Neumorphic light','radial-gradient(circle at 30% 30%,#ffffff,#e3e8ef 60%,#c2c8d2)','#e3e8ef']];
 function applySkin(){const s=SKINS.find(x=>x[0]===CFG.skin)||SKINS[0];document.documentElement.dataset.skin=s[0];const m=document.querySelector('meta[name=theme-color]');if(m)m.content=s[3];
   if(CH){try{S.chart.range=CH.chart.timeScale().getVisibleLogicalRange()}catch(e){}try{CH.chart.remove()}catch(e){}CH=null;const t=$('.chtop');if(t)t.remove()}if(S.view==='chart')loadChart(true);for(const it of S.inst.values())markDirty(it)}
-function renderSettings(){renderPush();renderSrvMsg();paperSettings();setAriaSettings&&setAriaSettings();{const k=RK();$('#rkCap').value=k.cap;$('#rkPct').value=k.pct;$('#rkDaily').value=k.daily;$('#rkMax').value=k.maxOpen;$('#rkFx').value=k.usdinr}renderPAall();
+function renderSettings(){renderPush();renderSrvMsg();paperSettings();nbApply();setAriaSettings&&setAriaSettings();{const k=RK();$('#rkCap').value=k.cap;$('#rkPct').value=k.pct;$('#rkDaily').value=k.daily;$('#rkMax').value=k.maxOpen;$('#rkFx').value=k.usdinr}renderPAall();
   $('#sN50').checked=!!CFG.n50;renderTune();$('#sTsound').innerHTML=[['pro','Professional chime'],['stadium','Stadium']].map(([k,n])=>`<button class="${CFG.tsound===k?'on':''}" data-k="${k}">${n}</button>`).join('');
   $('#sTsound').querySelectorAll('button').forEach(b=>b.onclick=()=>{CFG.tsound=b.dataset.k;saveCfg();unlockAudio();jingle(true);renderSettings()});
   $('#sSkins').innerHTML=SKINS.map(([k,n,g])=>`<button class="skin ${CFG.skin===k?'on':''}" data-k="${k}"><i style="background:${g}"></i>${n}</button>`).join('');
@@ -2908,14 +3095,14 @@ function fmtDur(ms){if(ms==null)return '';const m=Math.max(0,Math.round(ms/60000
 const istHM=ms=>new Date(ms+IST*1000).toISOString().slice(11,16);
 const WSHORT={'NSE':'NSE','MCX':'MCX','Tokyo':'TYO','HK':'HK','Shanghai':'SHA','Singapore':'SGP','Sydney':'SYD','Frankfurt':'FRA','London':'LON','New York':'NY','24/7':'Crypto'};
 const fmtDurS=ms=>fmtDur(ms).replace(/ /g,'');
-function renderWorld(){const sts=MKTS.map(m=>({m,s:mktState(m)}));const narrow=innerWidth<600;const open=store.get('pt.wopen',false);
+function renderWorld(){const sts=MKTS.map(m=>({m,s:mktState(m)}));const narrow=innerWidth<600;const open=store.get('pt.wopen2',false);
   const shown=open?sts:sts.filter(({m})=>['NSE','MCX','New York','24/7'].includes(m.c));const nOpen=sts.filter(x=>x.s.st==='open').length;
   const chips=`<span class="wc wsum" title="World markets">🌐 <b>${nOpen}/${sts.length}</b> open <span class="cd">${open?'▴ less':'▾ all'}</span></span>`+shown.map(({m,s})=>`<span class="wc" title="${m.n}: ${s.lbl}"><i class="st-${s.st}"></i><b>${narrow?WSHORT[m.c]||m.c:(m.c==='24/7'?'Crypto':m.c)}</b>${String(s.L.hh).padStart(2,'0')}:${String(s.L.mm).padStart(2,'0')}${s.ms!=null?` <span class="cd ${s.ev==='closes'?'cl':'op'}">${s.ev==='closes'?'▼':'▲'}${fmtDurS(s.ms)}</span>`:''}</span>`).join('');
   const table=`<table class="wtab"><thead><tr><th>Market</th><th>Local time</th><th>Status</th><th>Next</th><th>In IST</th></tr></thead><tbody>${sts.map(({m,s})=>`<tr><td><b>${m.n}</b></td><td class="t">${String(s.L.hh).padStart(2,'0')}:${String(s.L.mm).padStart(2,'0')}</td>
     <td><span class="wstat" style="color:var(${s.st==='open'?'--sbuy':s.st==='brk'?'--t1':'--dim'})"><i class="st-${s.st}"></i>${s.lbl}</span></td><td class="t">${s.ms!=null?`${s.ev} in ${fmtDur(s.ms)}`:'—'}</td><td class="t">${s.evAt?istHM(s.evAt):'—'}</td></tr>`).join('')}</tbody></table>
     <p class="note" style="margin:6px 4px 0">▼ = closes in · ▲ = opens in. Regular weekday hours; exchange holidays not included yet.</p>`;
   for(const [r,pn] of [['#wrow','#wpanel'],['#wrow2','#wpanel2']]){const row=$(r),pan=$(pn);if(!row)continue;row.innerHTML=chips;row.classList.toggle('wmin',!open);pan.hidden=!open;if(open)pan.innerHTML=table}}
-for(const [r,pn] of [['#wrow','#wpanel'],['#wrow2','#wpanel2']])$(r).onclick=()=>{const o=!store.get('pt.wopen',false);store.set('pt.wopen',o);$(r).setAttribute('aria-expanded',o);renderWorld()};
+for(const [r,pn] of [['#wrow','#wpanel'],['#wrow2','#wpanel2']])$(r).onclick=()=>{const o=!store.get('pt.wopen2',false);store.set('pt.wopen2',o);$(r).setAttribute('aria-expanded',o);renderWorld()};
 
 /* ================= REVERSAL LAB (separate test tab) ================= */
 const LAB=Object.assign({tf:5,rsi:20,sweep:false,hours:false,alerts:false,start:Math.floor(Date.now()/1000)},store.get('pt.lab',{}));const saveLab=()=>store.set('pt.lab',LAB);if(!store.get('pt.lab',null))saveLab();
@@ -3207,14 +3394,14 @@ function weakOffOnce(){if(CFG.weakV5)return;CFG.weakV5=1;const ids=['d:XAUTUSD',
   setTimeout(()=>{toast('info','Strategy v5','Signals now wait for a pullback before entering. Gold, Apple, BANK NIFTY and BANKNIFTY FUT were switched OFF (weak in testing). Turn them back on with the ON/OFF switch on each card.','',null,14000);
     try{if(window.paisaPush&&window.paisaPush.info().state==='on')window.paisaPush.prefs(npPrefs()).catch(()=>{})}catch(e){}},4000)}
 function mcxOnce(){if(CFG.mcx7)return;CFG.mcx7=1;N50CFG['u:FUT|CRUDEOIL']={...(N50CFG['u:FUT|CRUDEOIL']||{}),sig:false};saveN50();saveCfg()}
-function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{const f=store.get('pt.float',null);if(f&&f.id&&S.inst.has(f.id))openFloat(f.id,f.tf,f)},2500);document.documentElement.dataset.skin=CFG.skin||'neon';renderBell();if(store.get('pt.wopen',false)){$('#wpanel').hidden=false;$('#wrow').setAttribute('aria-expanded','true')}renderWorld();newsInit();renderFeeds();renderFilters();renderLegend();if(!CFG.welcomed)$('#welcome').hidden=false;
+function boot(){weakOffOnce();mcxOnce();nbApply();$('#nbSel').onchange=e=>{CFG.border=e.target.value;saveCfg();nbApply()};setTimeout(()=>{const f=store.get('pt.float',null);if(f&&f.id&&S.inst.has(f.id))openFloat(f.id,f.tf,f)},2500);document.documentElement.dataset.skin=CFG.skin||'neon';renderBell();if(store.get('pt.wopen2',false)){$('#wpanel').hidden=false;$('#wrow').setAttribute('aria-expanded','true')}renderWorld();newsInit();renderFeeds();renderFilters();renderLegend();if(!CFG.welcomed)$('#welcome').hidden=false;
   S.chart.tf=CFG.tf;syncInstruments();connectDelta();connectFinnhub();setInterval(heartbeat,1000);heartbeat();applyWake();
   if(CFG.token)upstoxTick();greet();loadDeltaProducts().then(()=>{for(const it of S.inst.values())markDirty(it)});
   window.addEventListener('resize',()=>{for(const it of S.inst.values())markDirty(it)})}
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=9"></script>
+<script type="module" src="auth.js?v=10"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
