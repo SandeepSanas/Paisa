@@ -448,6 +448,18 @@ table.oi td.och:hover{color:var(--cyan)}
 .aria-btn.on{color:#03080a;background:var(--cyan);border-color:var(--cyan)}.aria-btn.live{box-shadow:0 0 0 3px rgba(41,231,255,.35),0 0 16px rgba(41,231,255,.7);animation:arPulse 1.4s ease-in-out infinite}
 .aria-btn.wake{border-color:rgba(41,231,255,.6);color:var(--cyan)}
 @keyframes arPulse{50%{box-shadow:0 0 0 6px rgba(41,231,255,.12),0 0 22px rgba(41,231,255,.9)}}
+.mclock{position:fixed;z-index:49;left:10px;bottom:calc(150px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:3px;padding:7px 10px;border-radius:12px;background:color-mix(in srgb,var(--panel,#0d1422) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid color-mix(in srgb,var(--cyan,#22d3ee) 35%,transparent);box-shadow:0 6px 22px rgba(0,0,0,.35),0 0 14px color-mix(in srgb,var(--cyan,#22d3ee) 18%,transparent);font-size:11.5px;line-height:1.25;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;max-width:calc(100vw - 20px)}
+.mclock.drag{cursor:grabbing;opacity:.9}
+.mclock .mc-r{display:flex;align-items:center;gap:6px;white-space:nowrap;color:var(--dim,#9aa4b2)}
+.mclock .mc-r i{width:7px;height:7px;border-radius:50%;background:#6b7280;flex:none}
+.mclock .mc-r.on i{background:var(--sbuy,#22c55e);box-shadow:0 0 8px var(--sbuy,#22c55e);animation:mcP 2s infinite}
+.mclock .mc-r.soon i{background:#f59e0b;box-shadow:0 0 8px #f59e0b}
+.mclock .mc-r.soon b{color:#f59e0b}
+.mclock .mc-n{font-weight:700;color:var(--text,#e5e7eb);min-width:30px}
+.mclock .mc-t b{color:var(--text,#e5e7eb);font-variant-numeric:tabular-nums}
+.mclock small{opacity:.65;font-size:10px}
+.mclock.mini{padding:5px 8px;font-size:10.5px}
+@keyframes mcP{50%{opacity:.45}}
 .ariafab{position:fixed;z-index:50;right:14px;bottom:calc(150px + env(safe-area-inset-bottom));width:64px;height:64px;padding:0;border:0;border-radius:50%;background:none;cursor:grab;touch-action:none;-webkit-tap-highlight-color:transparent;user-select:none}
 .ariafab[hidden],body.locked .ariafab,body.locked .ariabar{display:none!important}
 .ariafab img{position:relative;width:100%;height:100%;border-radius:50%;display:block;border:2px solid rgba(80,200,255,.9);box-shadow:0 0 0 2px rgba(10,20,50,.9),0 0 16px rgba(41,170,255,.75),0 8px 18px rgba(0,0,0,.55);pointer-events:none}
@@ -857,7 +869,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v12</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v13</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -974,7 +986,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v12 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v13 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -1062,6 +1074,7 @@ body:not(.locked) .login{display:none}
           <div class="tg"><span>Wake word "Aria" (listens all the time while TradeBot is open; uses more battery and data)</span><label class="switch"><input type="checkbox" id="ariaSetWake"><span></span></label></div>
           <div class="tg"><span>Aria reads new signals aloud</span><label class="switch"><input type="checkbox" id="ariaSetSpeak"><span></span></label></div>
           <div class="tg"><span>Hear "stop" while Aria is talking (best with earphones)</span><label class="switch"><input type="checkbox" id="ariaSetBarge"><span></span></label></div>
+          <div class="tg"><span>Indian market clock badge (NSE / MCX opens in · closes in; drag to move, tap to shrink)</span><label class="switch"><input type="checkbox" id="mclSet"><span></span></label></div>
           <div class="tg"><span>Show the floating Aria button</span><label class="switch"><input type="checkbox" id="ariaSetFab"><span></span></label></div>
           <div class="btns"><button class="btn" id="ariaTest">Test voice</button></div>
           <p>Marathi voice missing? Android: Settings → Text-to-speech → Google → Install voice data → Marathi.</p>
@@ -1109,6 +1122,7 @@ body:not(.locked) .login{display:none}
   </div>
 </div>
 <div class="nbord" id="nBord" aria-hidden="true"><div class="nbm"><i class="nb-a"></i><i class="nb-b"></i></div></div>
+<div id="mClock" class="mclock" role="button" tabindex="0" title="Indian market clock · drag to move · tap to shrink" hidden></div>
 <button type="button" class="ariafab" id="ariaBtn" aria-label="Talk to Aria" title="Aria · tap to talk, tap again to stop · drag to move">
   <span class="af-ring"></span><img src="aria.webp" alt="Aria" width="64" height="64" draggable="false"><span class="af-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>
   <span class="af-wave"><i></i><i></i><i></i><i></i><i></i></span><span class="af-dot"></span></button>
@@ -1421,7 +1435,7 @@ const saveWatch=()=>store.set('pt.watch',WATCH);
 let LOG=store.get('pt.log',[]);
 const tfOf=it=>srvCovers(it.def)?srvLive().cfg.tf:(it.def.tf||CFG.tf),strOf=it=>srvCovers(it.def)?srvLive().cfg.strict:(it.def.strict||CFG.strict);
 const todayKey=()=>Math.floor((Date.now()/1000+IST)/86400);
-LOG=LOG.filter(x=>Math.floor((x.t+IST)/86400)>=todayKey()-30);
+LOG=LOG.filter(x=>Math.floor((x.t+IST)/86400)>=todayKey()-30&&x.t>(+store.get('pt.logclr',0)||0));
 const saveLog=()=>store.set('pt.log',LOG.slice(-3000));
 
 const S={inst:new Map(),view:'scan',filter:store.get('pt.filter','all'),feeds:{delta:'off',upstox:'off',finnhub:'off'},chart:{id:null,tf:5,bars:[],busy:false},opt:{idx:0,exp:null,an:null,lot:null,exps:[],at:0},unseen:0};
@@ -1431,15 +1445,39 @@ function isNse(def){return !isMcx(def)&&(!!def.nse||def.src==='upstox')}
 
 /* ---------- time & sessions ---------- */
 function istParts(){const d=new Date(Date.now()+IST*1000);return {h:d.getUTCHours(),m:d.getUTCMinutes(),s:d.getUTCSeconds(),dow:d.getUTCDay()}}
-function nseOpen(){const p=istParts();const m=p.h*60+p.m;return p.dow>0&&p.dow<6&&m>=555&&m<930}
+// exchange holidays (NSE list for 2026; MCX keeps its evening session from 5 pm on most NSE holidays). Update every year.
+const NSE_HOL=new Set(['2026-01-26','2026-03-03','2026-03-26','2026-03-31','2026-04-03','2026-04-14','2026-05-01','2026-05-28','2026-06-26','2026-09-14','2026-10-02','2026-10-20','2026-11-10','2026-11-24','2026-12-25']);
+const MCX_EVE=new Set(['2026-03-03','2026-03-26','2026-03-31','2026-04-14','2026-05-01','2026-05-28','2026-06-26','2026-09-14','2026-10-20','2026-11-10','2026-11-24']),MCX_OFF=new Set(['2026-01-26','2026-04-03','2026-10-02','2026-12-25']);
+const istKey=t=>new Date((t+IST)*1000).toISOString().slice(0,10);
+function nseOpen(){const p=istParts();const m=p.h*60+p.m;return p.dow>0&&p.dow<6&&m>=555&&m<930&&!NSE_HOL.has(istKey(nowSec()))}
 // MCX: Mon–Fri 9:00 am to 11:30 pm IST (11:55 pm while the US is on winter time)
 const NYZ=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',timeZoneName:'short'});
 function mcxClose(t){return /EDT/.test(NYZ.format(new Date(t*1000)))?23*60+30:23*60+55}
-function mcxOpenAt(t){const d=new Date((t+IST)*1000);const w=d.getUTCDay(),m=d.getUTCHours()*60+d.getUTCMinutes();return w>0&&w<6&&m>=540&&m<mcxClose(t)}
+function mcxOpenMin(t){const k=istKey(t);return MCX_OFF.has(k)?null:MCX_EVE.has(k)?1020:540}
+function mcxOpenAt(t){const d=new Date((t+IST)*1000);const w=d.getUTCDay(),m=d.getUTCHours()*60+d.getUTCMinutes();const o=mcxOpenMin(t);return w>0&&w<6&&o!=null&&m>=o&&m<mcxClose(t)}
 function mcxOpen(){return mcxOpenAt(nowSec())}
 function mcxAllow(t){const m=istMin(t-1);return mcxOpenAt(t-1)&&m>=545&&m<=mcxClose(t)-30}
 // is this market's exchange open right now (crypto, US xStocks via Delta: always)
 function mktOpen(d){return isMcx(d)?mcxOpen():isNse(d)?nseOpen():true}
+/* ---------- Indian market clock: opens in / closes in, a small badge you can drag anywhere ---------- */
+function sessInfo(kind,t){const day0=Math.floor((t+IST)/86400)*86400-IST;
+  const win=ds=>{const k=istKey(ds+3600),w=new Date((ds+IST+3600)*1000).getUTCDay();if(w===0||w===6)return null;
+    if(kind==='nse')return NSE_HOL.has(k)?null:[ds+555*60,ds+930*60];const o=mcxOpenMin(ds+3600);return o==null?null:[ds+o*60,ds+mcxClose(ds+43200)*60]};
+  for(let d=0;d<12;d++){const ds=day0+d*86400,w=win(ds);if(!w)continue;if(t<w[0])return {open:false,at:w[0],pre:kind==='nse'&&t>=w[0]-15*60};if(t<w[1])return {open:true,at:w[1]}}return {open:false,at:null}}
+function durTx(s){s=Math.max(0,Math.round(s/60));const d=Math.floor(s/1440),h=Math.floor(s%1440/60),m=s%60;return d?`${d}d ${h}h`:h?`${h}h ${String(m).padStart(2,'0')}m`:`${m}m`}
+function mClock(){const el=$('#mClock');if(!el)return;el.hidden=CFG.mclock===false;if(el.hidden)return;const t=nowSec();
+  const row=(n,k)=>{const i=sessInfo(k,t);const at=i.at?istT(i.at*1000):'';const tx=i.open?`closes in <b>${durTx(i.at-t)}</b>`:i.pre?`pre-open · opens in <b>${durTx(i.at-t)}</b>`:i.at?`opens in <b>${durTx(i.at-t)}</b>`:'closed';
+    const soon=i.open&&i.at-t<=900;return `<div class="mc-r ${i.open?'on':''} ${soon?'soon':''}" title="${i.open?'Closes':'Opens'} at ${at} IST"><i></i><span class="mc-n">${n}</span><span class="mc-t">${tx}</span>${CFG.mclMini?'':`<small>${at}</small>`}</div>`};
+  el.classList.toggle('mini',!!CFG.mclMini);el.innerHTML=row('NSE','nse')+row('MCX','mcx')}
+function mClockInit(){const b=$('#mClock');if(!b||b.dataset.w)return;b.dataset.w=1;let st=null,moved=false;
+  const place=p=>{if(!p)return;b.style.left=Math.max(4,Math.min(innerWidth-b.offsetWidth-4,p.x*innerWidth))+'px';b.style.top=Math.max(4,Math.min(innerHeight-b.offsetHeight-60,p.y*innerHeight))+'px';b.style.right='auto';b.style.bottom='auto'};
+  mClock();place(store.get('pt.mclpos',null));addEventListener('resize',()=>place(store.get('pt.mclpos',null)));
+  b.addEventListener('pointerdown',e=>{const r=b.getBoundingClientRect();st={x:e.clientX,y:e.clientY,l:r.left,t:r.top};moved=false;try{b.setPointerCapture(e.pointerId)}catch(x){}});
+  b.addEventListener('pointermove',e=>{if(!st)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(!moved&&Math.hypot(dx,dy)<6)return;moved=true;b.classList.add('drag');
+    b.style.left=Math.max(4,Math.min(innerWidth-b.offsetWidth-4,st.l+dx))+'px';b.style.top=Math.max(4,Math.min(innerHeight-b.offsetHeight-4,st.t+dy))+'px';b.style.right='auto';b.style.bottom='auto'});
+  const up=()=>{if(!st)return;st=null;b.classList.remove('drag');if(moved){const r=b.getBoundingClientRect();store.set('pt.mclpos',{x:r.left/innerWidth,y:r.top/innerHeight})}};
+  b.addEventListener('pointerup',up);b.addEventListener('pointercancel',up);
+  b.addEventListener('click',()=>{if(moved){moved=false;return}CFG.mclMini=!CFG.mclMini;saveCfg();mClock()})}
 function usOpen(){try{const f=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'numeric',minute:'numeric',weekday:'short',hour12:false}).formatToParts(new Date());
   const g=t=>f.find(x=>x.type===t).value;const wd=g('weekday');const m=(+g('hour')%24)*60+ +g('minute');return !['Sat','Sun'].includes(wd)&&m>=570&&m<960}catch(e){return false}}
 const fmtT=t=>new Date((t+IST)*1000).toISOString().slice(11,16);
@@ -1657,7 +1695,7 @@ function botLight(){const el=$('#botLogo');if(!el)return;let up=0,dn=0;for(const
   if(OLOCK&&!OLOCK.done)up++;const k=up&&!dn?'up':dn&&!up?'dn':up&&dn?'up':'';el.className='coin'+(k?' '+k:'');const nb=$('#nBord');if(nb){nb.classList.toggle('up',k==='up');nb.classList.toggle('dn',k==='dn')}el.title=up||dn?`${up} buy · ${dn} sell running`:'No trade running'}
 function optLiveInst(){const L=OLOCK;if(!L||L.done||!L.okey)return;const id='o:'+L.okey;if(S.inst.has(id))return;S.tmp=S.tmp||[];
   if(!S.tmp.find(d=>d.id===id)){S.tmp.unshift({id,src:'upstox',key:L.okey,name:`${L.ix} ${L.strike} ${L.type}`,tsym:`${L.ix} ${L.strike} ${L.type}`,grp:'opt',nse:1,opt:1,sig:false});S.tmp=S.tmp.slice(0,4);syncInstruments()}}
-async function heartbeat(){tickN++;if(tickN%2===0&&S.view==='log'&&!document.hidden&&LOG.some(r=>r.r==null&&!(r.t<nowSec()-86400*2)))renderLog();if(tickN%5===0)optLiveInst();if(tickN%3===0)botLight();if(tickN%60===30)try{divScan()}catch(e){}if(S.view==='chart')renderSigBox();if(S.view==='log'&&tickN%3===0)renderRunning();if(CFG.token&&nseOpen()){const bk=Math.floor(nowSec()/(CFG.tf*60));if(cfBk!=null&&bk!==cfBk&&(S.view==='opt'||CFG.alerts))setTimeout(()=>confLoad(true),15000);cfBk=bk}if(tickN%60===11)for(const it of S.inst.values())if(it.active&&!it.active.odds)oddsFor(it,it.active);{const S1=LAB.tf*60,bk=Math.floor(nowSec()/S1);if(labBk!=null&&bk!==labBk&&(S.view==='lab'||LAB.alerts))setTimeout(()=>labRun(true).then(()=>{labPreviewAll();renderLab()}),20000);labBk=bk;
+async function heartbeat(){tickN++;if(tickN%5===0||tickN<3)try{mClockInit();mClock()}catch(e){}if(tickN%2===0&&S.view==='log'&&!document.hidden&&LOG.some(r=>r.r==null&&!(r.t<nowSec()-86400*2)))renderLog();if(tickN%5===0)optLiveInst();if(tickN%3===0)botLight();if(tickN%60===30)try{divScan()}catch(e){}if(S.view==='chart')renderSigBox();if(S.view==='log'&&tickN%3===0)renderRunning();if(CFG.token&&nseOpen()){const bk=Math.floor(nowSec()/(CFG.tf*60));if(cfBk!=null&&bk!==cfBk&&(S.view==='opt'||CFG.alerts))setTimeout(()=>confLoad(true),15000);cfBk=bk}if(tickN%60===11)for(const it of S.inst.values())if(it.active&&!it.active.odds)oddsFor(it,it.active);{const S1=LAB.tf*60,bk=Math.floor(nowSec()/S1);if(labBk!=null&&bk!==labBk&&(S.view==='lab'||LAB.alerts))setTimeout(()=>labRun(true).then(()=>{labPreviewAll();renderLab()}),20000);labBk=bk;
   if(S.view==='lab'){if(tickN%3===0)labLiquidity();if(tickN%5===0){labPreviewAll();renderLab()}}else if(LAB.alerts&&tickN%600===7)labRun(true)}if(tickN%10===3){for(const it of S.inst.values()){if(it.def.n50&&S.filter!=='n50')continue;previewInst(it);markDirty(it)}}if(tickN%5===0){staleCheck();optWatchdog()}if(S.view==='chart')updTimer();if((S.view==='scan'||S.view==='chart')&&tickN%5===0)renderWorld();const p=istParts();const dd=new Date(Date.now()+IST*1000);
   $('#clk').textContent=`${DAYS[dd.getUTCDay()]} ${dd.getUTCDate()} ${MONS[dd.getUTCMonth()]} · ${String(p.h).padStart(2,'0')}:${String(p.m).padStart(2,'0')}:${String(p.s).padStart(2,'0')} IST`;if(tickN%60===1)greet();
   $('#sess').innerHTML=`<b class="${nseOpen()?'on':''}">NSE</b><b class="${usOpen()?'on':''}">US</b><b class="on">CRYPTO</b>`;
@@ -2379,8 +2417,8 @@ function ariaVoices(lang){if(!window.speechSynthesis)return [];const vs=window.s
 function ariaVoice(lang){const L=ariaVoices(lang);const pick=CFG['ariaVoice_'+lang];const ch=pick&&L.find(v=>v.name===pick);if(ch)return ch;
   return L.find(v=>/female|woman|heera|veena|neerja|kajal|swara|aditi|isha|priya|samantha|zira|-x-(ahp|cxx|ena|ene)/i.test(v.name))||L.find(v=>/google/i.test(v.name))||L[0]||null}
 function ariaSpeak(parts,done){if(!('speechSynthesis' in window)){done&&done();return}if(typeof parts==='string')parts=[{t:parts}];
-  window.speechSynthesis.cancel();ARIA.speaking=true;ARIA.spk=parts.map(p=>ariaNorm(p.t)).join(' ');if(!CFG.ariaBarge){try{ARIA.rec&&ARIA.rec.abort()}catch(e){}}ariaUI();let i=0;ARIA.spkId=(ARIA.spkId||0)+1;const myId=ARIA.spkId;
-  const next=()=>{if(myId!==ARIA.spkId)return;if(i>=parts.length){ARIA.speaking=false;ariaUI();done&&done();ariaResume();return}const p=parts[i++];const lang=p.lang||ariaLang();
+  window.speechSynthesis.cancel();ARIA.speaking=true;ARIA.spk=parts.map(p=>ariaNorm(p.t)).join(' ');if(!CFG.ariaBarge){try{ARIA.rec&&ARIA.rec.abort()}catch(e){}}else if(ARIA.on)setTimeout(ariaListen,150);ariaUI();let i=0;ARIA.spkId=(ARIA.spkId||0)+1;const myId=ARIA.spkId;
+  const next=()=>{if(myId!==ARIA.spkId)return;if(i>=parts.length){ARIA.speaking=false;ARIA.spkEnd=Date.now();ariaUI();done&&done();setTimeout(ariaResume,700);return}const p=parts[i++];const lang=p.lang||ariaLang();
     const u=new SpeechSynthesisUtterance(p.t);const v=ariaVoice(lang);if(v){u.voice=v;u.lang=v.lang}else{u.lang=lang==='mr'?'mr-IN':'en-IN';if(lang==='mr'&&!ARIA.noVoiceWarn){ARIA.noVoiceWarn=true;toast('info','Marathi voice not installed','Android: Settings → Text-to-speech → Google → Install voice data → Marathi.','',null,9000)}}
     u.rate=1;u.pitch=1.08;u.onend=next;u.onerror=next;window.speechSynthesis.speak(u)};
   next()}
@@ -2391,18 +2429,25 @@ function ariaListen(){if(!SRx||(ARIA.speaking&&!CFG.ariaBarge)||ARIA.listening||
   const r=new SRx();ARIA.rec=r;r.lang=ariaLang()==='mr'?'mr-IN':'en-IN';r.interimResults=true;r.continuous=false;r.maxAlternatives=1;
   r.onstart=()=>{ARIA.listening=true;ariaUI()};
   r.onresult=e=>{let fin='',tmp='';for(let i=e.resultIndex;i<e.results.length;i++){const x=e.results[i];if(x.isFinal)fin+=x[0].transcript;else tmp+=x[0].transcript}
-    if(ARIA.on&&tmp)ariaShow(tmp,null,true);if(fin){ARIA.heard=Date.now();ariaHeard(fin)}};
+    if(ARIA.on&&tmp&&!ARIA.speaking)ariaShow(tmp,null,true);if(fin){const cf=e.results[e.results.length-1][0].confidence;if(cf>0&&cf<0.4&&!STOPW.test(ariaNorm(fin)))return;ARIA.heard=Date.now();ariaHeard(fin)}};
   r.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed'){ARIA.on=false;CFG.ariaWake=false;saveCfg();toast('warn','Microphone blocked','Allow the microphone for this site (tap the lock icon next to the address, then Permissions).','',null,9000)}};
   r.onend=()=>{ARIA.listening=false;ARIA.rec=null;ariaUI();ariaResume()};
   try{r.start()}catch(e){ARIA.listening=false}}
 function ariaResume(){if(ARIA.speaking&&!CFG.ariaBarge)return;if(ARIA.on&&Date.now()-ARIA.heard>120000){ariaStop(true);return}
   if(ARIA.on||CFG.ariaWake)setTimeout(ariaListen,ARIA.on?250:600)}
 const WAKE=/^(hey |hi |ok )?(aria|ariya|arya|area|maria|aaria|आरिया|अरिया|एरिया|आर्या|आरीया|अरीया)(?=\s|$)[ ,]*/i;   // \b does not work after Devanagari
-function ariaHush(){ARIA.spkId=(ARIA.spkId||0)+1;try{window.speechSynthesis.cancel()}catch(e){}ARIA.speaking=false;ARIA.follow=null;ariaUI();ariaShow(null,T2('Okay, stopped.','ठीक आहे, थांबले.'));ariaResume()}
+// "stop" always means stop: silence at once, end the conversation, no reply
+function ariaHush(){ARIA.spkId=(ARIA.spkId||0)+1;try{window.speechSynthesis.cancel()}catch(e){}ARIA.speaking=false;ARIA.follow=null;ARIA.miss=0;ariaStop();ariaShow(null,T2('Stopped. Tap me when you need me.','थांबले. गरज असेल तेव्हा मला टॅप करा.'))}
+// her own voice coming back through the mic: most of the heard words are in what she just said
+function ariaEcho(n){if(!ARIA.spk)return false;if(!ARIA.speaking&&Date.now()-(ARIA.spkEnd||0)>2500)return false;const w=n.split(' ').filter(x=>x.length>1);if(!w.length)return true;const sp=' '+ARIA.spk+' ';return w.filter(x=>sp.includes(' '+x+' ')).length/w.length>=0.6}
 const STOPW=/(^| )(stop|enough|ok stop|wait|cancel|bas|thamb)( |$)|थांब|बास|बस|पुरे|थांबा/;
 const YESW=/^(yes|yeah|yep|sure|ok|okay|go on|more|details|continue|tell me|हो|होय|हा|हां|हो सांग|सांग|पुढे|अजून|आणखी|डिटेल)/,NOW=/^(no|nope|not now|skip|नको|नाही|नाय)/;
 function ariaHeard(text){const n=ariaNorm(text);
-  if(ARIA.speaking){const sim=ARIA.spk&&n.length>3&&ARIA.spk.includes(n);if(!sim&&STOPW.test(n.replace(WAKE,''))){ariaHush();return}return}   // while she talks only "stop" counts (ignores her own voice)
+  const q0=n.replace(WAKE,'').trim();
+  const stopCmd=STOPW.test(q0)&&!/loss|लॉस/.test(n)&&(q0.split(' ').length<=3||!ariaEcho(n));   // "stop loss" in her own speech is not a command
+  if(stopCmd&&(ARIA.on||ARIA.speaking)){ariaHush();return}
+  if(ARIA.speaking)return;   // while she talks only "stop" counts
+  if(ariaEcho(n))return;      // ignore her own words picked up just after she finished
   if(ARIA.on&&ARIA.follow){const f=ARIA.follow;const q=n.replace(WAKE,'').trim();if(YESW.test(q)){ARIA.follow=null;ariaShow(text,null);f.yes();return}if(NOW.test(q)){ARIA.follow=null;ariaShow(text,null);ariaSay('Okay.','ठीक आहे.');return}ARIA.follow=null}
   if(!ARIA.on){if(!CFG.ariaWake)return;const m=n.match(WAKE);if(!m)return;const rest=n.slice(m[0].length).trim();ARIA.on=true;ARIA.heard=Date.now();ariaUI();
     if(!rest){ariaSay('Yes?','बोला?');return}text=rest}
@@ -2433,9 +2478,9 @@ const pctOf=it=>it&&it.ref&&it.price?(it.price-it.ref)/it.ref*100:null;
 const SIDE=(s)=>s>0?T2('BUY','बाय'):T2('SELL','सेल');
 const MR_ST={wait:'सेटअप नाही',bull:'तेजीचा कल',bear:'मंदीचा कल',chop:'चॉप, बाजार बाजूने',closed:'मार्केट बंद',sbuy:'स्ट्रॉंग बाय',buy:'बाय',ssell:'स्ट्रॉंग सेल',sell:'सेल',setupb:'बाय सेटअप',setups:'सेल सेटअप',sigoff:'सिग्नल बंद',t1:'T1 पूर्ण',t2:'T2 पूर्ण',stop:'स्टॉप लागला',be:'ब्रेकईव्हन',expired:'वेळ संपली',prep:'तयारी',warm:'तयार होत आहे',err:'माहिती नाही'};
 const stName=k=>T2(((STATES[k]||[k])[0]||'').toLowerCase().replace(' · ',', '),MR_ST[k]||((STATES[k]||[k])[0]));
-function ariaDo(c){const one=c.mk[0];const it=one&&S.inst.get(one);
+function ariaDo(c){const one=c.mk[0];const it=one&&S.inst.get(one);if(c.k&&c.k!=='none'&&c.k!=='unknown')ARIA.miss=0;
   switch(c.k){
-  case 'stop':ariaSpeak(T2('Okay, bye.','ठीक आहे.'),()=>ariaStop());return;
+  case 'stop':ariaHush();return;
   case 'help':return ariaSay('I can open charts, show two or four charts, float a chart, tell prices, tell your paper profit, read signals and running trades, switch signals on or off, read news and events, the option chain summary, and open any tab. Say Aria stop when done.',
     'मी चार्ट उघडू शकते, दोन किंवा चार चार्ट दाखवू शकते, किंमत सांगू शकते, सिग्नल आणि चालू ट्रेड सांगू शकते, सिग्नल चालू किंवा बंद करू शकते, बातम्या आणि इव्हेंट्स वाचू शकते, ऑप्शन चेन सारांश सांगू शकते. झाल्यावर आरिया थांब म्हणा.');
   case 'lang':CFG.ariaLang=c.v;saveCfg();ariaUI();return ariaSay('Okay, I will speak English.','ठीक आहे, मी आता मराठीत बोलेन.');
@@ -2515,13 +2560,14 @@ function ariaDo(c){const one=c.mk[0];const it=one&&S.inst.get(one);
   case 'tab':{const NV={scan:['scanner','स्कॅनर'],opt:['options','ऑप्शन्स'],log:['signals','सिग्नल्स'],news:['news','बातम्या'],set:['settings','सेटिंग्ज'],lab:['lab','लॅब'],chart:['chart','चार्ट']}[c.v];show(c.v);return ariaSay(`Opening ${NV[0]}.`,`${NV[1]} उघडत आहे.`)}
   case 'chart':{if(!it)return ariaSay('Which chart?','कोणता चार्ट?');openChart(one);if(c.price&&it.price!=null){const p=pctOf(it);return ariaSay(`${nm(one)}, ${fmtP(it.price)}${p!=null?`, ${p>=0?'up':'down'} ${Math.abs(p).toFixed(2)} percent`:''}.`,`${nm(one)}, ${fmtP(it.price)}${p!=null?`, ${Math.abs(p).toFixed(2)} टक्के ${p>=0?'वर':'खाली'}`:''}.`)}
     return ariaSay(`Opening ${nm(one)} chart.`,`${nm(one)} चार्ट उघडत आहे.`)}
-  default:return ariaSay("Sorry, I didn't get that. Say: what can you do.","माफ करा, समजले नाही. तू काय करू शकतेस असे विचारा.")}}
+  default:ARIA.miss=(ARIA.miss||0)+1;if(ARIA.miss>=2){ARIA.miss=0;ariaStop();ariaShow(null,T2("I'll pause. Tap me when you need me.",'मी थांबते. गरज असेल तेव्हा टॅप करा.'));return}
+    return ariaSay("Sorry, please say that again.","माफ करा, पुन्हा सांगा.")}}
 /* spoken alerts for new signals (optional) */
 function ariaAlert(it,tr,setup){if(!CFG.ariaSpeak||ARIA.speaking||document.hidden)return;const n=nm(it.def.id);const up=tr.side>0;
   const en=setup?`${up?'Buy':'Sell'} setup on ${n}. ${up?'Buy':'Sell'} at ${fmtP(tr.lim)}.`:`${tr.strong?'Strong ':''}${up?'buy':'sell'} on ${n}, filled at ${fmtP(tr.entry)}.`;
   const mr=setup?`${n} वर ${up?'बाय':'सेल'} सेटअप. ${fmtP(tr.lim)} वर.`:`${n} वर ${tr.strong?'स्ट्रॉंग ':''}${up?'बाय':'सेल'}, ${fmtP(tr.entry)} ला.`;
   const txt=T2(en,mr);ariaSpeak(txt)}
-function setAriaSettings(){const l=$('#ariaSetLang');if(!l)return;l.value=ariaLang();$('#ariaSetWake').checked=!!CFG.ariaWake;$('#ariaSetSpeak').checked=!!CFG.ariaSpeak;$('#ariaSetBarge').checked=!!CFG.ariaBarge;$('#ariaSetFab').checked=CFG.ariaFab!==false;
+function setAriaSettings(){const l=$('#ariaSetLang');if(!l)return;l.value=ariaLang();$('#ariaSetWake').checked=!!CFG.ariaWake;$('#ariaSetSpeak').checked=!!CFG.ariaSpeak;$('#ariaSetBarge').checked=!!CFG.ariaBarge;$('#ariaSetFab').checked=CFG.ariaFab!==false;const mc=$('#mclSet');if(mc){mc.checked=CFG.mclock!==false;mc.onchange=e=>{CFG.mclock=e.target.checked;saveCfg();mClock()}}
   const v=$('#ariaSetVoice');const L=('speechSynthesis' in window)?ariaVoices(ariaLang()):[];const cur=ariaVoice(ariaLang());
   v.innerHTML=L.length?L.map(x=>`<option value="${esc(x.name)}" ${cur&&cur.name===x.name?'selected':''}>${esc(x.name)} (${esc(x.lang)})</option>`).join(''):`<option value="">${ariaLang()==='mr'?'No Marathi voice: install it in Android Text-to-speech settings':'Default voice'}</option>`}
 (function(){const b=$('#ariaBtn');if(b){let st=null,moved=false;const pos=store.get('pt.ariapos',null);
@@ -2532,7 +2578,7 @@ function setAriaSettings(){const l=$('#ariaSetLang');if(!l)return;l.value=ariaLa
       b.style.left=Math.max(4,Math.min(innerWidth-68,st.l+dx))+'px';b.style.top=Math.max(4,Math.min(innerHeight-130,st.t+dy))+'px';b.style.right='auto';b.style.bottom='auto';ariaPlaceBar()});
     const up=()=>{if(!st)return;st=null;b.classList.remove('drag');if(moved){const r=b.getBoundingClientRect();store.set('pt.ariapos',{x:r.left/innerWidth,y:r.top/innerHeight})}};
     b.addEventListener('pointerup',up);b.addEventListener('pointercancel',up);
-    b.onclick=()=>{if(moved){moved=false;return}if(ARIA.speaking){ariaHush();return}if(ARIA.on)ariaStop();else ariaStart()}}
+    b.onclick=()=>{if(moved){moved=false;return}if(ARIA.speaking||ARIA.on){ariaHush();return}ariaStart()}}
   $('#ariaX').onclick=()=>ariaStop();$('#ariaLang').onclick=()=>{CFG.ariaLang=ariaLang()==='mr'?'en':'mr';saveCfg();ariaUI();setAriaSettings();try{ARIA.rec&&ARIA.rec.abort()}catch(e){}ariaSay('English.','मराठी.')};
   const l=$('#ariaSetLang');if(l){l.onchange=()=>{CFG.ariaLang=l.value;saveCfg();setAriaSettings();ariaUI()};$('#ariaSetVoice').onchange=e=>{CFG['ariaVoice_'+ariaLang()]=e.target.value;saveCfg()};
     $('#ariaSetWake').onchange=e=>{CFG.ariaWake=e.target.checked;saveCfg();ariaUI();if(CFG.ariaWake){if(!SRx){toast('warn','Voice not supported here','','',null,4000);return}ariaListen();toast('info','Wake word on','Say "Aria, open Bitcoin chart" while TradeBot is open.','',null,6000)}else if(!ARIA.on){try{ARIA.rec&&ARIA.rec.abort()}catch(x){}}};
@@ -2851,14 +2897,15 @@ const PDEF={on:false,cap:100000,usd:88,chg:0,q:{opt:1,idx:1,stk:10,mcx:1,btc:0.0
 const PSEG={opt:['Index options','lots'],idx:['Index & index futures','lots'],stk:['Indian stocks','shares'],mcx:['MCX commodities','lots'],btc:['Crypto (Bitcoin)','coins'],dlt:['Gold & Oil (Delta)','qty'],us:['US stocks & US30','qty']};
 const PP=()=>{const p=CFG.paper||{};return {...PDEF,...p,q:{...PDEF.q,...(p.q||{})}}};
 const paperOn=()=>!!(CFG.paper&&CFG.paper.on);
-function paperSeg(r){if(r.opt)return 'opt';const it=S.inst.get(r.inst);const d=it&&it.def;if(!d)return null;
+function paperSeg(r){if(r.opt)return 'opt';if(isN50row(r)||/^u:NSE_EQ\|/.test(r.inst||''))return 'stk';const it=S.inst.get(r.inst);const d=it&&it.def;if(!d)return null;
   if(d.n50||/_EQ\|/.test(d.key||''))return 'stk';if(isMcx(d))return 'mcx';if(d.fut||/_INDEX\|/.test(d.key||''))return 'idx';if(d.src==='delta'){if(d.grp==='crypto')return 'btc';if(d.usx)return 'us';return 'dlt'}if(d.src==='finnhub'||d.grp==='us')return 'us';return null}
 function lotFor(d){if(d.lot)return d.lot;const f=(FD().futures||{}).items||[];const m=f.find(x=>x.idx===d.id);return m?m.lot:null}
 // rupees per 1 point of price move for this row
 function paperUnits(r){const P=PP(),seg=paperSeg(r);if(!seg)return null;const q=+P.q[seg]||0;if(!q)return null;
-  if(seg==='opt')return q*(r.lot||(OLOCK&&OLOCK.lot)||1);const d=S.inst.get(r.inst).def;
+  if(seg==='opt')return q*(r.lot||(OLOCK&&OLOCK.lot)||1);const it0=S.inst.get(r.inst);if(!it0)return seg==='stk'?q:null;const d=it0.def;
   if(seg==='idx'||seg==='mcx'){const l=lotFor(d);return l?q*l:null}if(seg==='stk')return q;return q*(+P.usd||88)}
-function paperSel(r){const P=PP();if(r.t<(P.since||0))return false;const k=r.opt?'opt':r.inst;if(P.sel)return P.sel.includes(k);if(r.opt)return true;const it=S.inst.get(r.inst);return !!it&&it.def.sig!==false}
+const N50IDS=new Set(N50.map(x=>'u:NSE_EQ|'+x[1]));const isN50row=r=>!r.opt&&N50IDS.has(r.inst);
+function paperSel(r){const P=PP();if(r.t<(P.since||0))return false;const k=r.opt?'opt':isN50row(r)?'n50':r.inst;if(P.sel)return P.sel.includes(k)||(k==='n50'&&!P.n50v);if(k==='n50')return true;if(r.opt)return true;const it=S.inst.get(r.inst);return !!it&&it.def.sig!==false}
 const PBOOK=()=>store.get('pt.pbook',{});
 // what this paper trade earned: your own "Book now" price wins; "lock at T1" books 1R as soon as T1 is reached
 function paperR(r){const P=PP();const bk=PBOOK()[r.id];if(bk)return {r:bk.r,done:true,bk};if(P.bookT1&&['t1','t2','be'].includes(r.status))return {r:1,done:true};return r.r!=null?{r:r.r,done:true}:null}
@@ -2870,7 +2917,7 @@ const rs=v=>`${v>=0?'+':'−'}₹${Math.abs(Math.round(v)).toLocaleString('en-IN
 const PLEDG=()=>store.get('pt.pledg',[]);let PLSEEN=null;
 function paperArchive(){const L=PLEDG();PLSEEN=PLSEEN||new Set(L.map(x=>x.id));let add=0;
   for(const r of LOG){if(PLSEEN.has(r.id)||!paperSel(r)||!paperR(r))continue;const v=paperRs(r);if(v==null)continue;L.push({id:r.id,t:r.t,name:r.name,v:Math.round(v*100)/100});PLSEEN.add(r.id);add++}
-  if(add)store.set('pt.pledg',L.slice(-5000));return add?L:L}
+  if(add)store.set('pt.pledg',L.slice(-2000));return add?L:L}
 function renderPaper(){const box=$('#paperBox');if(!box)return;if(!paperOn()){box.innerHTML=`<div class="panel pap off"><b>📒 Paper trading</b> · set your amount and quantity, pick markets, and see your daily ₹ profit or loss. <button class="btn" data-psetup="1">Set up</button></div>`;box.querySelector('[data-psetup]').onclick=()=>{show('set');setTimeout(()=>{const e=$('#paperSet');e&&e.scrollIntoView({behavior:'smooth',block:'start'})},200)};return}
   const P=PP(),today=todayKey();const all=LOG.filter(r=>paperSel(r));const led=paperArchive().filter(x=>x.t>=(P.since||0));const day=k=>led.filter(r=>Math.floor((r.t+IST)/86400)>today-k);
   const sum=a=>a.reduce((q,x)=>q+x.v,0);const openR=all.filter(r=>!paperR(r));const mtm=openR.reduce((q,r)=>q+(paperRs(r)||0),0);
@@ -2890,8 +2937,8 @@ function paperBook(id){const r=LOG.find(x=>x.id===id);if(!r)return;const it=r.op
   const rr=markR(r,px);const m=PBOOK();m[id]={r:Math.round(rr*1000)/1000,px,t:nowSec()};store.set('pt.pbook',m);const v=paperRs(r);
   toast(v>=0?'buy':'sell','Paper trade booked',`${r.name} at ${fmtP(px)}: ${rs(v)}. The signal itself keeps running; only your paper trade is closed.`,'',null,5000);renderLog()}
 function paperSettings(){const el=$('#paperSet');if(!el)return;const P=PP();
-  const mk=[['opt','Index options (locked option signals)'],...[...S.inst.values()].filter(i=>!i.def.n50&&!i.def.opt).map(i=>[i.def.id,i.def.name.split(' · ')[0]])];
-  const sel=new Set(P.sel||mk.filter(([k])=>k==='opt'||(S.inst.get(k)&&S.inst.get(k).def.sig!==false)).map(x=>x[0]));
+  const mk=[['opt','Index options (locked option signals)'],['n50','NIFTY 50 stocks (all)'],...[...S.inst.values()].filter(i=>!i.def.n50&&!i.def.opt).map(i=>[i.def.id,i.def.name.split(' · ')[0]])];
+  const sel=new Set(P.sel?(P.n50v?P.sel:[...P.sel,'n50']):mk.filter(([k])=>k==='opt'||k==='n50'||(S.inst.get(k)&&S.inst.get(k).def.sig!==false)).map(x=>x[0]));
   el.innerHTML=`<h3>Paper trading</h3><p>Counts the signals of the markets you pick with your own quantities, and shows your profit or loss in ₹ every day (Signals tab). No real orders.</p>
     <div class="tg"><span>Paper trading on</span><label class="switch"><input type="checkbox" id="pOn" ${P.on?'checked':''}><span></span></label></div>
     <div class="pgrid"><label class="field"><span class="label">Starting amount (₹)</span><input type="number" id="pCap" min="1000" step="1000" value="${P.cap}"></label>
@@ -2903,7 +2950,7 @@ function paperSettings(){const el=$('#paperSet');if(!el)return;const P=PP();
     <div class="btns"><button class="btn" id="pAll">Select all</button><button class="btn" id="pNone">Clear</button><button class="btn" id="pReset">Start fresh from now</button></div>
     <p class="note">Index & futures use the exchange lot size (e.g. 1 lot NIFTY = ${lotFor({id:'u:NSE_INDEX|Nifty 50'})||'lot'} qty). MCX uses its lot (Natural Gas 1 lot = 1,250). Bitcoin, Gold, Oil and US are in dollars, converted at your rate.</p>`;
   const save=()=>{const q={};el.querySelectorAll('[data-pq]').forEach(i=>q[i.dataset.pq]=+i.value||0);const s2=[...el.querySelectorAll('[data-pm].on')].map(b=>b.dataset.pm);
-    CFG.paper={...P,bookT1:$('#pT1').checked,on:$('#pOn').checked,cap:+$('#pCap').value||100000,usd:+$('#pUsd').value||88,chg:+$('#pChg').value||0,q,sel:s2,since:P.since||nowSec()};saveCfg();if(S.view==='log')renderLog()};
+    CFG.paper={...P,bookT1:$('#pT1').checked,on:$('#pOn').checked,cap:+$('#pCap').value||100000,usd:+$('#pUsd').value||88,chg:+$('#pChg').value||0,q,sel:s2,n50v:1,since:P.since||nowSec()};saveCfg();if(S.view==='log')renderLog()};
   el.querySelectorAll('input').forEach(i=>i.onchange=save);el.querySelectorAll('[data-pm]').forEach(b=>b.onclick=()=>{b.classList.toggle('on');save()});
   $('#pAll').onclick=()=>{el.querySelectorAll('[data-pm]').forEach(b=>b.classList.add('on'));save()};$('#pNone').onclick=()=>{el.querySelectorAll('[data-pm]').forEach(b=>b.classList.remove('on'));save()};
   $('#pReset').onclick=()=>{CFG.paper={...PP(),since:nowSec()};saveCfg();paperSettings();toast('info','Paper account restarted','Only signals from now on will count.','',null,3500)}}
@@ -2946,7 +2993,7 @@ $('#logPdf').onclick=async()=>{const rows=logRows().sort((a,b)=>a.t-b.t);if(!row
   sec('All signals',['Date','Time','Market','Side','TF','Entry','Stop','T1','T2','Result','Points'],rows.map(r=>{const d=new Date((r.t+IST)*1000).toISOString();return [d.slice(5,10),d.slice(11,16),r.name,r.opt?'BUY opt':r.side>0?'BUY':'SELL',(r.tf||CFG.tf)+'m',fmtP(r.entry),fmtP(r.sl),fmtP(r.t1),fmtP(r.t2),r.r==null?'open':`${(STATES[r.status]||['?'])[0].split(' ')[0]} ${fmtR(r.r)}`,r.r==null||!r.dist?'':fmtPts(r.r*r.dist)]}));
   doc.setFontSize(8);doc.setTextColor(120,120,120);doc.text('Paper trades from TradeBot signals. Educational use only, not investment advice.',40,doc.internal.pageSize.getHeight()-24);
   dlBlob(doc.output('blob'),'paisa-report-'+perLabel()+'-'+ymdIST(Date.now())+'.pdf');toast('info','PDF saved','The report is in your Downloads.','',null,3000)};
-$('#logClear').onclick=()=>{const b=$('#logClear');if(Date.now()-clearArm<4000){paperArchive();LOG=[];saveLog();renderLog();b.textContent='Clear log'}else{clearArm=Date.now();b.textContent='Tap again to clear';setTimeout(()=>b.textContent='Clear log',4000)}};
+$('#logClear').onclick=()=>{const b=$('#logClear');if(Date.now()-clearArm<4000){paperArchive();LOG=[];store.set('pt.logclr',nowSec());saveLog();renderLog();b.textContent='Clear log'}else{clearArm=Date.now();b.textContent='Tap again to clear';setTimeout(()=>b.textContent='Clear log',4000)}};
 
 /* ---------- settings ---------- */
 const SKINS=[['neon','Neon','linear-gradient(135deg,#04060d 40%,#29e7ff 41%,#29e7ff 52%,#9b7bff 53%)','#04060d'],['glass','Glass','linear-gradient(135deg,#6c48ff,#00aaff 55%,#ff3c96)','#0c1033'],
@@ -3323,7 +3370,22 @@ function srvApply(it,quiet){const f=srvLive();if(!f)return;const d=it.def;const 
   else if(it.pend&&it.pend.srv)it.pend=null;
   if(!it.active&&!it.lastClosed){const lc=(f.recent||[]).find(t=>t.inst===d.id);if(lc)it.lastClosed=lc}
   it.paused=st.paused||null;markDirty(it);if(S.view==='chart'&&S.chart.id===d.id&&CH)drawLines(it);if(S.view==='log')renderRunning()}
-function srvSyncAll(){if(!srvLive())return;for(const it of S.inst.values())if(it.eng&&srvCovers(it.def))srvApply(it,false)}
+/* same signals, paper results and bookings on every device: merge what other devices saved (called by auth.js) */
+window.paisaMerge=function(x){let ch=0;const clr=Math.max(+store.get('pt.logclr',0)||0,+(x.logclr||0)||0);
+  if(clr>(+store.get('pt.logclr',0)||0)){store.set('pt.logclr',clr);const n=LOG.length;LOG=LOG.filter(r=>r.t>clr);if(LOG.length!==n){saveLog();ch=1}}
+  if(Array.isArray(x.log)){let a=0;for(const o of x.log){if(!o||!o.id||o.t<=clr)continue;const i=LOG.findIndex(y=>y.id===o.id);
+      if(i<0){if(Math.floor((o.t+IST)/86400)>=todayKey()-30){LOG.push(o);a=1}}else if(LOG[i].r==null&&o.r!=null){LOG[i]={...LOG[i],...o};a=1}}
+    if(a){LOG.sort((p,q)=>p.t-q.t);saveLog();ch=1}}
+  if(Array.isArray(x.pledg)){const L=PLEDG();const ids=new Set(L.map(y=>y.id));let a=0;for(const o of x.pledg)if(o&&o.id&&!ids.has(o.id)){L.push(o);ids.add(o.id);a=1}
+    if(a){L.sort((p,q)=>p.t-q.t);store.set('pt.pledg',L.slice(-2000));PLSEEN=null;ch=1}}
+  if(x.pbook&&typeof x.pbook==='object'){const m=PBOOK();let a=0;for(const k in x.pbook)if(!m[k]){m[k]=x.pbook[k];a=1}if(a){store.set('pt.pbook',m);ch=1}}
+  if(ch&&S.view==='log')renderLog();return ch};
+// trades the shared server made while this device was closed
+function srvImport(){const f=srvLive();if(!f)return;const clr=+store.get('pt.logclr',0)||0;let a=0;
+  for(const t of (f.recent||[])){if(!t||!t.id||t.t<=clr||LOG.some(x=>x.id===t.id))continue;const it=S.inst.get(t.inst);if(!it||it.def.sig===false)continue;
+    if(Math.floor((t.t+IST)/86400)<todayKey()-30)continue;LOG.push({...t,name:it.def.name,srv:true,src:it.def.src,tf:t.tf||f.cfg.tf});a=1}
+  if(a){LOG.sort((p,q)=>p.t-q.t);saveLog();if(S.view==='log')renderLog()}}
+function srvSyncAll(){if(!srvLive())return;srvImport();for(const it of S.inst.values())if(it.eng&&srvCovers(it.def))srvApply(it,false)}
 function renderSrvMsg(){const el=$('#sSrvMsg');if(!el)return;$('#sFut').checked=CFG.futs!==false;const f=(window.FEED||{}).signals;$('#sSrv').checked=CFG.srv!==false;
   if(CFG.srv===false){el.textContent='Off: every market uses this device and your own candle/strictness settings. Devices can show different trades.';return}
   if(!f){el.textContent='Waiting for the TradeBot server. Until it answers, this device makes its own signals.';return}
@@ -3471,7 +3533,7 @@ function boot(){weakOffOnce();mcxOnce();nbApply();$('#nbSel').onchange=e=>{CFG.b
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=12"></script>
+<script type="module" src="auth.js?v=13"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;

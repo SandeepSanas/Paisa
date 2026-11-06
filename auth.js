@@ -20,7 +20,7 @@ const db = getFirestore(app);
 window.__fbReady = true;
 
 const $ = id => document.getElementById(id);
-const MAIN_KEYS = ['pt.cfg','pt.watch','pt.n50cfg','pt.icol','pt.ovl','pt.zoom','pt.lab','pt.palerts','pt.olock','pt.draw','pt.macdp','pt.sbpos','pt.pbook','pt.pledg'];
+const MAIN_KEYS = ['pt.cfg','pt.watch','pt.n50cfg','pt.icol','pt.ovl','pt.zoom','pt.lab','pt.palerts','pt.olock','pt.draw','pt.macdp','pt.sbpos','pt.pbook','pt.pledg','pt.logclr'];
 const LOG_KEYS = ['pt.log','pt.lablog'];
 let cur = null, dirtyMain = false, dirtyLogs = false, tMain = null, tLogs = null, pushing = false;
 const last = { main: '', logs: '', secrets: '' };
@@ -64,12 +64,30 @@ const ref = (uid, a, b) => doc(db, 'users', uid, a, b);
 function splitCfg(raw) { let c = {}; try { c = JSON.parse(raw || '{}') || {}; } catch (e) {}
   const sec = { token: c.token || '', fkey: c.fkey || '' }; delete c.token; delete c.fkey; return { cfg: JSON.stringify(c), sec }; }
 
+/* signal log, paper results and bookings are merged (not overwritten), so every device shows the same trades */
+const J = (raw, d) => { try { const v = JSON.parse(raw); return v == null ? d : v; } catch (e) { return d; } };
+function mergeRows(a, b, clr) { const m = new Map(); for (const x of [...a, ...b]) { if (!x || !x.id || (clr && x.t <= clr)) continue; const o = m.get(x.id);
+    if (!o || (o.r == null && x.r != null)) m.set(x.id, o ? { ...o, ...x } : x); } return [...m.values()].sort((p, q) => (p.t || 0) - (q.t || 0)); }
+function mergeInto(k, remoteRaw) { if (typeof remoteRaw !== 'string') return; const loc = localStorage.getItem(k);
+  if (k === 'pt.logclr') { localStorage.setItem(k, String(Math.max(+J(loc, 0) || 0, +J(remoteRaw, 0) || 0))); return; }
+  if (k === 'pt.pbook') { localStorage.setItem(k, JSON.stringify({ ...J(remoteRaw, {}), ...J(loc, {}) })); return; }
+  const clr = k === 'pt.log' ? +J(localStorage.getItem('pt.logclr'), 0) || 0 : 0;
+  localStorage.setItem(k, JSON.stringify(mergeRows(J(loc, []), J(remoteRaw, []), clr))); }
+const MERGE_KEYS = ['pt.log', 'pt.pledg', 'pt.pbook', 'pt.logclr'];
+let liveUnsubs = [];
+function liveSync(uid) { stopLive();
+  const hand = (k, raw) => { if (typeof raw !== 'string' || !window.paisaMerge) return; const v = J(raw, null); if (v == null) return;
+    try { window.paisaMerge(k === 'pt.log' ? { log: v } : k === 'pt.pledg' ? { pledg: v } : k === 'pt.pbook' ? { pbook: v } : { logclr: v }); } catch (e) {} };
+  liveUnsubs.push(onSnapshot(ref(uid, 'state', 'logs'), s => { if (s.exists()) hand('pt.log', s.data()['pt.log']); }, () => {}));
+  liveUnsubs.push(onSnapshot(ref(uid, 'state', 'main'), s => { if (!s.exists()) return; const d = s.data().data || {}; for (const k of ['pt.logclr', 'pt.pledg', 'pt.pbook']) hand(k, d[k]); }, () => {})); }
+function stopLive() { for (const u of liveUnsubs) try { u(); } catch (e) {} liveUnsubs = []; }
+
 async function pull(uid) {
   const [m, l, s] = await Promise.all([getDoc(ref(uid, 'state', 'main')), getDoc(ref(uid, 'state', 'logs')), getDoc(ref(uid, 'private', 'secrets'))]);
   if (!m.exists()) return false;
   const d = m.data().data || {};
-  for (const k of MAIN_KEYS) if (typeof d[k] === 'string') localStorage.setItem(k, d[k]);
-  if (l.exists()) { const x = l.data(); for (const k of LOG_KEYS) if (typeof x[k] === 'string') localStorage.setItem(k, x[k]); }
+  for (const k of MAIN_KEYS) if (typeof d[k] === 'string') { if (MERGE_KEYS.includes(k)) mergeInto(k, d[k]); else localStorage.setItem(k, d[k]); }
+  if (l.exists()) { const x = l.data(); for (const k of LOG_KEYS) if (typeof x[k] === 'string') { if (k === 'pt.log') mergeInto(k, x[k]); else localStorage.setItem(k, x[k]); } }
   let c = {}; try { c = JSON.parse(localStorage.getItem('pt.cfg') || '{}') || {}; } catch (e) {}
   if (s.exists()) { const x = s.data(); c.token = x.token || ''; c.fkey = x.fkey || ''; }
   localStorage.setItem('pt.cfg', JSON.stringify(c));
@@ -81,6 +99,10 @@ function capJSON(raw, n) { try { const a = JSON.parse(raw || '[]'); return JSON.
 async function push(full) {
   if (!cur || pushing) return; pushing = true; const uid = cur.uid; const now = Date.now();
   try {
+    try { const [rm, rl] = await Promise.all([getDoc(ref(uid, 'state', 'main')), (full || dirtyLogs) ? getDoc(ref(uid, 'state', 'logs')) : null]);
+      const rd = rm.exists() ? rm.data().data || {} : {}; const rx = rl && rl.exists() ? rl.data() : {};
+      if (window.paisaMerge) window.paisaMerge({ logclr: J(rd['pt.logclr'], 0), pledg: J(rd['pt.pledg'], null), pbook: J(rd['pt.pbook'], null), log: J(rx['pt.log'], null) });
+      else { for (const k of ['pt.logclr', 'pt.pledg', 'pt.pbook']) mergeInto(k, rd[k]); mergeInto('pt.log', rx['pt.log']); } } catch (e) {}
     const data = {}; let sec = { token: '', fkey: '' };
     for (const k of MAIN_KEYS) { const v = localStorage.getItem(k); if (v == null) continue;
       if (k === 'pt.cfg') { const s = splitCfg(v); data[k] = s.cfg; sec = s.sec; } else data[k] = v; }
@@ -89,7 +111,7 @@ async function push(full) {
     dirtyMain = false;
     const secStr = JSON.stringify(sec);
     if (full || secStr !== last.secrets) { await setDoc(ref(uid, 'private', 'secrets'), { ...sec, updatedAt: now }); last.secrets = secStr; }
-    if (full || dirtyLogs) { const logs = { 'pt.log': capJSON(localStorage.getItem('pt.log'), 1500), 'pt.lablog': capJSON(localStorage.getItem('pt.lablog'), 1000) };
+    if (full || dirtyLogs) { const logs = { 'pt.log': capJSON(localStorage.getItem('pt.log'), 1200), 'pt.lablog': capJSON(localStorage.getItem('pt.lablog'), 1000) };
       const ls = JSON.stringify(logs); if (full || ls !== last.logs) { await setDoc(ref(uid, 'state', 'logs'), { ...logs, updatedAt: now }); last.logs = ls; } dirtyLogs = false; }
     const s = $('acSync'); if (s) s.textContent = 'Synced to your account at ' + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) + '.';
   } catch (err) {
@@ -120,7 +142,7 @@ function wireAccount(u) {
     out.disabled = true; out.textContent = 'Signing out…';
     try { await push(false); } catch (e) {}
     try { await dropDevice(); } catch (e) {}
-    stopFeeds();
+    stopFeeds(); stopLive();
     try { await signOut(auth); } catch (e) {}
     clearLocal(); clearForm(); location.reload();
   };
@@ -220,7 +242,7 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('mess
 });
 
 /* ---------------- session flow ---------------- */
-function start(u) { wireAccount(u); window.startApp && window.startApp(); startFeeds(); refreshDevice(); }
+function start(u) { wireAccount(u); window.startApp && window.startApp(); startFeeds(); refreshDevice(); setTimeout(() => liveSync(u.uid), 3000); }
 onAuthStateChanged(auth, async u => {
   if (!u) { cur = null; state(null); clearForm(); setTimeout(() => email.focus(), 300); return; }
   cur = u; msg(''); state('Loading your data…');
