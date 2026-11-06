@@ -1,6 +1,6 @@
 // TradeBot service worker: makes the app installable, opens fast, shows an "update" prompt for new versions,
 // and displays push notifications from the TradeBot server.
-const VERSION = 'paisa-v13';
+const VERSION = 'paisa-v14';
 const SHELL = ['./', './index.html', './auth.js', './manifest.webmanifest', './logo-head.webp', './robot.webp', './aria.webp', './icon-192.png', './icon-512.png',
   './maskable-192.png', './maskable-512.png', './apple-touch-icon.png', './favicon-32.png'];
 const LIBS = ['www.gstatic.com', 'unpkg.com', 'cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
@@ -41,7 +41,8 @@ self.addEventListener('push', e => {
   e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(cs => {
     const vis = cs.find(c => c.visibilityState === 'visible');
     if (vis) { vis.postMessage({ type: 'paisa-push', title, body, url, kind: d.kind || '' }); return; }   // app open in front: show a toast instead
-    return self.registration.showNotification(title, { body, tag, renotify: true, icon: './icon-192.png', badge: './favicon-32.png', data: { url }, vibrate: [120, 60, 120] });
+    const quiet = d.silent === '1';   // BTC SWING at night: show it, but without sound or vibration
+    return self.registration.showNotification(title, { body, tag, renotify: !quiet, silent: quiet, icon: './icon-192.png', badge: './favicon-32.png', data: { url }, vibrate: quiet ? [] : (d.kind === 'swing' ? [200, 80, 200, 80, 400] : [120, 60, 120]), requireInteraction: d.kind === 'swing' && !quiet });
   }));
 });
 self.addEventListener('notificationclick', e => {
