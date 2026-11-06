@@ -857,7 +857,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v11</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v12</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -944,8 +944,8 @@ body:not(.locked) .login{display:none}
     <!-- LOG -->
     <section class="view" id="v-log" hidden>
       <div class="h2"><h2>Signals</h2><div class="seg" id="logPer"></div><span class="sub">Paper trades. Outcomes update live.</span><span class="spacer"></span><button class="btn" id="logCsv">CSV</button><button class="btn" id="logPdf">PDF</button><button class="btn ghost" id="logClear">Clear log</button></div>
-      <div id="logRun"></div>
       <div id="paperBox"></div>
+      <div id="logRun"></div>
       <div class="logsum" id="logSum"></div>
       <div id="logStats"></div>
       <div id="logList" style="display:flex;flex-direction:column;gap:8px"></div>
@@ -974,7 +974,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v11 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v12 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -2866,14 +2866,19 @@ function paperRs(r){const u=paperUnits(r);if(u==null)return null;const P=PP();co
   if(pr)return pr.r*(r.dist||0)*u-(+P.chg||0);
   const it=r.opt?null:S.inst.get(r.inst);const px=r.opt?(OLOCK&&OLOCK.id===r.id?OLOCK.ltp:null):it&&it.price;if(px==null)return null;return markR(r,px)*(r.dist||0)*u-(+P.chg||0)}   // after charges, so booking does not change the number
 const rs=v=>`${v>=0?'+':'−'}₹${Math.abs(Math.round(v)).toLocaleString('en-IN')}`;
+// closed paper trades are saved in their own ledger, so clearing the signal log keeps your paper balance
+const PLEDG=()=>store.get('pt.pledg',[]);let PLSEEN=null;
+function paperArchive(){const L=PLEDG();PLSEEN=PLSEEN||new Set(L.map(x=>x.id));let add=0;
+  for(const r of LOG){if(PLSEEN.has(r.id)||!paperSel(r)||!paperR(r))continue;const v=paperRs(r);if(v==null)continue;L.push({id:r.id,t:r.t,name:r.name,v:Math.round(v*100)/100});PLSEEN.add(r.id);add++}
+  if(add)store.set('pt.pledg',L.slice(-5000));return add?L:L}
 function renderPaper(){const box=$('#paperBox');if(!box)return;if(!paperOn()){box.innerHTML=`<div class="panel pap off"><b>📒 Paper trading</b> · set your amount and quantity, pick markets, and see your daily ₹ profit or loss. <button class="btn" data-psetup="1">Set up</button></div>`;box.querySelector('[data-psetup]').onclick=()=>{show('set');setTimeout(()=>{const e=$('#paperSet');e&&e.scrollIntoView({behavior:'smooth',block:'start'})},200)};return}
-  const P=PP(),today=todayKey();const all=LOG.filter(r=>paperSel(r));const day=k=>all.filter(r=>Math.floor((r.t+IST)/86400)>today-k);
-  const sum=a=>a.reduce((q,r)=>{const v=paperR(r)?paperRs(r):null;return v==null?q:q+v},0);const openR=all.filter(r=>!paperR(r));const mtm=openR.reduce((q,r)=>q+(paperRs(r)||0),0);
-  const tot=sum(all),bal=P.cap+tot,dT=sum(day(1)),startBal=bal-dT;const pct=v=>startBal>0?` (${v>=0?'+':''}${(v/startBal*100).toFixed(2)}%)`:'';
-  const per={};for(const r of day(1)){if(!paperR(r))continue;const v=paperRs(r);if(v==null)continue;const k=r.name.split(' · ')[0];per[k]=per[k]||{v:0,n:0};per[k].v+=v;per[k].n++}
+  const P=PP(),today=todayKey();const all=LOG.filter(r=>paperSel(r));const led=paperArchive().filter(x=>x.t>=(P.since||0));const day=k=>led.filter(r=>Math.floor((r.t+IST)/86400)>today-k);
+  const sum=a=>a.reduce((q,x)=>q+x.v,0);const openR=all.filter(r=>!paperR(r));const mtm=openR.reduce((q,r)=>q+(paperRs(r)||0),0);
+  const tot=sum(led),bal=P.cap+tot,dT=sum(day(1)),startBal=bal-dT;const pct=v=>startBal>0?` (${v>=0?'+':''}${(v/startBal*100).toFixed(2)}%)`:'';
+  const per={};for(const x of day(1)){const k=x.name.split(' · ')[0];per[k]=per[k]||{v:0,n:0};per[k].v+=x.v;per[k].n++}
   const T=(f,k,v,sub,c)=>`<button type="button" class="tile" data-pf="${f}"><span class="label">${k}</span><b style="color:var(${c||(v>=0?'--sbuy':'--ssell')})">${typeof v==='number'?rs(v):v}</b>${sub?`<small>${sub}</small>`:''}</button>`;
   box.innerHTML=`<div class="panel pap"><div class="pap-h"><b>📒 Paper account</b><span class="sub">since ${P.since?istD(P.since*1000):'start'} · start ₹${P.cap.toLocaleString('en-IN')}</span><button class="btn ghost" data-psetup="1">Edit</button></div>
-    <div class="logsum">${T('bal','Balance',`₹${Math.round(bal).toLocaleString('en-IN')}`,`${tot>=0?'+':''}${(tot/P.cap*100).toFixed(2)}% overall`,tot>=0?'--sbuy':'--ssell')}${T(1,'Today',dT,`${day(1).filter(r=>paperR(r)).length} closed${pct(dT).replace(/[()]/g,'')}`)}${T(7,'7 days',sum(day(7)))}${T(30,'30 days',sum(day(30)))}${T('open','Open now',mtm,`${openR.length} running (not booked)`)}</div>
+    <div class="logsum">${T('bal','Balance',`₹${Math.round(bal).toLocaleString('en-IN')}`,`${tot>=0?'+':''}${(tot/P.cap*100).toFixed(2)}% overall`,tot>=0?'--sbuy':'--ssell')}${T(1,'Today',dT,`${day(1).length} closed${pct(dT).replace(/[()]/g,'')}`)}${T(7,'7 days',sum(day(7)))}${T(30,'30 days',sum(day(30)))}${T('open','Open now',mtm,`${openR.length} running (not booked)`)}</div>
     ${openR.length?`<div class="pap-o"><b class="psub">Open paper trades · live</b>${openR.map(r=>{const v=paperRs(r);const it=r.opt?null:S.inst.get(r.inst);const px=r.opt?(OLOCK&&OLOCK.id===r.id?OLOCK.ltp:null):it&&it.price;
       return `<div class="po-r"><span class="po-s ${r.side>0?'up':'dn'}">${r.side>0?'BUY':'SELL'}</span><span class="po-n"><b>${esc(r.name)}</b><small>entry ${fmtP(r.entry)} · now ${px!=null?fmtP(px):'—'}${r.status==='t1'?' · T1 ✓':''}</small></span><b class="po-v" style="color:var(${(v||0)>=0?'--sbuy':'--ssell'})">${v==null?'—':rs(v)}</b><button class="btn po-b" data-book="${esc(r.id)}" ${v==null?'disabled':''} title="Close this paper trade now at the live price">Book now</button></div>`}).join('')}</div>`:''}
     ${Object.keys(per).length?`<div class="pap-m">${Object.entries(per).sort((a,b)=>b[1].v-a[1].v).map(([k,x])=>`<span style="color:var(${x.v>=0?'--sbuy':'--ssell'})"><b>${esc(k)}</b> ${rs(x.v)} · ${x.n}</span>`).join('')}</div>`:''}
@@ -2941,7 +2946,7 @@ $('#logPdf').onclick=async()=>{const rows=logRows().sort((a,b)=>a.t-b.t);if(!row
   sec('All signals',['Date','Time','Market','Side','TF','Entry','Stop','T1','T2','Result','Points'],rows.map(r=>{const d=new Date((r.t+IST)*1000).toISOString();return [d.slice(5,10),d.slice(11,16),r.name,r.opt?'BUY opt':r.side>0?'BUY':'SELL',(r.tf||CFG.tf)+'m',fmtP(r.entry),fmtP(r.sl),fmtP(r.t1),fmtP(r.t2),r.r==null?'open':`${(STATES[r.status]||['?'])[0].split(' ')[0]} ${fmtR(r.r)}`,r.r==null||!r.dist?'':fmtPts(r.r*r.dist)]}));
   doc.setFontSize(8);doc.setTextColor(120,120,120);doc.text('Paper trades from TradeBot signals. Educational use only, not investment advice.',40,doc.internal.pageSize.getHeight()-24);
   dlBlob(doc.output('blob'),'paisa-report-'+perLabel()+'-'+ymdIST(Date.now())+'.pdf');toast('info','PDF saved','The report is in your Downloads.','',null,3000)};
-$('#logClear').onclick=()=>{const b=$('#logClear');if(Date.now()-clearArm<4000){LOG=[];saveLog();renderLog();b.textContent='Clear log'}else{clearArm=Date.now();b.textContent='Tap again to clear';setTimeout(()=>b.textContent='Clear log',4000)}};
+$('#logClear').onclick=()=>{const b=$('#logClear');if(Date.now()-clearArm<4000){paperArchive();LOG=[];saveLog();renderLog();b.textContent='Clear log'}else{clearArm=Date.now();b.textContent='Tap again to clear';setTimeout(()=>b.textContent='Clear log',4000)}};
 
 /* ---------- settings ---------- */
 const SKINS=[['neon','Neon','linear-gradient(135deg,#04060d 40%,#29e7ff 41%,#29e7ff 52%,#9b7bff 53%)','#04060d'],['glass','Glass','linear-gradient(135deg,#6c48ff,#00aaff 55%,#ff3c96)','#0c1033'],
@@ -3466,7 +3471,7 @@ function boot(){weakOffOnce();mcxOnce();nbApply();$('#nbSel').onchange=e=>{CFG.b
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=11"></script>
+<script type="module" src="auth.js?v=12"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
