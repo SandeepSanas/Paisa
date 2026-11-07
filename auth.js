@@ -237,6 +237,10 @@ window.paisaSearch = async q => {
   if (!symFn) { const f = await import(SDK + 'firebase-functions.js'); symFn = f.httpsCallable(f.getFunctions(app, 'asia-south1'), 'symbols', { timeout: 40000 }); }
   return (await symFn({ q })).data;
 };
+window.paisaMcxOpt = async n => {   // MCX option contract list for one commodity (strikes, CE/PE keys, underlying future)
+  if (!symFn) { const f = await import(SDK + 'firebase-functions.js'); symFn = f.httpsCallable(f.getFunctions(app, 'asia-south1'), 'symbols', { timeout: 40000 }); }
+  return (await symFn({ mcxopt: n })).data;
+};
 async function call(what) {
   const f = await import(SDK + 'firebase-functions.js');
   const fn = f.httpsCallable(f.getFunctions(app, 'asia-south1'), 'paisaAction', { timeout: 70000 });

@@ -502,6 +502,19 @@ table.oi td.och:hover{color:var(--cyan)}
 .swcard p{font-size:12px;color:var(--dim);margin:6px 0 0}
 .swin .btns{display:flex;gap:8px;justify-content:center}
 @keyframes swShine{to{background-position:300% 0}}@keyframes swPulse{50%{box-shadow:0 0 12px #f5b942}}@keyframes swIn{from{transform:scale(.8);opacity:0}}@keyframes swBob{50%{transform:translateY(-5px)}}
+.swin.calc{width:min(560px,100%);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px}
+.calch{display:flex;justify-content:space-between;align-items:center}.calch b{font-size:17px}
+.calcsel{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}.calcsel select{min-width:110px}
+.calcinfo{font-size:12.5px;color:var(--dim);margin-bottom:8px}.calcinfo b{color:var(--text)}
+.calcrow{display:flex;flex-direction:column;gap:4px;margin:8px 0;font-size:13px}.calcrow input[type=range]{width:100%}.calcrow .seg{flex-wrap:wrap}
+.calcout{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:10px;border-radius:12px;background:var(--well);margin:8px 0}
+.calcout i{display:block;font-style:normal;font-size:11px;color:var(--dim)}.calcout b{font-size:17px;font-variant-numeric:tabular-nums}
+.calct{width:100%;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums}.calct th,.calct td{padding:5px 4px;border-bottom:1px solid var(--line);text-align:right}
+.calct th:first-child,.calct td:first-child{text-align:left}.calct td small{display:block;font-size:10.5px}.calct tr.z td{background:rgba(34,211,238,.08)}
+.fadew{color:#f59e0b}.mtag.fadet{color:#1a1200;background:#f59e0b;border-color:#f59e0b;animation:swPulse 1.6s infinite}
+.mp-ck{display:flex;flex-wrap:wrap;gap:3px;padding:3px 6px 0;font-size:9.5px;line-height:1}
+.mp-ck .mck{padding:2px 4px;border-radius:4px;border:1px solid var(--line);color:var(--faint)}.mp-ck .mck.ok{color:var(--sbuy);border-color:rgba(0,255,157,.35);box-shadow:0 0 6px rgba(0,255,157,.18)}.mp-ck .mck.no{color:#ff7d9c;border-color:rgba(255,45,111,.3)}
+.mp-ck .mck-s{font-weight:800;padding:2px 4px}.mp-ck .mck-s.up{color:var(--sbuy)}.mp-ck .mck-s.dn{color:var(--ssell)}
 .mclock{position:fixed;z-index:49;left:10px;bottom:calc(150px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:3px;padding:7px 10px;border-radius:12px;background:color-mix(in srgb,var(--panel,#0d1422) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid color-mix(in srgb,var(--cyan,#22d3ee) 35%,transparent);box-shadow:0 6px 22px rgba(0,0,0,.35),0 0 14px color-mix(in srgb,var(--cyan,#22d3ee) 18%,transparent);font-size:11.5px;line-height:1.25;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;max-width:calc(100vw - 20px)}
 .mclock.drag{cursor:grabbing;opacity:.9}
 .mclock .mc-r{display:flex;align-items:center;gap:6px;white-space:nowrap;color:var(--dim,#9aa4b2)}
@@ -923,7 +936,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v15.1</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v16</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -1004,6 +1017,7 @@ body:not(.locked) .login{display:none}
         <select id="oIdx" aria-label="Index"></select>
         <select id="oExp" aria-label="Expiry"></select>
         <span class="label" id="oUpd"></span>
+        <button class="btn" id="oCalc" title="What would an option be worth if the index moves X points?">🧮 Calculator</button>
       </div>
       <div id="oBody"></div>
     </section>
@@ -1047,7 +1061,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v15.1 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v16 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -1480,7 +1494,13 @@ function enqueue(fn){return new Promise(res=>{Q.push([fn,res]);pump()})}
 function pump(){while(qRun<4&&Q.length){const [fn,res]=Q.shift();qRun++;Promise.resolve().then(fn).catch(()=>{}).then(v=>{qRun--;res(v);pump()})}}
 const OPT_IDX=[
   {n:'NIFTY',key:'NSE_INDEX|Nifty 50'},{n:'BANKNIFTY',key:'NSE_INDEX|Nifty Bank'},{n:'FINNIFTY',key:'NSE_INDEX|Nifty Fin Service'},
-  {n:'MIDCPNIFTY',key:'NSE_INDEX|NIFTY MID SELECT'},{n:'SENSEX',key:'BSE_INDEX|SENSEX'}];
+  {n:'MIDCPNIFTY',key:'NSE_INDEX|NIFTY MID SELECT'},{n:'SENSEX',key:'BSE_INDEX|SENSEX'},
+  // MCX commodity options (chain built from the contract list + live quotes; Upstox's option-chain API has no MCX). key = the app's futures card for the trend
+  {n:'CRUDEOIL',key:'FUT|CRUDEOIL',mcx:'CRUDEOIL'},{n:'NATURALGAS',key:'FUT|NATURALGAS',mcx:'NATURALGAS'},{n:'GOLD',key:'FUT|GOLD',mcx:'GOLD'},{n:'SILVER',key:'FUT|SILVER',mcx:'SILVER'}];
+const optIx=n=>OPT_IDX.find(x=>x.n===n)||OPT_IDX[0];
+const optOpenIx=ix=>ix&&ix.mcx?mcxOpen():nseOpen();                                  // market hours of the option's exchange
+const optEndMin=ix=>ix&&ix.mcx?mcxClose(nowSec())-5:915;                              // open option trades close here
+const optWin=ix=>ix&&ix.mcx?[545,mcxClose(nowSec())-30]:[560,885];                   // new option locks only inside this window
 const STATES={
   sigoff:['SIGNALS OFF','--closed'],obuy:['OPTION BUY · OPEN','--sbuy'],optc:['OPTION CHART','--closed'],
   info:['INFO','--cyan'],
@@ -1757,7 +1777,7 @@ function botLight(){const el=$('#botLogo');if(!el)return;let up=0,dn=0;for(const
   if(OLOCK&&!OLOCK.done)up++;const k=up&&!dn?'up':dn&&!up?'dn':up&&dn?'up':'';el.className='coin'+(k?' '+k:'');const nb=$('#nBord');if(nb){nb.classList.toggle('up',k==='up');nb.classList.toggle('dn',k==='dn')}el.title=up||dn?`${up} buy · ${dn} sell running`:'No trade running'}
 function optLiveInst(){const L=OLOCK;if(!L||L.done||!L.okey)return;const id='o:'+L.okey;if(S.inst.has(id))return;S.tmp=S.tmp||[];
   if(!S.tmp.find(d=>d.id===id)){S.tmp.unshift({id,src:'upstox',key:L.okey,name:`${L.ix} ${L.strike} ${L.type}`,tsym:`${L.ix} ${L.strike} ${L.type}`,grp:'opt',nse:1,opt:1,sig:false});S.tmp=S.tmp.slice(0,4);syncInstruments()}}
-async function heartbeat(){tickN++;if(tickN%5===0||tickN<3)try{mClockInit();mClock()}catch(e){}if(tickN%2===0&&S.view==='log'&&!document.hidden&&LOG.some(r=>r.r==null&&!(r.t<nowSec()-86400*2)))renderLog();if(tickN%5===0)optLiveInst();if(tickN%3===0)botLight();if(tickN%60===30)try{divScan()}catch(e){}if(S.view==='chart')renderSigBox();if(S.view==='log'&&tickN%3===0)renderRunning();if(CFG.token&&nseOpen()){const bk=Math.floor(nowSec()/(CFG.tf*60));if(cfBk!=null&&bk!==cfBk&&(S.view==='opt'||CFG.alerts))setTimeout(()=>confLoad(true),15000);cfBk=bk}if(tickN%60===11)for(const it of S.inst.values())if(it.active&&!it.active.odds)oddsFor(it,it.active);{const S1=LAB.tf*60,bk=Math.floor(nowSec()/S1);if(labBk!=null&&bk!==labBk&&(S.view==='lab'||LAB.alerts))setTimeout(()=>labRun(true).then(()=>{labPreviewAll();renderLab()}),20000);labBk=bk;
+async function heartbeat(){tickN++;if(tickN%15===0)for(const it of S.inst.values())try{if(it.active&&it.active.status==='open'&&it.def.sig!==false)fadeCheck(it)}catch(e){}if(tickN%5===0||tickN<3)try{mClockInit();mClock()}catch(e){}if(tickN%2===0&&S.view==='log'&&!document.hidden&&LOG.some(r=>r.r==null&&!(r.t<nowSec()-86400*2)))renderLog();if(tickN%5===0)optLiveInst();if(tickN%3===0)botLight();if(tickN%60===30)try{divScan()}catch(e){}if(S.view==='chart')renderSigBox();if(S.view==='log'&&tickN%3===0)renderRunning();if(CFG.token&&nseOpen()){const bk=Math.floor(nowSec()/(CFG.tf*60));if(cfBk!=null&&bk!==cfBk&&(S.view==='opt'||CFG.alerts))setTimeout(()=>confLoad(true),15000);cfBk=bk}if(tickN%60===11)for(const it of S.inst.values())if(it.active&&!it.active.odds)oddsFor(it,it.active);{const S1=LAB.tf*60,bk=Math.floor(nowSec()/S1);if(labBk!=null&&bk!==labBk&&(S.view==='lab'||LAB.alerts))setTimeout(()=>labRun(true).then(()=>{labPreviewAll();renderLab()}),20000);labBk=bk;
   if(S.view==='lab'){if(tickN%3===0)labLiquidity();if(tickN%5===0){labPreviewAll();renderLab()}}else if(LAB.alerts&&tickN%600===7)labRun(true)}if(tickN%10===3){for(const it of S.inst.values()){if(it.def.n50&&S.filter!=='n50')continue;previewInst(it);markDirty(it)}}if(tickN%5===0){staleCheck();optWatchdog()}if(S.view==='chart')updTimer();if((S.view==='scan'||S.view==='chart')&&tickN%5===0)renderWorld();const p=istParts();const dd=new Date(Date.now()+IST*1000);
   $('#clk').textContent=`${DAYS[dd.getUTCDay()]} ${dd.getUTCDate()} ${MONS[dd.getUTCMonth()]} · ${String(p.h).padStart(2,'0')}:${String(p.m).padStart(2,'0')}:${String(p.s).padStart(2,'0')} IST`;if(tickN%60===1)greet();
   $('#sess').innerHTML=`<b class="${nseOpen()?'on':''}">NSE</b><b class="${usOpen()?'on':''}">US</b><b class="on">CRYPTO</b>`;
@@ -2085,11 +2105,25 @@ function actOf(it){if(!it)return null;if(it.active)return it.active;const o=optT
 /* ---------- signal label on the chart: bold filled BUY/SELL with entry, stop and targets ---------- */
 function sigTrade(it){const tr=actOf(it);if(tr)return tr;if(it.pend&&nowSec()<it.pend.until&&it.def.sig!==false)return {...it.pend,status:'setup'};return null}
 // one plain line above the chart that says what is happening right now (so nothing is left to guess)
+/* ---------- momentum fading: a running trade that has not moved and whose trend is weakening ----------
+   Tested on 2 years of NIFTY + 60 days of 9 markets: exiting early cut winners (worse), but moving the stop halfway to entry
+   helped a little (pooled −0.014R → +0.001R per trade). So the app suggests tightening the stop, it does not say "exit". */
+function fadeOf(it,tr){if(!tr||tr.status!=='open'||it.def.opt||!it.eng||!it.eng.b||!it.eng.ind)return null;const b=it.eng.b,ind=it.eng.ind,ft=tr.fillT||tr.t;
+  let i0=-1;for(let j=b.length-1;j>=0;j--){if(b[j].t<=ft){i0=j;break}}if(i0<0)return null;
+  const tf=tfOf(it);let i=b.length-1;if(b[i].t+tf*60>nowSec())i--;const k=i-i0;if(k<6)return null;               // 6 closed candles ≈ 30 min on 5-min
+  const s=tr.side,prog=(b[i].c-tr.entry)*s/tr.dist;if(prog>=0.5)return null;
+  if(!it.eng._mh||it.eng._mhN!==b.length){it.eng._mh=macdCalc(b).h;it.eng._mhN=b.length}const mh=it.eng._mh;
+  const why=[];if((ind.st.dir[i]||0)===-s)why.push('Supertrend flipped');if((ind.e9[i]-ind.e21[i])*s<0)why.push('EMA 9 crossed EMA 21');if(mh[i]*s<0)why.push('MACD turned');
+  if(!why.length)return null;return {sl:tr.entry-s*tr.dist*0.5,why,prog,mins:Math.round(k*tf)}}
+const FADESEEN=new Set(store.get('pt.fadeseen',[]));
+function fadeCheck(it){const tr=actOf(it);const f=fadeOf(it,tr);if(!f||FADESEEN.has(tr.id))return f;FADESEEN.add(tr.id);store.set('pt.fadeseen',[...FADESEEN].slice(-200));
+  if(CFG.fadeAlert!==false&&nowSec()-(tr.fillT||tr.t)<4*3600){tone(SOUNDS.info);toast('info',`⚠ MOMENTUM FADING · ${it.def.name.split(' · ')[0]}`,`${tr.side>0?'BUY':'SELL'} has not moved in ${f.mins} min and ${f.why.join(', ')}. Suggestion: tighten the stop to ${fmtP(f.sl)} (halfway to entry). Not an exit signal.`,'',it.def.id,10000)}return f}
 function chartStatus(it){const tr=actOf(it),p=it.pend,lc=it.lastClosed,t=x=>istT(x*1000);
   if(it.def.opt){const o=optTrade(it);if(o&&!o.done){const v=it.price!=null?it.price-o.entry:null;return `<b class="up">OPTION BUY running</b> since ${t(o.t)} (Options tab signal) · bought at ${fmtP(o.entry)}${v!=null?` · <b class="${v>=0?'up':'dn'}">${fmtPts(v)} pts (${v>=0?'+':'−'}₹${Math.round(Math.abs(v)*o.lot).toLocaleString('en-IN')}/lot)</b>`:''}${o.status==='t1'?' · T1 hit, stop moved to entry':''}`}
     if(o&&o.done)return `<b>No option trade running</b> · last: BUY ${o.strike} ${o.type} ${t(o.t)} → ${(STATES[o.status]||[o.status])[0].split(' · ')[0]}${o.r!=null?` <b class="${o.r>=0?'up':'dn'}">${fmtR(o.r)}</b>`:''}`;
     return '<b>Option price chart</b> · option signals come from the Options tab (open interest + option charts)'}
   if(it.def.sig===false)return `<b>Signals OFF</b> for this market · switch ON from its card`;
+  {const f=fadeOf(it,tr);if(f)return `<b class="fadew">⚠ MOMENTUM FADING</b> · ${tr.side>0?'BUY':'SELL'} from ${fmtP(tr.entry)} has not moved in ${f.mins} min · ${f.why.join(', ')} · tighten stop to <b>${fmtP(f.sl)}</b> (halfway to entry). Not an exit signal.`}
   if(tr)return `<b class="${tr.side>0?'up':'dn'}">${tr.side>0?'BUY':'SELL'} running</b> since ${t(tr.entryT||tr.t)} · entry ${fmtP(tr.entry)}${tr.status==='t1'?' · T1 hit, stop moved to entry':''}`;
   if(p&&nowSec()<p.until)return `<b class="${p.side>0?'up':'dn'}">${p.side>0?'BUY':'SELL'} setup</b> · trade opens only if price reaches ${fmtP(p.lim)} by ${t(p.until)}`;
   let h='<b>No trade running</b>';
@@ -2105,6 +2139,7 @@ function renderEntryTag(it){let el=document.getElementById('entTag');const tr=ac
   if(x==null||y==null)return hide();el.hidden=false;const w=el.offsetWidth,h=el.offsetHeight;el.style.left=Math.round(x-w/2)+'px';el.style.top=Math.round(up?y+8:y-h-8)+'px'}
 function renderSigBox(){let el=document.getElementById('sigBox');const it=chartInst();const hide=()=>{if(el)el.hidden=true};if(it)renderEntryTag(it);
   const cs=document.getElementById('chStat');if(cs&&it){const h=chartStatus(it);if(cs.dataset.h!==h){cs.innerHTML=h;cs.dataset.h=h}cs.hidden=!h}
+  if(CH&&it){const f=fadeOf(it,actOf(it));const want=f?f.sl:null;if(want!==CH.fadeV){if(CH.fadeL)try{CH.candle.removePriceLine(CH.fadeL)}catch(e){}CH.fadeL=null;CH.fadeV=want;if(want!=null)CH.fadeL=CH.candle.createPriceLine({price:want,color:'#f59e0b',lineWidth:2,lineStyle:1,axisLabelVisible:true,title:'⚠ TIGHTEN SL'})}}
   if(S.view!=='chart'||!CH||!it||!S.chart.bars.length)return hide();const tr=sigTrade(it);if(!tr)return hide();
   if(!el){el=document.createElement('div');el.id='sigBox';el.className='sigbox';document.querySelector('.chartbox').appendChild(el)}
   const setup=tr.status==='setup';const live=setup||['open','t1'].includes(tr.status);const up=tr.side>0;
@@ -2361,7 +2396,7 @@ function renderLayout(){const v=$('#v-chart'),g=$('#mGrid');$('#chLay').querySel
   v.classList.add('multi');g.hidden=false;g.className='mgrid n'+MC.n;mcDefaults();mcDestroy();
   const L=mcList();g.innerHTML=MC.cells.slice(0,MC.n).map((c,i)=>`<div class="mp" data-i="${i}"><div class="mp-h"><select aria-label="Market for chart ${i+1}">${L.map(d=>`<option value="${esc(d.id)}" ${d.id===c.id?'selected':''}>${isFav(d.id)?'★ ':''}${esc(d.name)}</option>`).join('')}</select>
     <span class="mp-tf">${[1,3,5,15,60].map(t=>`<button data-tf="${t}" class="${c.tf===t?'on':''}">${t===60?'1H':t+'m'}</button>`).join('')}</span><button class="mp-x" data-open="1" title="Open this chart full size" aria-label="Open full size">⤢</button></div>
-    <div class="mp-i"><span class="px num">—</span><span class="flt-pill"></span></div><div class="mp-c"></div><div class="mp-st"></div></div>`).join('');
+    <div class="mp-i"><span class="px num">—</span><span class="flt-pill"></span></div><div class="mp-c"></div><div class="mp-ck"></div><div class="mp-st"></div></div>`).join('');
   g.querySelectorAll('.mp').forEach(el=>{const i=+el.dataset.i;const c=MC.cells[i];
     el.querySelector('select').onchange=e=>{c.id=e.target.value;mcSave();mcDraw(i,true,true)};
     el.querySelectorAll('.mp-tf button').forEach(b=>b.onclick=()=>{c.tf=+b.dataset.tf;el.querySelectorAll('.mp-tf button').forEach(x=>x.classList.toggle('on',x===b));mcSave();mcDraw(i,true,true)});
@@ -2373,20 +2408,38 @@ function renderLayout(){const v=$('#v-chart'),g=$('#mGrid');$('#chLay').querySel
     const p={el,ch,c:ch.addCandlestickSeries({upColor:up,downColor:dn,wickUpColor:up,wickDownColor:dn,borderVisible:false}),
       e9:ch.addLineSeries({color:indCol('e9'),lineWidth:1,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false}),
       e21:ch.addLineSeries({color:indCol('e21'),lineWidth:1,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false}),lines:[],sig:'',t:0,key:''};
+    // volume + MACD under the candles, like the single chart (MACD follows the chart's MACD switch; on a phone with 3–4 charts only the first two show MACD)
+    const ov=store.get('pt.ovl',{vol:1});p.showVol=ov.vol!==0;p.showMacd=!!ov.macd&&!(innerWidth<700&&MC.n>2&&i>1);
+    p.vol=ch.addHistogramSeries({priceScaleId:'vol',priceFormat:{type:'volume'},priceLineVisible:false,lastValueVisible:false});
+    p.mH=ch.addHistogramSeries({priceScaleId:'macd',priceLineVisible:false,lastValueVisible:false});
+    p.mL=ch.addLineSeries({priceScaleId:'macd',color:indCol('mL'),lineWidth:1,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
+    p.mS=ch.addLineSeries({priceScaleId:'macd',color:indCol('mS'),lineWidth:1,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
+    ch.priceScale('right').applyOptions({scaleMargins:p.showMacd?{top:.06,bottom:.34}:{top:.08,bottom:p.showVol?.2:.06}});
+    ch.priceScale('vol').applyOptions({scaleMargins:p.showMacd?{top:.58,bottom:.3}:{top:.82,bottom:0},visible:false});
+    ch.priceScale('macd').applyOptions({scaleMargins:{top:.74,bottom:.02},visible:false});
     MC.panes[i]=p;mcDraw(i,true,true)})}
 function mcDestroy(){for(const p of MC.panes)if(p)try{p.ch.remove()}catch(e){}MC.panes=[]}
 function mcDraw(i,full,refit){const p=MC.panes[i],c=MC.cells[i];if(!p||!c)return;const it=S.inst.get(c.id);if(!it)return;const d=it.def;const el=p.el;
   const px=el.querySelector('.px');px.textContent=fmtP(it.price);px.className='px num '+(it.dir>0?'up':it.dir<0?'dn':'');
   const cs=cardState(it);const [label,col]=STATES[cs.k]||STATES.wait;const pill=el.querySelector('.flt-pill');pill.textContent=label;pill.style.setProperty('--sc',`var(${col})`);
   const tr=actOf(it),pd=it.pend&&nowSec()<it.pend.until&&d.sig!==false?it.pend:null;el.classList.toggle('sig-up',!!((tr||pd)&&(tr||pd).side>0));el.classList.toggle('sig-dn',!!((tr||pd)&&(tr||pd).side<0));
-  let st;if(tr&&it.price!=null){const v=(it.price-tr.entry)*tr.side;st=`<b class="${tr.side>0?'up':'dn'}">${tr.opt?'BUY '+tr.type:tr.side>0?'BUY':'SELL'}</b> @ ${fmtP(tr.entry)} · <b class="${v>=0?'up':'dn'}">${fmtPts(v)} pts ${tr.opt?`${v>=0?'+':'−'}₹${Math.round(Math.abs(v)*tr.lot).toLocaleString('en-IN')}/lot`:fmtR(markR(tr,it.price))}</b>`}
+  let st;if(tr&&it.price!=null){const v=(it.price-tr.entry)*tr.side;const fd=fadeOf(it,tr);st=(fd?`<b class="fadew">⚠ FADING · SL→${fmtP(fd.sl)}</b> · `:'')+`<b class="${tr.side>0?'up':'dn'}">${tr.opt?'BUY '+tr.type:tr.side>0?'BUY':'SELL'}</b> @ ${fmtP(tr.entry)} · <b class="${v>=0?'up':'dn'}">${fmtPts(v)} pts ${tr.opt?`${v>=0?'+':'−'}₹${Math.round(Math.abs(v)*tr.lot).toLocaleString('en-IN')}/lot`:fmtR(markR(tr,it.price))}</b>`}
     else if(pd)st=`<b class="${pd.side>0?'up':'dn'}">${pd.side>0?'BUY':'SELL'} setup</b> at ${fmtP(pd.lim)} till ${istT(pd.until*1000)}`;
     else st=d.opt?'Option price':it.status==='err'?'No data':it.status==='load'?'Loading…':'No trade running';
   const se=el.querySelector('.mp-st');if(se.dataset.h!==st){se.innerHTML=st;se.dataset.h=st}
+  // signal checklist strip (same checks as the single chart's boxes; the strategy runs on ${tfOf(it)}-minute candles)
+  const ck=el.querySelector('.mp-ck');if(ck){const ev=it.eng&&it.eng.last;const sg=tr||pd;const sd=sg?sg.side:ev&&ev.vside||1;const K=d.opt?null:(sg&&sg.ck)||(ev&&ev.view&&ev.view.ck)||null;
+    let h='';if(K){const nm={ema:'EMA',vwap:'VWAP',st:'ST',rsi:'RSI',adx:'ADX',vol:'VOL',trend:'TREND'};const ks=Object.keys(nm).filter(k=>K[k]!=null);
+      h=`<span class="mck-s ${sd>0?'up':'dn'}">${sd>0?'BUY':'SELL'} ${ks.filter(k=>k!=='trend'&&K[k]).length}/${ks.filter(k=>k!=='trend').length}</span>`+ks.map(k=>`<span class="mck ${K[k]?'ok':'no'}">${nm[k]}</span>`).join('')+(ev&&ev.view&&ev.view.trigger?'<span class="mck ok">TRIGGER</span>':'')}
+    if(ck.dataset.h!==h){ck.innerHTML=h;ck.dataset.h=h;ck.hidden=!h}}
   if(!it.b1||!it.b1.length)return;const now=Date.now();const key=c.id+'@'+c.tf;if(key!==p.key){full=true;refit=true;p.key=key;p.sig='x'}
   if(full||now-p.t>2000){p.t=now;const b=aggBars(it.b1,c.tf,isNse(d)).slice(-200);if(!b.length)return;const sh=t=>t+IST;
     p.c.setData(b.map(x=>({time:sh(x.t),open:x.o,high:x.h,low:x.l,close:x.c})));
     if(!d.opt){const ind=indicators(b,isNse(d));const ser=a=>b.map((x,j)=>isNaN(a[j])?{time:sh(x.t)}:{time:sh(x.t),value:a[j]});p.e9.setData(ser(ind.e9));p.e21.setData(ser(ind.e21))}else{p.e9.setData([]);p.e21.setData([])}
+    const up=toHex(CH?CH.k.up:'#00e68a'),dn=toHex(CH?CH.k.dn:'#ff3d6e');
+    const hasV=b.some(x=>x.v>0);p.vol.setData(p.showVol&&hasV?b.map(x=>({time:sh(x.t),value:x.v||0,color:(x.c>=x.o?up:dn)+'55'})):[]);
+    if(p.showMacd&&!d.opt&&b.length>40){const mc=macdCalc(b);p.mH.setData(b.map((x,j)=>isNaN(mc.h[j])?{time:sh(x.t)}:{time:sh(x.t),value:mc.h[j],color:mc.h[j]>=0?up+(mc.h[j]>=(mc.h[j-1]||0)?'':'70'):dn+(mc.h[j]<=(mc.h[j-1]||0)?'':'70')}));
+      const ln=a=>b.map((x,j)=>isNaN(a[j])?{time:sh(x.t)}:{time:sh(x.t),value:a[j]});p.mL.setData(ln(mc.m));p.mS.setData(ln(mc.g))}else{p.mH.setData([]);p.mL.setData([]);p.mS.setData([])}
     if(refit){const z=store.get('pt.zoom',null);const cnt=z&&z.cnt>=10?Math.min(200,z.cnt):90;try{p.ch.timeScale().setVisibleLogicalRange({from:Math.max(0,b.length-cnt),to:b.length+3})}catch(e){}}}
   const sig=tr?tr.id+tr.status:pd?'p'+pd.id:'';
   if(sig!==p.sig){p.sig=sig;for(const l of p.lines)try{p.c.removePriceLine(l)}catch(e){}p.lines=[];const Lp=(price,color,title,w)=>price!=null&&p.lines.push(p.c.createPriceLine({price,color,lineWidth:w||1,lineStyle:2,axisLabelVisible:true,title}));
@@ -2701,17 +2754,79 @@ $('#chFloat').onclick=()=>{const it=chartInst();if(!it)return;openFloat(it.def.i
 
 /* ---------- options & OI ---------- */
 let optInit=false;
-function initOpt(silent){if(!optInit){optInit=true;$('#oIdx').innerHTML=OPT_IDX.map((o,i)=>`<option value="${i}">${o.n}</option>`).join('');
+function initOpt(silent){if(!optInit){optInit=true;$('#oCalc').onclick=()=>openCalc();$('#oIdx').innerHTML=OPT_IDX.map((o,i)=>`<option value="${i}">${o.n}</option>`).join('');
   $('#oIdx').onchange=e=>{S.opt.idx=+e.target.value;S.opt.exp=null;S.opt.exps=[];S.opt.an=null;loadExp()};$('#oExp').onchange=e=>{S.opt.exp=e.target.value;loadChain()}}
   if(!CFG.token){$('#oBody').innerHTML=`<div class="empty">The option chain and OI need today's Upstox access token.<br><br><button class="btn pri" onclick="show('set')">Add token in Settings</button></div>`;$('#oExp').innerHTML='';return}
   if(!S.opt.exps.length)loadExp();else renderOpt()}
 async function loadExp(){const ix=OPT_IDX[S.opt.idx];$('#oBody').innerHTML='<div class="empty">Loading expiries…</div>';
+  if(ix.mcx){try{const m=await mcxMeta(ix.mcx,true);S.opt.exps=m.exps.filter(e=>!!m.chains[e]);S.opt.lot=m.mult||m.lot;S.opt.exp=S.opt.exps.includes(S.opt.exp)?S.opt.exp:S.opt.exps[0];
+      $('#oExp').innerHTML=S.opt.exps.map(e=>`<option ${e===S.opt.exp?'selected':''}>${e}</option>`).join('');loadChain()}
+    catch(e){$('#oBody').innerHTML=`<div class="empty">Could not load ${esc(ix.n)} options (${esc(e.message||e)}). The server update for MCX options must be deployed.</div>`}return}
   try{const j=await jget(`${UAPI}/v2/option/contract?instrument_key=${encodeURIComponent(ix.key)}`,upHeaders());const rows=j.data||[];
     const today=ymdIST(Date.now());const pp=istParts();const after=pp.h*60+pp.m>=930;S.opt.exps=[...new Set(rows.map(r=>r.expiry))].filter(e=>after?e>today:e>=today).sort();S.opt.lot=rows[0]&&rows[0].lot_size;
     S.opt.exp=S.opt.exp||S.opt.exps[0];$('#oExp').innerHTML=S.opt.exps.slice(0,8).map(e=>`<option ${e===S.opt.exp?'selected':''}>${e}</option>`).join('');loadChain()}
   catch(e){$('#oBody').innerHTML=`<div class="empty">${e.status===401?'Upstox says the token is invalid or expired. Paste today\'s token in Settings.':'Could not load expiries ('+esc(e.message)+').'}</div>`;if(e.status===401)setFeed('upstox','err')}}
+/* ---------- option maths (Black-76 on the futures / index level; r ≈ 0 for these short expiries) ---------- */
+const nCdf=x=>{const t=1/(1+0.2316419*Math.abs(x));const d=0.3989423*Math.exp(-x*x/2);const p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return x>0?1-p:p};
+const nPdf=x=>Math.exp(-x*x/2)/Math.sqrt(2*Math.PI);
+function bsPrice(F,K,T,v,call){if(T<=0||v<=0)return Math.max(0,call?F-K:K-F);const s=v*Math.sqrt(T),d1=(Math.log(F/K)+s*s/2)/s,d2=d1-s;return call?F*nCdf(d1)-K*nCdf(d2):K*nCdf(-d2)-F*nCdf(-d1)}
+function bsIV(P,F,K,T,call){const intr=Math.max(0,call?F-K:K-F);if(!(P>intr)||T<=0)return null;let lo=0.005,hi=3;for(let i=0;i<60;i++){const m=(lo+hi)/2;if(bsPrice(F,K,T,m,call)>P)hi=m;else lo=m}return (lo+hi)/2}
+function bsGreeks(F,K,T,v,call){if(T<=0||!v)return {delta:call?(F>K?1:0):(F<K?-1:0),gamma:0};const s=v*Math.sqrt(T),d1=(Math.log(F/K)+s*s/2)/s;return {delta:call?nCdf(d1):nCdf(d1)-1,gamma:nPdf(d1)/(F*s)}}
+const optExpMs=(ix,exp)=>Date.parse(exp+(ix&&ix.mcx?'T23:30:00+05:30':'T15:30:00+05:30'));
+const yrsTo=ms=>Math.max(0,(ms-Date.now())/(365*86400000));
+/* ---------- MCX option chain: contract list from the server + live quotes from Upstox → same shape as Upstox's option chain ---------- */
+const MCXM={};
+async function mcxMeta(n,force){const c=MCXM[n];if(c&&!force&&Date.now()-c.at<6*3600000)return c;if(!window.paisaMcxOpt)throw new Error('sign in first');
+  const r=await window.paisaMcxOpt(n);if(!r||!r.ok)throw new Error((r&&r.msg)||'no MCX option list');MCXM[n]={...r,at:Date.now()};return MCXM[n]}
+async function upQuotes(keys){const out={};for(let i=0;i<keys.length;i+=200){const j=await jget(`${UAPI}/v2/market-quote/quotes?instrument_key=${keys.slice(i,i+200).map(encodeURIComponent).join(',')}`,upHeaders());
+  for(const v of Object.values(j.data||{}))if(v&&v.instrument_token)out[v.instrument_token]=v}return out}
+const MCXPOI={};   // yesterday's open interest per option (from its daily candle), once a day
+async function mcxPrevOI(keys){const day=ymdIST(Date.now()),out={};const need=keys.filter(k=>!(MCXPOI[k]&&MCXPOI[k].d===day));
+  await Promise.all(need.map(k=>enqueue(async()=>{try{const to=ymdIST(Date.now()-86400000),from=ymdIST(Date.now()-10*86400000);
+    const j=await jget(`${UAPI}/v3/historical-candle/${encodeURIComponent(k)}/days/1/${to}/${from}`,upHeaders());const c=(j.data&&j.data.candles)||[];MCXPOI[k]={d:day,oi:c.length?+c[0][6]||0:0}}catch(e){MCXPOI[k]={d:day,oi:0}}})));
+  for(const k of keys)out[k]=(MCXPOI[k]||{}).oi||0;return out}
+async function mcxChain(ix,exp){const m=await mcxMeta(ix.mcx);const ch=m.chains[exp];if(!ch||!ch.rows.length)throw new Error('no strikes for '+exp);
+  const uq=await upQuotes([ch.under]);const F=+((uq[ch.under]||{}).last_price)||0;if(!F)throw new Error('no price for the '+ix.n+' future');
+  let ai=0;ch.rows.forEach((r,i)=>{if(Math.abs(r.k-F)<Math.abs(ch.rows[ai].k-F))ai=i});const rows=ch.rows.slice(Math.max(0,ai-12),ai+13);
+  const keys=rows.flatMap(r=>[r.ce,r.pe]);const q=await upQuotes(keys);const poi=await mcxPrevOI(keys);const T=yrsTo(optExpMs(ix,exp));
+  const side=(key,K,call)=>{const v=q[key]||{};const ltp=+v.last_price||0;const iv=bsIV(ltp,F,K,T,call);const g=bsGreeks(F,K,T,iv||0.25,call);
+    return {instrument_key:key,market_data:{ltp,oi:+v.oi||0,prev_oi:poi[key]||+v.oi||0,close_price:ltp-(+v.net_change||0),volume:+v.volume||0},option_greeks:{delta:g.delta,gamma:g.gamma,iv:iv?iv*100:0}}};
+  return rows.map(r=>({strike_price:r.k,underlying_spot_price:F,call_options:side(r.ce,r.k,true),put_options:side(r.pe,r.k,false)}))}
+/* ---------- option calculator: what an option could be worth if the index / future moves X points ---------- */
+const CALC={};
+function openCalc(pre){const an=S.opt.an,ix=OPT_IDX[S.opt.idx];if(!an){toast('info','Option calculator','Open the Options tab and let the chain load first.');return}
+  Object.assign(CALC,{ix,exp:S.opt.exp,lot:S.opt.lot||1,k:pre&&pre.strike||an.atm.k,type:pre&&pre.type||'CE',move:0,when:'now',dIV:0});CALC.step=Math.abs((an.st[1]||an.st[0]).k-an.st[0].k)||50;
+  let el=$('#calcPop');if(!el){el=document.createElement('div');el.id='calcPop';el.className='swpop';document.body.appendChild(el);el.onclick=e=>{if(e.target===el)el.hidden=true}}
+  el.hidden=false;renderCalc()}
+function calcAt(F,K,T,v,call){return bsPrice(F,K,Math.max(0,T),Math.max(0.005,v),call)}
+function renderCalc(){const el=$('#calcPop');if(!el||el.hidden)return;const an=S.opt.an;if(!an)return;const c=CALC,ix=c.ix,call=c.type==='CE';
+  const row=an.st.find(s=>s.k===c.k)||an.atm;c.k=row.k;const o=call?row.ce:row.pe;const F=an.spot,K=c.k,expMs=optExpMs(ix,c.exp),T0=yrsTo(expMs);
+  const v0=bsIV(o.ltp,F,K,T0,call)||(o.iv?o.iv/100:0.15);const v=Math.max(0.01,v0+c.dIV/100);
+  const endMin=optEndMin(ix),p=istParts(),nowMin=p.h*60+p.m;const dayEndMs=Date.now()+Math.max(0,endMin+5-nowMin)*60000;
+  const W={now:['Now',0],h1:['In 1 hour',3600000],eod:['End of today',Math.max(0,dayEndMs-Date.now())],d1:['Tomorrow close',Math.max(0,dayEndMs-Date.now())+86400000],exp:['At expiry',Math.max(0,expMs-Date.now())]};
+  const T=w=>Math.max(0,T0-W[w][1]/(365*86400000));const est=(mv,w)=>calcAt(F+mv,K,T(w),v,call);
+  const pNow=est(c.move,c.when),chg=pNow-o.ltp,rs=chg*c.lot;
+  let be=null;{let lo=-F*0.2,hi=F*0.2;const f=mv=>est(mv,c.when)-o.ltp;if(f(lo)*f(hi)<0){for(let i=0;i<50;i++){const m=(lo+hi)/2;if(f(lo)*f(m)<=0)hi=m;else lo=m}be=F+(lo+hi)/2}}
+  const st=Math.max(c.step,Math.round(F*0.002/c.step)*c.step);const mvList=[-3,-2,-1,0,1,2,3].map(x=>x*st);const cols=['now','eod','d1','exp'];
+  const strikes=an.st.map(s=>s.k);const rng=Math.max(st*6,Math.round(F*0.03/c.step)*c.step);
+  el.innerHTML=`<div class="swin calc"><div class="calch"><b>🧮 Option calculator</b><button class="btn ghost" data-cx>✕</button></div>
+    <div class="calcsel"><span><b>${esc(ix.n)}</b> · ${esc(c.exp)}</span><select id="cK">${strikes.map(k=>`<option ${k===c.k?'selected':''} value="${k}">${k}${k===an.atm.k?' (ATM)':''}</option>`).join('')}</select>
+      <span class="seg"><button data-ct="CE" class="${call?'on':''}">CE</button><button data-ct="PE" class="${!call?'on':''}">PE</button></span></div>
+    <div class="calcinfo">${ix.mcx?'Future':'Index'} <b>${fmtP(F)}</b> · Option now <b>₹${o.ltp.toFixed(2)}</b> · IV <b>${(v0*100).toFixed(1)}%</b> · Δ <b>${bsGreeks(F,K,T0,v0,call).delta.toFixed(2)}</b> · ${(T0*365).toFixed(1)} days left · lot ${c.lot}</div>
+    <label class="calcrow"><span>${ix.mcx?'Future':'Index'} move <b class="${c.move>=0?'sup':'sdn'}">${c.move>=0?'+':''}${c.move} pts</b> → ${fmtP(F+c.move)}</span><input type="range" id="cMv" min="${-rng}" max="${rng}" step="${c.step/2>=1?c.step/2:c.step}" value="${c.move}"></label>
+    <div class="calcrow"><span>When</span><div class="seg">${Object.entries(W).map(([k,x])=>`<button data-cw="${k}" class="${c.when===k?'on':''}">${x[0]}</button>`).join('')}</div></div>
+    <label class="calcrow"><span>IV change <b>${c.dIV>=0?'+':''}${c.dIV}%</b> (IV usually falls after big events)</span><input type="range" id="cIV" min="-8" max="8" step="0.5" value="${c.dIV}"></label>
+    <div class="calcout"><div><i>Estimated option price</i><b>₹${pNow.toFixed(2)}</b></div><div><i>Change</i><b class="${chg>=0?'sup':'sdn'}">${chg>=0?'+':''}${chg.toFixed(2)}</b></div><div><i>Per lot (${c.lot})</i><b class="${rs>=0?'sup':'sdn'}">${rs>=0?'+':'−'}₹${Math.abs(Math.round(rs)).toLocaleString('en-IN')}</b></div><div><i>Break-even ${ix.mcx?'future':'index'} (${W[c.when][0].toLowerCase()})</i><b>${be?fmtP(be):'—'}</b></div></div>
+    <table class="calct"><tr><th>${ix.mcx?'Future':'Index'} move</th>${cols.map(w=>`<th>${W[w][0]}</th>`).join('')}</tr>${mvList.map(mv=>`<tr class="${mv===0?'z':''}"><td>${mv>0?'+':''}${mv}</td>${cols.map(w=>{const pv=est(mv,w),d=(pv-o.ltp)*c.lot;return `<td><b>₹${pv.toFixed(1)}</b><small class="${d>=0?'sup':'sdn'}">${d>=0?'+':'−'}₹${Math.abs(Math.round(d)).toLocaleString('en-IN')}</small></td>`}).join('')}</tr>`).join('')}</table>
+    <p class="note">Black-Scholes estimate using this option's own implied volatility. Real prices also move with demand, so treat it as a guide (usually within a few rupees for normal moves). ₹ per lot, before charges.</p></div>`;
+  el.querySelector('[data-cx]').onclick=()=>{el.hidden=true};
+  el.querySelector('#cK').onchange=e=>{c.k=+e.target.value;renderCalc()};el.querySelectorAll('[data-ct]').forEach(b=>b.onclick=()=>{c.type=b.dataset.ct;renderCalc()});
+  el.querySelectorAll('[data-cw]').forEach(b=>b.onclick=()=>{c.when=b.dataset.cw;renderCalc()});
+  const mv=el.querySelector('#cMv');mv.oninput=e=>{c.move=+e.target.value;clearTimeout(c.tm);c.tm=setTimeout(renderCalc,60)};
+  const iv=el.querySelector('#cIV');iv.oninput=e=>{c.dIV=+e.target.value;clearTimeout(c.tm);c.tm=setTimeout(renderCalc,60)}}
 let chainBusy=false;
 async function loadChain(){if(!CFG.token||!S.opt.exp||chainBusy)return;chainBusy=true;const ix=OPT_IDX[S.opt.idx];
+  if(ix.mcx){try{S.opt.an=analyzeChain(await mcxChain(ix,S.opt.exp));S.opt.at=Date.now();renderOpt()}catch(e){if(!S.opt.an)$('#oBody').innerHTML=`<div class="empty">Could not load the ${esc(ix.n)} option chain (${esc(e.message||e)}).</div>`}chainBusy=false;return}
   try{const j=await jget(`${UAPI}/v2/option/chain?instrument_key=${encodeURIComponent(ix.key)}&expiry_date=${S.opt.exp}`,upHeaders());S.opt.an=analyzeChain(j.data||[]);S.opt.at=Date.now();renderOpt()}
   catch(e){if(!S.opt.an)$('#oBody').innerHTML=`<div class="empty">Could not load the option chain (${esc(e.message)}).</div>`}chainBusy=false}
 // ---- option plan lock: a BUY CE/PE verdict must hold for 2 chain refreshes, then it is locked and tracked ----
@@ -2723,14 +2838,14 @@ function optLockStep(an,pl,ix,lot){const key=ix.n+'|'+S.opt.exp;
     olPrice(o.ltp);
     return}
   if(OLOCK&&OLOCK.key===key&&OLOCK.done&&Date.now()-OLOCK.at<20*60000)return;
-  if(!pl||!pl.side||!pl.cands||!nseOpen()){S.opt.pend=null;return}
+  if(!pl||!pl.side||!pl.cands||!optOpenIx(ix)||(()=>{const p=istParts(),m=p.h*60+p.m,w=optWin(ix);return m<w[0]||m>w[1]})()){S.opt.pend=null;return}
   if(S.opt.pend&&S.opt.pend.key===key&&S.opt.pend.v===pl.verdict)S.opt.pend.n++;else S.opt.pend={key,v:pl.verdict,n:1};
   if(S.opt.pend.n<2)return;
   S.opt.pend=null;createLock(ix,key,pl.cands[0],pl.side,lot,'oi',pl.idx)}
 // one premium update for the locked option (from the option chain or from the option's own live chart)
 function olPrice(p){if(!OLOCK||OLOCK.done||!(p>0))return;OLOCK.ltp=p;OLOCK.ltpAt=Date.now();let ended=null;
   if(p<=OLOCK.slCur)ended=OLOCK.slCur>=OLOCK.entry?'be':'stop';else if(p>=OLOCK.t2)ended='t2';else if(OLOCK.status!=='t1'&&p>=OLOCK.t1){OLOCK.status='t1';OLOCK.slCur=OLOCK.entry;outcomeOpt('t1')}
-  const pp=istParts();if(!ended&&pp.h*60+pp.m>=915)ended='expired';
+  const pp=istParts();if(!ended&&pp.h*60+pp.m>=optEndMin(optIx(OLOCK.ix)))ended='expired';
   if(ended){OLOCK.status=ended;OLOCK.done=true;OLOCK.exit=p;outcomeOpt(ended);if(S.view==='opt')renderOpt()}
   const sig=OLOCK.status;if(sig!==olPrice.s||Date.now()-(olPrice.t||0)>15000){olPrice.s=sig;olPrice.t=Date.now();saveOL();logOpt()}}   // save at most every 15 s unless something changed
 function createLock(ix,key,c,side,lot,src,idx){const idxIt=S.inst.get('u:'+ix.key);
@@ -2740,7 +2855,7 @@ function createLock(ix,key,c,side,lot,src,idx){const idxIt=S.inst.get('u:'+ix.ke
     toast(side>0?'sbuy':'ssell',`${tag} · BUY ${ix.n} ${c.strike} ${c.type}`,`Buy ${fmtP(c.entry)} · SL ${fmtP(c.sl)}`,`T1 ${fmtP(c.t1)}`,null,9000);mascot(side,`${tag} · BUY ${ix.n} ${c.strike} ${c.type}`)}}
 function optForceClose(why){if(!OLOCK||OLOCK.done)return;OLOCK.done=true;OLOCK.status='expired';OLOCK.exit=OLOCK.ltp;saveOL();logOpt();if(CFG.alerts)toast('expired',`Closed · ${OLOCK.ix} ${OLOCK.strike} ${OLOCK.type}`,why,'',null,8000);if(S.view==='opt')renderOpt()}
 function optWatchdog(){if(!OLOCK||OLOCK.done)return;const pp=istParts(),m=pp.h*60+pp.m;
-  if(m>=915||!nseOpen())optForceClose('Closed at 3:15 pm at the last known premium.');
+  const oix=optIx(OLOCK.ix);if(m>=optEndMin(oix)||!optOpenIx(oix))optForceClose(oix.mcx?'Closed 5 minutes before the MCX close at the last known premium.':'Closed at 3:15 pm at the last known premium.');
   else if(OLOCK.ltpAt&&Date.now()-OLOCK.ltpAt>6*60000)optForceClose('No option price for 6 minutes, so the trade was closed at the last known premium.')}
 function outcomeOpt(k){if(!CFG.alerts)return;const L=OLOCK;const name=`${L.ix} ${L.strike} ${L.type}`;const msg={t1:'Target 1 reached. Stop moved to entry.',t2:'Target 2 reached.',stop:'Stop loss hit.',be:'Back to entry after T1.',expired:'Closed at 3:15 pm.'}[k];
   if(k==='t1'||k==='t2')celebrate(k,name,{dist:L.entry-L.sl});else tone(SOUNDS[k==='stop'?'stop':'info']);toast(k==='expired'?'expired':k,`${(STATES[k]||STATES.wait)[0]} · ${name}`,msg,'',null)}
@@ -2769,7 +2884,7 @@ function confScore(an,ix){if(!CF.rows||CF.key!==ix.n+'|'+S.opt.exp)return null;
   const pair=sw?sv/sw:0;const ai=an.st.indexOf(an.atm);let dce=0,dpe=0;for(const s of an.st.slice(Math.max(0,ai-5),ai+6)){dce+=s.ce.oi-s.ce.poi;dpe+=s.pe.oi-s.pe.poi}
   const vOI=(Math.abs(dce)+Math.abs(dpe))?(dpe-dce)/(Math.abs(dce)+Math.abs(dpe)):0;
   const score=.35*vIdx+.45*pair+.20*vOI;return {pct:Math.round(score*100),vIdx,idxTxt,pair,vOI,n,ceUp,ceDn,peUp,peDn,dce,dpe}}
-function confStep(an,ix,lot,cs){if(!cs||!nseOpen())return;const m=(()=>{const p=istParts();return p.h*60+p.m})();if(m<560||m>885)return;
+function confStep(an,ix,lot,cs){if(!cs||!optOpenIx(ix))return;const m=(()=>{const p=istParts();return p.h*60+p.m})();const w=optWin(ix);if(m<w[0]||m>w[1])return;
   const side=cs.pct>=80?1:cs.pct<=-80?-1:0;const key=ix.n+'|'+S.opt.exp;
   if(!side){CF.pend=null;return}if(OLOCK&&(!OLOCK.done||Date.now()-OLOCK.at<20*60000))return;
   if(CF.pend&&CF.pend.key===key&&CF.pend.side===side)CF.pend.n++;else CF.pend={key,side,n:1};if(CF.pend.n<2)return;CF.pend=null;
@@ -2801,11 +2916,11 @@ function optLockCard(an,ix,lot){const L=OLOCK;if(!L||L.ix!==ix.n||L.exp!==S.opt.
   const pnl=(L.ltp-L.entry);const rs=v=>lot?` (${v>=0?'+':'−'}₹${Math.abs(Math.round(v*lot)).toLocaleString('en-IN')}/lot)`:'';
   const st=L.done?(STATES[L.status]||STATES.wait)[0]:L.status==='t1'?'T1 HIT · RUNNING':'OPEN';
   return `<div class="panel plan olk" ${L.okey?`data-ok="${esc(L.okey)}" data-on="${esc(oname)}" role="button" tabindex="0" title="Tap to open this option's chart"`:''} style="border-color:color-mix(in srgb,var(${col}) 70%,transparent);box-shadow:0 0 18px -6px var(${col})">
-   <div class="verdict"><span class="label">${L.src==='confirm'?'Confirmed option signal':'Locked option signal'} · since ${new Date(L.at+IST*1000).toISOString().slice(11,16)} IST</span><span class="pill" style="--sc:var(${L.done?'--closed':col});margin:0">${st}</span><button class="btn ghost" id="olClear" style="padding:4px 10px;margin-left:auto">Clear</button></div>
+   <div class="verdict"><span class="label">${L.src==='confirm'?'Confirmed option signal':'Locked option signal'} · since ${new Date(L.at+IST*1000).toISOString().slice(11,16)} IST</span><span class="pill" style="--sc:var(${L.done?'--closed':col});margin:0">${st}</span><button class="btn ghost" data-calc="${L.strike}|${L.type}" style="padding:4px 10px;margin-left:auto" title="Option calculator">🧮</button><button class="btn ghost" id="olClear" style="padding:4px 10px">Clear</button></div>
    <div class="t" style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><span class="big" style="color:var(${col})">BUY ${L.ix} ${L.strike} ${L.type}</span><span class="pts ${pnl>=0?'up':'dn'}">${fmtPts(pnl)} pts${rs(pnl)}</span></div>
    ${(()=>{const k=RK(),per=(L.entry-L.sl)*(lot||0);if(!lot||!(per>0))return '';const lots=Math.floor(k.cap*k.pct/100/per);const ok=lots>=1&&todayR()>-(k.daily/k.pct);return `<div class="risk ${ok?'ok':'no'}"><span class="rv">${ok?'PASS':'BLOCK'}</span><span class="rs"><b>${lots} lot${lots===1?'':'s'}</b> (${lots*lot} qty) · risk ₹${Math.round(lots*per).toLocaleString('en-IN')}${lots<1?' · 1 lot risks more than your limit':''}</span></div>`})()}
    <div class="lv"><div class="e"><span>BOUGHT AT</span><b>${fmtP(L.entry)}</b></div><div class="s"><span>STOP</span><b>${fmtP(L.slCur)}</b></div><div class="a"><span>TARGET 1</span><b>${fmtP(L.t1)}</b></div><div class="b"><span>TARGET 2</span><b>${fmtP(L.t2)}</b></div></div>
-   <p class="note">Live premium ${fmtP(L.ltp)}. This plan stays fixed until stop, target or 3:15 pm, even if the verdict below changes.${L.okey?' <b style="color:var(--cyan)">Tap this card to open its chart ›</b>':''}</p></div>`}
+   <p class="note">Live premium ${fmtP(L.ltp)}. This plan stays fixed until stop, target or ${optIx(L.ix).mcx?'5 minutes before the MCX close':'3:15 pm'}, even if the verdict below changes.${L.okey?' <b style="color:var(--cyan)">Tap this card to open its chart ›</b>':''}</p></div>`}
 document.addEventListener('click',e=>{if(e.target&&e.target.id==='olClear'){if(OLOCK&&!OLOCK.done){OLOCK.done=true;OLOCK.status='expired';OLOCK.exit=OLOCK.ltp;logOpt()}OLOCK=null;saveOL();renderOpt()}});
 for(const r of LOG)if(r.opt&&r.r==null&&Math.floor((r.t+IST)/86400)<todayKey()){r.status='expired';r.r=0;r.closedAt=r.t}saveLog();
 /* ---------- option chain summary: read the whole chain every refresh (about once a minute) ---------- */
@@ -2913,7 +3028,7 @@ function renderOpt(){const an=S.opt.an;if(!an){$('#oBody').innerHTML='<div class
      <td class="k">${r.k}${an.res.includes(r.k)?' <span style="color:var(--ssell)">R</span>':''}${an.sup.includes(r.k)?' <span style="color:var(--sbuy)">S</span>':''}</td>
      <td class="och" data-ok="${esc(r.pe.key||'')}" data-on="${esc(ix.n+' '+r.k+' PE · '+expTx())}">${fmtP(r.pe.ltp)}</td><td>${d(r.pe.oi-r.pe.poi)}</td><td><div class="bar pe"><i style="width:${r.pe.oi/mx*100}%"></i><span>${fx(r.pe.oi)}</span></div></td></tr>`).join('')+`</tbody></table></div>
    <p class="note">Tap any CE or PE price to open that option's chart. R = strike with the most call OI (resistance), S = most put OI (support). Educational tool, not investment advice.</p>`;
-  $('#oBody').innerHTML=h;$('#oBody').onclick=e=>{if(e.target.closest('#olClear'))return;const c=e.target.closest('[data-ok]');if(c&&c.dataset.ok)openOptChart(c.dataset.ok,c.dataset.on)}}
+  $('#oBody').innerHTML=h;$('#oBody').onclick=e=>{if(e.target.closest('#olClear'))return;const cb=e.target.closest('[data-calc]');if(cb){const [k,t]=cb.dataset.calc.split('|');openCalc({strike:+k,type:t});return}const c=e.target.closest('[data-ok]');if(c&&c.dataset.ok)openOptChart(c.dataset.ok,c.dataset.on)}}
 // the price signal that options must agree with: the index's own trade, else its futures trade
 function masterSide(ix){const fid={'NSE_INDEX|Nifty 50':'u:FUT|NIFTY','NSE_INDEX|Nifty Bank':'u:FUT|BANKNIFTY','BSE_INDEX|SENSEX':'u:FUT|SENSEX'}[ix.key];
   for(const id of ['u:'+ix.key,fid]){const it=id&&S.inst.get(id);if(it&&it.active&&['open','t1'].includes(it.active.status))return {side:it.active.side,name:it.def.name}}return null}
@@ -2932,7 +3047,7 @@ function renderRunning(){const box=$('#logRun');if(!box)return;const its=[...S.i
   const setH=sets.length?`<div class="nwh">Waiting setups · ${sets.length}</div><div class="runl">${sets.map(it=>{const p=it.pend,up=p.side>0;return `<div class="runr" data-id="${esc(it.def.id)}" style="--sc:var(${up?'--buy':'--sell'})"><span class="sd blink">${up?'BUY':'SELL'} SETUP</span><span class="nm">${esc(it.def.name)}${p.srv?' <span class="mtag">SHARED</span>':''}</span><span class="pt" style="color:var(--dim);font-size:12px">till ${istT(p.until*1000)}</span><span class="lv2">${up?'Buy':'Sell'} at <b>${fmtP(p.lim)}</b> · SL <b>${fmtP(p.sl)}</b> · T1 <b>${fmtP(p.t1)}</b> · T2 <b>${fmtP(p.t2)}</b>${it.price!=null?` · now ${fmtP(it.price)}`:''}</span></div>`}).join('')}</div>`:'';
   if(!its.length){box.innerHTML=setH;box.querySelectorAll('[data-id]').forEach(el=>el.onclick=()=>openChart(el.dataset.id));return}
   box.innerHTML=setH+`<div class="nwh">Running now · ${its.length}</div><div class="runl">${its.map(it=>{const tr=it.active;const up=tr.side>0;const pts=it.price!=null?(it.price-tr.entry)*tr.side:null;const r=pts!=null?markR(tr,it.price):null;
-    return `<div class="runr" data-id="${esc(it.def.id)}" style="--sc:var(${up?'--sbuy':'--ssell'})"><span class="sd ${isFresh(tr)?'blink':''}">${tr.strong?'STRONG ':''}${up?'BUY':'SELL'}</span><span class="nm">${esc(it.def.name)}${tr.status==='t1'?' <span class="mtag imp3">T1 ✓</span>':''}${tr.srv?' <span class="mtag">SHARED</span>':''}</span>
+    return `<div class="runr" data-id="${esc(it.def.id)}" style="--sc:var(${up?'--sbuy':'--ssell'})"><span class="sd ${isFresh(tr)?'blink':''}">${tr.strong?'STRONG ':''}${up?'BUY':'SELL'}</span><span class="nm">${esc(it.def.name)}${tr.status==='t1'?' <span class="mtag imp3">T1 ✓</span>':''}${fadeOf(it,tr)?' <span class="mtag fadet">⚠ FADING · tighten SL '+fmtP(fadeOf(it,tr).sl)+'</span>':''}${tr.srv?' <span class="mtag">SHARED</span>':''}</span>
       <span class="pt" style="color:var(${pts==null?'--dim':pts>=0?'--sbuy':'--ssell'})">${pts==null?'—':(pts>=0?'+':'')+fmtP(pts)}<br><small style="font-size:11px">${r==null?'':fmtR(r)}</small></span>
       <span class="lv2">Entry <b>${fmtP(tr.entry)}</b> · SL <b>${fmtP(tr.status==='t1'?tr.entry:tr.sl)}</b> · T1 <b>${fmtP(tr.t1)}</b> · T2 <b>${fmtP(tr.t2)}</b> · ${new Date((tr.entryT||tr.t)*1000).toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit',timeZone:'Asia/Kolkata'})}${tr.basis!=null?` · index ≈ ${fmtP(tr.entry-tr.basis)}`:''}</span></div>`}).join('')}</div>`;
   box.querySelectorAll('[data-id]').forEach(el=>el.onclick=()=>openChart(el.dataset.id))}
@@ -3470,7 +3585,7 @@ function swingSettings(){const el=$('#swingSet');if(!el)return;const C=SWC();
   ['#swOn','#swRisk','#swQuiet'].forEach(k=>$(k).onchange=save)}
 /* ---------- AlgoBot: index-option algo trading on your own Upstox account (robot runs on your own server) ---------- */
 const ALGO={state:null,hist:null,settings:null,login:null,upx:null,arm:{},err:''};
-const ALGO_DEF={on:false,mode:'paper',capital:15000,dayLimit:3000,charges:100,lots:1,idx:{NIFTY:true,SENSEX:true},trailOn:true,trailPct:20,trailPctT2:10,t2Mode:'trail',t1Gap:5,expiryLate:false,maxTrades:0,apiKey:'',shareToken:true};
+const ALGO_DEF={on:false,mode:'paper',capital:15000,dayLimit:3000,charges:100,lots:1,idx:{NIFTY:true,SENSEX:true},trailOn:true,trailPct:20,trailPctT2:10,t2Mode:'trail',t1Gap:5,expiryLate:false,maxTrades:0,fadeTighten:false,apiKey:'',shareToken:true};
 const AS=()=>({...ALGO_DEF,...(ALGO.settings||{}),idx:{...ALGO_DEF.idx,...((ALGO.settings||{}).idx||{})}});
 const aRs=v=>`${v>=0?'+':'−'}₹${Math.abs(Math.round(v)).toLocaleString('en-IN')}`;const aRs0=v=>'₹'+Math.round(v).toLocaleString('en-IN');
 const appUrl=()=>location.origin+location.pathname;
@@ -3527,6 +3642,7 @@ function renderAlgo(){const el=$('#algoBody');if(!el)return;const st=ALGO.state,
       <label class="field"><span class="label">At T2</span><select id="aT2"><option value="trail" ${s.t2Mode==='trail'?'selected':''}>Keep riding · tighter trail</option><option value="exit" ${s.t2Mode==='exit'?'selected':''}>Exit and book profit</option></select></label>
       <label class="field"><span class="label">Tighter trail after T2 (%)</span><input type="number" id="aTp2" min="3" max="40" step="1" value="${s.trailPctT2}"></label>
       <div class="tg"><span>Trade on expiry day after 1 pm (premiums swing fast, stops can jump)</span><span class="switch"><input type="checkbox" id="aExp" ${s.expiryLate?'checked':''}><span></span></span></div>
+      <div class="tg"><span>Momentum fading → tighten stop automatically (30+ min, under halfway to T1, index trend weakening: stop moves halfway to entry. Tested: small improvement; you are told either way)</span><span class="switch"><input type="checkbox" id="aFade" ${s.fadeTighten?'checked':''}><span></span></span></div>
       <label class="field"><span class="label">Max trades per day (0 = no limit)</span><input type="number" id="aMax" min="0" max="20" step="1" value="${s.maxTrades}"></label>
       <div class="amode"><span class="label">Mode</span><div class="seg"><button data-am="paper" class="${!live?'on':''}">Paper</button><button data-am="live" class="${live?'on live':''} ${ALGO.arm.live?'arm':''}">${ALGO.arm.live?'Tap again: LIVE':'Live (real orders)'}</button></div>
         <p class="note">${live?'<b style="color:var(--ssell)">LIVE: real orders on your Upstox account.</b>':'Paper: same rules, no real orders. Run it for 1–2 weeks first.'}</p></div>
@@ -3540,7 +3656,7 @@ function renderAlgo(){const el=$('#algoBody');if(!el)return;const st=ALGO.state,
   on('#aOn',e=>algoSave({on:e.target.checked}));on('#aTrail',e=>algoSave({trailOn:e.target.checked}));on('#aTrail2',e=>algoSave({trailOn:e.target.checked}));
   on('#aLogin',()=>{location.href=upstoxLoginUrl()},'onclick');on('#aBook',()=>{if(armed('book'))algoCmd('book')},'onclick');on('#aKill',()=>{if(armed('kill'))algoCmd('kill')},'onclick');on('#aResume',()=>algoCmd('resume'),'onclick');on('#aTest',()=>algoCmd('test'),'onclick');
   const num=(id,k,min)=>on(id,e=>algoSave({[k]:Math.max(min,+e.target.value||0)}));num('#aCap','capital',1000);num('#aLim','dayLimit',100);num('#aChg','charges',0);num('#aTp','trailPct',5);num('#aTp2','trailPctT2',3);num('#aMax','maxTrades',0);
-  on('#aIxN',e=>algoSave({idx:{...s.idx,NIFTY:e.target.checked}}));on('#aIxS',e=>algoSave({idx:{...s.idx,SENSEX:e.target.checked}}));on('#aExp',e=>algoSave({expiryLate:e.target.checked}));on('#aT2',e=>algoSave({t2Mode:e.target.value}));
+  on('#aIxN',e=>algoSave({idx:{...s.idx,NIFTY:e.target.checked}}));on('#aIxS',e=>algoSave({idx:{...s.idx,SENSEX:e.target.checked}}));on('#aExp',e=>algoSave({expiryLate:e.target.checked}));on('#aFade',e=>algoSave({fadeTighten:e.target.checked}));on('#aT2',e=>algoSave({t2Mode:e.target.value}));
   on('#aKey',e=>algoSave({apiKey:e.target.value.trim()}));
   const sb=$('#aSetBox');if(sb)sb.ontoggle=()=>{ALGO.setOpen=sb.open};
   el.querySelectorAll('[data-am]').forEach(b=>b.onclick=()=>{const m=b.dataset.am;if(m==='paper')return algoSave({mode:'paper'});if(live)return;if(!armed('live'))return;algoSave({mode:'live'})})}
@@ -3724,7 +3840,7 @@ function weakOffOnce(){if(CFG.weakV5)return;CFG.weakV5=1;const ids=['d:XAUTUSD',
   N50CFG['u:FUT|BANKNIFTY']={...(N50CFG['u:FUT|BANKNIFTY']||{}),sig:false};saveN50();saveCfg();
   setTimeout(()=>{toast('info','Strategy v5','Signals now wait for a pullback before entering. Gold, Apple, BANK NIFTY and BANKNIFTY FUT were switched OFF (weak in testing). Turn them back on with the ON/OFF switch on each card.','',null,14000);
     try{if(window.paisaPush&&window.paisaPush.info().state==='on')window.paisaPush.prefs(npPrefs()).catch(()=>{})}catch(e){}},4000)}
-function mcxOnce(){if(CFG.mcx7)return;CFG.mcx7=1;N50CFG['u:FUT|CRUDEOIL']={...(N50CFG['u:FUT|CRUDEOIL']||{}),sig:false};saveN50();saveCfg()}
+function mcxOnce(){if(!CFG.mcxg){CFG.mcxg=1;N50CFG['u:FUT|GOLD']={...(N50CFG['u:FUT|GOLD']||{}),sig:false};saveN50();saveCfg()}if(CFG.mcx7)return;CFG.mcx7=1;N50CFG['u:FUT|CRUDEOIL']={...(N50CFG['u:FUT|CRUDEOIL']||{}),sig:false};saveN50();saveCfg()}
 function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e){}},3500);nbApply();$('#nbSel').onchange=e=>{CFG.border=e.target.value;saveCfg();nbApply()};setTimeout(()=>{const f=store.get('pt.float',null);if(f&&f.id&&S.inst.has(f.id))openFloat(f.id,f.tf,f)},2500);document.documentElement.dataset.skin=CFG.skin||'neon';renderBell();if(store.get('pt.wopen2',false)){$('#wpanel').hidden=false;$('#wrow').setAttribute('aria-expanded','true')}renderWorld();newsInit();renderFeeds();renderFilters();renderLegend();if(!CFG.welcomed)$('#welcome').hidden=false;
   S.chart.tf=CFG.tf;syncInstruments();connectDelta();connectFinnhub();setInterval(heartbeat,1000);heartbeat();applyWake();
   if(CFG.token)upstoxTick();greet();loadDeltaProducts().then(()=>{for(const it of S.inst.values())markDirty(it)});
@@ -3732,7 +3848,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=15"></script>
+<script type="module" src="auth.js?v=16"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
