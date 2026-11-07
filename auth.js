@@ -142,7 +142,7 @@ function wireAccount(u) {
     out.disabled = true; out.textContent = 'Signing out…';
     try { await push(false); } catch (e) {}
     try { await dropDevice(); } catch (e) {}
-    stopFeeds(); stopLive();
+    stopFeeds(); stopLive(); algoStop();
     try { await signOut(auth); } catch (e) {}
     clearLocal(); clearForm(); location.reload();
   };
@@ -216,6 +216,23 @@ window.paisaUpstox = async (path, token) => {
 };
 // Symbol search through the Paisa server (fast on phones: no 37 MB download)
 let symFn = null;
+/* ---------------- AlgoBot: settings / commands / daily Upstox login (robot runs on the user's own server) ---------------- */
+let algoUnsubs = [];
+function algoStop() { for (const u of algoUnsubs) try { u(); } catch (e) {} algoUnsubs = []; }
+function algoStart(uid) { algoStop();
+  const on = (k, d) => { try { window.paisaAlgoOn && window.paisaAlgoOn(k, d); } catch (e) {} };
+  for (const k of ['state', 'hist', 'settings', 'login']) algoUnsubs.push(onSnapshot(ref(uid, 'algo', k), s => on(k, s.exists() ? s.data() : null), () => on(k + 'Err', true)));
+  // today's Upstox token from the robot's login: also used by the app for market data
+  algoUnsubs.push(onSnapshot(ref(uid, 'private', 'upx'), s => { if (s.exists()) on('upx', s.data()); }, () => {}));
+  // coming back from Upstox's login page: hand the one-time code to the robot
+  try { const q = new URLSearchParams(location.search); if (q.get('state') === 'algobot' && q.get('code')) {
+      setDoc(ref(uid, 'algo', 'login'), { code: q.get('code'), at: Date.now(), done: false }).catch(() => {});
+      history.replaceState(null, '', location.pathname); sessionStorage.setItem('pt.openAlgo', '1'); } } catch (e) {}
+}
+window.paisaAlgo = {
+  settings: async v => { if (!cur) throw new Error('Sign in first'); await setDoc(ref(cur.uid, 'algo', 'settings'), { ...v, updatedAt: Date.now() }); },
+  cmd: async type => { if (!cur) throw new Error('Sign in first'); await setDoc(ref(cur.uid, 'algo', 'cmd'), { id: type + '-' + Date.now(), type, at: Date.now() }); },
+};
 window.paisaSearch = async q => {
   if (!symFn) { const f = await import(SDK + 'firebase-functions.js'); symFn = f.httpsCallable(f.getFunctions(app, 'asia-south1'), 'symbols', { timeout: 40000 }); }
   return (await symFn({ q })).data;
@@ -242,7 +259,7 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('mess
 });
 
 /* ---------------- session flow ---------------- */
-function start(u) { wireAccount(u); window.startApp && window.startApp(); startFeeds(); refreshDevice(); setTimeout(() => liveSync(u.uid), 3000); }
+function start(u) { wireAccount(u); window.startApp && window.startApp(); startFeeds(); refreshDevice(); setTimeout(() => liveSync(u.uid), 3000); setTimeout(() => algoStart(u.uid), 1500); }
 onAuthStateChanged(auth, async u => {
   if (!u) { cur = null; state(null); clearForm(); setTimeout(() => email.focus(), 300); return; }
   cur = u; msg(''); state('Loading your data…');

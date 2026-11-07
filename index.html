@@ -448,6 +448,34 @@ table.oi td.och:hover{color:var(--cyan)}
 .aria-btn.on{color:#03080a;background:var(--cyan);border-color:var(--cyan)}.aria-btn.live{box-shadow:0 0 0 3px rgba(41,231,255,.35),0 0 16px rgba(41,231,255,.7);animation:arPulse 1.4s ease-in-out infinite}
 .aria-btn.wake{border-color:rgba(41,231,255,.6);color:var(--cyan)}
 @keyframes arPulse{50%{box-shadow:0 0 0 6px rgba(41,231,255,.12),0 0 22px rgba(41,231,255,.9)}}
+.ahead{display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
+.apills{display:flex;flex-wrap:wrap;gap:6px}
+.apill{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--dim)}
+.apill.ok{color:var(--sbuy);border-color:color-mix(in srgb,var(--sbuy) 50%,transparent)}.apill.no{color:var(--ssell);border-color:color-mix(in srgb,var(--ssell) 50%,transparent)}
+.apill.paper{color:var(--cyan);border-color:var(--cyan)}.apill.live{color:#fff;background:var(--ssell);border-color:var(--ssell);animation:swPulse 1.6s infinite}
+.amain{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border-radius:14px;background:var(--panel);border:1px solid var(--line)}
+.amain b{font-size:17px;display:block}.amain small{color:var(--dim);font-size:12px}
+.btn.wide{width:100%}
+.atrade{border-radius:16px;padding:12px;margin-bottom:10px;background:linear-gradient(160deg,rgba(34,211,238,.08),rgba(176,124,255,.08));border:1px solid var(--line);box-shadow:0 0 22px rgba(34,211,238,.12)}
+.atrade.up{border-color:color-mix(in srgb,var(--sbuy) 55%,transparent)}.atrade.dn{border-color:color-mix(in srgb,var(--ssell) 55%,transparent)}
+.at1{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.at1 b{font-size:17px}.at1 small{display:block;color:var(--dim);font-size:11.5px}
+.apnl{font-size:24px;font-weight:900;text-align:right;font-variant-numeric:tabular-nums}.apnl small{display:block;font-size:10.5px;font-weight:400;color:var(--dim)}
+.agrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}.agrid span{display:flex;flex-direction:column;font-weight:700;font-variant-numeric:tabular-nums;font-size:13.5px}.agrid i{font-style:normal;font-weight:400;font-size:10.5px;color:var(--dim)}
+.abar{position:relative;height:8px;border-radius:6px;background:linear-gradient(90deg,var(--ssell),#64748b 30%,var(--sbuy));margin:6px 4px 14px;opacity:.85}
+.abar i{position:absolute;top:-4px;width:3px;height:16px;border-radius:2px;transform:translateX(-50%);background:#fff}.abar i.s{background:var(--ssell)}.abar i.e{background:#cbd5e1}.abar i.a,.abar i.b{background:var(--sbuy)}.abar i.n{width:12px;height:12px;top:-2px;border-radius:50%;background:#fff;box-shadow:0 0 10px #fff}
+.abtns{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.tg.mini{border:0;padding:0;gap:8px}
+.btn.warn{background:#f59e0b;color:#1a1200;border-color:#f59e0b}
+.anone{padding:16px;border-radius:14px;border:1px dashed var(--line);color:var(--dim);text-align:center;margin-bottom:10px}
+.akill{display:block;width:100%;padding:12px;border-radius:14px;border:2px solid var(--ssell);background:color-mix(in srgb,var(--ssell) 14%,transparent);color:var(--ssell);font:inherit;font-weight:900;font-size:16px;letter-spacing:.08em;cursor:pointer;margin-bottom:10px}
+.akill small{display:block;font-size:11px;font-weight:400;letter-spacing:0;opacity:.85}.akill.arm{background:var(--ssell);color:#fff;animation:swPulse 1s infinite}
+.aday{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px;border-radius:14px;background:var(--panel);border:1px solid var(--line);margin-bottom:10px}
+.aday i{display:block;font-style:normal;font-size:10.5px;color:var(--dim)}.aday b{font-size:15px;font-variant-numeric:tabular-nums}.aday b small{font-size:11px;color:var(--dim);font-weight:400}
+.alim{grid-column:1/-1}.alim span{display:block;height:6px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:4px}.alim em{display:block;height:100%;background:#f59e0b}.alim em.hot{background:var(--ssell)}
+.asig{padding:10px;border-radius:14px;border:1px solid var(--line);margin-bottom:10px}.asr{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12.5px;padding:4px 0;border-bottom:1px solid var(--line)}.asr:last-child{border:0}.asr .ver{font-weight:800}
+.ahist,.aset{border:1px solid var(--line);border-radius:14px;padding:8px 10px;margin-bottom:10px}.ahist summary,.aset summary{cursor:pointer;font-size:13px}
+.ahr{display:grid;grid-template-columns:auto 1fr auto;gap:2px 10px;font-size:12px;padding:6px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.aform{display:flex;flex-direction:column;gap:8px;margin-top:8px}.amode .seg button.live.on{background:var(--ssell);color:#fff}.amode .seg button.arm{background:#f59e0b;color:#1a1200}
+.sel{user-select:all;-webkit-user-select:all;word-break:break-all}
 .swingbox{margin:0 0 10px}
 .swc{position:relative;border-radius:14px;padding:11px 12px;background:linear-gradient(135deg,rgba(245,185,66,.10),rgba(176,124,255,.10));border:1px solid rgba(245,185,66,.45);box-shadow:0 0 18px rgba(176,124,255,.18);cursor:pointer}
 .swh{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
@@ -895,7 +923,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v14</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v15</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -915,6 +943,7 @@ body:not(.locked) .login{display:none}
     <button data-v="scan" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 12 18 6"/></svg>Scanner<span class="dot" id="navDot" hidden></span></button>
     <button data-v="chart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 3v18M12 6v12M18 4v14"/><rect x="4" y="7" width="4" height="7" rx="1"/><rect x="10" y="9" width="4" height="5" rx="1"/><rect x="16" y="6" width="4" height="8" rx="1"/></svg>Chart</button>
     <button data-v="opt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V10M9 20V4M14 20v-7M19 20V8"/></svg>Options<span class="nbadge" aria-live="polite"></span></button>
+    <button data-v="algo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9.5 16.5h5M3 13v2M21 13v2"/><circle cx="12" cy="3.5" r="1"/></svg>AlgoBot<span class="nbadge" aria-live="polite"></span></button>
     <button data-v="log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>Signals</button>
     <button data-v="lab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.5 9.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3"/><path d="M7.5 15h9"/></svg>Lab</button>
     <button data-v="news"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2"/><path d="M7.5 9h6M7.5 12.5h6M7.5 16h3.5"/></svg>News<span class="dot" id="newsDot" hidden></span></button>
@@ -980,6 +1009,11 @@ body:not(.locked) .login{display:none}
     </section>
 
     <!-- LOG -->
+    <section class="view" id="v-algo" hidden>
+      <div class="h2"><h2>🤖 AlgoBot</h2><span class="sub">Index options on your own Upstox account · runs on your robot server</span></div>
+      <div id="algoBody"></div>
+    </section>
+
     <section class="view" id="v-log" hidden>
       <div class="h2"><h2>Signals</h2><div class="seg" id="logPer"></div><span class="sub">Paper trades. Outcomes update live.</span><span class="spacer"></span><button class="btn" id="logCsv">CSV</button><button class="btn" id="logPdf">PDF</button><button class="btn ghost" id="logClear">Clear log</button></div>
       <div id="swingBox" class="swingbox"></div>
@@ -1013,7 +1047,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v14 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v15 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -1952,7 +1986,7 @@ function show(v){if(S.view==='chart'&&v!=='chart'&&CH){try{S.chart.range=CH.char
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
   if(v==='scan'){S.unseen=0;$('#navDot').hidden=true;for(const it of S.inst.values())markDirty(it)}
   if(v!=='chart'&&$('#chTimer'))$('#chTimer').hidden=true;if(v==='chart'){if(MC.n>1)renderLayout();else{$('#chLay')&&$('#chLay').querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.n===1));loadChart(back&&!!CH&&S.chart.loaded===(S.chart.id+'@'+S.chart.tf))}}
-  if(v!=='chart'&&MC.panes.length)mcDestroy();if(v==='opt')initOpt();if(v==='lab')openLab();if(v==='log')renderLog();if(v==='set')renderSettings();if(v==='news')renderNews();window.scrollTo(0,0)}
+  if(v!=='chart'&&MC.panes.length)mcDestroy();if(v==='opt')initOpt();if(v==='lab')openLab();if(v==='log')renderLog();if(v==='algo')renderAlgo();if(v==='set')renderSettings();if(v==='news')renderNews();window.scrollTo(0,0)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>show(b.dataset.v));
 function openChart(id){S.chart.id=id;if(MC.n>1){MC.n=1;mcSave();$('#v-chart').classList.remove('multi');$('#mGrid').hidden=true;mcDestroy()}show('chart')}
 
@@ -3434,6 +3468,82 @@ function swingSettings(){const el=$('#swingSet');if(!el)return;const C=SWC();
   const save=()=>{CFG.swing={on:$('#swOn').checked,risk:Math.max(100,+$('#swRisk').value||1000),quiet:$('#swQuiet').checked};saveCfg();renderSwing();drawSwingLines();
     try{if(window.paisaPush&&window.paisaPush.info().state==='on')window.paisaPush.prefs(npPrefs()).catch(()=>{})}catch(e){}};
   ['#swOn','#swRisk','#swQuiet'].forEach(k=>$(k).onchange=save)}
+/* ---------- AlgoBot: index-option algo trading on your own Upstox account (robot runs on your own server) ---------- */
+const ALGO={state:null,hist:null,settings:null,login:null,upx:null,arm:{},err:''};
+const ALGO_DEF={on:false,mode:'paper',capital:15000,dayLimit:3000,charges:100,lots:1,idx:{NIFTY:true,SENSEX:true},trailOn:true,trailPct:20,trailPctT2:10,t2Mode:'trail',t1Gap:5,expiryLate:false,maxTrades:0,apiKey:'',shareToken:true};
+const AS=()=>({...ALGO_DEF,...(ALGO.settings||{}),idx:{...ALGO_DEF.idx,...((ALGO.settings||{}).idx||{})}});
+const aRs=v=>`${v>=0?'+':'−'}₹${Math.abs(Math.round(v)).toLocaleString('en-IN')}`;const aRs0=v=>'₹'+Math.round(v).toLocaleString('en-IN');
+const appUrl=()=>location.origin+location.pathname;
+window.paisaAlgoOn=(k,v)=>{ALGO[k]=v;
+  if(k==='upx'&&v&&v.token&&v.until>Date.now()&&v.token!==CFG.token&&AS().shareToken!==false){CFG.token=v.token;saveCfg();try{renderFeeds&&renderFeeds()}catch(e){}}
+  if(k==='login'&&v&&v.done&&v.at&&v.at!==ALGO.loginSeen){ALGO.loginSeen=v.at;if(Date.now()-v.at<120000)toast(v.ok?'buy':'sell',v.ok?'Upstox connected':'Upstox login failed',v.ok?`AlgoBot is logged in as ${v.user||'you'} until 3:30 am.`:v.msg||'Try again.','',null,7000)}
+  algoBadge();if(S.view==='algo')renderAlgo()};
+function algoBadge(){const b=document.querySelector('[data-v="algo"] .nbadge');if(!b)return;const st=ALGO.state,t=st&&st.trade;const on=AS().on;
+  b.className='nbadge '+(t?(t.ltp>=t.fill?'call':'put'):'');b.textContent=t?(st.mode==='live'?'LIVE':'PAPER'):on?'ON':''}
+async function algoSave(patch){const v={...AS(),...patch};ALGO.settings=v;renderAlgo();try{await window.paisaAlgo.settings(v)}catch(e){toast('sell','Could not save AlgoBot settings',e.message)}}
+async function algoCmd(type){try{await window.paisaAlgo.cmd(type);toast('info','AlgoBot',{book:'Booking the running trade…',kill:'Kill switch sent…',resume:'Resuming…',test:'Test sent to the robot…'}[type]||'Sent')}catch(e){toast('sell','AlgoBot',e.message)}}
+// two taps for anything that touches money
+function armed(k){const t=ALGO.arm[k]||0;if(Date.now()-t<4000){ALGO.arm[k]=0;return true}ALGO.arm[k]=Date.now();renderAlgo();setTimeout(()=>{if(ALGO.arm[k])renderAlgo()},4100);return false}
+function upstoxLoginUrl(){const s=AS();return `https://api.upstox.com/v2/login/authorization/dialog?response_type=code&client_id=${encodeURIComponent(s.apiKey)}&redirect_uri=${encodeURIComponent(appUrl())}&state=algobot`}
+function renderAlgo(){const el=$('#algoBody');if(!el)return;const st=ALGO.state,s=AS(),now=Date.now();
+  if(!window.paisaAlgo){el.innerHTML='<div class="empty">Sign in to use AlgoBot.</div>';return}
+  const online=st&&now-st.hb<120000,day=(st&&st.day)||{realized:0,trades:0,wins:0,losses:0,open:0},t=st&&st.trade,live=s.mode==='live';
+  const upOk=st&&st.upstox&&st.upstox.ok&&st.upstox.until>now;const killed=day.killed,limit=day.limitHit;
+  const pill=(ok,txt,cls='')=>`<span class="apill ${ok?'ok':'no'} ${cls}">${txt}</span>`;
+  const used=Math.max(0,-(day.realized+(t?(t.ltp-t.fill)*t.qty-s.charges:0)));const usedPct=Math.min(100,used/s.dayLimit*100);
+  let html=`<div class="ahead"><div class="apills">${pill(online,online?'Robot online':st?'Robot offline · last seen '+istT(st.hb):'Robot not set up')}${pill(true,live?'LIVE':'PAPER',live?'live':'paper')}${pill(upOk,upOk?'Upstox ✓ until 3:30 am':'Upstox not connected')}${killed?pill(false,'KILL SWITCH ON'):limit?pill(false,'Daily limit hit'):''}</div>
+    <label class="amain"><span><b>AlgoBot ${s.on?'ON':'OFF'}</b><small>${s.on?`Takes the option-lock signal on ${Object.keys(s.idx).filter(k=>s.idx[k]).join(' + ')} · one trade at a time`:'Turn on to let AlgoBot take trades'}</small></span><span class="switch"><input type="checkbox" id="aOn" ${s.on?'checked':''}><span></span></span></label>
+    ${upOk?'':`<button class="btn pri wide" id="aLogin" ${s.apiKey?'':'disabled'}>Connect Upstox for today</button>${s.apiKey?'':'<p class="note">Add your Upstox API key in AlgoBot settings below first.</p>'}`}</div>`;
+  // running trade
+  if(t){const pnl=(t.ltp-t.fill)*t.qty-s.charges,lo=Math.min(t.slCur,t.fill),hi=Math.max(t.t2,t.peak),pos=v=>Math.max(0,Math.min(100,(v-lo)/(hi-lo)*100));
+    html+=`<div class="atrade ${pnl>=0?'up':'dn'}"><div class="at1"><div><b>${esc(t.ix)} ${t.strike} ${t.type}</b><small>${t.mode==='live'?'LIVE':'PAPER'} · ${t.qty} qty · since ${istT(t.openedAt)} · ${t.src==='confirm'?'confirmation meter':'OI plan'}</small></div><div class="apnl ${pnl>=0?'sup':'sdn'}">${aRs(pnl)}<small>after ₹${s.charges} charges</small></div></div>
+      <div class="agrid"><span><i>Entry</i>₹${(+t.fill).toFixed(2)}</span><span><i>Now</i>₹${(+t.ltp).toFixed(2)}</span><span><i>Stop${t.t1hit?(s.trailOn?' (trailing)':' (T1 − ₹'+s.t1Gap+')'):''}</i>₹${(+t.slCur).toFixed(2)}</span><span><i>T1 ${t.t1hit?'✓':''}</i>₹${(+t.t1).toFixed(2)}</span><span><i>T2 ${t.t2hit?'✓':''}</i>₹${(+t.t2).toFixed(2)}</span><span><i>Best</i>₹${(+t.peak).toFixed(2)}</span></div>
+      <div class="abar"><i class="s" style="left:${pos(t.slCur)}%"></i><i class="e" style="left:${pos(t.fill)}%"></i><i class="a" style="left:${pos(t.t1)}%"></i><i class="b" style="left:${pos(t.t2)}%"></i><i class="n" style="left:${pos(t.ltp)}%"></i></div>
+      <div class="abtns"><button class="btn ${ALGO.arm.book?'warn':'pri'}" id="aBook">${ALGO.arm.book?'Tap again to BOOK NOW':'Book now'}</button><label class="tg mini"><span>Trailing stop</span><span class="switch"><input type="checkbox" id="aTrail" ${s.trailOn?'checked':''}><span></span></span></label></div>
+      ${t.ignored?`<p class="note">${t.ignored} new signal${t.ignored>1?'s':''} ignored while this trade runs.</p>`:''}</div>`}
+  else html+=`<div class="anone">${!online?'Waiting for the robot.':!s.on?'AlgoBot is off.':killed?'Kill switch is on for today.':limit?'Daily loss limit reached. AlgoBot starts again tomorrow.':!(st&&st.market)?'Market closed. AlgoBot trades 9:20 am – 2:45 pm (exits by 3:15 pm).':'No trade running. Waiting for a strong option signal…'}</div>`;
+  // kill switch
+  html+=killed?`<button class="btn wide" id="aResume">Resume AlgoBot (clear kill switch)</button>`:`<button class="akill ${ALGO.arm.kill?'arm':''}" id="aKill">${ALGO.arm.kill?'TAP AGAIN TO STOP EVERYTHING':'KILL SWITCH'}<small>${ALGO.arm.kill?'Exits the trade, cancels orders, no more trades today':'Exit now · cancel orders · stop for today'}</small></button>`;
+  // today
+  html+=`<div class="aday"><div><i>Today booked</i><b class="${day.realized>=0?'sup':'sdn'}">${aRs(day.realized)}</b></div><div><i>Open</i><b class="${(t?(t.ltp-t.fill)*t.qty:0)>=0?'sup':'sdn'}">${t?aRs((t.ltp-t.fill)*t.qty):'—'}</b></div><div><i>Trades</i><b>${day.trades} <small>${day.wins}W · ${day.losses}L</small></b></div>
+    <div class="alim"><i>Daily loss limit ${aRs0(used)} of ${aRs0(s.dayLimit)}</i><span><em style="width:${usedPct}%" class="${usedPct>=80?'hot':''}"></em></span></div></div>`;
+  // signal watch
+  const sig=(st&&st.sig)||{};const sw=Object.entries(sig).filter(([k,v])=>v&&s.idx[k]);
+  html+=`<div class="asig"><div class="label">Signal watch</div>${sw.length?sw.map(([k,v])=>`<div class="asr"><b>${k}</b><span class="ver ${/BUY CE/.test(v.verdict)?'sup':/BUY PE/.test(v.verdict)?'sdn':''}">${esc(v.verdict||'—')}</span><span>score ${v.score??'—'}</span><span>meter ${v.conf!=null?v.conf+'%':'—'}</span><span>PCR ${v.pcr??'—'}</span><span class="note">${v.at?istT(v.at):''}</span></div>`).join(''):'<p class="note">Shows NIFTY and SENSEX checks every 30 seconds while the market is open.</p>'}${st&&st.err?`<p class="note" style="color:var(--ssell)">${esc(st.err)}</p>`:''}</div>`;
+  // history
+  const H=(ALGO.hist&&ALGO.hist.items)||[];const tot=H.reduce((a,x)=>a+(x.pnl||0),0),wn=H.filter(x=>x.pnl>0).length;
+  const W={stop:'Stop',trail:'Trail stop',t2:'T2',book:'Booked',time:'3:15 pm',limit:'Loss limit',kill:'Kill',expired:'Closed'};
+  html+=`<details class="ahist" ${H.length?'open':''}><summary>History · ${H.length} trades · ${wn} wins · <b class="${tot>=0?'sup':'sdn'}">${aRs(tot)}</b></summary>${H.slice(0,40).map(x=>`<div class="ahr"><span>${istD(x.openedAt)} ${istT(x.openedAt)}</span><b>${esc(x.ix)} ${x.strike} ${x.type}</b><span>₹${(+x.fill).toFixed(1)} → ₹${(+x.exit).toFixed(1)}</span><span>${W[x.exitWhy]||x.exitWhy}${x.mode==='live'?' · LIVE':''}</span><b class="${x.pnl>=0?'sup':'sdn'}">${aRs(x.pnl)}</b></div>`).join('')||'<p class="note">No AlgoBot trades yet.</p>'}</details>`;
+  // settings
+  html+=`<details class="aset" ${ALGO.setOpen?'open':''} id="aSetBox"><summary>AlgoBot settings</summary>
+    <div class="aform">
+      <label class="field"><span class="label">Capital (₹) · 1 lot must cost less than this, or the trade is skipped (never switched to OTM)</span><input type="number" id="aCap" min="1000" step="500" value="${s.capital}"></label>
+      <label class="field"><span class="label">Daily loss limit (₹) · booked + open loss; at the limit AlgoBot exits and stops for the day</span><input type="number" id="aLim" min="100" step="100" value="${s.dayLimit}"></label>
+      <label class="field"><span class="label">Charges per trade (₹, buy + sell, 1 lot)</span><input type="number" id="aChg" min="0" step="5" value="${s.charges}"></label>
+      <div class="tg"><span>NIFTY options</span><span class="switch"><input type="checkbox" id="aIxN" ${s.idx.NIFTY?'checked':''}><span></span></span></div>
+      <div class="tg"><span>SENSEX options</span><span class="switch"><input type="checkbox" id="aIxS" ${s.idx.SENSEX?'checked':''}><span></span></span></div>
+      <div class="tg"><span>Trailing stop after T1 (stop first moves to T1 − ₹${s.t1Gap})</span><span class="switch"><input type="checkbox" id="aTrail2" ${s.trailOn?'checked':''}><span></span></span></div>
+      <label class="field"><span class="label">Trail distance before T2 (% below the best premium)</span><input type="number" id="aTp" min="5" max="50" step="1" value="${s.trailPct}"></label>
+      <label class="field"><span class="label">At T2</span><select id="aT2"><option value="trail" ${s.t2Mode==='trail'?'selected':''}>Keep riding · tighter trail</option><option value="exit" ${s.t2Mode==='exit'?'selected':''}>Exit and book profit</option></select></label>
+      <label class="field"><span class="label">Tighter trail after T2 (%)</span><input type="number" id="aTp2" min="3" max="40" step="1" value="${s.trailPctT2}"></label>
+      <div class="tg"><span>Trade on expiry day after 1 pm (premiums swing fast, stops can jump)</span><span class="switch"><input type="checkbox" id="aExp" ${s.expiryLate?'checked':''}><span></span></span></div>
+      <label class="field"><span class="label">Max trades per day (0 = no limit)</span><input type="number" id="aMax" min="0" max="20" step="1" value="${s.maxTrades}"></label>
+      <div class="amode"><span class="label">Mode</span><div class="seg"><button data-am="paper" class="${!live?'on':''}">Paper</button><button data-am="live" class="${live?'on live':''} ${ALGO.arm.live?'arm':''}">${ALGO.arm.live?'Tap again: LIVE':'Live (real orders)'}</button></div>
+        <p class="note">${live?'<b style="color:var(--ssell)">LIVE: real orders on your Upstox account.</b>':'Paper: same rules, no real orders. Run it for 1–2 weeks first.'}</p></div>
+      <label class="field"><span class="label">Upstox API key (from your Upstox developer app; the secret stays only on your robot server)</span><input id="aKey" value="${esc(s.apiKey||'')}" autocomplete="off" spellcheck="false" placeholder="xxxxxxxx-xxxx-…"></label>
+      <p class="note">Redirect URL for your Upstox app: <b class="sel">${esc(appUrl())}</b>${st&&st.ip?`<br>Robot server address (register as static IP in Upstox): <b class="sel">${esc(st.ip)}</b>`:''}</p>
+      <div class="abtns"><button class="btn" id="aTest">Test robot + notification</button></div>
+    </div></details>
+    <p class="note" style="margin-top:8px">AlgoBot trades only the option the signal locks (ATM, nearest expiry). Paper results are not a promise of live results; live fills can differ.</p>`;
+  el.innerHTML=html;
+  const on=(id,f,ev='onchange')=>{const x=$(id);if(x)x[ev]=f};
+  on('#aOn',e=>algoSave({on:e.target.checked}));on('#aTrail',e=>algoSave({trailOn:e.target.checked}));on('#aTrail2',e=>algoSave({trailOn:e.target.checked}));
+  on('#aLogin',()=>{location.href=upstoxLoginUrl()},'onclick');on('#aBook',()=>{if(armed('book'))algoCmd('book')},'onclick');on('#aKill',()=>{if(armed('kill'))algoCmd('kill')},'onclick');on('#aResume',()=>algoCmd('resume'),'onclick');on('#aTest',()=>algoCmd('test'),'onclick');
+  const num=(id,k,min)=>on(id,e=>algoSave({[k]:Math.max(min,+e.target.value||0)}));num('#aCap','capital',1000);num('#aLim','dayLimit',100);num('#aChg','charges',0);num('#aTp','trailPct',5);num('#aTp2','trailPctT2',3);num('#aMax','maxTrades',0);
+  on('#aIxN',e=>algoSave({idx:{...s.idx,NIFTY:e.target.checked}}));on('#aIxS',e=>algoSave({idx:{...s.idx,SENSEX:e.target.checked}}));on('#aExp',e=>algoSave({expiryLate:e.target.checked}));on('#aT2',e=>algoSave({t2Mode:e.target.value}));
+  on('#aKey',e=>algoSave({apiKey:e.target.value.trim()}));
+  const sb=$('#aSetBox');if(sb)sb.ontoggle=()=>{ALGO.setOpen=sb.open};
+  el.querySelectorAll('[data-am]').forEach(b=>b.onclick=()=>{const m=b.dataset.am;if(m==='paper')return algoSave({mode:'paper'});if(live)return;if(!armed('live'))return;algoSave({mode:'live'})})}
 function srvLive(){const f=(window.FEED||{}).signals;return CFG.srv!==false&&f&&f.upd&&f.cfg&&Date.now()-f.upd<12*60000?f:null}
 function srvCovers(d){const f=srvLive();return !!(f&&f.cover&&f.cover.includes(d.id))}
 function srvSeen(id){SRV.seen.add(id);const a=[...SRV.seen].slice(-300);store.set('pt.srvSeen',a)}
@@ -3586,7 +3696,7 @@ function renderEvStrip(){const el=$('#evStrip');if(!el)return;const f=FD();const
   el.hidden=true}
 let nwT=0;function onFeed(e){if(e&&e.detail==='signals')srvSyncAll();if(e&&e.detail==='swing'&&typeof booted!=='undefined'&&booted)try{swingCheck()}catch(x){}if(e&&e.detail==='futures'&&typeof booted!=='undefined'&&booted){syncInstruments();renderFilters()}clearTimeout(nwT);nwT=setTimeout(()=>{renderNews();newsBadge();renderEvStrip();if(S.view==='scan')for(const it of S.inst.values())markDirty(it)},250)}
 /* notifications settings */
-function npPrefs(){const p=CFG.push||{};const W=SWC();return {sig:p.sig!==false,news:p.news!==false,data:p.data!==false,move:p.move!==false,nse:!!p.nse,swing:W.on!==false,swq:W.quiet!==false,mute:allDefs().filter(d=>d.sig===false).map(d=>d.id)}}
+function npPrefs(){const p=CFG.push||{};const W=SWC();return {sig:p.sig!==false,news:p.news!==false,data:p.data!==false,move:p.move!==false,nse:!!p.nse,swing:W.on!==false,swq:W.quiet!==false,algo:true,mute:allDefs().filter(d=>d.sig===false).map(d=>d.id)}}
 function npMsg(t,ok){const m=$('#npMsg');m.className='msg'+(ok?' ok':'');m.textContent=t||''}
 function renderPush(){const P=window.paisaPush;const p=npPrefs();$('#npSig').checked=p.sig;$('#npNews').checked=p.news;$('#npData').checked=p.data;$('#npMove').checked=p.move;$('#npNse').checked=p.nse;$('#sEvPause').checked=CFG.evPause!==false;
   const i=P?P.info():{state:'unsupported'};const T={on:'On for this device.',off:'Off on this device.',blocked:'Blocked: allow notifications for this site in the browser settings, then tap Turn on.',unsupported:'This browser does not support push notifications.','ios-home':'On iPhone/iPad: tap Share → Add to Home Screen, open TradeBot from the Home Screen, then turn this on.'};
@@ -3602,9 +3712,11 @@ function wirePush(){const save=async()=>{CFG.push={sig:$('#npSig').checked,news:
   $('#npTest').onclick=async()=>{npMsg('Sending…');try{const r=await window.paisaPush.test();npMsg(r.msg||'Sent',!!r.sent)}catch(e){npMsg(e.code==='functions/not-found'?'Server not deployed yet':(e.message||String(e)))}}
   $('#nwRefresh').onclick=async()=>{const b=$('#nwRefresh');if(!window.paisaRefresh)return;b.disabled=true;b.textContent='Refreshing…';
     try{const r=await window.paisaRefresh();toast('info','Server refreshed',r.msg||'Done','',null,7000)}catch(e){toast('warm','Refresh failed',e.code==='functions/not-found'?'The server is not deployed yet.':(e.message||String(e)),'',null,6000)}b.disabled=false;b.textContent='Refresh'}}
-function newsInit(){window.addEventListener('paisa-feed',onFeed);window.addEventListener('paisa-open',e=>{const u=String(e.detail||'');if(u.includes('swing')){show('log');setTimeout(()=>{const b=$('#swingBox');b&&b.scrollIntoView({block:'start'})},300);return}if(u.includes('scan')){show('scan');return}NW.tab=u.includes('risk')?'risk':'head';show('news')});
+function newsInit(){window.addEventListener('paisa-feed',onFeed);window.addEventListener('paisa-open',e=>{const u=String(e.detail||'');if(u.includes('algo')){show('algo');return}if(u.includes('swing')){show('log');setTimeout(()=>{const b=$('#swingBox');b&&b.scrollIntoView({block:'start'})},300);return}if(u.includes('scan')){show('scan');return}NW.tab=u.includes('risk')?'risk':'head';show('news')});
   wirePush();setInterval(()=>{renderEvStrip();if(S.view==='news'&&NW.tab==='cal')renderNews()},30000);
-  const h=location.hash;if(h==='#swing'){setTimeout(()=>{show('log');const b=$('#swingBox');b&&b.scrollIntoView({block:'start'})},600);history.replaceState(null,'',location.pathname+location.search)}
+  try{if(sessionStorage.getItem('pt.openAlgo')){sessionStorage.removeItem('pt.openAlgo');setTimeout(()=>show('algo'),800)}}catch(e){}
+  const h=location.hash;if(h==='#algo'){setTimeout(()=>show('algo'),600);history.replaceState(null,'',location.pathname+location.search)}
+  if(h==='#swing'){setTimeout(()=>{show('log');const b=$('#swingBox');b&&b.scrollIntoView({block:'start'})},600);history.replaceState(null,'',location.pathname+location.search)}
   if(h==='#news'||h==='#risk'){NW.tab=h==='#risk'?'risk':'head';setTimeout(()=>show('news'),300);history.replaceState(null,'',location.pathname+location.search)}onFeed()}
 
 function weakOffOnce(){if(CFG.weakV5)return;CFG.weakV5=1;const ids=['d:XAUTUSD','d:AAPLXUSD','u:NSE_INDEX|Nifty Bank'];let n=0;
@@ -3620,7 +3732,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=14"></script>
+<script type="module" src="auth.js?v=15"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
