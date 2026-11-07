@@ -923,7 +923,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v15</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v15.1</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -1047,7 +1047,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v15 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v15.1 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -3487,7 +3487,7 @@ function armed(k){const t=ALGO.arm[k]||0;if(Date.now()-t<4000){ALGO.arm[k]=0;ret
 function upstoxLoginUrl(){const s=AS();return `https://api.upstox.com/v2/login/authorization/dialog?response_type=code&client_id=${encodeURIComponent(s.apiKey)}&redirect_uri=${encodeURIComponent(appUrl())}&state=algobot`}
 function renderAlgo(){const el=$('#algoBody');if(!el)return;const st=ALGO.state,s=AS(),now=Date.now();
   if(!window.paisaAlgo){el.innerHTML='<div class="empty">Sign in to use AlgoBot.</div>';return}
-  const online=st&&now-st.hb<120000,day=(st&&st.day)||{realized:0,trades:0,wins:0,losses:0,open:0},t=st&&st.trade,live=s.mode==='live';
+  const online=st&&now-st.hb<(st.market?120000:420000),day=(st&&st.day)||{realized:0,trades:0,wins:0,losses:0,open:0},t=st&&st.trade,live=s.mode==='live';
   const upOk=st&&st.upstox&&st.upstox.ok&&st.upstox.until>now;const killed=day.killed,limit=day.limitHit;
   const pill=(ok,txt,cls='')=>`<span class="apill ${ok?'ok':'no'} ${cls}">${txt}</span>`;
   const used=Math.max(0,-(day.realized+(t?(t.ltp-t.fill)*t.qty-s.charges:0)));const usedPct=Math.min(100,used/s.dayLimit*100);
