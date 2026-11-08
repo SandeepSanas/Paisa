@@ -936,7 +936,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v16</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v17</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -1061,7 +1061,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v16 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v17 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -1686,11 +1686,13 @@ function engine(it,initial){const d=it.def;if(!it.b1.length)return;
     const g=ev.signal,ST=r.strat,lim=g.entry-g.side*ST.pull*g.atr;
     it.pend={...levelsAt(g.side,lim,g.dist),lim,t:ev.t,until:ev.t+r.S*(1+ST.pullBars),score:g.score,strong:g.strong,state:ev.state,id:d.id+'@'+ev.t,chk:Math.floor(nowSec()/60)*60-60,sigPx:g.entry};
     alertSetup(it,it.pend);it.hot=Date.now();markDirty(it)}}
-function fillPend(it,e,tMin,quiet){const p=it.pend;it.pend=null;const tr={...levelsAt(p.side,e,p.dist),score:p.score,strong:p.strong,tf:tfOf(it),state:p.state,bars:0,status:'open',r:null,id:p.id,inst:it.def.id,name:it.def.name,t:p.t,fillT:tMin,entryT:tMin+60,wickT:tMin};
+function fillPend(it,e,tMin,quiet){const p=it.pend;it.pend=null;const tr={...levelsAt(p.side,e,p.dist),score:p.score,strong:p.strong,ck:p.ck||null,tf:p.srv?((srvLive()||{cfg:{}}).cfg.tf||tfOf(it)):tfOf(it),state:STATES[p.state]?p.state:(p.side>0?(p.strong?'sbuy':'buy'):(p.strong?'ssell':'sell')),...(p.srv?{prov:1,provAt:nowSec()}:{}),bars:0,status:'open',r:null,id:p.id,inst:it.def.id,name:it.def.name,t:p.t,fillT:tMin,entryT:tMin+60,wickT:tMin};
   tr.slCur=tr.sl;tr.risk=riskCheck(it,tr);it.active=tr;upsertLog(tr);oddsFor(it,tr);if(!quiet)alertSignal(it,tr);it.hot=Date.now();markDirty(it);if(S.chart.id===it.def.id&&CH)drawLines(it)}
-function checkPend(it,hi,lo,o,tMin,quiet){const p=it.pend;if(!p||it.active||p.srv)return;
+/* instant fill: the moment the live price touches a waiting setup's level, the STRONG signal shows here (server setups too);
+   the server's copy (same id) confirms it within ~10 s and replaces the provisional one without a second alert */
+function checkPend(it,hi,lo,o,tMin,quiet){const p=it.pend;if(!p||it.active)return;
   if(nowSec()>=p.until||!mktOpen(it.def)){it.pend=null;markDirty(it);if(S.chart.id===it.def.id&&CH)drawLines(it);return}
-  if(tMin<p.t+tfOf(it)*60)return;
+  if(tMin<p.t+(p.srv?((srvLive()||{cfg:{}}).cfg.tf||tfOf(it)):tfOf(it))*60)return;
   if(p.side>0?lo<=p.lim:hi>=p.lim){const e=o==null?p.lim:(p.side>0?Math.min(p.lim,o):Math.max(p.lim,o));fillPend(it,e,tMin,quiet)}}
 
 function applyMove(it,hi,lo,quiet,o){const tr=it.active;if(!tr)return;if(tr.srv&&srvCovers(it.def))return;const before=tr.status;const res=stepTrade(tr,hi,lo,o);
@@ -1698,7 +1700,7 @@ function applyMove(it,hi,lo,quiet,o){const tr=it.active;if(!tr)return;if(tr.srv&
     if(res===true){tr.closedAt=nowSec();it.lastClosed=tr;it.active=null}markDirty(it)}}
 function trackLive(it,p){applyMove(it,p,p);if(S.view==='chart'&&S.chart.id===it.def.id&&CH&&CH.lineSig!==(it.active?it.active.id+it.active.status:''))drawLines(it)}
 // replay real 1-min highs/lows since entry, so wicks between ticks still hit stop/targets (stop checked first)
-function checkWicks(it,quiet){if(!it.active&&it.pend&&!it.pend.srv){const nowM=Math.floor(nowSec()/60)*60;for(const x of it.b1){if(x.t<=(it.pend.chk||0)||x.t>=nowM)continue;it.pend.chk=x.t;checkPend(it,x.h,x.l,x.o,x.t,quiet);if(!it.pend)break}}
+function checkWicks(it,quiet){if(!it.active&&it.pend){const nowM=Math.floor(nowSec()/60)*60;for(const x of it.b1){if(x.t<=(it.pend.chk||0)||x.t>=nowM)continue;it.pend.chk=x.t;checkPend(it,x.h,x.l,x.o,x.t,quiet);if(!it.pend)break}}
   const tr=it.active;if(!tr)return;if(tr.srv&&srvCovers(it.def))return;const from=tr.entryT||tr.t+(tr.tf||CFG.tf)*60;const nowM=Math.floor(nowSec()/60)*60;
   for(const x of it.b1){if(x.t<from||x.t<=(tr.wickT||0)||x.t>=nowM)continue;tr.wickT=x.t;applyMove(it,x.h,x.l,quiet,x.o);if(!it.active)break}
   if(it.active)upsertLog(it.active)}
@@ -1735,6 +1737,8 @@ async function deltaPoll(){if(dpollBusy)return;dpollBusy=true;
 async function deltaResync(it){try{const nb=await deltaCandles(it.def.sym,1,15);mergeBars(it,nb);checkWicks(it)}catch(e){}}
 
 let upBusy=false,upFail=0,upPause=0;
+// an Upstox market whose price is within 0.4× stop distance of a waiting setup's level → check every second instead of every 2–3
+function upNear(){for(const it of S.inst.values()){const p=it.pend;if(p&&!it.active&&it.def.src==='upstox'&&it.price!=null&&Math.abs(it.price-p.lim)<=0.4*(p.dist||Infinity))return true}return false}
 async function upstoxTick(){if(!CFG.token||upBusy||Date.now()<upPause)return;const its=[...S.inst.values()].filter(i=>i.def.src==='upstox');if(!its.length)return;
   const its2=its.filter(i=>mktOpen(i.def));if(!its2.length){setFeed('upstox','slow');return}its.length=0;its.push(...its2);
   upBusy=true;try{const keys=its.map(i=>i.def.key);const j=await jget(`${UAPI}/v3/market-quote/ltp?instrument_key=${keys.map(encodeURIComponent).join(',')}`,upHeaders());
@@ -1785,12 +1789,12 @@ async function heartbeat(){tickN++;if(tickN%15===0)for(const it of S.inst.values
   for(const it of S.inst.values()){if(it.active&&(isNse(it.def)||isMcx(it.def))&&!mktOpen(it.def)&&!(it.active.srv&&srvCovers(it.def))){closeActive(it,'expired');markDirty(it)}if(it.status!=='ok')continue;const S1=tfOf(it)*60;const bk=bucketOf(t,S1,offFor(isNse(it.def),S1));
     if(it.lastBucket==null){it.lastBucket=bk;continue}
     if(bk!==it.lastBucket){it.lastBucket=bk;(async()=>{if(it.def.src==='delta')await deltaResync(it);else if(it.def.src==='upstox')await enqueue(()=>upstoxResyncOne(it));engine(it,false);markDirty(it);if(S.chart.id===it.def.id)loadChart(true)})()}}
-  if(tickN%(CFG.n50?3:2)===0)upstoxTick();if(CFG.n50&&nseOpen()&&tickN%6===1)n50Tick();
+  if(tickN%(CFG.n50?3:2)===0||upNear())upstoxTick();if(CFG.n50&&nseOpen()&&tickN%6===1)n50Tick();
   if(tickN%2===0)deltaPoll();if(tickN%300===0)for(const it of S.inst.values())if(it.def.src==='delta')deltaRef(it);
   if(tickN%15===0&&(nseOpen()||mcxOpen()))upstoxResync();
   if(tickN%45===0)for(const it of S.inst.values())if(it.def.src==='delta')deltaResync(it);
   if(tickN%10===5){for(const it of S.inst.values())if(it.active&&it.def.src==='delta')deltaResync(it);if([...S.inst.values()].some(i=>i.active&&i.def.src==='upstox'&&mktOpen(i.def)))upstoxResync()}
-  if(CFG.token&&nseOpen()&&(tickN%20===0&&S.view==='opt'||tickN%45===0&&S.view!=='opt')){if(!optInit)initOpt(true);else if(!S.opt.exps.length)loadExp();else loadChain()}
+  if(CFG.token&&(nseOpen()||(OPT_IDX[S.opt.idx]&&OPT_IDX[S.opt.idx].mcx&&mcxOpen()))&&(tickN%10===0&&S.view==='opt'||tickN%30===0&&S.view!=='opt')){if(!optInit)initOpt(true);else if(!S.opt.exps.length)loadExp();else loadChain()}
   if(tickN%5===0)for(const it of S.inst.values())markDirty(it);
 }
 
@@ -3665,20 +3669,25 @@ function srvCovers(d){const f=srvLive();return !!(f&&f.cover&&f.cover.includes(d
 function srvSeen(id){SRV.seen.add(id);const a=[...SRV.seen].slice(-300);store.set('pt.srvSeen',a)}
 function srvApply(it,quiet){const f=srvLive();if(!f)return;const d=it.def;const st=(f.mk||{})[d.id]||{};const s=f.active&&f.active[d.id];let cur=it.active;
   if(d.sig===false){if(cur&&cur.srv)it.active=null;it.paused=null;markDirty(it);return}
-  if(cur&&!cur.srv){closeActive(it,'expired');cur=null}          // a trade this device opened before shared signals: close it once
+  if(cur&&!cur.srv&&!cur.prov){closeActive(it,'expired');cur=null}          // a trade this device opened before shared signals: close it once
   if(s){
-    if(!cur||cur.id!==s.id){const known=LOG.find(x=>x.id===s.id);const tr={...s,srv:1};
+    if(cur&&cur.prov&&cur.id===s.id){const keep={risk:cur.risk,odds:cur.odds};Object.assign(cur,s,keep,{srv:1});delete cur.prov;delete cur.provAt;upsertLog(cur);srvSeen(s.id)}   // server confirmed this device's instant fill
+    else if(!cur||cur.id!==s.id){if(cur&&cur.prov){LOG=LOG.filter(x=>x.id!==cur.id);saveLog()}const known=LOG.find(x=>x.id===s.id);const tr={...s,srv:1};
       if(known){tr.risk=known.risk;tr.odds=known.odds}else tr.risk=riskCheck(it,tr);
       it.active=tr;upsertLog(tr);if(!tr.odds)oddsFor(it,tr);
       if(!known&&!quiet&&!SRV.seen.has(s.id)&&nowSec()-s.entryT<600){alertSignal(it,tr);it.hot=Date.now()}
       srvSeen(s.id)}
     else{const before=cur.status;Object.assign(cur,{status:s.status,slCur:s.slCur,bars:s.bars,wickT:s.wickT,r:s.r});
       if(before!==cur.status){upsertLog(cur);if(!quiet&&nowSec()-(s.wickT||0)<300)alertOutcome(it,cur)}}}
+  else if(cur&&cur.prov){const sp0=f.pend&&f.pend[d.id];const done=(f.recent||[]).find(t=>t.id===cur.id);
+    if(done){Object.assign(cur,done,{srv:1});delete cur.prov;upsertLog(cur);it.lastClosed=cur;it.active=null}
+    else if(!(sp0&&sp0.id===cur.id)&&nowSec()-(cur.provAt||0)>180){LOG=LOG.filter(x=>x.id!==cur.id);saveLog();it.active=null;
+      if(!quiet)toast('info',`${it.def.name.split(' · ')[0]}: signal not confirmed`,'The shared server did not see the price touch the setup level (data differs slightly), so this STRONG signal was removed.','',d.id,8000)}}
   else if(cur&&cur.srv){const done=(f.recent||[]).find(t=>t.id===cur.id);const before=cur.status;
     if(done)Object.assign(cur,{status:done.status,r:done.r,closedAt:done.closedAt,slCur:done.slCur});else{cur.status='expired';cur.r=cur.r??0;cur.closedAt=nowSec()}
     upsertLog(cur);it.lastClosed=cur;it.active=null;if(!quiet&&done&&before!==done.status&&nowSec()-(done.closedAt||0)<300)alertOutcome(it,cur)}
   const sp=f.pend&&f.pend[d.id];
-  if(sp&&!it.active){if(!it.pend||it.pend.id!==sp.id){it.pend={...sp,srv:1};if(!quiet&&!SRV.seen.has('p:'+sp.id)&&nowSec()-sp.t<900)alertSetup(it,it.pend);srvSeen('p:'+sp.id)}}
+  if(sp&&!it.active&&!LOG.some(x=>x.id===sp.id)){if(!it.pend||it.pend.id!==sp.id){it.pend={...sp,srv:1};if(!quiet&&!SRV.seen.has('p:'+sp.id)&&nowSec()-sp.t<900)alertSetup(it,it.pend);srvSeen('p:'+sp.id)}}
   else if(it.pend&&it.pend.srv)it.pend=null;
   if(!it.active&&!it.lastClosed){const lc=(f.recent||[]).find(t=>t.inst===d.id);if(lc)it.lastClosed=lc}
   it.paused=st.paused||null;markDirty(it);if(S.view==='chart'&&S.chart.id===d.id&&CH)drawLines(it);if(S.view==='log')renderRunning()}
@@ -3848,7 +3857,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=16"></script>
+<script type="module" src="auth.js?v=17"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
