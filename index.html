@@ -68,6 +68,19 @@ button{cursor:pointer}
 @keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-5px) rotate(4deg)}}
 .logo{font:700 19px/1.05 var(--f-logo);letter-spacing:.02em;background:linear-gradient(90deg,var(--logo-a),var(--cyan) 70%);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
 .ver{font:700 10px/1 var(--f-ui);padding:2px 5px;border-radius:5px;border:1px solid var(--line-hi);color:var(--cyan);vertical-align:2px}
+.tvb{font:700 10px/1 var(--f-ui);padding:2px 6px;border-radius:5px;border:1px solid var(--line-hi);background:transparent;color:var(--text,#e6edf6);vertical-align:2px;margin-left:4px;cursor:pointer}.tvb.on{border-color:var(--red,#f43f5e);color:var(--red,#f43f5e)}
+.tvm{position:fixed;z-index:80;min-width:230px;max-width:calc(100vw - 16px);padding:6px;border-radius:12px;background:var(--panel-solid,#0b1122);border:1px solid var(--line-hi);box-shadow:0 10px 30px rgba(0,0,0,.45);font:500 13px/1.3 var(--f-ui)}
+.tvm button.ch{display:flex;width:100%;align-items:center;gap:8px;padding:8px 9px;border:0;border-radius:8px;background:transparent;color:inherit;text-align:left;cursor:pointer;font:inherit}.tvm button.ch:hover,.tvm button.ch.cur{background:color-mix(in srgb,var(--cyan,#22d3ee) 14%,transparent)}
+.tvm .lng{margin-left:auto;font-size:10.5px;color:var(--dim)}.tvm .ql{display:flex;gap:4px;flex-wrap:wrap;padding:6px 4px 2px;border-top:1px solid var(--line);margin-top:4px}.tvm .ql b{width:100%;font-size:10.5px;color:var(--dim);font-weight:600}
+.tvq{flex:1;padding:5px 4px;border-radius:7px;border:1px solid var(--line-hi);background:transparent;color:inherit;font:600 11px/1.1 var(--f-ui);cursor:pointer}.tvq.cur{border-color:var(--cyan,#22d3ee);color:var(--cyan,#22d3ee)}
+.tvbox{position:fixed;z-index:70;right:10px;top:70px;width:320px;display:flex;flex-direction:column;border-radius:12px;overflow:hidden;background:#000;border:1px solid var(--line-hi);box-shadow:0 12px 34px rgba(0,0,0,.55)}
+.tvbox .tvh{display:flex;align-items:center;gap:6px;padding:5px 6px 5px 10px;background:var(--panel-solid,#0b1122);font:600 12px/1 var(--f-ui);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.tvbox .tvh .nm{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tvbox .tvh .nm i{font-style:normal;color:var(--red,#f43f5e);margin-right:5px}
+.tvbox .tvh button,.tvbox .tvh select{border:1px solid var(--line-hi);background:transparent;color:inherit;border-radius:6px;padding:3px 6px;font:600 11px/1 var(--f-ui);cursor:pointer}.tvbox .tvh select option{background:#0d1422}
+.tvbox .tvv{position:relative;width:100%;aspect-ratio:16/9;background:#000}.tvbox iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.tvbox .tvmsg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;text-align:center;color:#cbd5e1;font:500 12.5px/1.4 var(--f-ui);background:#05080f}.tvbox .tvmsg a{color:var(--cyan,#22d3ee)}
+.tvbox .tvr{position:absolute;right:0;bottom:0;width:22px;height:22px;cursor:nwse-resize;touch-action:none;z-index:2;background:linear-gradient(135deg,transparent 55%,rgba(255,255,255,.55) 56%,rgba(255,255,255,.55) 62%,transparent 63%,transparent 72%,rgba(255,255,255,.55) 73%,rgba(255,255,255,.55) 79%,transparent 80%)}
+.tvbox.drag iframe,.tvbox.rsz iframe{pointer-events:none}
 .greet{font:500 13px/1.3 var(--f-ui);color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hbtns{display:flex;gap:8px}
 .strip{grid-column:1/-1;display:flex;align-items:center;gap:8px;overflow-x:auto;scrollbar-width:none;font-size:12px;color:var(--dim);white-space:nowrap}
@@ -936,7 +949,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v17</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v18</span><button class="tvb" id="tvBtn" title="Live TV · market news channels">📺 TV</button></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -1061,7 +1074,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v17 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v18 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -1198,6 +1211,8 @@ body:not(.locked) .login{display:none}
   </div>
 </div>
 <div class="nbord" id="nBord" aria-hidden="true"><div class="nbm"><i class="nb-a"></i><i class="nb-b"></i></div></div>
+<div id="tvMenu" class="tvm" hidden></div>
+<div id="tvBox" class="tvbox" hidden><div class="tvh" id="tvHead"><span class="nm" id="tvName"><i>●</i>LIVE</span><select id="tvQ" title="Video quality"></select><button id="tvFs" title="Full screen">⛶</button><button id="tvX" title="Close">✕</button></div><div class="tvv" id="tvV"></div><div class="tvr" id="tvR" title="Drag to resize"></div></div>
 <div id="mClock" class="mclock" role="button" tabindex="0" title="Indian market clock · drag to move · tap to shrink" hidden></div>
 <button type="button" class="ariafab" id="ariaBtn" aria-label="Talk to Aria" title="Aria · tap to talk, tap again to stop · drag to move">
   <span class="af-ring"></span><img src="aria.webp" alt="Aria" width="64" height="64" draggable="false"><span class="af-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>
@@ -1551,6 +1566,58 @@ function mClock(){const el=$('#mClock');if(!el)return;el.hidden=CFG.mclock===fal
   const row=(n,k)=>{const i=sessInfo(k,t);const at=i.at?istT(i.at*1000):'';const tx=i.open?`closes in <b>${durTx(i.at-t)}</b>`:i.pre?`pre-open · opens in <b>${durTx(i.at-t)}</b>`:i.at?`opens in <b>${durTx(i.at-t)}</b>`:'closed';
     const soon=i.open&&i.at-t<=900;return `<div class="mc-r ${i.open?'on':''} ${soon?'soon':''}" title="${i.open?'Closes':'Opens'} at ${at} IST"><i></i><span class="mc-n">${n}</span><span class="mc-t">${tx}</span>${CFG.mclMini?'':`<small>${at}</small>`}</div>`};
   el.classList.toggle('mini',!!CFG.mclMini);el.innerHTML=row('NSE','nse')+row('MCX','mcx')}
+/* ---------- Live TV: official YouTube live streams of market news channels, in a floating player ---------- */
+const TV_CH=[
+ {id:'awaaz',n:'CNBC Awaaz',l:'Hindi',c:'UCQIycDaLsBpMKjOCeaKUYVg'},
+ {id:'tv18',n:'CNBC-TV18',l:'English',c:'UCmRbHAgG2k2vDUvb3xsEunQ'},
+ {id:'zeeb',n:'Zee Business',l:'Hindi',c:'UCkXopQ3ubd-rnXnStZqCl2w'},
+ {id:'etnow',n:'ET Now',l:'English',c:'UCI_mwTKUhicNzFrhm33MzBQ'},
+ {id:'ndtvp',n:'NDTV Profit',l:'English',c:'UC3uJIdRFTGgLWrUziaHbzrg'},
+ {id:'cnbc',n:'CNBC (US)',l:'US',c:'UCvJJ_dzjViJCoLf5uKUTwoA'},
+ {id:'bbg',n:'Bloomberg TV',l:'Global',c:'UCIALMKvObZNtJ6AmdCLP7Lg'}];
+/* YouTube no longer lets apps force a quality, so each choice sets the player size YouTube adapts to plus a quality hint;
+   for an exact quality use ⚙ inside the player. */
+const TV_Q={low:{n:'Data saver',s:'~240p',w:256,vq:'small'},auto:{n:'Auto',s:'adapts',w:0,vq:''},hd:{n:'HD',s:'720p',w:480,vq:'hd720'},fhd:{n:'Full HD',s:'1080p',w:640,vq:'hd1080'}};
+const TV={st:null,yt:null,apiP:null};
+function tvSt(){if(!TV.st)TV.st=Object.assign({ch:'awaaz',q:'auto',x:null,y:null,w:0},store.get('tvset',{}));return TV.st}
+function tvSave(){store.set('tvset',TV.st)}
+function tvDefW(){return innerWidth<600?320:400}
+function tvMenu(open){const m=$('#tvMenu'),b=$('#tvBtn');if(!m||!b)return;if(open===undefined)open=m.hidden;if(!open){m.hidden=true;return}
+  const st=tvSt(),on=!$('#tvBox').hidden;
+  m.innerHTML=TV_CH.map(c=>`<button class="ch${on&&st.ch===c.id?' cur':''}" data-tvch="${c.id}">📺 ${c.n}<span class="lng">${c.l}</span></button>`).join('')+
+   `<div class="ql"><b>Quality (unlimited Wi-Fi → HD / Full HD)</b>${Object.entries(TV_Q).map(([k,q])=>`<button class="tvq${st.q===k?' cur':''}" data-tvq="${k}" title="${q.s}">${q.n}</button>`).join('')}</div>`+
+   (on?`<div class="ql" style="border:0;margin:0"><button class="tvq" data-tvoff="1">Close TV</button></div>`:'');
+  m.hidden=false;const r=b.getBoundingClientRect();m.style.top=(r.bottom+6)+'px';m.style.left=Math.max(8,Math.min(innerWidth-m.offsetWidth-8,r.left))+'px'}
+function tvUrl(c,q){const vq=TV_Q[q]&&TV_Q[q].vq;return `https://www.youtube.com/embed/live_stream?channel=${c.c}&autoplay=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(location.origin)}${vq?'&vq='+vq:''}`}
+function tvPlace(){const bx=$('#tvBox'),st=tvSt();if(bx.hidden)return;const maxW=Math.min(640,innerWidth-12);const w=Math.max(240,Math.min(maxW,st.w||tvDefW()));bx.style.width=w+'px';
+  if(st.x!=null){bx.style.left=Math.max(4,Math.min(innerWidth-bx.offsetWidth-4,st.x*innerWidth))+'px';bx.style.top=Math.max(4,Math.min(innerHeight-bx.offsetHeight-4,st.y*innerHeight))+'px';bx.style.right='auto'}}
+function tvMsg(html){const v=$('#tvV');v.querySelector('.tvmsg')?.remove();if(!html)return;const d=document.createElement('div');d.className='tvmsg';d.innerHTML=html;v.appendChild(d)}
+function tvApi(){if(window.YT&&YT.Player)return Promise.resolve();if(TV.apiP)return TV.apiP;TV.apiP=new Promise((res,rej)=>{const prev=window.onYouTubeIframeAPIReady;window.onYouTubeIframeAPIReady=()=>{try{prev&&prev()}catch(e){}res()};const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';s.onerror=()=>{TV.apiP=null;rej()};document.head.appendChild(s);setTimeout(rej,15000)});return TV.apiP}
+function tvPlay(chId,q){const st=tvSt();const c=TV_CH.find(x=>x.id===(chId||st.ch))||TV_CH[0];st.ch=c.id;if(q){st.q=q;if(TV_Q[q].w)st.w=TV_Q[q].w;else st.w=0}tvSave();
+  const bx=$('#tvBox');bx.hidden=false;$('#tvBtn').classList.add('on');$('#tvName').innerHTML=`<i>●</i>${c.n}`;
+  const sel=$('#tvQ');sel.innerHTML=Object.entries(TV_Q).map(([k,v])=>`<option value="${k}"${st.q===k?' selected':''}>${v.n} · ${v.s}</option>`).join('');
+  const v=$('#tvV');v.innerHTML='';const f=document.createElement('iframe');f.id='tvF';f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';f.allowFullscreen=true;f.referrerPolicy='strict-origin-when-cross-origin';f.title=c.n+' live';f.src=tvUrl(c,st.q);v.appendChild(f);
+  tvPlace();const my=f;TV.yt=null;
+  tvApi().then(()=>{if($('#tvF')!==my)return;TV.yt=new YT.Player(my,{events:{
+    onReady:e=>{try{const vq=TV_Q[st.q].vq;if(vq)e.target.setPlaybackQuality(vq);e.target.playVideo()}catch(x){}},
+    onError:e=>{if($('#tvF')!==my)return;tvMsg(`<div>📺 <b>${c.n}</b> is not available here right now</div><div style="font-size:11.5px;opacity:.8">The channel may be off-air, or it does not allow playing outside YouTube${e&&e.data?' (code '+e.data+')':''}.</div><a href="https://www.youtube.com/channel/${c.c}/live" target="_blank" rel="noopener">Open in YouTube ↗</a><div style="font-size:11.5px;opacity:.8">or pick another channel from 📺 TV</div>`)}}})}).catch(()=>{})}
+function tvClose(){const bx=$('#tvBox');bx.hidden=true;$('#tvV').innerHTML='';TV.yt=null;$('#tvBtn').classList.remove('on');if(document.fullscreenElement)document.exitFullscreen().catch(()=>{})}
+function tvInit(){const b=$('#tvBtn');if(!b||b.dataset.w)return;b.dataset.w=1;
+  b.addEventListener('click',e=>{e.stopPropagation();tvMenu()});
+  $('#tvMenu').addEventListener('click',e=>{e.stopPropagation();const ch=e.target.closest('[data-tvch]'),q=e.target.closest('[data-tvq]'),off=e.target.closest('[data-tvoff]');
+    if(ch){tvPlay(ch.dataset.tvch);tvMenu(false)}else if(q){if(!$('#tvBox').hidden)tvPlay(null,q.dataset.tvq);else{tvSt().q=q.dataset.tvq;const w=TV_Q[q.dataset.tvq].w;tvSt().w=w||0;tvSave()}tvMenu(true)}else if(off){tvClose();tvMenu(false)}});
+  document.addEventListener('click',e=>{if(!e.target.closest('#tvMenu'))tvMenu(false)});
+  $('#tvX').addEventListener('click',tvClose);
+  $('#tvQ').addEventListener('change',e=>tvPlay(null,e.target.value));
+  $('#tvFs').addEventListener('click',()=>{const bx=$('#tvBox');if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});else if(bx.requestFullscreen)bx.requestFullscreen().catch(()=>{});else if(bx.webkitRequestFullscreen)bx.webkitRequestFullscreen()});
+  const bx=$('#tvBox'),hd=$('#tvHead'),rz=$('#tvR');let st=null;
+  hd.addEventListener('pointerdown',e=>{if(e.target.closest('button,select'))return;const r=bx.getBoundingClientRect();st={m:'d',x:e.clientX,y:e.clientY,l:r.left,t:r.top};bx.classList.add('drag');try{hd.setPointerCapture(e.pointerId)}catch(x){}});
+  rz.addEventListener('pointerdown',e=>{e.preventDefault();const r=bx.getBoundingClientRect();st={m:'r',x:e.clientX,w:r.width,l:r.left,t:r.top};bx.classList.add('rsz');bx.style.left=r.left+'px';bx.style.top=r.top+'px';bx.style.right='auto';try{rz.setPointerCapture(e.pointerId)}catch(x){}});
+  const mv=e=>{if(!st)return;if(st.m==='d'){bx.style.left=Math.max(4,Math.min(innerWidth-bx.offsetWidth-4,st.l+e.clientX-st.x))+'px';bx.style.top=Math.max(4,Math.min(innerHeight-bx.offsetHeight-4,st.t+e.clientY-st.y))+'px';bx.style.right='auto'}
+    else{const w=Math.max(240,Math.min(Math.min(640,innerWidth-st.l-4),st.w+e.clientX-st.x));bx.style.width=w+'px'}};
+  const up=()=>{if(!st)return;const m=st.m;st=null;bx.classList.remove('drag','rsz');const r=bx.getBoundingClientRect();const T=tvSt();T.x=r.left/innerWidth;T.y=r.top/innerHeight;if(m==='r')T.w=Math.round(r.width);tvSave()};
+  hd.addEventListener('pointermove',mv);rz.addEventListener('pointermove',mv);hd.addEventListener('pointerup',up);rz.addEventListener('pointerup',up);hd.addEventListener('pointercancel',up);rz.addEventListener('pointercancel',up);
+  addEventListener('resize',tvPlace)}
 function mClockInit(){const b=$('#mClock');if(!b||b.dataset.w)return;b.dataset.w=1;let st=null,moved=false;
   const place=p=>{if(!p)return;b.style.left=Math.max(4,Math.min(innerWidth-b.offsetWidth-4,p.x*innerWidth))+'px';b.style.top=Math.max(4,Math.min(innerHeight-b.offsetHeight-60,p.y*innerHeight))+'px';b.style.right='auto';b.style.bottom='auto'};
   mClock();place(store.get('pt.mclpos',null));addEventListener('resize',()=>place(store.get('pt.mclpos',null)));
@@ -1781,7 +1848,7 @@ function botLight(){const el=$('#botLogo');if(!el)return;let up=0,dn=0;for(const
   if(OLOCK&&!OLOCK.done)up++;const k=up&&!dn?'up':dn&&!up?'dn':up&&dn?'up':'';el.className='coin'+(k?' '+k:'');const nb=$('#nBord');if(nb){nb.classList.toggle('up',k==='up');nb.classList.toggle('dn',k==='dn')}el.title=up||dn?`${up} buy · ${dn} sell running`:'No trade running'}
 function optLiveInst(){const L=OLOCK;if(!L||L.done||!L.okey)return;const id='o:'+L.okey;if(S.inst.has(id))return;S.tmp=S.tmp||[];
   if(!S.tmp.find(d=>d.id===id)){S.tmp.unshift({id,src:'upstox',key:L.okey,name:`${L.ix} ${L.strike} ${L.type}`,tsym:`${L.ix} ${L.strike} ${L.type}`,grp:'opt',nse:1,opt:1,sig:false});S.tmp=S.tmp.slice(0,4);syncInstruments()}}
-async function heartbeat(){tickN++;if(tickN%15===0)for(const it of S.inst.values())try{if(it.active&&it.active.status==='open'&&it.def.sig!==false)fadeCheck(it)}catch(e){}if(tickN%5===0||tickN<3)try{mClockInit();mClock()}catch(e){}if(tickN%2===0&&S.view==='log'&&!document.hidden&&LOG.some(r=>r.r==null&&!(r.t<nowSec()-86400*2)))renderLog();if(tickN%5===0)optLiveInst();if(tickN%3===0)botLight();if(tickN%60===30)try{divScan()}catch(e){}if(S.view==='chart')renderSigBox();if(S.view==='log'&&tickN%3===0)renderRunning();if(CFG.token&&nseOpen()){const bk=Math.floor(nowSec()/(CFG.tf*60));if(cfBk!=null&&bk!==cfBk&&(S.view==='opt'||CFG.alerts))setTimeout(()=>confLoad(true),15000);cfBk=bk}if(tickN%60===11)for(const it of S.inst.values())if(it.active&&!it.active.odds)oddsFor(it,it.active);{const S1=LAB.tf*60,bk=Math.floor(nowSec()/S1);if(labBk!=null&&bk!==labBk&&(S.view==='lab'||LAB.alerts))setTimeout(()=>labRun(true).then(()=>{labPreviewAll();renderLab()}),20000);labBk=bk;
+async function heartbeat(){tickN++;if(tickN%15===0)for(const it of S.inst.values())try{if(it.active&&it.active.status==='open'&&it.def.sig!==false)fadeCheck(it)}catch(e){}try{tvInit()}catch(e){}if(tickN%5===0||tickN<3)try{mClockInit();mClock()}catch(e){}if(tickN%2===0&&S.view==='log'&&!document.hidden&&LOG.some(r=>r.r==null&&!(r.t<nowSec()-86400*2)))renderLog();if(tickN%5===0)optLiveInst();if(tickN%3===0)botLight();if(tickN%60===30)try{divScan()}catch(e){}if(S.view==='chart')renderSigBox();if(S.view==='log'&&tickN%3===0)renderRunning();if(CFG.token&&nseOpen()){const bk=Math.floor(nowSec()/(CFG.tf*60));if(cfBk!=null&&bk!==cfBk&&(S.view==='opt'||CFG.alerts))setTimeout(()=>confLoad(true),15000);cfBk=bk}if(tickN%60===11)for(const it of S.inst.values())if(it.active&&!it.active.odds)oddsFor(it,it.active);{const S1=LAB.tf*60,bk=Math.floor(nowSec()/S1);if(labBk!=null&&bk!==labBk&&(S.view==='lab'||LAB.alerts))setTimeout(()=>labRun(true).then(()=>{labPreviewAll();renderLab()}),20000);labBk=bk;
   if(S.view==='lab'){if(tickN%3===0)labLiquidity();if(tickN%5===0){labPreviewAll();renderLab()}}else if(LAB.alerts&&tickN%600===7)labRun(true)}if(tickN%10===3){for(const it of S.inst.values()){if(it.def.n50&&S.filter!=='n50')continue;previewInst(it);markDirty(it)}}if(tickN%5===0){staleCheck();optWatchdog()}if(S.view==='chart')updTimer();if((S.view==='scan'||S.view==='chart')&&tickN%5===0)renderWorld();const p=istParts();const dd=new Date(Date.now()+IST*1000);
   $('#clk').textContent=`${DAYS[dd.getUTCDay()]} ${dd.getUTCDate()} ${MONS[dd.getUTCMonth()]} · ${String(p.h).padStart(2,'0')}:${String(p.m).padStart(2,'0')}:${String(p.s).padStart(2,'0')} IST`;if(tickN%60===1)greet();
   $('#sess').innerHTML=`<b class="${nseOpen()?'on':''}">NSE</b><b class="${usOpen()?'on':''}">US</b><b class="on">CRYPTO</b>`;
@@ -3857,7 +3924,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=17"></script>
+<script type="module" src="auth.js?v=18"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
