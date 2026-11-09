@@ -953,7 +953,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v18.1</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v18.2</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -1078,7 +1078,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v18.1 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v18.2 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -3269,7 +3269,7 @@ function renderSettings(){renderPush();renderSrvMsg();try{swingSettings()}catch(
   $('#sWl').querySelectorAll('input[data-sw]').forEach(x=>x.onchange=()=>toggleSig(x.dataset.sw,true));
   $('#sWl').querySelectorAll('button').forEach(b=>b.onclick=()=>{const w=WATCH[+b.dataset.i];WATCH.splice(+b.dataset.i,1);saveWatch();const el=document.getElementById('c-'+w.id);if(el)el.remove();syncInstruments();connectDelta();renderSettings()})}
 $('#sTokSave').onclick=async()=>{const v=$('#sToken').value.trim().replace(/^Bearer\s+/i,'');CFG.token=v;saveCfg();const m=$('#sTokMsg');m.className='msg';m.textContent='Checking…';
-  try{const j=await jget(`${UAPI}/v2/user/profile`,upHeaders());m.className='msg ok';m.textContent='Connected as '+((j.data&&(j.data.user_name||j.data.user_id))||'Upstox user');setFeed('upstox','live');S.opt.exps=[];upstoxTick()}
+  try{const j=await jget(`${UAPI}/v3/market-quote/ltp?instrument_key=${encodeURIComponent('NSE_INDEX|Nifty 50')}`,upHeaders());const q=Object.values((j&&j.data)||{})[0];if(!q||!(+q.last_price>0))throw Object.assign(new Error('no price returned'),{status:0});m.className='msg ok';m.textContent='Connected ✓ · NIFTY '+(+q.last_price).toLocaleString('en-IN',{maximumFractionDigits:2})+' · live data is on';setFeed('upstox','live');S.opt.exps=[];upstoxTick()}
   catch(e){m.className='msg bad';m.textContent=e.status===401?'Upstox rejected this token. Generate a fresh one and paste it again.':'Saved, but could not reach Upstox ('+e.message+').';setFeed('upstox','err')}renderFeeds()};
 $('#sTokLive').onclick=async()=>{const m=$('#sTokMsg');m.className='msg';m.textContent='Checking live prices…';
   if(!CFG.token){m.className='msg bad';m.textContent='Paste and save a token first.';return}
