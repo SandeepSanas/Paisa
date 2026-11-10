@@ -963,7 +963,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v19</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v19.1</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -1067,9 +1067,9 @@ body:not(.locked) .login{display:none}
 
     <!-- SETTINGS -->
     <section class="view" id="v-lab" hidden>
-      <div class="h2"><h2>Options Lab</h2><span class="sub" id="lbSub">Five option strategies, paper-traded side by side on the server.</span></div>
+      <div class="h2"><h2>Strategy Lab</h2><span class="sub" id="lbSub">Five option strategies, paper-traded side by side on the server.</span></div>
       <div class="panel labctl">
-        <div class="field"><span class="label">Index</span><div class="seg" id="lbIx"></div></div>
+        <div class="field"><span class="label">Market</span><div class="seg" id="lbIx"></div></div>
         <div class="field"><span class="label">Period</span><div class="seg" id="lbPer"></div></div>
       </div>
       <div class="lbgrid" id="lbGrid"></div>
@@ -1077,7 +1077,9 @@ body:not(.locked) .login{display:none}
       <div class="panel" style="padding:10px 14px"><p class="note"><b>How the Lab works.</b> The server runs all five ideas every minute on NIFTY and SENSEX, 9:16 am – 3:30 pm on market days, even when the app is closed. Paper only: nothing here places an order, and your signals, Options tab and AlgoBot are unchanged.<br>
         <b>Same for all five:</b> 5-minute candles · ATM strike of the nearest expiry · stop and targets from the index range, like the Options tab · entries 9:20 am – 2:45 pm (not after 1 pm on expiry day) · AlgoBot's exits (at T1 the stop moves to T1 − ₹5, then trails; everything closed at 3:15 pm) · one trade at a time per strategy per index · 1 lot · ₹165 a trade for charges and slippage.<br>
         <b>1 TradeBot:</b> the current option signal (index trend + PCR + OI change, confirmation meter), as a server copy. <b>2 RSI + MACD:</b> RSI 14 at or below 25 in the last 4 candles, MACD below its signal line and the histogram rising 2 candles → Call; the mirror at 75 → Put. <b>3 Supertrend:</b> a candle touches the Supertrend line and closes back on the trend side, or the line flips. <b>4 VWAP:</b> a futures candle closes across VWAP with above-average volume. <b>5 Volume divergence:</b> a new high on fading buying volume (distribution) → Put; a new low on fading selling volume (accumulation) → Call. Volume comes from NIFTY FUT / SENSEX FUT; volume on rising candles counts as buying, on falling candles as selling.<br>
-        <b>OI agreed / disagreed:</b> at each entry the server notes whether TradeBot's OI reading pointed the same way. It never blocks a trade; it shows whether an OI filter would have helped. <b>Judge a strategy only after about 40 trades.</b> Educational test only.</p></div>
+        <b>OI agreed / disagreed:</b> at each entry the server notes whether TradeBot's OI reading pointed the same way. It never blocks a trade; it shows whether an OI filter would have helped. <br>
+        <b>Bitcoin and Gold</b> run the same five ideas on Delta's futures, 24 hours a day. Column 1 follows the main TradeBot signal for that market; columns 2–5 use the market's own candles and volume. Same for all five: stop beyond the last 5 candles (the app's rule) but never tighter than 0.25% of the price, T1 at 1× and T2 at 2× the risk, half booked at T1 and the stop moved to entry, 2-hour time exit, 0.03 BTC / 1 XAUT, real Delta fees, results in rupees at ₹88 a dollar. There is no option-chain OI for these markets.<br>
+        <b>Judge a strategy only after about 40 trades.</b> Educational test only.</p></div>
     </section>
 
     <!-- NEWS -->
@@ -1089,7 +1091,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v19 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v19.1 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -3530,41 +3532,42 @@ function liqLine(it){const d=it.def;const parts=[];const hrs=labHoursFn(d)(nowSe
   return `<div class="lq">${parts.map(p=>`<span>${p}</span>`).join('')}</div>`}
 function openLabOld(){}
 /* ---------- Options Lab: five option strategies paper-traded on the server (feed/lab + feed/labhist) ---------- */
-const LBS=[['tb','TradeBot','Trend + OI · current'],['rsi','RSI + MACD','Reversal'],['st','Supertrend','Trend'],['vwap','VWAP','Trend · futures volume'],['vol','Volume divergence','Reversal · futures volume']];
-const LB={ix:store.get('lbix','ALL'),per:store.get('lbper','all')};const LB_MIN=40;
-const lbRs=v=>(v<0?'−':'+')+'₹'+Math.abs(Math.round(v)).toLocaleString('en-IN');const lbP=v=>'₹'+(+v).toFixed(2);
-function lbItems(){const H=((window.FEED||{}).labhist||{}).items||[];const now=Date.now();const day=new Date(now+IST*1000).toISOString().slice(0,10);
-  return H.filter(t=>(LB.ix==='ALL'||t.ix===LB.ix)&&(LB.per==='all'||(LB.per==='today'?new Date(t.out+IST*1000).toISOString().slice(0,10)===day:now-t.out<7*86400000)))}
-function lbStats(a){a=a.slice().sort((x,y)=>x.out-y.out);let net=0,pk=0,dd=0,w=0;const ag={n:0,p:0},dg={n:0,p:0};for(const t of a){net+=t.pnl;pk=Math.max(pk,net);dd=Math.min(dd,net-pk);if(t.pnl>0)w++;if(t.oi===1){ag.n++;ag.p+=t.pnl}else if(t.oi===-1){dg.n++;dg.p+=t.pnl}}return {n:a.length,w,net,dd,ag,dg}}
-function openLab(){$('#lbIx').innerHTML=[['ALL','Both'],['NIFTY','NIFTY'],['SENSEX','SENSEX']].map(([k,n])=>`<button class="${LB.ix===k?'on':''}" data-k="${k}">${n}</button>`).join('');
+const LBS=[['tb','TradeBot','Trend + OI · current','Main signal · current'],['rsi','RSI + MACD','Reversal','Reversal'],['st','Supertrend','Trend','Trend'],['vwap','VWAP','Trend · futures volume','Trend · volume'],['vol','Volume divergence','Reversal · futures volume','Reversal · volume']];
+const LBM=[['ALL','Both indices'],['NIFTY','NIFTY'],['SENSEX','SENSEX'],['BTC','Bitcoin'],['GOLD','Gold']];
+const LB={ix:store.get('lbix','ALL'),per:store.get('lbper','all')};const LB_MIN=40;if(!LBM.some(x=>x[0]===LB.ix))LB.ix='ALL';
+const lbX=()=>LB.ix==='BTC'||LB.ix==='GOLD';
+const lbRs=v=>(v<0?'−':'+')+'₹'+Math.abs(Math.round(v)).toLocaleString('en-IN');const lbP=v=>lbX()?'$'+(+v).toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:2}):'₹'+(+v).toFixed(2);
+function lbAll(){const F=window.FEED||{};const H=((lbX()?F.labhistx:F.labhist)||{}).items||[];return H.filter(t=>LB.ix==='ALL'||t.ix===LB.ix)}
+function lbItems(){const now=Date.now();const day=new Date(now+IST*1000).toISOString().slice(0,10);
+  return lbAll().filter(t=>LB.per==='all'||(LB.per==='today'?new Date(t.out+IST*1000).toISOString().slice(0,10)===day:now-t.out<7*86400000))}
+function lbStats(a){a=a.slice().sort((x,y)=>x.out-y.out);let net=0,pk=0,dd=0,w=0,r=0;const ag={n:0,p:0},dg={n:0,p:0};for(const t of a){net+=t.pnl;r+=t.r||0;pk=Math.max(pk,net);dd=Math.min(dd,net-pk);if(t.pnl>0)w++;if(t.oi===1){ag.n++;ag.p+=t.pnl}else if(t.oi===-1){dg.n++;dg.p+=t.pnl}}return {n:a.length,w,net,dd,ag,dg,r}}
+function openLab(){$('#lbIx').innerHTML=LBM.map(([k,n])=>`<button class="${LB.ix===k?'on':''}" data-k="${k}">${n}</button>`).join('');
   $('#lbPer').innerHTML=[['today','Today'],['7d','7 days'],['all','All']].map(([k,n])=>`<button class="${LB.per===k?'on':''}" data-k="${k}">${n}</button>`).join('');
   $('#lbIx').querySelectorAll('button').forEach(b=>b.onclick=()=>{LB.ix=b.dataset.k;store.set('lbix',LB.ix);openLab()});$('#lbPer').querySelectorAll('button').forEach(b=>b.onclick=()=>{LB.per=b.dataset.k;store.set('lbper',LB.per);openLab()});renderLab()}
-function renderLab(){if(S.view!=='lab'||!$('#lbGrid'))return;const F=window.FEED||{},live=F.lab,all=lbItems();const open=((live&&live.open)||[]).filter(t=>LB.ix==='ALL'||t.ix===LB.ix);
+function renderLab(){if(S.view!=='lab'||!$('#lbGrid'))return;const F=window.FEED||{},X=lbX(),live=X?F.labx:F.lab,all=lbItems(),every=lbAll();const open=((live&&live.open)||[]).filter(t=>LB.ix==='ALL'||t.ix===LB.ix);
+  const nm=t=>t.fut?`${t.ix==='BTC'?'Bitcoin':'Gold'} ${esc(t.type)}`:`${esc(t.ix)} ${t.strike} ${esc(t.type)}`;
   // status line
   let sub='Waiting for the server. If this stays, the server update has not been deployed yet.';
-  if(live){const age=Date.now()-(live.upd||0);const vw=Object.entries(live.view||{}).map(([k,v])=>`${k} ${v.spot?Math.round(v.spot).toLocaleString('en-IN'):'—'}${v.pcr?' · PCR '+(+v.pcr).toFixed(2):''} · OI ${v.oi>0?'bullish':v.oi<0?'bearish':'neutral'}`).join('  |  ');
-    sub=(live.market&&age<600000)?`Server updated ${istT(live.upd)} · ${vw}`:`Market closed. The Lab runs 9:16 am – 3:30 pm on market days. Last update ${new Date(live.upd+IST*1000).toISOString().slice(5,16).replace('T',' ')}.`;
-    if(live.market&&age<600000&&live.notes&&live.notes.length)sub+=' · '+live.notes.join('; ')}
+  if(live){const age=Date.now()-(live.upd||0);const fresh=age<600000;
+    if(X){const vw=Object.entries(live.view||{}).map(([k,v])=>`${k==='BTC'?'Bitcoin':'Gold'} $${(+v.spot).toLocaleString('en-US',{maximumFractionDigits:1})}`).join('  |  ');sub=fresh?`Server updated ${istT(live.upd)} · ${vw} · runs 24 hours`:`Waiting for the server. Last update ${new Date(live.upd+IST*1000).toISOString().slice(5,16).replace('T',' ')}.`}
+    else{const vw=Object.entries(live.view||{}).map(([k,v])=>`${k} ${v.spot?Math.round(v.spot).toLocaleString('en-IN'):'—'}${v.pcr?' · PCR '+(+v.pcr).toFixed(2):''} · OI ${v.oi>0?'bullish':v.oi<0?'bearish':'neutral'}`).join('  |  ');
+      sub=(live.market&&fresh)?`Server updated ${istT(live.upd)} · ${vw}`:`Market closed. Index options run 9:16 am – 3:30 pm on market days. Last update ${new Date(live.upd+IST*1000).toISOString().slice(5,16).replace('T',' ')}.`}
+    if(fresh&&(X||live.market)&&live.notes&&live.notes.length)sub+=' · '+live.notes.join('; ')}
   $('#lbSub').textContent=sub;
   // one card per strategy
-  $('#lbGrid').innerHTML=LBS.map(([k,name,kind],n)=>{const st=lbStats(all.filter(t=>t.s===k));const op=open.filter(t=>t.s===k);const col=st.n?(st.net>=0?'--sbuy':'--ssell'):'--wait';
-    const oi=k==='tb'?`<div class="lbrow"><span>OI</span><b>built into this strategy</b></div>`:`<div class="lbrow"><span>OI agreed</span><b>${st.ag.n?st.ag.n+' · '+lbRs(st.ag.p):'—'}</b></div><div class="lbrow"><span>OI disagreed</span><b>${st.dg.n?st.dg.n+' · '+lbRs(st.dg.p):'—'}</b></div>`;
-    const tot=lbStats((((F.labhist||{}).items)||[]).filter(t=>t.s===k)).n;
-    return `<article class="lbcard" style="--sc:var(${col})"><div class="lbh"><b>${n+1} · ${name}</b><span>${kind}</span></div>
+  $('#lbGrid').innerHTML=LBS.map(([k,name,kind,kindX],n)=>{const st=lbStats(all.filter(t=>t.s===k));const op=open.filter(t=>t.s===k);const col=st.n?(st.net>=0?'--sbuy':'--ssell'):'--wait';
+    const oi=X?`<div class="lbrow"><span>Average result</span><b>${st.n?(st.r/st.n>=0?'+':'−')+Math.abs(st.r/st.n).toFixed(2)+'R a trade':'—'}</b></div>`:k==='tb'?`<div class="lbrow"><span>OI</span><b>built into this strategy</b></div>`:`<div class="lbrow"><span>OI agreed</span><b>${st.ag.n?st.ag.n+' · '+lbRs(st.ag.p):'—'}</b></div><div class="lbrow"><span>OI disagreed</span><b>${st.dg.n?st.dg.n+' · '+lbRs(st.dg.p):'—'}</b></div>`;
+    const tot=every.filter(t=>t.s===k).length;
+    return `<article class="lbcard" style="--sc:var(${col})"><div class="lbh"><b>${n+1} · ${name}</b><span>${X?kindX:kind}</span></div>
       <div class="lbnet">${st.n?lbRs(st.net):'₹0'}</div><div class="lbsub">${st.n?`${st.n} trade${st.n===1?'':'s'} · ${Math.round(100*st.w/st.n)}% win · ${lbRs(st.net/st.n)} a trade`:'No closed trades in this period'}</div>
       <div class="lbrow"><span>Worst drop</span><b>${st.n?lbRs(st.dd).replace('+₹0','₹0'):'—'}</b></div>${oi}
       <div class="lbbadge ${tot>=LB_MIN?'ok':''}">${tot>=LB_MIN?`${tot} trades in total · enough to judge`:`Not enough data yet · ${tot} of ${LB_MIN} trades`}</div>
-      ${op.map(t=>`<div class="lbopen"><i>●</i> ${esc(t.ix)} ${t.strike} ${esc(t.type)} · ${lbP(t.fill)} → ${lbP(t.ltp)} (${lbRs((t.ltp-t.fill)*t.qty)}) · SL ${lbP(t.sl)}${t.t1hit?' · T1 ✓':''}</div>`).join('')}</article>`}).join('');
+      ${op.map(t=>`<div class="lbopen"><i>●</i> ${nm(t)} · ${lbP(t.fill)} → ${lbP(t.ltp)} (${lbRs(t.fut?t.pnl:(t.ltp-t.fill)*t.qty)}) · SL ${lbP(t.sl)}${t.t1hit?' · T1 ✓':''}</div>`).join('')}</article>`}).join('');
   // trade list
-  const rows=all.slice().sort((a,b)=>b.out-a.out);const WHY={stop:'Stop',trail:'Trail',t2:'T2',time:'3:15 close',book:'Booked',limit:'Limit',expired:'Closed'};const NM=Object.fromEntries(LBS.map(x=>[x[0],x[1]]));
-  $('#lbLogSub').textContent=rows.length?`${rows.length} closed · since ${new Date(((F.labhist||{}).since||rows[rows.length-1].at)+IST*1000).toISOString().slice(0,10)}`:'Trades appear here as the server closes them.';
-  $('#lbLog').innerHTML=rows.length?rows.slice(0,80).map(t=>{const d=new Date(t.at+IST*1000).toISOString();return `<div class="lbrowL"><div class="w"><b>${NM[t.s]||t.s}</b> · ${esc(t.ix)} ${t.strike} ${esc(t.type)}${t.oi===1?'<span class="lbtag a">OI agreed</span>':t.oi===-1?'<span class="lbtag d">OI disagreed</span>':''}<br><span>${d.slice(5,10)} ${d.slice(11,16)} → ${istT(t.out)} · ${lbP(t.fill)} → ${lbP(t.exit)} · ${WHY[t.why]||t.why}${t.t1hit?' · T1 ✓':''}</span></div><span class="p" style="color:var(${t.pnl>=0?'--sbuy':'--ssell'})">${lbRs(t.pnl)}</span></div>`}).join(''):'<p class="note">No Lab trades yet for this filter.</p>'}
-function renderLabCtl(){$('#lTf').innerHTML=[3,5,15].map(t=>`<button class="${LAB.tf===t?'on':''}" data-t="${t}">${t}m</button>`).join('');
-  $('#lRsi').innerHTML=[15,20,25,30].map(v=>`<button class="${LAB.rsi===v?'on':''}" data-r="${v}">${v} / ${100-v}</button>`).join('');
-  $('#lOpt').innerHTML=[['sweep','Sweep required'],['hours','Active hours only'],['alerts','Lab alerts']].map(([k,n])=>`<button class="chip ${LAB[k]?'on':''}" data-k="${k}">${n}</button>`).join('');
-  $('#lTf').querySelectorAll('button').forEach(b=>b.onclick=()=>{LAB.tf=+b.dataset.t;saveLab();L.seen.clear();openLab()});
-  $('#lRsi').querySelectorAll('button').forEach(b=>b.onclick=()=>{LAB.rsi=+b.dataset.r;saveLab();L.seen.clear();openLab()});
-  $('#lOpt').querySelectorAll('button').forEach(b=>b.onclick=()=>{LAB[b.dataset.k]=!LAB[b.dataset.k];saveLab();if(b.dataset.k!=='alerts')L.seen.clear();openLab()})}
+  const rows=all.slice().sort((a,b)=>b.out-a.out);const WHY={stop:'Stop',trail:'Trail',t2:'T2',time:X?'2-hour exit':'3:15 close',be:'Back to entry',book:'Booked',limit:'Limit',expired:'Closed'};const NM=Object.fromEntries(LBS.map(x=>[x[0],x[1]]));
+  const since=((X?F.labhistx:F.labhist)||{}).since;
+  $('#lbLogSub').textContent=rows.length?`${rows.length} closed · since ${new Date((since||rows[rows.length-1].at)+IST*1000).toISOString().slice(0,10)}`:'Trades appear here as the server closes them.';
+  $('#lbLog').innerHTML=rows.length?rows.slice(0,80).map(t=>{const d=new Date(t.at+IST*1000).toISOString();return `<div class="lbrowL"><div class="w"><b>${NM[t.s]||t.s}</b> · ${nm(t)}${t.oi===1?'<span class="lbtag a">OI agreed</span>':t.oi===-1?'<span class="lbtag d">OI disagreed</span>':''}<br><span>${d.slice(5,10)} ${d.slice(11,16)} → ${istT(t.out)} · ${lbP(t.fill)} → ${lbP(t.exit)} · ${WHY[t.why]||t.why}${t.t1hit?' · T1 ✓':''}</span></div><span class="p" style="color:var(${t.pnl>=0?'--sbuy':'--ssell'})">${lbRs(t.pnl)}</span></div>`}).join(''):'<p class="note">No Lab trades yet for this filter.</p>'}
 function renderLabOld(){if(S.view!=='lab'||!$('#lCmp'))return;const its=labMkts();const f=s=>s.n?`${s.n} · ${Math.round(s.win*100)}% · <b style="color:var(${s.avg>=0?'--sbuy':'--ssell'})">${fmtR(s.avg)}</b>`:'—';
   // comparison table
   let tot={n:0,w:0,net:0},totM={n:0,w:0,net:0};const rows=its.map(it=>{const x=L.res.get(it.def.id);if(!x)return '';const s=x.r.stats,m=x.main;tot.n+=s.n;tot.w+=s.win*s.n;tot.net+=s.net;totM.n+=m.n;totM.w+=m.win*m.n;totM.net+=m.net;
@@ -3939,7 +3942,7 @@ function renderEvStrip(){const el=$('#evStrip');if(!el)return;const f=FD();const
   if(ev){const live=Math.abs(ev.t-now)<=EV_AFTER||(ev.t-now>0&&ev.t-now<EV_BEFORE);el.hidden=false;el.className='evs'+(ev.imp>=3&&live?' hot':'');
     el.innerHTML=`<span class="k">${live?'NOW':'NEXT'}</span><span><b>${esc(ev.name)}</b> at ${istT(ev.t)} IST ${ev.t>now?'· '+inTx(ev.t):''}${ev.imp>=3&&CFG.evPause!==false?` · new signals pause ${istT(ev.t-EV_BEFORE)}–${istT(ev.t+EV_AFTER)} for ${ev.mk.map(m=>MKN[m]).join(', ')}`:''}</span>`;el.onclick=()=>{NW.tab='cal';show('news')};return}
   el.hidden=true}
-let nwT=0;function onFeed(e){if(e&&(e.detail==='lab'||e.detail==='labhist')){try{renderLab()}catch(x){}return}if(e&&e.detail==='signals')srvSyncAll();if(e&&e.detail==='swing'&&typeof booted!=='undefined'&&booted)try{swingCheck()}catch(x){}if(e&&e.detail==='futures'&&typeof booted!=='undefined'&&booted){syncInstruments();renderFilters()}clearTimeout(nwT);nwT=setTimeout(()=>{renderNews();newsBadge();renderEvStrip();if(S.view==='scan')for(const it of S.inst.values())markDirty(it)},250)}
+let nwT=0;function onFeed(e){if(e&&/^lab/.test(e.detail||'')){try{renderLab()}catch(x){}return}if(e&&e.detail==='signals')srvSyncAll();if(e&&e.detail==='swing'&&typeof booted!=='undefined'&&booted)try{swingCheck()}catch(x){}if(e&&e.detail==='futures'&&typeof booted!=='undefined'&&booted){syncInstruments();renderFilters()}clearTimeout(nwT);nwT=setTimeout(()=>{renderNews();newsBadge();renderEvStrip();if(S.view==='scan')for(const it of S.inst.values())markDirty(it)},250)}
 /* notifications settings */
 function npPrefs(){const p=CFG.push||{};const W=SWC();return {sig:p.sig!==false,news:p.news!==false,data:p.data!==false,move:p.move!==false,nse:!!p.nse,swing:W.on!==false,swq:W.quiet!==false,algo:true,mute:allDefs().filter(d=>d.sig===false).map(d=>d.id)}}
 function npMsg(t,ok){const m=$('#npMsg');m.className='msg'+(ok?' ok':'');m.textContent=t||''}
@@ -3977,7 +3980,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=19"></script>
+<script type="module" src="auth.js?v=19.1"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;

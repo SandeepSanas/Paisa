@@ -165,7 +165,7 @@ let labUnsubs = [];
 window.paisaLab = on => {
   if (!on) { for (const u of labUnsubs) try { u(); } catch (e) {} labUnsubs = []; return; }
   if (labUnsubs.length || !unsubs.length) return;
-  for (const n of ['lab', 'labhist']) labUnsubs.push(onSnapshot(doc(db, 'feed', n), snap => { window.FEED[n] = snap.exists() ? snap.data() : null; window.dispatchEvent(new CustomEvent('paisa-feed', { detail: n })); }, () => {}));
+  for (const n of ['lab', 'labhist', 'labx', 'labhistx']) labUnsubs.push(onSnapshot(doc(db, 'feed', n), snap => { window.FEED[n] = snap.exists() ? snap.data() : null; window.dispatchEvent(new CustomEvent('paisa-feed', { detail: n })); }, () => {}));
 };
 
 /* ---------------- push notifications ---------------- */
