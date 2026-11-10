@@ -159,7 +159,14 @@ function startFeeds() {
     window.dispatchEvent(new CustomEvent('paisa-feed', { detail: n }));
   }, err => { window.FEED.err = err.code || err.message; window.dispatchEvent(new CustomEvent('paisa-feed', { detail: 'err' })); }));
 }
-function stopFeeds() { for (const u of unsubs) try { u(); } catch (e) {} unsubs = []; }
+function stopFeeds() { for (const u of unsubs) try { u(); } catch (e) {} unsubs = []; try { window.paisaLab(false); } catch (e) {} }
+// Options Lab feeds: listened to only while the Lab tab is open (the history list can be large)
+let labUnsubs = [];
+window.paisaLab = on => {
+  if (!on) { for (const u of labUnsubs) try { u(); } catch (e) {} labUnsubs = []; return; }
+  if (labUnsubs.length || !unsubs.length) return;
+  for (const n of ['lab', 'labhist']) labUnsubs.push(onSnapshot(doc(db, 'feed', n), snap => { window.FEED[n] = snap.exists() ? snap.data() : null; window.dispatchEvent(new CustomEvent('paisa-feed', { detail: n })); }, () => {}));
+};
 
 /* ---------------- push notifications ---------------- */
 const DEV_KEY = 'pt.dev';
