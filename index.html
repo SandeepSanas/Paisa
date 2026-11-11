@@ -766,7 +766,7 @@ body.locked .nbord{display:none!important}
 .krbtn{position:absolute;top:0;width:28px;height:24px;border-radius:7px;border:1px solid color-mix(in srgb,var(--cyan) 45%,transparent);background:color-mix(in srgb,var(--cyan) 10%,transparent);color:var(--cyan);font:700 12px/1 var(--f-ui);display:grid;place-items:center;cursor:pointer;padding:0}.krbtn.p{right:32px}.krbtn.o{right:0}
 .krfull{position:fixed;inset:0;z-index:9000;display:flex;flex-direction:column;gap:6px;padding:max(10px,env(safe-area-inset-top)) 10px max(10px,env(safe-area-inset-bottom));background:color-mix(in srgb,var(--void,#04060d) 95%,transparent);backdrop-filter:blur(8px)}.krfull[hidden]{display:none}
 .krfh{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.krfh b{font:700 17px/1.2 var(--f-ui);margin-right:auto}.krfh span{order:3;width:100%;font:600 10.5px/1.2 var(--f-ui);color:var(--dim);letter-spacing:.04em;text-transform:uppercase}.krfh button{height:32px;padding:0 12px;border-radius:9px;border:1px solid color-mix(in srgb,var(--cyan) 45%,transparent);background:color-mix(in srgb,var(--cyan) 10%,transparent);color:var(--cyan);font:700 13px var(--f-ui);cursor:pointer}
-#krFullCv{flex:1;min-height:0;width:100%;display:block;touch-action:none;cursor:crosshair}.krff{display:flex;flex-wrap:wrap;gap:6px 14px;font:500 12.5px/1.35 var(--f-ui);color:var(--dim)}.krff b{color:var(--text)}.krff .h{width:100%;font-size:11px;opacity:.8}
+#krFullCv{flex:1 1 auto;min-height:0;max-height:min(100%,92vw);margin:auto 0;width:100%;display:block;touch-action:none;cursor:crosshair}.krff{display:flex;flex-wrap:wrap;gap:6px 14px;font:500 12.5px/1.35 var(--f-ui);color:var(--dim)}.krff b{color:var(--text)}.krff .h{width:100%;font-size:11px;opacity:.8}
 .lbgrid.kr{grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}@media(min-width:1000px){.lbgrid.kr{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .krfan{width:100%;height:auto;display:block;margin:2px 0 4px;color:var(--dim)}.krfan text{font:600 10px var(--f-ui);fill:currentColor}.krsig{padding:5px 8px;border-radius:7px;font:700 12px/1.3 var(--f-ui);background:color-mix(in srgb,var(--wait) 16%,transparent)}.krsig.b{color:var(--sbuy);background:color-mix(in srgb,var(--sbuy) 14%,transparent)}.krsig.s{color:var(--ssell);background:color-mix(in srgb,var(--ssell) 14%,transparent)}.krsig small{display:block;font-weight:500;color:var(--dim)}
 .lbcard{--sc:var(--wait);padding:11px 12px 10px;border-radius:14px;background:var(--panel);border:1px solid var(--line-hi);border-top:3px solid var(--sc);display:flex;flex-direction:column;gap:5px;min-width:0}
@@ -971,7 +971,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v19.5</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v19.6</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -1101,7 +1101,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v19.5 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v19.6 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -3607,6 +3607,7 @@ const KRI={BTC:'d:BTCUSD',GOLD:'d:XAUTUSD',NIFTY:'u:NSE_INDEX|Nifty 50',SENSEX:'
 const KR={st:{},raf:0,lt:0,full:null,C:null,vis:false,html:''};const KR_SC=1300,KR_TH=2100,KR_DR=3700,KR_CN=800;
 const krE=x=>x<=0?0:x>=1?1:1-Math.pow(1-x,3);
 function krHexA(c,a){c=String(c).trim();let m=c.match(/^#([0-9a-f]{3})$/i);if(m)c='#'+m[1].split('').map(z=>z+z).join('');m=c.match(/^#([0-9a-f]{6})/i);if(!m)return c;const n=parseInt(m[1],16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`}
+function krDark(c){const m=String(c).match(/^#([0-9a-f]{6})/i);if(!m)return false;const n=parseInt(m[1],16);return (.299*(n>>16&255)+.587*(n>>8&255)+.114*(n&255))<140}
 function krCols(){const cs=getComputedStyle(document.documentElement),g=(k,d)=>cs.getPropertyValue(k).trim()||d;return {up:g('--sbuy','#00ff9d'),dn:g('--ssell','#ff2d6f'),dim:g('--dim','#8090b8'),cy:g('--cyan','#29e7ff'),tx:g('--text','#dbe6ff'),bg:g('--panel-solid','#0b1122'),on:g('--on-acc','#04060d')}}
 function krFmt(v,x){x=+x;return v.usd?x.toLocaleString('en-US',{maximumFractionDigits:x<100?2:x<10000?1:0}):x.toLocaleString('en-IN',{maximumFractionDigits:x<10000?1:0})}
 function krTime(v,t){const d=new Date(t*1000+IST*1000).toISOString();return v.tf>=3600?d.slice(8,10)+'/'+d.slice(5,7)+' '+d.slice(11,16):d.slice(11,16)}
@@ -3616,14 +3617,14 @@ function krLive(k,v){const it=S.inst&&S.inst.get(KRI[k]);if(!it||it.price==null)
 function krPaint(cv,k,v,now,o){o=o||{};const C=KR.C||(KR.C=krCols()),dpr=Math.min(2,window.devicePixelRatio||1),W=cv.clientWidth,H=cv.clientHeight;if(!W||!H)return;
   if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr)}
   const x=cv.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,W,H);
-  const st=KR.st[k]||{t0:0},el=now-st.t0,big=!!o.full,mono=`600 ${big?11.5:9.5}px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace`;
-  const hist=v.bars.slice(-(o.n||28)),n=hist.length,N=n+v.pred,R=big?74:54,T=big?26:22,B=big?20:15,PW=W-R,sw=PW/N,X=i=>sw*(i+.5);
+  const st=KR.st[k]||{t0:0},el=now-st.t0,big=!!o.full,FS=big?Math.max(11,Math.min(15,W/70)):9.5,mono=`600 ${FS}px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace`;
+  const hist=v.bars.slice(-(o.n||28)),n=hist.length,N=n+v.pred,R=big?82:54,T=big?34:22,B=big?24:15,PW=W-R,SPL=big?PW*.6:PW*n/N,sw=SPL/n,sf=(PW-SPL)/v.pred,X=i=>sw*(i+.5);
   const lv=krLive(k,v);let lo=Infinity,hi=-Infinity;const ext=p=>{if(p<lo)lo=p;if(p>hi)hi=p};
   hist.forEach(b=>{ext(b[3]);ext(b[2])});v.paths.forEach(p=>p.forEach(ext));if(lv){lv.bars.forEach(b=>{ext(b.l);ext(b.h)});if(lv.fresh)ext(lv.price)}
-  const pad=(hi-lo)*.07||1;lo-=pad;hi+=pad;const Y=p=>T+(H-T-B)*(hi-p)/(hi-lo),x0=X(n-1),y0=Y(v.last),fx=i=>X(n+i);
+  const pad=(hi-lo)*.07||1;lo-=pad;hi+=pad;const Y=p=>T+(H-T-B)*(hi-p)/(hi-lo),x0=X(n-1),y0=Y(v.last),fx=i=>SPL+sf*(i+.5);
   const scanning=el<KR_SC,scanX=scanning?krE(el/KR_SC)*x0*1.03:1e9,f=el<KR_TH?0:krE((el-KR_TH)/(KR_DR-KR_TH)),done=el>=KR_DR;
   // grid + future zone
-  x.lineWidth=1;x.strokeStyle=krHexA(C.dim,.1);for(let g=1;g<5;g++){const yy=T+(H-T-B)*g/5;x.beginPath();x.moveTo(0,yy);x.lineTo(PW,yy);x.stroke()}
+  x.lineWidth=1;x.strokeStyle=krHexA(C.dim,.1);x.font=mono;x.fillStyle=krHexA(C.dim,.7);for(let g=1;g<5;g++){const yy=T+(H-T-B)*g/5;x.beginPath();x.moveTo(0,yy);x.lineTo(PW,yy);x.stroke();if(big){const t=krFmt(v,hi-(hi-lo)*(yy-T)/(H-T-B)),tw=x.measureText(t).width;x.fillStyle=krHexA(C.bg,.8);x.fillRect(2,yy-FS-5,tw+6,FS+4);x.fillStyle=krHexA(C.dim,.85);x.fillText(t,5,yy-5)}}
   let gz=x.createLinearGradient(x0,0,PW,0);gz.addColorStop(0,krHexA(C.cy,.09));gz.addColorStop(1,krHexA(C.cy,0));x.fillStyle=gz;x.fillRect(x0,T-4,PW-x0,H-T-B+4);
   // history candles (lit up by the scan)
   for(let i=0;i<n;i++){const b=hist[i],cx=X(i),c=b[4]>=b[1]?C.up:C.dn;x.globalAlpha=scanning?(cx<scanX?1:.14):1;x.strokeStyle=x.fillStyle=c;x.beginPath();x.moveTo(cx,Y(b[2]));x.lineTo(cx,Y(b[3]));x.stroke();const yo=Y(b[1]),yc=Y(b[4]);x.fillRect(cx-sw*.32,Math.min(yo,yc),sw*.64,Math.max(1,Math.abs(yo-yc)))}
@@ -3635,37 +3636,37 @@ function krPaint(cv,k,v,now,o){o=o||{};const C=KR.C||(KR.C=krCols()),dpr=Math.mi
   const hx=fx(v.hold-1);x.strokeStyle=krHexA(C.cy,.25);x.beginPath();x.moveTo(hx,T-4);x.lineTo(hx,H-B);x.stroke();x.setLineDash([]);
   if(el>=KR_TH){x.font=mono;x.fillStyle=krHexA(C.cy,.7);x.textAlign='center';const hz=v.tf*v.hold/60;x.fillText(hz>=60?hz/60+'h':hz+'m',hx,T-6);x.textAlign='left'}
   // forecast band, paths, middle line
-  if(el>=KR_TH){x.fillStyle=krHexA(C.cy,.15*f);x.beginPath();x.moveTo(x0,y0);v.q90.forEach((p,i)=>x.lineTo(fx(i),Y(p)));for(let i=v.pred-1;i>=0;i--)x.lineTo(fx(i),Y(v.q10[i]));x.closePath();x.fill();
+  if(el>=KR_TH){x.fillStyle=krHexA(C.cy,(big?.08:.15)*f);x.beginPath();x.moveTo(x0,y0);v.q90.forEach((p,i)=>x.lineTo(fx(i),Y(p)));for(let i=v.pred-1;i>=0;i--)x.lineTo(fx(i),Y(v.q10[i]));x.closePath();x.fill();
     const prog=(el-KR_TH)/(KR_DR-KR_TH),tips=[];
-    v.paths.forEach((p,j)=>{const fr=done?1:krE(Math.min(1,prog*1.6-j*.03));if(fr<=0)return;const up=p[p.length-1]>=v.last,m=fr*v.pred;x.strokeStyle=up?C.up:C.dn;x.globalAlpha=done?.28:.6;x.beginPath();x.moveTo(x0,y0);let lx=x0,ly=y0;
+    v.paths.forEach((p,j)=>{const fr=done?1:krE(Math.min(1,prog*1.6-j*.03));if(fr<=0)return;const up=p[p.length-1]>=v.last,m=fr*v.pred;x.strokeStyle=up?C.up:C.dn;x.globalAlpha=done?(big?.22:.28):.6;x.lineWidth=big?1.2:1;x.beginPath();x.moveTo(x0,y0);let lx=x0,ly=y0;
       for(let i=0;i<v.pred;i++){const a=Math.min(1,m-i);if(a<=0)break;const nx=lx+(fx(i)-lx)*a,ny=ly+(Y(p[i])-ly)*a;x.lineTo(nx,ny);if(a<1){lx=nx;ly=ny;break}lx=fx(i);ly=Y(p[i])}x.stroke();if(!done&&fr<1)tips.push([lx,ly,up])});
     x.globalAlpha=1;tips.forEach(([a,b2,up])=>{x.fillStyle=up?C.up:C.dn;x.shadowColor=x.fillStyle;x.shadowBlur=10;x.beginPath();x.arc(a,b2,2.2,0,7);x.fill()});x.shadowBlur=0;
-    if(f>.35){const fr=krE((f-.35)/.65),m=fr*v.pred;x.strokeStyle=C.tx;x.lineWidth=2;x.setLineDash([6,4]);x.shadowColor=C.cy;x.shadowBlur=8;x.beginPath();x.moveTo(x0,y0);for(let i=0;i<v.pred;i++){const a=Math.min(1,m-i);if(a<=0)break;const px=i?fx(i-1):x0,py=i?Y(v.q50[i-1]):y0;x.lineTo(px+(fx(i)-px)*a,py+(Y(v.q50[i])-py)*a)}x.stroke();x.setLineDash([]);x.shadowBlur=0;x.lineWidth=1}
+    if(f>.35){const fr=krE((f-.35)/.65),m=fr*v.pred;x.strokeStyle=C.tx;x.lineWidth=big?2.6:2;x.setLineDash(big?[9,6]:[6,4]);x.shadowColor=C.cy;x.shadowBlur=8;x.beginPath();x.moveTo(x0,y0);for(let i=0;i<v.pred;i++){const a=Math.min(1,m-i);if(a<=0)break;const px=i?fx(i-1):x0,py=i?Y(v.q50[i-1]):y0;x.lineTo(px+(fx(i)-px)*a,py+(Y(v.q50[i])-py)*a)}x.stroke();x.setLineDash([]);x.shadowBlur=0;x.lineWidth=1}
     if(done){for(let j=0;j<v.paths.length;j+=3){const p=v.paths[j],ph=((now/2800)+j/v.paths.length)%1,m=ph*v.pred,i=Math.floor(m),a=m-i,px=i?fx(i-1):x0,py=i?Y(p[i-1]):y0,qx=fx(Math.min(i,v.pred-1)),qy=Y(p[Math.min(i,v.pred-1)]);
       x.fillStyle=p[p.length-1]>=v.last?C.up:C.dn;x.globalAlpha=Math.sin(Math.PI*ph)*.9;x.beginPath();x.arc(px+(qx-px)*a,py+(qy-py)*a,1.7,0,7);x.fill()}x.globalAlpha=1;
       const ph=(el-KR_DR)%9000;if(ph<1600){const sx=krE(ph/1600)*PW,g=x.createLinearGradient(sx-50,0,sx,0);g.addColorStop(0,krHexA(C.cy,0));g.addColorStop(1,krHexA(C.cy,.1));x.fillStyle=g;x.fillRect(sx-50,T-4,50,H-T-B+4)}}}
   // pulse at "now"
   if(el>=KR_SC){const ph=(now%1600)/1600;x.strokeStyle=C.cy;x.globalAlpha=(1-ph)*(done?.45:.9);x.beginPath();x.arc(x0,y0,3+ph*(big?22:14),0,7);x.stroke();x.globalAlpha=1;x.fillStyle=C.cy;x.beginPath();x.arc(x0,y0,2.4,0,7);x.fill()}
   // live: real candles forming on top of the forecast
-  if(lv&&done){lv.bars.forEach(b=>{const cx=fx(b.i),c=b.c>=b.o?C.up:C.dn;x.strokeStyle=x.fillStyle=c;x.beginPath();x.moveTo(cx,Y(b.h));x.lineTo(cx,Y(b.l));x.stroke();const yo=Y(b.o),yc=Y(b.c);x.fillRect(cx-sw*.32,Math.min(yo,yc),sw*.64,Math.max(1,Math.abs(yo-yc)));x.strokeStyle=C.cy;x.globalAlpha=.8;x.strokeRect(cx-sw*.32-1.5,Math.min(yo,yc)-1.5,sw*.64+3,Math.max(1,Math.abs(yo-yc))+3);x.globalAlpha=1});
+  if(lv&&done){const cw=Math.min(sf,big?sw*1.6:sf)*.6;lv.bars.forEach(b=>{const cx=fx(b.i),c=b.c>=b.o?C.up:C.dn;x.strokeStyle=x.fillStyle=c;x.beginPath();x.moveTo(cx,Y(b.h));x.lineTo(cx,Y(b.l));x.stroke();const yo=Y(b.o),yc=Y(b.c);x.fillRect(cx-cw/2,Math.min(yo,yc),cw,Math.max(1,Math.abs(yo-yc)));x.strokeStyle=C.cy;x.globalAlpha=.8;x.strokeRect(cx-cw/2-1.5,Math.min(yo,yc)-1.5,cw+3,Math.max(1,Math.abs(yo-yc))+3);x.globalAlpha=1});
     if(lv.fresh){const lb=lv.bars[lv.bars.length-1],lx=lb?fx(lb.i):x0,ly=Y(lv.price),ph=(now%1200)/1200;x.setLineDash([3,3]);x.strokeStyle=krHexA(C.cy,.45);x.beginPath();x.moveTo(0,ly);x.lineTo(PW,ly);x.stroke();x.setLineDash([]);
       x.fillStyle=C.cy;x.shadowColor=C.cy;x.shadowBlur=12;x.beginPath();x.arc(lx,ly,3,0,7);x.fill();x.shadowBlur=0;x.strokeStyle=C.cy;x.globalAlpha=1-ph;x.beginPath();x.arc(lx,ly,3+ph*10,0,7);x.stroke();x.globalAlpha=1}}
   // right-hand labels: forecast end (count up) + live price tag
   x.font=mono;x.textBaseline='middle';const e=v.pred-1,cn=done?Math.min(1,(el-KR_DR)/KR_CN):0,lyT=lv&&lv.fresh?Y(lv.price):-99,lbl=(p,c)=>{if(!done)return;const y=Math.min(H-B-4,Math.max(T,Y(p)));if(Math.abs(y-lyT)<15)return;x.fillStyle=c;x.fillText(krFmt(v,v.last+(p-v.last)*krE(cn)),PW+5,y)};
   lbl(v.q90[e],C.up);lbl(v.q50[e],C.tx);lbl(v.q10[e],C.dn);
-  if(lv&&lv.fresh&&done){const ly=Math.min(H-B-8,Math.max(T+2,Y(lv.price))),t=krFmt(v,lv.price),w=x.measureText(t).width+8;x.fillStyle=C.cy;x.fillRect(PW+2,ly-8,Math.min(R-3,w),16);x.fillStyle=C.on;x.fillText(t,PW+6,ly+.5)}
+  if(lv&&lv.fresh&&done){const ly=Math.min(H-B-8,Math.max(T+2,Y(lv.price))),t=krFmt(v,lv.price),w=x.measureText(t).width+8;x.fillStyle=C.cy;x.fillRect(PW+2,ly-FS*.85,Math.min(R-3,w),FS*1.7);x.fillStyle=krDark(C.cy)?'#ffffff':'#04060d';x.fillText(t,PW+6,ly+.5)}
   // HUD
   x.textBaseline='alphabetic';x.fillStyle=C.cy;const ctx=v.tf>=3600?400:256,rnd=()=>Math.random().toString(16).slice(2,6).toUpperCase();let hud;
   if(scanning)hud=`▸ SCANNING ${Math.round(krE(el/KR_SC)*ctx)}/${ctx} CANDLES`;else if(el<KR_TH)hud=`◈ KRONOS AI · SAMPLING 20 FUTURES · ${rnd()}`;else if(!done)hud=`◈ PROJECTING ${Math.min(v.pred,Math.ceil(f*v.pred))}/${v.pred} CANDLES`;
   else hud=lv&&lv.fresh?`● LIVE ${new Date(Date.now()+IST*1000).toISOString().slice(11,19)} · ${Math.round(v.up*100)}% UP`:`◈ FORECAST ${istT(v.at)} · ${Math.round(v.up*100)}% UP`;
-  x.globalAlpha=done&&lv&&lv.fresh?.65+.35*Math.sin(now/300):1;x.fillText(hud,4,big?15:12);x.globalAlpha=1;
+  x.globalAlpha=done&&lv&&lv.fresh?.65+.35*Math.sin(now/300):1;x.fillText(hud,4,big?FS+6:12);x.globalAlpha=1;
   // time axis
   x.fillStyle=C.dim;x.font=mono;const tE=krTime(v,v.ft[e]),wE=x.measureText(tE).width;x.fillText(krTime(v,hist[0][0]),2,H-3);x.textAlign='end';x.fillText(tE,W-2,H-3);x.textAlign='center';if(x0+16<W-2-wE-4)x.fillText('now',x0,H-3);x.textAlign='left';
   // crosshair (full screen)
-  if(o.cross!=null&&done){const sl=Math.max(0,Math.min(N-1,Math.floor(o.cross/sw))),cx=X(sl);x.strokeStyle=krHexA(C.tx,.55);x.beginPath();x.moveTo(cx,T-4);x.lineTo(cx,H-B);x.stroke();let L;
+  if(o.cross!=null&&done){const sl=o.cross<SPL?Math.max(0,Math.min(n-1,Math.floor(o.cross/sw))):Math.min(N-1,n+Math.max(0,Math.floor((o.cross-SPL)/sf))),cx=sl<n?X(sl):fx(sl-n);x.strokeStyle=krHexA(C.tx,.55);x.beginPath();x.moveTo(cx,T-4);x.lineTo(cx,H-B);x.stroke();let L;
     if(sl<n){const b=hist[sl];L=[krTime(v,b[0]),`Open ${krFmt(v,b[1])}  High ${krFmt(v,b[2])}`,`Low ${krFmt(v,b[3])}  Close ${krFmt(v,b[4])}`]}
     else{const i=sl-n,end=v.paths.map(p=>p[i]),upn=end.filter(z=>z>v.last).length,act=lv&&lv.bars.find(b=>b.i===i);L=[krTime(v,v.ft[i])+' · forecast',`Middle ${krFmt(v,v.q50[i])} (${krNum('±',v.q50[i]/v.last*100-100)})`,`Range ${krFmt(v,v.q10[i])} – ${krFmt(v,v.q90[i])}`,`${Math.round(upn/end.length*100)}% of paths above now`].concat(act?[`Actual ${krFmt(v,act.c)}`]:[])}
-    x.font=mono;const bw=Math.max(...L.map(t=>x.measureText(t).width))+14,bh=L.length*16+8,bx=cx+10+bw>PW?cx-10-bw:cx+10;x.fillStyle=krHexA(C.bg,.94);x.strokeStyle=krHexA(C.cy,.6);x.fillRect(bx,T+4,bw,bh);x.strokeRect(bx,T+4,bw,bh);x.fillStyle=C.tx;L.forEach((t,j)=>x.fillText(t,bx+7,T+20+j*16))}}
+    x.font=mono;const lh=FS*1.45,bw=Math.max(...L.map(t=>x.measureText(t).width))+14,bh=L.length*lh+10,bx=cx+10+bw>PW?cx-10-bw:cx+10;x.fillStyle=krHexA(C.bg,.94);x.strokeStyle=krHexA(C.cy,.6);x.fillRect(bx,T+4,bw,bh);x.strokeRect(bx,T+4,bw,bh);x.fillStyle=C.tx;L.forEach((t,j)=>x.fillText(t,bx+7,T+4+lh*(j+.95)))}}
 function krNum(f,n,v){return f==='%'?Math.round(n)+'%':f==='±'?(n>=0?'+':'−')+Math.abs(n).toFixed(2)+'%':(v&&v.usd?'$':'')+krFmt(v||{},n)}
 function krCount(t,K){document.querySelectorAll('[data-kc]').forEach(e=>{const k=e.dataset.kc,v=K[k],st=KR.st[k];if(!v||!st)return;const el=t-st.t0,n=+e.dataset.n,f=e.dataset.f,fin=krNum(f,n,v);
   let s;if(el<KR_DR)s=el<KR_SC?'— —':fin.replace(/\d/g,()=>Math.floor(Math.random()*10));else if(el<KR_DR+KR_CN){const a=krE((el-KR_DR)/KR_CN),from=f==='%'||f==='±'?0:v.last;s=krNum(f,from+(n-from)*a,v)}else s=fin;if(e.textContent!==s)e.textContent=s})}
@@ -3679,10 +3680,10 @@ function krOpen(k){const v=((window.FEED||{}).kronos||{})[k];if(!v||!v.paths)ret
     const cv=$('#krFullCv'),P=new Map();let pin=null;const xOf=e=>e.clientX-cv.getBoundingClientRect().left;
     cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);P.set(e.pointerId,xOf(e));if(P.size===2){const a=[...P.values()];pin={d:Math.abs(a[0]-a[1])||1,n:KR.full.n}}else KR.full.cross=xOf(e)});
     cv.addEventListener('pointermove',e=>{if(!KR.full)return;if(P.has(e.pointerId))P.set(e.pointerId,xOf(e));if(P.size===2&&pin){const a=[...P.values()],d=Math.abs(a[0]-a[1])||1;KR.full.n=Math.max(8,Math.min(48,Math.round(pin.n*pin.d/d)))}else if(e.pointerType==='mouse'||P.size===1)KR.full.cross=xOf(e)});
-    const up=e=>{P.delete(e.pointerId);if(P.size<2)pin=null};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);cv.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'&&KR.full)KR.full.cross=null});
+    const up=e=>{P.delete(e.pointerId);if(P.size<2)pin=null;if(e.pointerType!=='mouse'&&!P.size){clearTimeout(KR.ct);KR.ct=setTimeout(()=>{if(KR.full)KR.full.cross=null},2500)}};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);cv.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'&&KR.full)KR.full.cross=null});
     cv.addEventListener('wheel',e=>{e.preventDefault();KR.full.n=Math.max(8,Math.min(48,KR.full.n+(e.deltaY>0?4:-4)))},{passive:false});
     $('#krFullX').onclick=krClose;$('#krFullP').onclick=()=>KR.full&&krReplay(KR.full.k);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&KR.full)krClose()})}
-  KR.full={k,n:24,cross:null};el.hidden=false;krFullInfo();krReplay(k)}
+  KR.full={k,n:48,cross:null,full:true};el.hidden=false;krFullInfo();krReplay(k)}
 function krClose(){KR.full=null;const el=$('#krFull');if(el)el.hidden=true}
 function krFullInfo(){if(!KR.full||!$('#krFull'))return;const k=KR.full.k,v=((window.FEED||{}).kronos||{})[k];if(!v)return;const hz=v.tf*v.hold/60,hzT=hz>=60?hz/60+'h':hz+'m';
   $('#krFullT').textContent=KRN[k]+' · Kronos AI';$('#krFullS').textContent=`${v.tf>=3600?'1-hour':'15-min'} candles · forecast ${istT(v.at)} · 20 paths · paper only`;
@@ -4125,7 +4126,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=19.5"></script>
+<script type="module" src="auth.js?v=19.6"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
