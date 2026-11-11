@@ -761,6 +761,9 @@ body.locked .nbord{display:none!important}
 .stale b{color:var(--wall)}
 .lbgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px;margin:10px 0}
 @media(min-width:1000px){.lbgrid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.labctl .field{min-width:0;max-width:100%}#lbIx{flex-wrap:wrap;max-width:100%}#lbIx button{flex:1 1 auto}
+.lbgrid.kr{grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}@media(min-width:1000px){.lbgrid.kr{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.krfan{width:100%;height:auto;display:block;margin:2px 0 4px;color:var(--dim)}.krfan text{font:600 10px var(--f-ui);fill:currentColor}.krsig{padding:5px 8px;border-radius:7px;font:700 12px/1.3 var(--f-ui);background:color-mix(in srgb,var(--wait) 16%,transparent)}.krsig.b{color:var(--sbuy);background:color-mix(in srgb,var(--sbuy) 14%,transparent)}.krsig.s{color:var(--ssell);background:color-mix(in srgb,var(--ssell) 14%,transparent)}.krsig small{display:block;font-weight:500;color:var(--dim)}
 .lbcard{--sc:var(--wait);padding:11px 12px 10px;border-radius:14px;background:var(--panel);border:1px solid var(--line-hi);border-top:3px solid var(--sc);display:flex;flex-direction:column;gap:5px;min-width:0}
 .lbcard .lbh{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}.lbcard .lbh b{font:700 14.5px/1.2 var(--f-ui)}.lbcard .lbh span{font:600 10px/1 var(--f-ui);color:var(--dim);letter-spacing:.03em;text-transform:uppercase}
 .lbcard .lbnet{font:800 22px/1.1 var(--f-num,var(--f-ui));color:var(--sc)}.lbcard .lbsub{font:500 12px/1.3 var(--f-ui);color:var(--dim)}
@@ -963,7 +966,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v19.3</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v19.4</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -1093,7 +1096,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v19.3 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v19.4 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -3559,9 +3562,9 @@ function renderCondor(){const F=window.FEED||{},L=F.condor,H=((F.condorhist||{})
   $('#lbLog').innerHTML=n?H.map(x=>`<div class="lbrowL"><div class="w"><b>Expiry ${esc(x.exp)}</b> · sold ${x.sc} CE / ${x.sp} PE, credit ${pt(x.credit)} pts<br><span>${dt(x.at)} → ${dt(x.out)} · NIFTY ${pt(x.spotIn)} → ${pt(x.spotOut)} · ${esc(x.why)} · charges ₹${x.costs}</span></div><span class="p" style="color:var(${x.pnl>=0?'--sbuy':'--ssell'})">${rs(x.pnl)}</span></div>`).join(''):'<p class="note">No finished weeks yet.</p>'}
 /* ---------- Options Lab: five option strategies paper-traded on the server (feed/lab + feed/labhist) ---------- */
 const LBS=[['tb','TradeBot','Trend + OI · current','Main signal · current'],['rsi','RSI + MACD','Reversal','Reversal'],['st','Supertrend','Trend','Trend'],['vwap','VWAP','Trend · futures volume','Trend · volume'],['vol','Volume divergence','Reversal · futures volume','Reversal · volume'],['ag','Anti-Gravity script','','Own stop and exits']];
-const LBM=[['ALL','Both indices'],['NIFTY','NIFTY'],['SENSEX','SENSEX'],['BTC','Bitcoin'],['GOLD','Gold'],['CONDOR','NIFTY condor']];
+const LBM=[['ALL','Both indices'],['NIFTY','NIFTY'],['SENSEX','SENSEX'],['BTC','Bitcoin'],['GOLD','Gold'],['CONDOR','NIFTY condor'],['KRONOS','Kronos AI']];
 const LB={ix:store.get('lbix','ALL'),per:store.get('lbper','all')};const LB_MIN=40;if(!LBM.some(x=>x[0]===LB.ix))LB.ix='ALL';
-const lbX=()=>LB.ix==='BTC'||LB.ix==='GOLD';
+const lbX=()=>LB.ix==='BTC'||LB.ix==='GOLD';const KRN={BTC:'Bitcoin',GOLD:'Gold',NIFTY:'NIFTY',SENSEX:'SENSEX'};
 const lbRs=v=>(v<0?'−':'+')+'₹'+Math.abs(Math.round(v)).toLocaleString('en-IN');const lbP=v=>lbX()?'$'+(+v).toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:2}):'₹'+(+v).toFixed(2);
 function lbAll(){const F=window.FEED||{};const H=((lbX()?F.labhistx:F.labhist)||{}).items||[];return H.filter(t=>LB.ix==='ALL'||t.ix===LB.ix)}
 function lbItems(){const now=Date.now();const day=new Date(now+IST*1000).toISOString().slice(0,10);
@@ -3570,7 +3573,7 @@ function lbStats(a){a=a.slice().sort((x,y)=>x.out-y.out);let net=0,pk=0,dd=0,w=0
 function openLab(){$('#lbIx').innerHTML=LBM.map(([k,n])=>`<button class="${LB.ix===k?'on':''}" data-k="${k}">${n}</button>`).join('');
   $('#lbPer').innerHTML=[['today','Today'],['7d','7 days'],['all','All']].map(([k,n])=>`<button class="${LB.per===k?'on':''}" data-k="${k}">${n}</button>`).join('');
   $('#lbIx').querySelectorAll('button').forEach(b=>b.onclick=()=>{LB.ix=b.dataset.k;store.set('lbix',LB.ix);openLab()});$('#lbPer').querySelectorAll('button').forEach(b=>b.onclick=()=>{LB.per=b.dataset.k;store.set('lbper',LB.per);openLab()});renderLab()}
-function renderLab(){if(S.view!=='lab'||!$('#lbGrid'))return;if(LB.ix==='CONDOR'){renderCondor();return}$('#lbPer').closest('.field').hidden=false;const F=window.FEED||{},X=lbX(),live=X?F.labx:F.lab,all=lbItems(),every=lbAll();const open=((live&&live.open)||[]).filter(t=>LB.ix==='ALL'||t.ix===LB.ix);
+function renderLab(){if(S.view!=='lab'||!$('#lbGrid'))return;$('#lbGrid').classList.toggle('kr',LB.ix==='KRONOS');if(LB.ix==='KRONOS'){renderKronos();return}if(LB.ix==='CONDOR'){renderCondor();return}$('#lbPer').closest('.field').hidden=false;const F=window.FEED||{},X=lbX(),live=X?F.labx:F.lab,all=lbItems(),every=lbAll();const open=((live&&live.open)||[]).filter(t=>LB.ix==='ALL'||t.ix===LB.ix);
   const nm=t=>t.fut?`${t.ix==='BTC'?'Bitcoin':'Gold'} ${esc(t.type)}`:`${esc(t.ix)} ${t.strike} ${esc(t.type)}`;
   // status line
   let sub='Waiting for the server. If this stays, the server update has not been deployed yet.';
@@ -3594,6 +3597,42 @@ function renderLab(){if(S.view!=='lab'||!$('#lbGrid'))return;if(LB.ix==='CONDOR'
   const since=((X?F.labhistx:F.labhist)||{}).since;
   $('#lbLogSub').textContent=rows.length?`${rows.length} closed · since ${new Date((since||rows[rows.length-1].at)+IST*1000).toISOString().slice(0,10)}`:'Trades appear here as the server closes them.';
   $('#lbLog').innerHTML=rows.length?rows.slice(0,80).map(t=>{const d=new Date(t.at+IST*1000).toISOString();return `<div class="lbrowL"><div class="w"><b>${NM[t.s]||t.s}</b> · ${nm(t)}${t.oi===1?'<span class="lbtag a">OI agreed</span>':t.oi===-1?'<span class="lbtag d">OI disagreed</span>':''}<br><span>${d.slice(5,10)} ${d.slice(11,16)} → ${istT(t.out)} · ${lbP(t.fill)} → ${lbP(t.exit)} · ${WHY[t.why]||t.why}${t.t1hit?' · T1 ✓':''}</span></div><span class="p" style="color:var(${t.pnl>=0?'--sbuy':'--ssell'})">${lbRs(t.pnl)}</span></div>`}).join(''):'<p class="note">No Lab trades yet for this filter.</p>'}
+/* ---------- Kronos AI forecast (Cloud Run job → feed/kronos + feed/kronoshist; paper only) ---------- */
+function krFan(v){const W=600,H=220,R=64,PW=W-R,bars=v.bars.slice(-36),n=bars.length,N=n+v.pred,sw=PW/N,X=i=>sw*(i+.5);
+  let lo=Infinity,hi=-Infinity;bars.forEach(b=>{lo=Math.min(lo,b[3]);hi=Math.max(hi,b[2])});v.paths.forEach(p=>p.forEach(x=>{lo=Math.min(lo,x);hi=Math.max(hi,x)}));const pad=(hi-lo)*.06||1;lo-=pad;hi+=pad;const Y=x=>8+(H-26)*(hi-x)/(hi-lo);
+  const fmt=x=>v.usd?(+x).toLocaleString('en-US',{maximumFractionDigits:x<100?2:0}):(+x).toLocaleString('en-IN',{maximumFractionDigits:0});
+  let g='';bars.forEach((b,i)=>{const up=b[4]>=b[1],c=up?'var(--sbuy)':'var(--ssell)',x=X(i);g+=`<line x1="${x}" x2="${x}" y1="${Y(b[2])}" y2="${Y(b[3])}" stroke="${c}" stroke-width="1"/><rect x="${x-sw*.32}" y="${Math.min(Y(b[1]),Y(b[4]))}" width="${sw*.64}" height="${Math.max(1,Math.abs(Y(b[1])-Y(b[4])))}" fill="${c}"/>`});
+  const x0=X(n-1),fx=i=>X(n+i),band=v.q90.map((y,i)=>`${fx(i)},${Y(y)}`).concat(v.q10.map((y,i)=>`${fx(i)},${Y(y)}`).reverse());
+  g+=`<polygon points="${x0},${Y(v.last)} ${band.join(' ')}" fill="var(--wait)" opacity=".16"/>`;
+  v.paths.forEach(p=>{const up=p[p.length-1]>=v.last;g+=`<polyline points="${x0},${Y(v.last)} ${p.map((y,i)=>fx(i)+','+Y(y)).join(' ')}" fill="none" stroke="var(${up?'--sbuy':'--ssell'})" stroke-width="1" opacity=".32"/>`});
+  g+=`<polyline points="${x0},${Y(v.last)} ${v.q50.map((y,i)=>fx(i)+','+Y(y)).join(' ')}" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 3"/><line x1="${x0}" x2="${x0}" y1="6" y2="${H-18}" stroke="currentColor" stroke-dasharray="2 3" opacity=".6"/>`;
+  const e=v.pred-1,lab=(y,t,c)=>`<text x="${PW+5}" y="${Math.min(H-20,Math.max(12,Y(y)+3))}" style="fill:${c}">${t}</text>`;
+  g+=lab(v.q90[e],fmt(v.q90[e]),'var(--sbuy)')+lab(v.q50[e],fmt(v.q50[e]),'currentColor')+lab(v.q10[e],fmt(v.q10[e]),'var(--ssell)');
+  const tl=t=>{const d=new Date(t*1000+IST*1000).toISOString();return v.tf>=3600?d.slice(8,10)+'/'+d.slice(5,7)+' '+d.slice(11,16):d.slice(11,16)};
+  g+=`<text x="2" y="${H-4}">${tl(bars[0][0])}</text><text x="${x0}" y="${H-4}" text-anchor="middle">now</text><text x="${PW}" y="${H-4}" text-anchor="end">${tl(v.ft[e])}</text>`;
+  return `<svg class="krfan" viewBox="0 0 ${W} ${H}" role="img" aria-label="Kronos forecast fan">${g}</svg>`}
+function renderKronos(){const F=window.FEED||{},K=F.kronos||{},H=((F.kronoshist||{}).items)||[];$('#lbPer').closest('.field').hidden=true;
+  const ups=Object.values(K).filter(v=>v&&v.upd).map(v=>v.upd);
+  $('#lbSub').textContent=ups.length?`Kronos-small AI · 20 possible paths each · Bitcoin & Gold every hour, NIFTY & SENSEX every 15 min in market hours · paper only · last update ${istT(Math.max(...ups))}`:'Waiting for the Kronos server. If this stays, the Kronos setup in Google Cloud has not been run yet.';
+  const pr=(v,x)=>v.usd?'$'+(+x).toLocaleString('en-US',{maximumFractionDigits:2}):(+x).toLocaleString('en-IN',{maximumFractionDigits:2});
+  $('#lbGrid').innerHTML=Object.entries(KRN).map(([k,name])=>{const v=K[k];const its=H.filter(t=>t.ix===k),st=lbStats(its);const col=st.n?(st.net>=0?'--sbuy':'--ssell'):'--wait';
+    const res=`<div class="lbrow"><span>Paper result</span><b style="color:var(${col})">${st.n?lbRs(st.net)+' · '+st.n+' trade'+(st.n===1?'':'s')+' · '+Math.round(100*st.w/st.n)+'% win':'no closed trades yet'}</b></div>${st.n?`<div class="lbrow"><span>Average · worst drop</span><b>${(st.r/st.n>=0?'+':'−')+Math.abs(st.r/st.n).toFixed(2)}R · ${lbRs(st.dd).replace('+₹0','₹0')}</b></div>`:''}<div class="lbbadge ${st.n>=LB_MIN?'ok':''}">${st.n>=LB_MIN?`${st.n} trades · enough to judge`:`Not enough data yet · ${st.n} of ${LB_MIN} trades`}</div>`;
+    if(!v||!v.paths)return `<article class="lbcard"><div class="lbh"><b>${name}</b><span>${k==='BTC'||k==='GOLD'?'1-hour':'15-min'}</span></div><div class="lbsub">${v&&v.err?'Server problem: '+esc(v.err):'No forecast yet.'+(k==='NIFTY'||k==='SENSEX'?' Runs 9:31 am – 3:31 pm on market days.':' Runs at :31 every hour.')}</div>${res}</article>`;
+    const hz=v.tf*v.hold/60,hzT=hz>=60?(hz/60)+' hour'+(hz>60?'s':''):hz+' min',h=v.hold-1,old=Date.now()-v.upd>(v.tf>=3600?2*3600e3:3600e3);
+    const sg=v.sig>0?'b':v.sig<0?'s':'',sgT=v.sig>0?'BUY signal (paper)':v.sig<0?'SELL signal (paper)':'No trade';
+    const why=v.note?v.note:v.sig?`${Math.round((v.sig>0?v.up:1-v.up)*100)}% of paths agree · expected move ${v.mv>=0?'+':''}${v.mv.toFixed(2)}% vs costs ${v.cost}%`:`needs ≥65% of paths one way and a move above ${(2*v.cost).toFixed(2)}% (2× costs)`;
+    const o=v.open;
+    return `<article class="lbcard" style="--sc:var(${v.mv>=0?'--sbuy':'--ssell'})"><div class="lbh"><b>${name}</b><span>${v.tf>=3600?'1-hour':'15-min'} candles · forecast ${istT(v.at)}${old?' · old':''}</span></div>
+      ${krFan(v)}
+      <div class="lbrow"><span>Chance higher in ${hzT}</span><b>${Math.round(v.up*100)}%</b></div>
+      <div class="lbrow"><span>Middle forecast in ${hzT}</span><b>${pr(v,v.med)} (${v.mv>=0?'+':''}${v.mv.toFixed(2)}%)</b></div>
+      <div class="lbrow"><span>Likely range in ${hzT}</span><b>${pr(v,v.lo)} – ${pr(v,v.hi)}</b></div>
+      <div class="krsig ${sg}">${sgT}<small>${esc(why)}</small></div>
+      ${o?`<div class="lbopen"><i style="color:var(${o.side>0?'--sbuy':'--ssell'})">●</i> Paper ${o.side>0?'BUY':'SELL'} ${pr(v,o.fill)} → ${pr(v,v.last)} (${lbRs(o.pnl||0)}) · SL ${pr(v,o.sl)} · exits ${istT(o.t_out*1000)}</div>`:''}
+      ${v.err&&v.errAt>v.upd?`<div class="lbsub" style="color:var(--ssell)">Last run failed: ${esc(v.err)}</div>`:''}${res}</article>`}).join('');
+  const WHY={stop:'Stop',time:'Time exit',close315:'3:15 close'};const rows=H.slice().sort((a,b)=>b.out-a.out);
+  $('#lbLogSub').textContent=rows.length?`${rows.length} closed Kronos paper trade${rows.length===1?'':'s'}`:'Kronos paper trades appear here as they close.';
+  $('#lbLog').innerHTML=rows.length?rows.slice(0,80).map(t=>{const d=new Date(t.at+IST*1000).toISOString(),v={usd:t.ix==='BTC'||t.ix==='GOLD'};return `<div class="lbrowL"><div class="w"><b>Kronos</b> · ${KRN[t.ix]} ${esc(t.type)} · ${Math.round((t.type==='BUY'?t.up:1-t.up)*100)}% paths<br><span>${d.slice(5,10)} ${d.slice(11,16)} → ${istT(t.out)} · ${pr(v,t.fill)} → ${pr(v,t.exit)} · ${WHY[t.why]||t.why} · ${t.r>=0?'+':''}${t.r}R</span></div><span class="p" style="color:var(${t.pnl>=0?'--sbuy':'--ssell'})">${lbRs(t.pnl)}</span></div>`}).join(''):'<p class="note">No Kronos trades yet.</p>'}
 function renderLabOld(){if(S.view!=='lab'||!$('#lCmp'))return;const its=labMkts();const f=s=>s.n?`${s.n} · ${Math.round(s.win*100)}% · <b style="color:var(${s.avg>=0?'--sbuy':'--ssell'})">${fmtR(s.avg)}</b>`:'—';
   // comparison table
   let tot={n:0,w:0,net:0},totM={n:0,w:0,net:0};const rows=its.map(it=>{const x=L.res.get(it.def.id);if(!x)return '';const s=x.r.stats,m=x.main;tot.n+=s.n;tot.w+=s.win*s.n;tot.net+=s.net;totM.n+=m.n;totM.w+=m.win*m.n;totM.net+=m.net;
@@ -3968,7 +4007,7 @@ function renderEvStrip(){const el=$('#evStrip');if(!el)return;const f=FD();const
   if(ev){const live=Math.abs(ev.t-now)<=EV_AFTER||(ev.t-now>0&&ev.t-now<EV_BEFORE);el.hidden=false;el.className='evs'+(ev.imp>=3&&live?' hot':'');
     el.innerHTML=`<span class="k">${live?'NOW':'NEXT'}</span><span><b>${esc(ev.name)}</b> at ${istT(ev.t)} IST ${ev.t>now?'· '+inTx(ev.t):''}${ev.imp>=3&&CFG.evPause!==false?` · new signals pause ${istT(ev.t-EV_BEFORE)}–${istT(ev.t+EV_AFTER)} for ${ev.mk.map(m=>MKN[m]).join(', ')}`:''}</span>`;el.onclick=()=>{NW.tab='cal';show('news')};return}
   el.hidden=true}
-let nwT=0;function onFeed(e){if(e&&/^(lab|condor)/.test(e.detail||'')){try{renderLab()}catch(x){}return}if(e&&e.detail==='signals')srvSyncAll();if(e&&e.detail==='swing'&&typeof booted!=='undefined'&&booted)try{swingCheck()}catch(x){}if(e&&e.detail==='futures'&&typeof booted!=='undefined'&&booted){syncInstruments();renderFilters()}clearTimeout(nwT);nwT=setTimeout(()=>{renderNews();newsBadge();renderEvStrip();if(S.view==='scan')for(const it of S.inst.values())markDirty(it)},250)}
+let nwT=0;function onFeed(e){if(e&&/^(lab|condor|kronos)/.test(e.detail||'')){try{renderLab()}catch(x){}return}if(e&&e.detail==='signals')srvSyncAll();if(e&&e.detail==='swing'&&typeof booted!=='undefined'&&booted)try{swingCheck()}catch(x){}if(e&&e.detail==='futures'&&typeof booted!=='undefined'&&booted){syncInstruments();renderFilters()}clearTimeout(nwT);nwT=setTimeout(()=>{renderNews();newsBadge();renderEvStrip();if(S.view==='scan')for(const it of S.inst.values())markDirty(it)},250)}
 /* notifications settings */
 function npPrefs(){const p=CFG.push||{};const W=SWC();return {sig:p.sig!==false,news:p.news!==false,data:p.data!==false,move:p.move!==false,nse:!!p.nse,swing:W.on!==false,swq:W.quiet!==false,algo:true,mute:allDefs().filter(d=>d.sig===false).map(d=>d.id)}}
 function npMsg(t,ok){const m=$('#npMsg');m.className='msg'+(ok?' ok':'');m.textContent=t||''}
@@ -4006,7 +4045,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=19.3"></script>
+<script type="module" src="auth.js?v=19.4"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
