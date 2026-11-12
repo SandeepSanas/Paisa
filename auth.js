@@ -243,6 +243,12 @@ window.paisaAlgo = {
 window.paisaKronos = {   // the user's own Kronos stock watchlist (max 10), read by the Kronos server
   load: async () => { if (!cur) return []; const d = await getDoc(ref(cur.uid, 'kronos', 'watch')); return d.exists() ? (d.data().list || []) : []; },
   save: async list => { if (!cur) throw new Error('Sign in first'); await setDoc(ref(cur.uid, 'kronos', 'watch'), { list: list.slice(0, 10), updatedAt: Date.now() }); },
+  // private: my quantities + trailing points (read by the server), my manual bookings, my trailing-stop results (written by the server)
+  saveSettings: async st => { if (!cur) throw new Error('Sign in first'); await setDoc(ref(cur.uid, 'kronos', 'settings'), { ...st, updatedAt: Date.now() }); },
+  book: async (key, rec) => { if (!cur) throw new Error('Sign in first'); await setDoc(ref(cur.uid, 'kronos', 'manual'), { b: { [key]: rec } }, { merge: true }); },
+  watchMine: cb => { if (!cur) return () => {}; const uid = cur.uid;
+    const u = ['settings', 'manual', 'book'].map(k => onSnapshot(ref(uid, 'kronos', k), s => cb(k, s.exists() ? s.data() : null), () => {}));
+    return () => u.forEach(f => f()); },
 };
 window.paisaSearch = async q => {
   if (!symFn) { const f = await import(SDK + 'firebase-functions.js'); symFn = f.httpsCallable(f.getFunctions(app, 'asia-south1'), 'symbols', { timeout: 40000 }); }
