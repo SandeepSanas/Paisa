@@ -240,6 +240,10 @@ window.paisaAlgo = {
   settings: async v => { if (!cur) throw new Error('Sign in first'); await setDoc(ref(cur.uid, 'algo', 'settings'), { ...v, updatedAt: Date.now() }); },
   cmd: async type => { if (!cur) throw new Error('Sign in first'); await setDoc(ref(cur.uid, 'algo', 'cmd'), { id: type + '-' + Date.now(), type, at: Date.now() }); },
 };
+window.paisaKronos = {   // the user's own Kronos stock watchlist (max 10), read by the Kronos server
+  load: async () => { if (!cur) return []; const d = await getDoc(ref(cur.uid, 'kronos', 'watch')); return d.exists() ? (d.data().list || []) : []; },
+  save: async list => { if (!cur) throw new Error('Sign in first'); await setDoc(ref(cur.uid, 'kronos', 'watch'), { list: list.slice(0, 10), updatedAt: Date.now() }); },
+};
 window.paisaSearch = async q => {
   if (!symFn) { const f = await import(SDK + 'firebase-functions.js'); symFn = f.httpsCallable(f.getFunctions(app, 'asia-south1'), 'symbols', { timeout: 40000 }); }
   return (await symFn({ q })).data;
