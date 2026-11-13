@@ -775,7 +775,7 @@ body.locked .nbord{display:none!important}
 .krog{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 10px;margin-top:6px}.krog span{font:500 11px/1.25 var(--f-ui);color:var(--dim);min-width:0}.krog b{display:block;font:700 13px/1.3 var(--f-ui);color:var(--text);overflow-wrap:anywhere}.krwarn{margin-top:6px;padding:6px 8px;border-radius:8px;font:700 12px/1.35 var(--f-ui);color:var(--ssell);background:color-mix(in srgb,var(--ssell) 14%,transparent);animation:krb 1.1s ease-in-out infinite}
 .krtabs{display:flex;gap:4px;margin-bottom:8px}.krtabs button{flex:1;height:30px;border-radius:8px;border:1px solid color-mix(in srgb,var(--dim) 30%,transparent);background:transparent;color:var(--dim);font:700 12.5px var(--f-ui);cursor:pointer}.krtabs button.on{border-color:var(--cyan);color:var(--cyan);background:color-mix(in srgb,var(--cyan) 12%,transparent)}
 .krtr .p small,.krog b small{display:block;font-size:.88em;font-weight:600;opacity:.9}
-.krbook{width:100%;margin-top:8px;height:38px;border-radius:9px;border:1px solid var(--cyan);background:color-mix(in srgb,var(--cyan) 16%,transparent);color:var(--cyan);font:800 14px var(--f-ui);cursor:pointer}.krmy{margin-top:8px;padding:7px 9px;border-radius:8px;background:color-mix(in srgb,var(--sbuy) 10%,transparent);font:600 12.5px/1.4 var(--f-ui)}.krmy .krpp{display:block;font-size:15px;margin-top:2px}.krmy .krpp small{display:block;font-size:12.5px;color:inherit}.krmy small{display:block;color:var(--dim);font-weight:500}
+.krbook{width:100%;margin-top:8px;height:38px;border-radius:9px;border:1px solid var(--cyan);background:color-mix(in srgb,var(--cyan) 16%,transparent);color:var(--cyan);font:800 14px var(--f-ui);cursor:pointer}.krmy{margin-top:8px;padding:7px 9px;border-radius:8px;background:color-mix(in srgb,var(--sbuy) 10%,transparent);font:600 12.5px/1.4 var(--f-ui)}.krmy .krpp{display:block;font-size:15px;margin-top:2px}.krmy .krpp small{display:block;font-size:12.5px}.krmy small{display:block;color:var(--dim);font-weight:500}
 .krset{border:1px solid color-mix(in srgb,var(--dim) 30%,transparent);border-radius:10px;padding:6px 10px}.krset summary{cursor:pointer;font:700 13px/1.8 var(--f-ui);color:var(--cyan)}.krsetg{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);gap:6px 8px;align-items:center;margin:6px 0}.krsetg .h{font:700 11px var(--f-ui);color:var(--dim);text-transform:uppercase;letter-spacing:.04em}.krsetg>span{font:600 12.5px var(--f-ui)}.krsetg label{display:flex;align-items:center;gap:4px;min-width:0}.krsetg input{width:100%;min-width:0;height:32px;border-radius:7px;border:1px solid color-mix(in srgb,var(--dim) 40%,transparent);background:transparent;color:var(--text);padding:0 6px;font:600 13px var(--f-ui)}.krsetg i{font:500 10.5px var(--f-ui);color:var(--dim);font-style:normal;white-space:nowrap}.krsave{height:34px;padding:0 18px;border-radius:9px;border:1px solid var(--cyan);background:color-mix(in srgb,var(--cyan) 16%,transparent);color:var(--cyan);font:800 13px var(--f-ui)}
 .krrepb{align-self:flex-start;height:32px;padding:0 14px;border-radius:9px;border:1px solid color-mix(in srgb,var(--cyan) 45%,transparent);background:color-mix(in srgb,var(--cyan) 10%,transparent);color:var(--cyan);font:700 13px var(--f-ui);cursor:pointer}
 .kreport{flex:1;min-height:0;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font:500 12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--text);background:color-mix(in srgb,var(--dim) 7%,transparent);border-radius:10px;padding:12px}
@@ -1004,7 +1004,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v20.5</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v20.6</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -1136,7 +1136,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v20.5 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v20.6 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -3763,7 +3763,8 @@ function krPaint(cv,k,v,now,o){o=o||{};const C=KR.C||(KR.C=krCols()),dpr=Math.mi
       x.fillStyle=C.cy;x.shadowColor=C.cy;x.shadowBlur=12;x.beginPath();x.arc(lx,ly,3,0,7);x.fill();x.shadowBlur=0;x.strokeStyle=C.cy;x.globalAlpha=1-ph;x.beginPath();x.arc(lx,ly,3+ph*10,0,7);x.stroke();x.globalAlpha=1}}
   // right-hand labels: forecast end (count up) + live price tag
   x.font=mono;x.textBaseline='middle';const e=v.pred-1,cn=done?Math.min(1,(el-KR_DR)/KR_CN):0,lyT=lv&&lv.fresh?Y(lv.price):-99,lbl=(p,c)=>{if(!done)return;const y=Math.min(H-B-4,Math.max(T,Y(p)));if(Math.abs(y-lyT)<15)return;x.fillStyle=c;x.fillText(krFmt(v,v.last+(p-v.last)*krE(cn)),PW+5,y)};
-  lbl(v.q90[e],C.up);lbl(v.q50[e],C.tx);lbl(v.q10[e],C.dn);
+  {const gap=FS+4,L3=[[v.q90[e],C.up],[v.q50[e],C.tx],[v.q10[e],C.dn]].map(([p,c])=>({p,c,y:Math.min(H-B-4,Math.max(T,Y(p)))}));for(let k=1;k<3;k++)if(L3[k].y-L3[k-1].y<gap)L3[k].y=L3[k-1].y+gap;if(L3[2].y>H-B-4){const sh=L3[2].y-(H-B-4);L3.forEach(q=>q.y-=sh)}
+    if(done)for(const q of L3){if(Math.abs(q.y-lyT)<FS+2)continue;x.fillStyle=q.c;x.fillText(krFmt(v,v.last+(q.p-v.last)*krE(cn)),PW+5,q.y)}}
   if(lv&&lv.fresh&&done){const ly=Math.min(H-B-8,Math.max(T+2,Y(lv.price))),t=krFmt(v,lv.price),w=x.measureText(t).width+8;x.fillStyle=C.cy;x.fillRect(PW+2,ly-FS*.85,Math.min(R-3,w),FS*1.7);x.fillStyle=krDark(C.cy)?'#ffffff':'#04060d';x.fillText(t,PW+6,ly+.5)}
   // HUD
   x.textBaseline='alphabetic';x.fillStyle=C.cy;const ctx=v.tf>=3600?400:256,rnd=()=>Math.random().toString(16).slice(2,6).toUpperCase();let hud;
@@ -3845,7 +3846,7 @@ async function krBookNow(k){const v=((window.FEED||{}).kronos||{})[k],o=v&&v.ope
   KR.arm=null;const key=`${k}_${o.at}`,rec={px:+px,t:Date.now(),ix:k,at:o.at,side:o.side,fill:o.fill};KR.mine.manual={...KR.mine.manual,[key]:rec};KR.html='';renderLab();
   try{if(!window.paisaKronos||!window.paisaKronos.book)throw new Error('Sign in first');await window.paisaKronos.book(key,rec)}catch(e){const m={...KR.mine.manual};delete m[key];KR.mine.manual=m;KR.html='';renderLab();const b2=document.querySelector(`[data-krbook="${k}"]`);if(b2)b2.textContent='Could not book: '+e.message}}
 function krMyBox(k,v,o){const key=`${k}_${o.at}`,m=(KR.mine.manual||{})[key],t=(KR.mine.trail||{})[key],u=v.usd,f=x=>(u?'$':'')+(+x).toLocaleString(u?'en-US':'en-IN',{maximumFractionDigits:2});
-  const pp=(px)=>{const p=(px-o.fill)*o.side,r=krRsMine(k,p,o.fill,o.qty);return `<b class="krpp" style="color:var(${r>=0?'--sbuy':'--ssell'})">${p>=0?'+':'−'}${Math.abs(p).toLocaleString('en-IN',{maximumFractionDigits:2})} pts<small>${lbRs(r)}</small></b>`};
+  const pp=(px)=>{const p=(px-o.fill)*o.side,r=krRsMine(k,p,o.fill,o.qty);return `<b class="krpp"><span style="color:var(${p>=0?'--sbuy':'--ssell'})">${p>=0?'+':'−'}${Math.abs(p).toLocaleString('en-IN',{maximumFractionDigits:2})} pts</span><small style="color:var(${r>=0?'--sbuy':'--ssell'})">${lbRs(r)} after charges</small></b>`};
   const e=[m&&{t:m.t,px:m.px,w:'Booked by you'},t&&{t:t.t,px:t.px,w:'Your trailing stop hit'}].filter(Boolean).sort((a,b)=>a.t-b.t)[0];
   if(e)return `<div class="krmy">✓ ${e.w} at ${f(e.px)} (${istT(e.t)})${pp(e.px)}<small>Saved in My trades. The Kronos trade keeps running.</small></div>`;
   const tp=((KR.mine.settings||{}).trail||{})[/^S_/.test(k)?'STOCK_PCT':k];
@@ -3897,7 +3898,7 @@ function renderKronos(){const F=window.FEED||{},K=F.kronos||{},H=((F.kronoshist|
   const pr=(v,x)=>x==null?'—':(v.usd?'$':'')+(+x).toLocaleString(v.usd?'en-US':'en-IN',{maximumFractionDigits:2});
   const WHY={stop:'Stop',time:'Time up',close315:'3:15 close',target:'Target ✓',lock:'No-loss lock',trail:'Trailing lock',reverse:'Kronos reversed'};const TAG={kr2:'<i class="kr2">2×</i>',kr3:'<i class="kr2">rev</i>'};
   const res=(k,v,its)=>{const u=v?v.usd:(k==='BTC'||k==='GOLD'),pts=x=>(x>=0?'+':'−')+Math.abs(x).toLocaleString('en-IN',{maximumFractionDigits:u?1:2}),tab=KR.tab[k]||'kr';
-    const amt=(p,r)=>`<b class="p" style="color:var(${r>=0?'--sbuy':'--ssell'})">${pts(p)} pts<small>${lbRs(r)}</small></b>`;
+    const amt=(p,r)=>`<b class="p"><span style="color:var(${p>=0?'--sbuy':'--ssell'})">${pts(p)} pts</span><small style="color:var(${r>=0?'--sbuy':'--ssell'})">${lbRs(r)} net</small></b>`;
     const sum=st=>`<div class="krsum"><span>Trades<b>${st.n}</b></span><span>Points<b style="color:var(${st.pts>=0?'--sbuy':'--ssell'})">${st.n?pts(st.pts):'0'}</b></span><span>Win rate<b>${st.n?Math.round(100*st.w/st.n)+'%':'—'}</b></span><span>Net<b style="color:var(${st.net>=0?'--sbuy':'--ssell'})">${st.n?lbRs(st.net):'₹0'}</b></span></div>`;
     const tabs=`<div class="krtabs"><button data-krtab="${k}|kr" class="${tab==='kr'?'on':''}">Kronos trades</button><button data-krtab="${k}|my" class="${tab==='my'?'on':''}">My trades</button></div>`;
     const row=(at,type,tag,fill,exit,w,p,r)=>{const d=new Date(at+IST*1000).toISOString();return `<div class="krtr"><span class="d">${d.slice(8,10)}/${d.slice(5,7)} ${d.slice(11,16)}</span><b style="color:var(${type==='BUY'?'--sbuy':'--ssell'})">${type}${tag}</b><span class="e">${pr({usd:u},fill)} → ${exit==null?'running':pr({usd:u},exit)}</span><span class="w">${w}</span>${p==null?'<b class="p">—</b>':amt(p,r)}</div>`};
@@ -3919,7 +3920,7 @@ function renderKronos(){const F=window.FEED||{},K=F.kronos||{},H=((F.kronoshist|
     const scB=sc.n&&sc.b?sc.b.filter(x=>x[1]).map(x=>`${x[0]} sure → right ${x[2]}% (${x[1]})`).join(' · '):'';
     const ot=(o,lab)=>{if(!o)return '';const dis=v.at>o.at&&(o.side>0?v.up<.5:v.up>.5),opp=v.sig===-o.side;
     return `<div class="kropen" data-krt="${k}|${lab}"><div class="krot"><i class="krdot"></i><b style="color:var(${o.side>0?'--sbuy':'--ssell'})">TRADE OPEN · ${o.side>0?'BUY':'SELL'}</b>${lab==='open2'?' <i class="kr2">2×</i>':lab==='open3'?' <i class="kr2">rev</i>':''}<span>since ${istT(o.at)} · exits ${istT(o.t_out*1000)}</span></div>
-      <div class="krog"><span>Entry<b>${pr(v,o.fill)}</b></span><span>Now<b data-l="p">${pr(v,o.ltp||o.fill)}</b></span><span>If booked now<b data-l="pnl">—</b></span><span>Stop<b data-l="sl">${pr(v,o.sl)}</b></span><span>Target<b>${pr(v,o.tg)}</b></span><span>Best<b data-l="best">—</b></span></div><div class="krst" data-l="st"></div>${lab==='open'?krMyBox(k,v,o):''}${dis?`<div class="krwarn">⚠ Kronos changed its mind · now ${Math.round(v.up*100)}% UP${opp?' (opposite signal)':''} · consider booking${lab==='open3'&&opp?' · this test trade exits on reversal':''}</div>`:''}</div>`};
+      <div class="krog"><span>Entry<b>${pr(v,o.fill)}</b></span><span>Now<b data-l="p">${pr(v,o.ltp||o.fill)}</b></span><span>If booked now<b data-l="pnl">—</b></span><span>Stop<b data-l="sl">${pr(v,o.sl)}</b></span><span>Target<b>${pr(v,o.tg)}</b></span><span>Best<b data-l="best">—</b></span><span>Break-even<b>${pr(v,o.fill*(1+o.side*(v.cost||0)/100))}</b></span></div><div class="krst" data-l="st"></div>${lab==='open'?krMyBox(k,v,o):''}${dis?`<div class="krwarn">⚠ Kronos changed its mind · now ${Math.round(v.up*100)}% UP${opp?' (opposite signal)':''} · consider booking${lab==='open3'&&opp?' · this test trade exits on reversal':''}</div>`:''}</div>`};
     return `<article class="lbcard${v.open||v.open2||v.open3?' kron':''}" style="--sc:var(${v.mv>=0?'--sbuy':'--ssell'})"><div class="lbh"><b>${esc(name)}</b><span>${v.tf>=3600?'1-hour':'15-min'} candles · forecast ${istT(v.at)}${old?' · old':''}</span></div>
       ${v.contract||v.mnote?`<div class="krsub">${esc(v.contract||'')}${v.contract&&v.mnote?' · ':''}${esc(v.mnote||'')}</div>`:''}
       <div class="krwrap"><canvas class="krcv" data-k="${k}" role="img" aria-label="${esc(name)} Kronos forecast, tap to open"></canvas><button class="krbtn p" data-kp="${k}" aria-label="Replay">▶</button><button class="krbtn o" data-ko="${k}" aria-label="Open full screen">⤢</button></div>
@@ -3938,7 +3939,7 @@ function renderKronos(){const F=window.FEED||{},K=F.kronos||{},H=((F.kronoshist|
   $('#lbLog').innerHTML=rows.length?rows.slice(0,80).map(t=>{const d=new Date(t.at+IST*1000).toISOString(),v={usd:t.ix==='BTC'||t.ix==='GOLD'};return `<div class="lbrowL"><div class="w"><b>Kronos${t.s==='kr2'?' 2×':t.s==='kr3'?' rev':''}</b> · ${esc(krName(t.ix))} ${esc(t.type)} · ${Math.round((t.type==='BUY'?t.up:1-t.up)*100)}% paths<br><span>${d.slice(5,10)} ${d.slice(11,16)} → ${istT(t.out)} · ${pr(v,t.fill)} → ${pr(v,t.exit)} · ${WHY[t.why]||t.why}</span></div><span class="p" style="color:var(${t.pnl>=0?'--sbuy':'--ssell'})">${lbRs(t.pnl)}</span></div>`}).join(''):'<p class="note">No Kronos trades yet.</p>'}
 function krLiveTick(){const K=(window.FEED||{}).kronos||{};document.querySelectorAll('[data-krt]').forEach(el=>{const [k,lab]=el.dataset.krt.split('|'),v=K[k],o=v&&v[lab];if(!o)return;
   const L=krTradeLive(o,v,krPx(k,v)),f=x=>(v.usd?'$':'')+(+x).toLocaleString(v.usd?'en-US':'en-IN',{maximumFractionDigits:2}),set=(n,t,c)=>{const e=el.querySelector(`[data-l="${n}"]`);if(e){if(e.textContent!==t)e.textContent=t;if(c)e.style.color=c}};
-  set('p',f(L.p)+(L.live?'':' ·old'));{const r=krRsMine(k,L.pts,o.fill,o.qty),e=el.querySelector('[data-l="pnl"]'),h=`${L.pts>=0?'+':'−'}${Math.abs(L.pts).toLocaleString('en-IN',{maximumFractionDigits:2})} pts<small>${r>=0?'+':'−'}₹${Math.abs(r).toLocaleString('en-IN')}</small>`;if(e&&e.innerHTML!==h){e.innerHTML=h;e.style.color=`var(${r>=0?'--sbuy':'--ssell'})`}}
+  set('p',f(L.p)+(L.live?'':' ·old'));{const r=krRsMine(k,L.pts,o.fill,o.qty),e=el.querySelector('[data-l="pnl"]'),h=`<span style="color:var(${L.pts>=0?'--sbuy':'--ssell'})">${L.pts>=0?'+':'−'}${Math.abs(L.pts).toLocaleString('en-IN',{maximumFractionDigits:2})} pts</span><small style="color:var(${r>=0?'--sbuy':'--ssell'})">${r>=0?'+':'−'}₹${Math.abs(r).toLocaleString('en-IN')} after charges</small>`;if(e&&e.innerHTML!==h)e.innerHTML=h}
   set('sl',f(L.sl)+(L.trail?' · trailing':L.lock?' · no-loss':''));set('best',(L.best>=0?'+':'−')+Math.abs(L.best).toLocaleString('en-IN',{maximumFractionDigits:2})+' pts');set('st',L.st)})}
 function renderLabOld(){if(S.view!=='lab'||!$('#lCmp'))return;const its=labMkts();const f=s=>s.n?`${s.n} · ${Math.round(s.win*100)}% · <b style="color:var(${s.avg>=0?'--sbuy':'--ssell'})">${fmtR(s.avg)}</b>`:'—';
   // comparison table
@@ -4352,7 +4353,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=20.5"></script>
+<script type="module" src="auth.js?v=20.6"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
