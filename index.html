@@ -779,6 +779,9 @@ body.locked .nbord{display:none!important}
 .krset{border:1px solid color-mix(in srgb,var(--dim) 30%,transparent);border-radius:10px;padding:6px 10px}.krset summary{cursor:pointer;font:700 13px/1.8 var(--f-ui);color:var(--cyan)}.krsetg{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);gap:6px 8px;align-items:center;margin:6px 0}.krsetg .h{font:700 11px var(--f-ui);color:var(--dim);text-transform:uppercase;letter-spacing:.04em}.krsetg>span{font:600 12.5px var(--f-ui)}.krsetg label{display:flex;align-items:center;gap:4px;min-width:0}.krsetg input{width:100%;min-width:0;height:32px;border-radius:7px;border:1px solid color-mix(in srgb,var(--dim) 40%,transparent);background:transparent;color:var(--text);padding:0 6px;font:600 13px var(--f-ui)}.krsetg i{font:500 10.5px var(--f-ui);color:var(--dim);font-style:normal;white-space:nowrap}.krsave{height:34px;padding:0 18px;border-radius:9px;border:1px solid var(--cyan);background:color-mix(in srgb,var(--cyan) 16%,transparent);color:var(--cyan);font:800 13px var(--f-ui)}
 .krrepb{align-self:flex-start;height:32px;padding:0 14px;border-radius:9px;border:1px solid color-mix(in srgb,var(--cyan) 45%,transparent);background:color-mix(in srgb,var(--cyan) 10%,transparent);color:var(--cyan);font:700 13px var(--f-ui);cursor:pointer}
 .kreport{flex:1;min-height:0;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font:500 12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--text);background:color-mix(in srgb,var(--dim) 7%,transparent);border-radius:10px;padding:12px}
+@keyframes jpfab{0%,100%{transform:scale(1);box-shadow:0 0 0 2px #ffc83d,0 6px 22px #ffb30066}50%{transform:scale(1.06);box-shadow:0 0 0 4px #ffe08a,0 0 34px #ffc83dcc}}
+.jpfab{position:fixed;right:12px;top:calc(env(safe-area-inset-top) + 120px);z-index:8500;display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:9px 34px 9px 14px;border-radius:16px;cursor:pointer;color:#1a1200;background:linear-gradient(135deg,#ffe066,#ffb300);animation:jpfab 1s ease-in-out infinite;max-width:calc(100vw - 24px)}.jpfab[hidden]{display:none}
+.jpfab .t{font:900 16px/1.1 var(--f-ui);letter-spacing:.02em}.jpfab .s{font:700 11px/1.2 var(--f-ui);opacity:.85}.jpfab .x{position:absolute;top:4px;right:6px;width:24px;height:24px;border:0;border-radius:50%;background:#0002;color:#1a1200;font:800 16px/1 var(--f-ui);cursor:pointer}
 .jpnote{padding:9px 11px;border-radius:10px;margin:0 0 10px;font:500 12.5px/1.45 var(--f-ui);background:color-mix(in srgb,var(--wait) 14%,transparent)}
 .jpcard{border:1px solid color-mix(in srgb,var(--dim) 28%,transparent);border-radius:12px;padding:10px 12px;margin-bottom:12px}.jpcard.on{border-color:#ffc83d;box-shadow:0 0 0 1px #ffc83d55}
 .jph{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}.jph b{font:800 16px var(--f-ui)}.jph span{font:500 11.5px/1.35 var(--f-ui);color:var(--dim)}
@@ -1001,7 +1004,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v20.4</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v20.5</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
@@ -1133,7 +1136,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v20.4 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v20.5 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -1910,7 +1913,7 @@ function botLight(){const el=$('#botLogo');if(!el)return;let up=0,dn=0;for(const
   if(OLOCK&&!OLOCK.done)up++;const k=up&&!dn?'up':dn&&!up?'dn':up&&dn?'up':'';el.className='coin'+(k?' '+k:'');const nb=$('#nBord');if(nb){nb.classList.toggle('up',k==='up');nb.classList.toggle('dn',k==='dn')}el.title=up||dn?`${up} buy · ${dn} sell running`:'No trade running'}
 function optLiveInst(){const L=OLOCK;if(!L||L.done||!L.okey)return;const id='o:'+L.okey;if(S.inst.has(id))return;S.tmp=S.tmp||[];
   if(!S.tmp.find(d=>d.id===id)){S.tmp.unshift({id,src:'upstox',key:L.okey,name:`${L.ix} ${L.strike} ${L.type}`,tsym:`${L.ix} ${L.strike} ${L.type}`,grp:'opt',nse:1,opt:1,sig:false});S.tmp=S.tmp.slice(0,4);syncInstruments()}}
-async function heartbeat(){tickN++;if(tickN%15===0)for(const it of S.inst.values())try{if(it.active&&it.active.status==='open'&&it.def.sig!==false)fadeCheck(it)}catch(e){}try{tvInit()}catch(e){}if(tickN%5===0||tickN<3)try{mClockInit();mClock()}catch(e){}if(tickN%2===0&&S.view==='log'&&!document.hidden&&LOG.some(r=>r.r==null&&!(r.t<nowSec()-86400*2)))renderLog();if(tickN%5===0)optLiveInst();if(CFG.token&&nseOpen()){const hm=jpHm();if(S.view==='opt'&&JP.on&&tickN%15===0)jpLoad();else if(tickN%60===20&&hm>=780&&hm<=905)jpLoad();if(tickN%60===40&&JP.picks.some(p=>!p.done))jpEval()}if(tickN%3===0)botLight();if(tickN%60===30)try{divScan()}catch(e){}if(S.view==='chart')renderSigBox();if(S.view==='log'&&tickN%3===0)renderRunning();if(CFG.token&&nseOpen()){const bk=Math.floor(nowSec()/(CFG.tf*60));if(cfBk!=null&&bk!==cfBk&&(S.view==='opt'||CFG.alerts))setTimeout(()=>confLoad(true),15000);cfBk=bk}if(tickN%60===11)for(const it of S.inst.values())if(it.active&&!it.active.odds)oddsFor(it,it.active);{const S1=LAB.tf*60,bk=Math.floor(nowSec()/S1);if(labBk!=null&&bk!==labBk&&(S.view==='lab'||LAB.alerts))setTimeout(()=>labRun(true).then(()=>{labPreviewAll();renderLab()}),20000);labBk=bk;
+async function heartbeat(){tickN++;if(tickN%15===0)for(const it of S.inst.values())try{if(it.active&&it.active.status==='open'&&it.def.sig!==false)fadeCheck(it)}catch(e){}try{tvInit()}catch(e){}if(tickN%5===0||tickN<3)try{mClockInit();mClock()}catch(e){}if(tickN%2===0&&S.view==='log'&&!document.hidden&&LOG.some(r=>r.r==null&&!(r.t<nowSec()-86400*2)))renderLog();if(tickN%5===0)optLiveInst();if(CFG.token&&nseOpen()){const hm=jpHm();if(S.view==='opt'&&JP.on&&tickN%15===0)jpLoad();else if(tickN%60===20&&hm>=570&&hm<=900&&(!JP.at||Date.now()-JP.at>30*60e3||JP.ix.some(i=>{const e=JP.exp[OPT_IDX[i].n];return e&&e[0]===ymdIST(Date.now())})))jpLoad();if(tickN%60===40&&JP.picks.some(p=>!p.done))jpEval()}if(tickN%3===0)botLight();if(tickN%60===30)try{divScan()}catch(e){}if(S.view==='chart')renderSigBox();if(S.view==='log'&&tickN%3===0)renderRunning();if(CFG.token&&nseOpen()){const bk=Math.floor(nowSec()/(CFG.tf*60));if(cfBk!=null&&bk!==cfBk&&(S.view==='opt'||CFG.alerts))setTimeout(()=>confLoad(true),15000);cfBk=bk}if(tickN%60===11)for(const it of S.inst.values())if(it.active&&!it.active.odds)oddsFor(it,it.active);{const S1=LAB.tf*60,bk=Math.floor(nowSec()/S1);if(labBk!=null&&bk!==labBk&&(S.view==='lab'||LAB.alerts))setTimeout(()=>labRun(true).then(()=>{labPreviewAll();renderLab()}),20000);labBk=bk;
   if(S.view==='lab'&&tickN%5===0){try{window.paisaLab&&window.paisaLab(true)}catch(e){}renderLab()}}if(tickN%10===3){for(const it of S.inst.values()){if(it.def.n50&&S.filter!=='n50')continue;previewInst(it);markDirty(it)}}if(tickN%5===0){staleCheck();optWatchdog()}if(S.view==='chart')updTimer();if((S.view==='scan'||S.view==='chart')&&tickN%5===0)renderWorld();const p=istParts();const dd=new Date(Date.now()+IST*1000);
   $('#clk').textContent=`${DAYS[dd.getUTCDay()]} ${dd.getUTCDate()} ${MONS[dd.getUTCMonth()]} · ${String(p.h).padStart(2,'0')}:${String(p.m).padStart(2,'0')}:${String(p.s).padStart(2,'0')} IST`;if(tickN%60===1)greet();
   $('#sess').innerHTML=`<b class="${nseOpen()?'on':''}">NSE</b><b class="${usOpen()?'on':''}">US</b><b class="on">CRYPTO</b>`;
@@ -3125,7 +3128,7 @@ function jpDayStats(ix){const it=S.inst&&S.inst.get('u:'+ix.key);const today=ymd
 // P(≥5x within 2 h) on expiry day, measured 2022–2026 (137k entries): [distance 0–0.4/0.4–0.7/0.7–1/1–1.5/1.5%+][time <12:30/12:30–13:30/13:30–14:15/14:15+][day range <0.8/0.8–1.2/1.2%+]
 const JP_ODDS=[[[0.3,0.3,0.3],[1.6,0.5,5.3],[2.3,2.7,7.8],[3.2,4.7,5.8]],[[0.5,1.5,10.4],[1.8,0.8,8.3],[2.3,2.0,6.9],[1.6,3.5,4.1]],[[0.7,1.9,10.3],[0.8,1.5,6.0],[0.7,1.0,5.3],[0.7,0.8,3.2]],[[0.8,2.2,9.0],[0.4,1.7,5.1],[0.2,0.0,2.6],[0.0,0.0,0.4]],[[0.1,0.5,2.9],[0.0,0.8,1.2],[0.0,0.0,0.1],[0.0,0.0,0.0]]];
 function jpOdds(d,hm,mr,expDay,dte1){const a=d<0.4?0:d<0.7?1:d<1?2:d<1.5?3:4,b=hm<750?0:hm<810?1:hm<855?2:3,c=mr==null?0:mr<0.8?0:mr<1.2?1:2;let p=JP_ODDS[a][b][c];if(!expDay)p*=dte1?0.2:0.05;return p}
-function jpLight(st){const hm=jpHm();const best=st.rows.length?Math.max(...st.rows.filter(r=>r.o.ltp>=3).map(r=>r.odds),0):0;const c=[{ok:st.expDay,t:'Expiry day'},{ok:best>=5,t:`Best option ≥5% chance of 5x (now ${best.toFixed(1)}%)`,soft:best>=3},{ok:hm>=555&&hm<=900,t:'Before 3:00 pm'},{ok:st.ds&&st.ds.mr>=1.2,t:`Day's range ≥1.2% (now ${st.ds?st.ds.mr.toFixed(2)+'%':'—'})`,soft:st.ds&&st.ds.mr>=0.8},{ok:st.ds&&Math.abs(st.ds.m60)>=0.3,t:`Last 60-min move ≥0.3% (now ${st.ds?(st.ds.m60>=0?'+':'')+st.ds.m60.toFixed(2)+'%':'—'})`}];
+function jpLight(st){const hm=jpHm();const best=st.rows.length?Math.max(...st.rows.map(r=>r.odds),0):0;const c=[{ok:st.expDay,t:'Expiry day'},{ok:best>=5,t:`Best option ≥5% chance of 5x (now ${best.toFixed(1)}%)`,soft:best>=3},{ok:hm>=555&&hm<=900,t:'Before 3:00 pm'},{ok:st.ds&&st.ds.mr>=1.2,t:`Day's range ≥1.2% (now ${st.ds?st.ds.mr.toFixed(2)+'%':'—'})`,soft:st.ds&&st.ds.mr>=0.8},{ok:st.ds&&Math.abs(st.ds.m60)>=0.3,t:`Last 60-min move ≥0.3% (now ${st.ds?(st.ds.m60>=0?'+':'')+st.ds.m60.toFixed(2)+'%':'—'})`}];
   const on=c[0].ok&&c[1].ok&&c[2].ok;return {on,c,best}}
 function jpMoveFor(call,K,iv,ltp,mult,Tt,spot){const tgt=ltp*mult;if(bsPrice(spot*(call?1.1:0.9),K,Tt,iv,call)<tgt)return null;let lo=spot,hi=spot*(call?1.1:0.9);
   for(let i=0;i<50;i++){const m=(lo+hi)/2;if(bsPrice(m,K,Tt,iv,call)<tgt)lo=m;else hi=m}return ((lo+hi)/2/spot-1)*100}
@@ -3141,13 +3144,19 @@ function jpState(n){const an=JP.an[n];if(!an)return null;const ix=optIx(n),today
   const nextTd=(()=>{let d=new Date(Date.now()+IST*1000);for(let k=0;k<6;k++){d=new Date(d.getTime()+864e5);const w=d.getUTCDay();if(w>0&&w<6)return d.toISOString().slice(0,10)}})();
   const ds=jpDayStats(ix),hm=jpHm(),now=Date.now(),T=Math.max(60e3,optExpMs(ix,an.exp)-now)/YR,t2=Math.min(now+60*60e3,Date.parse(today+'T15:20:00+05:30')),T2=Math.max(30e3,optExpMs(ix,an.exp)-t2)/YR,T15=Math.max(30e3,optExpMs(ix,an.exp)-now-15*60e3)/YR;
   const st={n,ix,an,expDay,dte1:an.exp===nextTd,ds,rows:[]};const S0=an.spot;
-  for(const s of an.st)for(const call of [true,false]){const o=call?s.ce:s.pe;if(!o.key||!(o.ltp>=2&&o.ltp<=30))continue;const d=(call?s.k-S0:S0-s.k)/S0*100;if(d<=0)continue;
+  for(const s of an.st)for(const call of [true,false]){const o=call?s.ce:s.pe;if(!o.key||!(o.ltp>=5&&o.ltp<=30))continue;const d=(call?s.k-S0:S0-s.k)/S0*100;if(d<=0)continue;
     const iv=bsIV(o.ltp,S0,s.k,T,call)||(o.iv?o.iv/100:null);if(!iv)continue;
     const r={k:s.k,call,o,d,iv,odds:jpOdds(d,hm,ds&&ds.mr,expDay,st.dte1),need:[5,10,27].map(m=>jpMoveFor(call,s.k,iv,o.ltp,m,T2,S0)),theta:bsPrice(S0,s.k,T15,iv,call)-o.ltp,chg:o.oi-o.poi,bu:an.bu(o)};
     st.rows.push(r)}
-  st.rows.sort((a,b)=>a.d-b.d);st.light=jpLight(st);for(const r of st.rows)r.hot=st.light.on&&r.o.ltp>=3&&r.odds>=5;return st}
-function jpNav(){const on=JP.ix.some(i=>{const st=jpState(OPT_IDX[i].n);return st&&st.light.on});const b=document.querySelector('[data-v="opt"]');if(b)b.classList.toggle('jpnav',on);
-  if(on){const today=ymdIST(Date.now());for(const i of JP.ix){const n=OPT_IDX[i].n,st=jpState(n);if(st&&st.light.on&&JP.alerted[n]!==today){JP.alerted[n]=today;store.set('pt.jpAlert',JP.alerted);if(CFG.alerts)toast('t1',`🎰 Jackpot window ON · ${n}`,`Some cheap options now have a ≥5% measured chance of 5x (best ${st.light.best.toFixed(1)}%). They are blinking in Options → Jackpot. Lottery odds — about 9 in 10 tries still fail.`,'',null,9000);vibe('t1')}}}}
+  st.rows.sort((a,b)=>a.d-b.d);st.light=jpLight(st);for(const r of st.rows)r.hot=st.light.on&&r.odds>=5;return st}
+function jpFab(){const today=ymdIST(Date.now()),dis=store.get('pt.jpDis',{});const live=JP.ix.map(i=>OPT_IDX[i].n).filter(n=>{const st=jpState(n);return st&&st.light.on&&dis[n]!==today});let el=$('#jpFab');
+  if(!live.length){if(el)el.hidden=true;return}
+  if(!el){el=document.createElement('div');el.id='jpFab';el.className='jpfab';el.setAttribute('role','button');el.tabIndex=0;el.innerHTML='<span class="t">🎰 Jackpot</span><span class="s"></span><button class="x" aria-label="Close Jackpot alert">×</button>';document.body.appendChild(el);
+    el.addEventListener('click',e=>{if(e.target.closest('.x')){const d=store.get('pt.jpDis',{}),t=ymdIST(Date.now());for(const n of (el.dataset.n||'').split(','))if(n)d[n]=t;store.set('pt.jpDis',d);el.hidden=true;return}
+      show('opt');initOpt(true);jpMode(true);setTimeout(()=>{const c=document.querySelector(`.jpcard[data-n="${(el.dataset.n||'').split(',')[0]}"]`);if(c)c.scrollIntoView({behavior:'smooth',block:'start'})},400)})}
+  el.dataset.n=live.join(',');el.querySelector('.s').textContent=live.join(' · ')+' · tap to see';el.hidden=false}
+function jpNav(){const on=JP.ix.some(i=>{const st=jpState(OPT_IDX[i].n);return st&&st.light.on});const b=document.querySelector('[data-v="opt"]');if(b)b.classList.toggle('jpnav',on);jpFab();
+  if(on){const today=ymdIST(Date.now());for(const i of JP.ix){const n=OPT_IDX[i].n,st=jpState(n);if(st&&st.light.on&&JP.alerted[n]!==today){JP.alerted[n]=today;store.set('pt.jpAlert',JP.alerted);if(false)toast('t1',`🎰 Jackpot window ON · ${n}`,`Some cheap options now have a ≥5% measured chance of 5x (best ${st.light.best.toFixed(1)}%). They are blinking in Options → Jackpot. High risk — about 9 in 10 tries still fail.`,'',null,9000);vibe('t1')}}}}
 function jpPicks(){const today=ymdIST(Date.now());for(const i of JP.ix){const n=OPT_IDX[i].n,st=jpState(n);if(!st||!st.light.on||JP.picks.some(p=>p.day===today&&p.n===n))continue;
     const tr=st.ds?st.ds.trend:0,m60=st.ds?st.ds.m60:0;const wantCall=Math.abs(tr)>=0.5?tr<0:m60>=0;   // counter-trend after a 0.5%+ day move (highest hit rate in the study), else with the last hour
     const c=st.rows.filter(r=>r.call===wantCall&&r.hot).sort((a,b)=>b.odds-a.odds)[0];if(!c)continue;
@@ -3166,13 +3175,13 @@ async function jpEval(){const today=ymdIST(Date.now());for(const p of JP.picks){
 function renderJackpot(){const el=$('#jpBody');if(!el)return;if(!CFG.token){el.innerHTML='<div class="empty">Jackpot needs today\'s Upstox token (Settings).</div>';return}
   if(!JP.at){el.innerHTML='<div class="empty">Loading NIFTY & SENSEX cheap options…</div>';return}
   const f=x=>(+x).toLocaleString('en-IN',{maximumFractionDigits:2}),pct=x=>x==null?'>10%':(x>=0?'+':'')+x.toFixed(2)+'%',kf=x=>x>=1e5?(x/1e5).toFixed(1)+'L':x>=1e3?(x/1e3).toFixed(0)+'k':String(x);
-  let h=`<div class="jpnote">🎰 <b>Lottery tickets, not signals.</b> In our 2022–2026 test, buying cheap options lost money on average (about −₹230 to −₹350 per lot per try) even with the best rules. Odds below are approximate, from that study. Risk only money you can lose completely.</div>`;
+  let h=`<div class="jpnote">🎰 <b>High-risk opportunities, not sure signals.</b> Cheap options (₹5–30) that can multiply 5x–27x if the index moves fast — but most expire near zero. In our 2022–2026 test, even the best rules lost about ₹230–350 per lot per try on average. Chances shown are from that study. Use only money you can afford to lose.</div>`;
   for(const i of JP.ix){const n=OPT_IDX[i].n,st=jpState(n);if(!st){h+=`<div class="jpcard"><b>${n}</b><div class="note">No data yet.</div></div>`;continue}
-    const L=st.light,an=st.an;const side=call=>{const rs=st.rows.filter(r=>r.call===call).slice(0,10);if(!rs.length)return '<div class="note">No OTM options at ₹2–30 right now.</div>';
+    const L=st.light,an=st.an;const side=call=>{const rs=st.rows.filter(r=>r.call===call).slice(0,10);if(!rs.length)return '<div class="note">No OTM options at ₹5–30 right now.</div>';
       return rs.map(r=>`<div class="jprow${r.hot?' hot':''}"><div class="a"><b>${r.k} ${r.call?'CE':'PE'}</b><span>₹${f(r.o.ltp)} · ${r.d.toFixed(2)}% away</span></div>
         <div class="b"><span>5x needs <b>${pct(r.need[0])}</b></span><span>10x <b>${pct(r.need[1])}</b></span><span>27x <b>${pct(r.need[2])}</b></span></div>
         <div class="c"><span>≈${r.odds<0.3?'<0.3':r.odds.toFixed(1)}% chance of 5x</span><span>Theta 15m <b style="color:var(--ssell)">−₹${f(Math.abs(r.theta))}</b></span><span>OI ${kf(r.o.oi)} (${r.chg>=0?'+':'−'}${kf(Math.abs(r.chg))}) · ${esc(r.bu)} · Vol ${kf(r.o.vol)}</span></div></div>`).join('')};
-    h+=`<div class="jpcard${L.on?' on':''}"><div class="jph"><b>${n}</b><span>Expiry ${an.exp}${st.expDay?' (today)':''} · Spot ${f(an.spot)} · PCR ${an.pcr.toFixed(2)} · Max pain ${an.maxPain}</span></div>
+    h+=`<div class="jpcard${L.on?' on':''}" data-n="${n}"><div class="jph"><b>${n}</b><span>Expiry ${an.exp}${st.expDay?' (today)':''} · Spot ${f(an.spot)} · PCR ${an.pcr.toFixed(2)} · Max pain ${an.maxPain}</span></div>
       <div class="jplight${L.on?' on':''}">${L.on?'🎰 JACKPOT WINDOW ON':'Low odds now'}<small>${L.on?'Some options now have a ≥5% chance of 5x in our 2022–2026 data (mostly big-range expiry days). Blinking = those options. Even then, about 9 in 10 tries fail.':'Lights up only on expiry day when an option\'s measured chance of 5x reaches 5% — mostly on days moving 1.2%+.'}</small></div>
       <div class="jpchk">${L.c.map(c=>`<span class="${c.ok?'ok':c.soft?'mid':''}">${c.ok?'✓':c.soft?'≈':'✗'} ${esc(c.t)}</span>`).join('')}</div>
       <div class="jpcols"><div><h4>Calls (need a rise)</h4>${side(true)}</div><div><h4>Puts (need a fall)</h4>${side(false)}</div></div></div>`}
@@ -4343,7 +4352,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=20.4"></script>
+<script type="module" src="auth.js?v=20.5"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
