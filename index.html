@@ -798,6 +798,46 @@ body.locked .nbord{display:none!important}
 .dr2 .d{font:500 11.5px var(--f-ui);color:var(--dim);margin-top:4px}.ri{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:7px}.riL{font:700 10.5px var(--f-ui);color:var(--dim);text-transform:uppercase;letter-spacing:.05em;margin-right:2px}.ric{font:700 11.5px var(--f-ui);padding:2px 7px;border-radius:999px;background:color-mix(in srgb,var(--dim) 14%,transparent);color:var(--dim)}.ric.up{color:var(--sbuy);background:color-mix(in srgb,var(--sbuy) 13%,transparent)}.ric.dn{color:var(--ssell);background:color-mix(in srgb,var(--ssell) 13%,transparent)}.riW{flex-basis:100%;font:500 11.5px/1.35 var(--f-ui);color:var(--dim)}
 .krtests{font:500 11.5px var(--f-ui);color:var(--dim);margin:6px 0 2px}.krtests b{font-weight:700}
 .lklock{display:flex;flex-direction:column;gap:2px;font:500 11.5px/1.4 var(--f-ui);color:var(--dim);margin:6px 0 2px;padding:6px 8px;border-radius:8px;background:color-mix(in srgb,var(--dim) 8%,transparent)}.lklock b{color:var(--text)}.lklin:empty{display:none}
+
+.anzBtn{width:auto;min-width:46px;padding:0 6px;display:flex;flex-direction:column;gap:1px;color:var(--cyan);border-color:color-mix(in srgb,var(--cyan) 45%,transparent);box-shadow:0 0 14px color-mix(in srgb,var(--cyan) 25%,transparent),inset 0 0 10px color-mix(in srgb,var(--cyan) 12%,transparent)}
+@media(max-width:400px){.hbtns{gap:5px}.anzBtn{padding:0 3px;min-width:40px}.anzBtn span{font-size:7.5px;letter-spacing:.02em}.hbtns .iconbtn{width:35px}}
+.anzBtn svg{width:17px;height:17px}.anzBtn span{font:700 8.5px/1 var(--f-ui);letter-spacing:.06em;text-transform:uppercase}
+body.anzOn{overflow:hidden}
+#anz{position:fixed;inset:0;z-index:900;overflow:auto;overscroll-behavior:contain;color:var(--text);
+ background:radial-gradient(1000px 520px at 50% 40%,rgba(30,90,180,.20),transparent 70%),radial-gradient(600px 360px at 0 0,rgba(41,231,255,.10),transparent 70%),radial-gradient(700px 420px at 100% 100%,rgba(255,45,111,.08),transparent 70%),#03060d}
+#anz::before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(60,160,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(60,160,255,.05) 1px,transparent 1px);background-size:30px 30px;mask:radial-gradient(ellipse at 50% 45%,#000 30%,transparent 85%)}
+#anz[hidden]{display:none}
+.anzTop{position:sticky;top:0;z-index:3;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:linear-gradient(180deg,rgba(3,6,13,.97),rgba(3,6,13,.85));border-bottom:1px solid rgba(41,231,255,.22);backdrop-filter:blur(8px)}
+.anzT b{display:block;font:800 18px var(--f-ui);letter-spacing:.32em;background:linear-gradient(90deg,#fff,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.anzT span{font:500 11.5px var(--f-ui);color:var(--dim)}
+.anzCtl{margin-left:auto;display:flex;gap:8px;align-items:center}
+.anzSeg{display:flex;border:1px solid rgba(41,231,255,.25);border-radius:8px;overflow:hidden}
+.anzSeg button{font:700 11.5px var(--f-ui);padding:7px 9px;color:var(--dim);background:transparent;border:0;letter-spacing:.05em}
+.anzSeg button.on{background:color-mix(in srgb,var(--cyan) 22%,transparent);color:#fff;box-shadow:inset 0 0 12px color-mix(in srgb,var(--cyan) 35%,transparent)}
+.anzG{position:relative;display:grid;grid-template-columns:1fr;gap:14px;padding:14px 14px calc(24px + env(safe-area-inset-bottom))}
+@media(min-width:760px){.anzG{grid-template-columns:1fr 1fr}.anzp[data-p="eq"]{grid-column:1/-1}}
+@media(min-width:1200px){.anzG{grid-template-columns:1.15fr 1fr 1fr}.anzp[data-p="eq"]{grid-column:span 2}}
+.anzp{position:relative;min-width:0;background:linear-gradient(160deg,rgba(14,32,58,.62),rgba(5,12,26,.78));border:1px solid rgba(80,200,255,.16);box-shadow:inset 0 0 40px rgba(41,231,255,.04),0 16px 50px rgba(0,0,0,.4);padding:10px 12px 12px}
+.anzp::before,.anzp::after{content:"";position:absolute;width:14px;height:14px;border:2px solid var(--cyan);filter:drop-shadow(0 0 5px var(--cyan));pointer-events:none}
+.anzp::before{left:-1px;top:-1px;border-right:0;border-bottom:0}.anzp::after{right:-1px;bottom:-1px;border-left:0;border-top:0}
+.anzp header{display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.anzp header i{font:700 10px var(--f-num);color:var(--cyan);opacity:.75;font-style:normal}
+.anzp header h3{font:800 13px var(--f-ui);letter-spacing:.16em;color:#eafaff;margin:0}
+.anzp header span{font:500 10.5px var(--f-ui);letter-spacing:.06em;color:var(--dim);text-transform:uppercase}
+.anzLive{font:800 9.5px var(--f-ui);font-style:normal;color:var(--ssell);letter-spacing:.2em;display:flex;align-items:center;gap:5px}
+.anzLive::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ssell);box-shadow:0 0 8px var(--ssell);animation:anzP 1.4s infinite}
+@keyframes anzP{50%{opacity:.25}}
+.anzMax{margin-left:auto;background:transparent;border:1px solid rgba(41,231,255,.3);color:var(--cyan);border-radius:6px;width:28px;height:24px;font-size:14px;line-height:1}
+.anzp.max{position:fixed;inset:0;z-index:5;overflow:auto;padding:calc(12px + env(safe-area-inset-top)) 16px 20px;background:#03060d}
+.anzB{position:relative;min-height:60px}.anzB svg{display:block;overflow:visible}.anzB text{font-family:var(--f-ui)}
+.anzE{padding:24px 8px;text-align:center;font:500 13px/1.5 var(--f-ui);color:var(--dim)}
+.anzNote{font:500 11px/1.45 var(--f-ui);color:var(--dim);margin-top:8px}.anzNote b{color:var(--text)}
+.anzLg{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.anzLg button{display:flex;align-items:center;gap:6px;font:600 11px var(--f-ui);padding:5px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);color:var(--dim)}
+.anzLg button i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--c)}.anzLg button small{opacity:.7}
+.anzLg button.on{color:var(--text);border-color:color-mix(in srgb,var(--c) 60%,transparent);background:color-mix(in srgb,var(--c) 12%,transparent)}.anzLg button.on i{background:var(--c);box-shadow:0 0 8px var(--c)}
+.anzLgS{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;font:600 10.5px var(--f-ui);color:var(--text)}.anzLgS span{display:flex;align-items:center;gap:5px}.anzLgS i{width:12px;height:8px;display:inline-block}
+.anzMcC{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}.anzMcC span{display:flex;flex-direction:column;font:600 9.5px var(--f-ui);letter-spacing:.06em;color:var(--dim);padding:6px 8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)}.anzMcC b{font:800 16px var(--f-num);margin-top:2px}
 .krst{font:600 11.5px/1.3 var(--f-ui);color:var(--cyan);margin-top:4px}.krst:empty{display:none}
 .kr2{font:700 10px/1 var(--f-ui);font-style:normal;padding:2px 4px;border-radius:4px;background:color-mix(in srgb,var(--cyan) 18%,transparent);color:var(--cyan);margin-left:3px}
 .krscore{font:500 12px/1.4 var(--f-ui);color:var(--dim);margin:6px 0 2px}.krscore b{color:var(--text)}.krscore small{display:block;font-size:11px;opacity:.85}.krsub{font:500 11.5px/1.35 var(--f-ui);color:var(--dim);margin:2px 0}
@@ -1009,9 +1049,10 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v20.9</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.0</span></div></div>
   </div>
   <div class="hbtns">
+    <button class="iconbtn anzBtn" id="anzBtn" aria-label="Open Analysis" title="Analysis: equity, real win-rate, ruin cone, heat grid, order book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/><circle cx="19" cy="6" r="1.6" fill="currentColor"/></svg><span>Analysis</span></button>
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
     <button class="iconbtn" id="refreshAll" aria-label="Refresh all data" title="Refresh all data">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>
@@ -1141,7 +1182,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v20.9 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.0 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -3699,6 +3740,175 @@ function lbStats(a){a=a.slice().sort((x,y)=>x.out-y.out);let net=0,pk=0,dd=0,w=0
 function openLab(){$('#lbIx').innerHTML=LBM.map(([k,n])=>`<button class="${LB.ix===k?'on':''}" data-k="${k}">${n}</button>`).join('');
   $('#lbPer').innerHTML=[['today','Today'],['7d','7 days'],['all','All']].map(([k,n])=>`<button class="${LB.per===k?'on':''}" data-k="${k}">${n}</button>`).join('');
   $('#lbIx').querySelectorAll('button').forEach(b=>b.onclick=()=>{LB.ix=b.dataset.k;store.set('lbix',LB.ix);openLab()});$('#lbPer').querySelectorAll('button').forEach(b=>b.onclick=()=>{LB.per=b.dataset.k;store.set('lbper',LB.per);openLab()});renderLab()}
+/* ================= ANALYSIS screen: equity, real win-rate, Monte-Carlo ruin cone, signal heat grid, order-book river =================
+   Everything here is read-only and drawn from data the app already has (paper trades, signals, Kronos, Delta's public order book). */
+const ANZ={open:false,per:store.get('pt.anzPer',30),unit:store.get('pt.anzUnit','R'),focus:store.get('pt.anzFocus',null),show:store.get('pt.anzShow',null),
+  ob:{BTCUSD:[],XAUTUSD:[]},obT:null,rT:null,max:null,mcKey:'',mc:null};
+const ANZ_COL=['#29e7ff','#00ff9d','#9b7bff','#ffb020','#ff2d6f','#4aa8ff','#ffd84d','#ff7ad9','#5fe0d0','#ff9a5a','#7fb2ff','#c49bff','#b6ff5c','#ff5f5f'];
+const anzRs=v=>(v<0?'−':'+')+'₹'+Math.abs(Math.round(v)).toLocaleString('en-IN');
+const anzR=v=>(v<0?'−':'+')+Math.abs(v).toFixed(1)+'R';
+const anzFmt=v=>ANZ.unit==='₹'?anzRs(v):anzR(v);
+function anzStrats(){const F=window.FEED||{},out=[];
+  const add=(id,name,tr,def)=>{tr=tr.filter(x=>x.t>0&&isFinite(x.R)).sort((a,b)=>a.t-b.t);out.push({id,name,tr,def})};
+  add('sig','TradeBot signals',LOG.filter(r=>r.r!=null).map(r=>({t:(r.closedAt||r.t)*1000,R:r.r,rs:paperOn()?paperRs(r):null})),1);
+  const sw=F.swing;if(sw)add('swing','BTC SWING',(sw.recent||[]).filter(t=>t.exit!=null).map(t=>{const R=swNet(t);return {t:(t.te||t.t)*1000,R,rs:R*(+SWC().risk||0)}}),1);
+  const KH=(F.kronoshist||{}).items||[],krR=t=>{const d=Math.abs(t.fill-(t.sl||t.fill));return d?krPts(t)/d:NaN};
+  for(const [k,n,d] of [['kr','Kronos',1],['kr5','Kronos · debias',1],['kr2','Kronos · 2×',0],['kr3','Kronos · rev',0],['kr4','Kronos · agree',0]])
+    add('k_'+k,n,KH.filter(t=>(t.s||'kr')===k).map(t=>({t:t.out,R:t.r!=null?t.r:krR(t),rs:t.pnl})),d);
+  const lR=t=>{const risk=Math.abs((t.fill||0)-(t.sl||0))*(t.qty||1);return t.r!=null?t.r:risk>0&&t.sl?t.pnl/risk:NaN};
+  const LH=(F.labhist||{}).items||[],LX=(F.labhistx||{}).items||[];
+  for(const [k,n] of LBS){if(k!=='ag')add('l_'+k,'Options · '+n,LH.filter(t=>t.s===k).map(t=>({t:t.out,R:lR(t),rs:t.pnl})),0);
+    add('x_'+k,'BTC/Gold · '+n,LX.filter(t=>t.s===k).map(t=>({t:t.out,R:lR(t),rs:t.pnl})),0)}
+  add('jp','Jackpot',(JP.picks||[]).filter(p=>p.done&&p.lot&&p.pnl!=null&&p.p0>0).map(p=>({t:p.t0,R:p.pnl/(p.p0*p.lot),rs:p.pnl})),1);
+  // the best lab line is shown by default too
+  const labs=out.filter(s=>/^[lx]_/.test(s.id)&&s.tr.length>=5).sort((a,b)=>b.tr.reduce((s,x)=>s+x.R,0)-a.tr.reduce((s,x)=>s+x.R,0));if(labs[0])labs[0].def=1;
+  out.forEach((s,i)=>s.col=ANZ_COL[i%ANZ_COL.length]);return out.filter(s=>s.tr.length)}
+function anzVis(s){return ANZ.show?ANZ.show.includes(s.id):!!s.def}
+function anzVal(x){return ANZ.unit==='₹'?x.rs:x.R}
+function anzPeriod(s){const since=ANZ.per?Date.now()-ANZ.per*864e5:0;return s.tr.filter(x=>x.t>=since&&anzVal(x)!=null&&isFinite(anzVal(x)))}
+function anzWilson(w,n){if(!n)return [0,0,0];const z=1.96,p=w/n,d=1+z*z/n,c=(p+z*z/(2*n))/d,h=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n))/d;return [p,Math.max(0,c-h),Math.min(1,c+h)]}
+function anzStat(tr){const n=tr.length,W=tr.filter(x=>x.R>0),Lo=tr.filter(x=>x.R<=0);const [p,lo,hi]=anzWilson(W.length,n);
+  const aw=W.length?W.reduce((s,x)=>s+x.R,0)/W.length:0,al=Lo.length?-Lo.reduce((s,x)=>s+x.R,0)/Lo.length:0;const be=aw>0&&al>0?al/(aw+al):null;
+  const st=n<20?'few':be==null?'few':lo>be?'pass':hi<be?'lose':'wait';return {n,w:W.length,p,lo,hi,be,st,net:tr.reduce((s,x)=>s+x.R,0)}}
+function anzFocus(list){let f=list.find(s=>s.id===ANZ.focus);if(f)return f;const vis=list.filter(anzVis);return vis.find(s=>s.id==='swing'&&s.tr.length>=10)||vis.slice().sort((a,b)=>b.tr.length-a.tr.length)[0]||list[0]}
+const anzDefs=p=>`<defs><filter id="${p}g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<linearGradient id="${p}b" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#29e7ff" stop-opacity=".04"/><stop offset="1" stop-color="#29e7ff" stop-opacity=".7"/></linearGradient>
+<linearGradient id="${p}a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff2d6f" stop-opacity=".04"/><stop offset="1" stop-color="#ff2d6f" stop-opacity=".7"/></linearGradient>
+<radialGradient id="${p}c"><stop offset="0" stop-color="#29e7ff" stop-opacity=".28"/><stop offset="1" stop-color="#29e7ff" stop-opacity="0"/></radialGradient></defs>`;
+const aT=(x,y,s,o={})=>`<text x="${x.toFixed?x.toFixed(1):x}" y="${y.toFixed?y.toFixed(1):y}" fill="${o.f||'var(--dim)'}" font-size="${o.s||11}" font-weight="${o.w||600}" text-anchor="${o.a||'start'}" ${o.ls?`letter-spacing="${o.ls}"`:''} ${o.x||''}>${s}</text>`;
+const aPath=pts=>pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join('');
+const aSmooth=pts=>{if(!pts.length)return '';let d='M'+pts[0][0].toFixed(1)+' '+pts[0][1].toFixed(1);for(let i=1;i<pts.length;i++){const a=pts[i-1],b=pts[i],m=((a[0]+b[0])/2).toFixed(1);d+=`C${m} ${a[1].toFixed(1)} ${m} ${b[1].toFixed(1)} ${b[0].toFixed(1)} ${b[1].toFixed(1)}`}return d};
+function anzTicks(lo,hi,n){const sp=(hi-lo)||1,raw=sp/n,mag=Math.pow(10,Math.floor(Math.log10(raw))),st=[1,2,2.5,5,10].map(x=>x*mag).find(x=>sp/x<=n)||mag*10;const a=[];for(let v=Math.ceil(lo/st)*st;v<=hi+1e-9;v+=st)a.push(+v.toFixed(6));return a}
+const anzShort=v=>{const a=Math.abs(v);return ANZ.unit==='₹'?(a>=1e5?(v/1e5).toFixed(1)+'L':a>=1e3?(v/1e3).toFixed(a>=1e4?0:1)+'k':Math.round(v)):(+v.toFixed(1))+'R'};
+
+/* ---------- 01 equity ---------- */
+function anzEquity(W,list){const H=W<520?300:340,L=46,R=W<520?96:130,Tp=14,B=26;const vis=list.filter(anzVis).map(s=>({s,tr:anzPeriod(s)})).filter(o=>o.tr.length);
+  if(!vis.length)return `<div class="anzE">No closed paper trades in this period${ANZ.unit==='₹'?' with a ₹ value (TradeBot signals need Paper on in Settings)':''}.</div>`;
+  const now=Date.now(),t0=ANZ.per?now-ANZ.per*864e5:Math.min(...vis.map(o=>o.tr[0].t))-36e5;let lo=0,hi=0;
+  const ser=vis.map(o=>{let c=0;const p=[[t0,0]];for(const x of o.tr){c+=anzVal(x);p.push([x.t,c])}p.push([now,c]);lo=Math.min(lo,...p.map(q=>q[1]));hi=Math.max(hi,...p.map(q=>q[1]));return {...o,p,end:c}});
+  const pad=(hi-lo)*.08||1;lo-=pad;hi+=pad;const X=t=>L+(t-t0)/(now-t0)*(W-L-R),Y=v=>Tp+(hi-v)/(hi-lo)*(H-Tp-B);
+  let g=anzDefs('eq');for(const v of anzTicks(lo,hi,5))g+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="${v===0?'rgba(255,255,255,.3)':'rgba(120,170,255,.08)'}" ${v===0?'stroke-dasharray="4 4"':''}/>`+aT(L-6,Y(v)+4,anzShort(v),{a:'end',s:10,w:500});
+  const days=(now-t0)/864e5,step=days>60?30:days>20?7:days>6?2:1;for(let t=t0;t<=now;t+=step*864e5){const d=new Date(t+IST*1000).toISOString();g+=aT(X(t),H-8,`${d.slice(8,10)}/${d.slice(5,7)}`,{a:'middle',s:10,w:500})}
+  const best=ser.slice().sort((a,b)=>b.end-a.end)[0];if(best.end>0){const pts=best.p.flatMap((q,i)=>i?[[X(q[0]),Y(best.p[i-1][1])],[X(q[0]),Y(q[1])]]:[[X(q[0]),Y(q[1])]]);g+=`<path d="${aPath(pts)}L${X(now)} ${Y(0)}L${X(t0)} ${Y(0)}Z" fill="${best.s.col}" fill-opacity=".10"/>`}
+  for(const o of ser){const pts=o.p.flatMap((q,i)=>i?[[X(q[0]),Y(o.p[i-1][1])],[X(q[0]),Y(q[1])]]:[[X(q[0]),Y(q[1])]]);g+=`<path d="${aPath(pts)}" fill="none" stroke="${o.s.col}" stroke-width="${o===best?2.4:1.6}" filter="url(#eqg)" stroke-linejoin="round"/>`}
+  const ends=ser.map(o=>({o,y:Y(o.end)})).sort((a,b)=>a.y-b.y);const gap=30;for(let i=1;i<ends.length;i++){const pv=ends[i-1].ly??ends[i-1].y;if(ends[i].y-pv<gap)ends[i].ly=pv+gap}
+  const over=(ends.length?(ends[ends.length-1].ly??ends[ends.length-1].y):0)-(H-B);if(over>0)ends.forEach(e=>e.ly=(e.ly??e.y)-over);
+  for(const e of ends){const ly=e.ly??e.y,c=e.o.s.col;g+=`<circle cx="${X(now)}" cy="${e.y}" r="3.5" fill="${c}" filter="url(#eqg)"/><path d="M${X(now)+5} ${e.y}L${W-R+8} ${ly}" stroke="${c}" stroke-opacity=".45"/>`+
+    aT(W-R+11,ly-2,esc(e.o.s.name),{f:c,s:10,w:700})+aT(W-R+11,ly+12,anzFmt(e.o.end)+` · ${e.o.tr.length}`,{f:'var(--text)',s:11.5,w:700})}
+  return `<svg width="${W}" height="${H}">${g}</svg>`}
+function anzLegend(list){return `<div class="anzLg">${list.map(s=>{const on=anzVis(s),n=anzPeriod(s).length;return `<button data-anzs="${s.id}" class="${on?'on':''}" style="--c:${s.col}"><i></i>${esc(s.name)} <small>${n}</small></button>`}).join('')}</div>`}
+
+/* ---------- 04 real win-rate ---------- */
+function anzWin(W,list,f){const rows=list.filter(s=>anzVis(s)||s===f).map(s=>({s,st:anzStat(anzPeriod(s).map(x=>({R:anzVal(x)})))})).filter(o=>o.st.n);
+  if(!rows.length)return '<div class="anzE">No closed trades yet.</div>';
+  const fo=rows.find(o=>o.s===f)||rows[0],S=fo.st,nar=W<520;const gw=nar?W:Math.min(240,W*.5),cx=nar?W/2:gw/2+6,cy=118,r=Math.min(86,gw/2-24);let g=anzDefs('wr');
+  const A=v=>Math.PI*(0.75+1.5*v),P=(a,rr)=>[cx+rr*Math.cos(a),cy+rr*Math.sin(a)];const arc=(a0,a1,rr)=>{const [x0,y0]=P(a0,rr),[x1,y1]=P(a1,rr);return `M${x0} ${y0}A${rr} ${rr} 0 ${a1-a0>Math.PI?1:0} 1 ${x1} ${y1}`};
+  const col={pass:'var(--sbuy)',lose:'var(--ssell)',wait:'var(--t1)',few:'var(--dim)'}[S.st];
+  g+=`<circle cx="${cx}" cy="${cy}" r="${r+22}" fill="url(#wrc)"/>`;for(let i=0;i<=40;i++){const a=A(i/40),[x1,y1]=P(a,r+10),[x2,y2]=P(a,r+(i%5?14:19));g+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${i%5?'rgba(120,190,255,.28)':'#29e7ff'}" stroke-width="${i%5?1:1.5}"/>`}
+  g+=`<path d="${arc(A(0),A(1),r)}" stroke="rgba(255,255,255,.07)" stroke-width="14" fill="none"/>`;
+  if(S.hi>S.lo)g+=`<path d="${arc(A(S.lo),A(S.hi),r)}" stroke="${col}" stroke-opacity=".3" stroke-width="14" fill="none"/>`;
+  if(S.p>0)g+=`<path d="${arc(A(0),A(Math.max(.002,S.p)),r)}" stroke="${col}" stroke-width="4.5" fill="none" filter="url(#wrg)"/>`;
+  if(S.be!=null){const a=A(S.be),[x1,y1]=P(a,r-14),[x2,y2]=P(a,r+14);g+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--t2)" stroke-width="3" filter="url(#wrg)"/>`}
+  g+=aT(cx,cy-2,Math.round(S.p*100)+'%',{a:'middle',f:'var(--text)',s:36,w:800})+aT(cx,cy+18,`${Math.round(S.lo*100)}–${Math.round(S.hi*100)}% · 95% band`,{a:'middle',f:col,s:11,w:700})+
+    aT(cx,cy+34,`${esc(fo.s.name)} · ${S.n} trades`,{a:'middle',s:10.5,w:600})+(S.be!=null?aT(cx,cy+r+30,`◆ break-even ${Math.round(S.be*100)}%`,{a:'middle',f:'var(--t2)',s:10.5,w:700}):'');
+  const verdict={pass:['EDGE SHOWING','Whole band is above break-even.'],lose:['LOSING','Whole band is below break-even.'],wait:['NOT PROVEN YET','Band still crosses break-even — could be luck either way.'],few:['TOO FEW TRADES','Needs at least 20 closed trades to say anything.']}[S.st];
+  let yv=cy+r+56;if(nar){g+=aT(W/2,yv-6,verdict[0],{a:'middle',f:col,s:13,w:800,ls:.5})+aT(W/2,yv+10,verdict[1],{a:'middle',f:'var(--text)',s:11,w:500});yv+=34}
+  const tx=gw+18;if(!nar&&W-tx>150){g+=aT(tx,32,verdict[0],{f:col,s:14,w:800,ls:.5});const words=verdict[1].split(' ');let line='',ly=52;for(const w of words){if((line+w).length*6.2>W-tx-6){g+=aT(tx,ly,line,{f:'var(--text)',s:12,w:500});ly+=17;line=''}line+=w+' '}g+=aT(tx,ly,line,{f:'var(--text)',s:12,w:500});
+    g+=aT(tx,ly+28,'Green band = where the real win-rate',{s:11,w:500})+aT(tx,ly+43,'probably is. Amber ◆ = win-rate',{s:11,w:500})+aT(tx,ly+58,'needed to break even with these',{s:11,w:500})+aT(tx,ly+73,'wins and losses.',{s:11,w:500})}
+  const y0=yv,x0=Math.min(150,W*.36),x1=W-64,X=v=>x0+v*(x1-x0);g+=aT(6,y0-12,'STRATEGY',{s:9.5,ls:1.5})+aT(x0,y0-12,'0%',{s:9.5})+aT((x0+x1)/2,y0-12,'50%',{a:'middle',s:9.5})+aT(x1,y0-12,'100%',{a:'end',s:9.5});
+  rows.forEach((o,i)=>{const s=o.st,y=y0+i*22,c=o.s.col,lab={pass:['EDGE','var(--sbuy)'],lose:['LOSING','var(--ssell)'],wait:['NOT YET','var(--t1)'],few:['FEW','var(--dim)']}[s.st];
+    g+=`<g data-anzf="${o.s.id}" style="cursor:pointer"><rect x="0" y="${y-10}" width="${W}" height="20" fill="${o.s===fo.s?'rgba(41,231,255,.07)':'transparent'}"/>`+aT(6,y+4,esc(o.s.name.length>20?o.s.name.slice(0,19)+'…':o.s.name),{f:'var(--text)',s:11,w:700})+aT(x0-6,y+4,s.n,{a:'end',s:9.5,w:500})+
+      `<rect x="${x0}" y="${y-2}" width="${x1-x0}" height="4" fill="rgba(255,255,255,.05)"/>`+(s.hi>s.lo?`<rect x="${X(s.lo)}" y="${y-5}" width="${Math.max(2,X(s.hi)-X(s.lo))}" height="10" rx="2" fill="${c}" fill-opacity=".25" stroke="${c}" stroke-opacity=".55"/>`:'')+
+      (s.be!=null?`<line x1="${X(s.be)}" x2="${X(s.be)}" y1="${y-8}" y2="${y+8}" stroke="var(--t2)" stroke-width="2"/>`:'')+`<circle cx="${X(s.p)}" cy="${y}" r="4" fill="${c}" filter="url(#wrg)"/>`+aT(W-4,y+4,lab[0],{a:'end',f:lab[1],s:9.5,w:800})+'</g>'});
+  return `<svg width="${W}" height="${y0+rows.length*22+6}">${g}</svg>`}
+
+/* ---------- 05 Monte-Carlo ruin cone ---------- */
+function anzMC(W,f){const tr=f?anzPeriod(f).map(anzVal):[];if(tr.length<10)return `<div class="anzE">${f?esc(f.name)+': ':''}needs at least 10 closed trades in this period to simulate (has ${tr.length}). Pick another strategy in the win-rate list, or choose “All”.</div>`;
+  const rupee=ANZ.unit==='₹',cap=+PP().cap||100000,floor=rupee?-cap*0.25:-20;const key=f.id+ANZ.unit+ANZ.per+tr.length+tr[tr.length-1];
+  if(ANZ.mcKey!==key){let sd=12345;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;const P=400,N=100,paths=[];let ruin=0;
+    for(let k=0;k<P;k++){let v=0,dead=false;const a=new Float64Array(N+1);for(let i=1;i<=N;i++){v+=tr[Math.floor(rnd()*tr.length)];a[i]=v;if(v<=floor)dead=true}if(dead)ruin++;paths.push(a)}
+    const q=(i,pc)=>{const s=paths.map(a=>a[i]).sort((x,y)=>x-y);return s[Math.floor(pc*(P-1))]};const Q={};for(const pc of [.05,.25,.5,.75,.95])Q[pc]=Array.from({length:N+1},(_,i)=>q(i,pc));
+    ANZ.mc={paths,Q,ruin:ruin/P*100,N};ANZ.mcKey=key}
+  const {paths,Q,ruin,N}=ANZ.mc;const H=W<520?280:320,side=W>=480,L=44,R=side?150:12,Tp=14,B=26;
+  let lo=Math.min(floor*1.15,...Q[.05]),hi=Math.max(...Q[.95]);hi+=(hi-lo)*.05;const X=i=>L+i/N*(W-L-R),Y=v=>Tp+(hi-v)/(hi-lo)*(H-Tp-B);let g=anzDefs('mc');
+  for(const v of anzTicks(lo,hi,5))g+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(120,170,255,.08)"/>`+aT(L-6,Y(v)+4,anzShort(v),{a:'end',s:10,w:500});
+  for(const a of paths.slice(0,120))g+=`<path d="${aPath(Array.from(a,(v,i)=>[X(i),Y(v)]))}" fill="none" stroke="#29e7ff" stroke-opacity=".06"/>`;
+  const band=(l,h,op)=>{const up=Q[h].map((v,i)=>[X(i),Y(v)]),dn=Q[l].map((v,i)=>[X(i),Y(v)]).reverse();return `<path d="${aPath(up)}L${aPath(dn).slice(1)}Z" fill="#29e7ff" fill-opacity="${op}"/>`};
+  g+=band(.05,.95,.10)+band(.25,.75,.16)+`<path d="${aPath(Q[.5].map((v,i)=>[X(i),Y(v)]))}" fill="none" stroke="#fff" stroke-width="2" filter="url(#mcg)"/><path d="${aPath(Q[.05].map((v,i)=>[X(i),Y(v)]))}" fill="none" stroke="var(--t2)" stroke-width="1.3" stroke-dasharray="5 4"/>`;
+  const ry=Y(floor);if(ry<H-B)g+=`<rect x="${L}" y="${ry}" width="${W-L-R}" height="${H-B-ry}" fill="var(--ssell)" fill-opacity=".12"/><line x1="${L}" x2="${W-R}" y1="${ry}" y2="${ry}" stroke="var(--ssell)" stroke-width="2" filter="url(#mcg)"/>`+aT(L+6,ry-6,`RUIN FLOOR ${anzFmt(floor)}`,{f:'var(--ssell)',s:10,w:800,ls:.5});
+  for(let i=0;i<=N;i+=25)g+=aT(X(i),H-8,i,{a:'middle',s:10,w:500});g+=aT(W-R,H-8,'trades →',{a:'end',s:9.5,w:500});
+  const cards=[['CHANCE OF RUIN',ruin.toFixed(1)+'%',ruin<2?'var(--sbuy)':ruin<10?'var(--t1)':'var(--ssell)'],['LIKELY RESULT',anzFmt(Q[.5][N]),'var(--text)'],['BAD CASE · 1 IN 20',anzFmt(Q[.05][N]),'var(--t2)'],['GOOD CASE · 1 IN 20',anzFmt(Q[.95][N]),'var(--sbuy)']];
+  let side2='';if(side){cards.forEach(([l,v,c],i)=>{g+=aT(W-R+16,Tp+10+i*58,l,{s:9.5,ls:1})+aT(W-R+16,Tp+34+i*58,v,{f:c,s:i?17:22,w:800,x:'filter="url(#mcg)"'})})}
+  else side2=`<div class="anzMcC">${cards.map(([l,v,c])=>`<span>${l}<b style="color:${c}">${v}</b></span>`).join('')}</div>`;
+  return `<svg width="${W}" height="${H}">${g}</svg>${side2}<div class="anzNote">400 shuffled futures of <b>${esc(f.name)}</b>'s own ${tr.length} results${ANZ.per?` (last ${ANZ.per} days)`:''}, next 100 trades. Ruin = ${rupee?`losing 25% of your paper capital (${anzRs(cap).slice(1)})`:'down 20R (20 full losses)'} at any point.</div>`}
+
+/* ---------- 06 signal heat grid ---------- */
+function anzTrend(it,m){try{const b=aggBars(it.b1,m,isNse(it.def));if(b.length<8)return null;const c=b.map(x=>x.c),e=emaArr(c,Math.min(21,Math.max(5,b.length>>1))),a=atrArr(b,Math.min(14,b.length-2)),i=b.length-1;if(!(a[i]>0)||!isFinite(e[i]))return null;return Math.tanh((c[i]-e[i])/a[i]/2)}catch(e){return null}}
+function anzKr(it){const K=(window.FEED||{}).kronos||{},d=it.def;const want=d.id==='d:BTCUSD'?'BTC':d.id==='d:XAUTUSD'?'GOLD':null;
+  for(const [k,v] of Object.entries(K)){if(!v||v.up==null)continue;if((want&&k===want)||(!want&&v.key&&(v.key===d.key||v.key===d.sym)))return (v.up-.5)*2}return null}
+function anzTB(it){const a=it.active;if(a&&a.r==null&&a.side)return a.side*(a.status==='t1'?1:.8);const p=it.pend;if(p&&p.side)return p.side*.45;return null}
+function anzHeat(W){const its=[...S.inst.values()].filter(i=>i.status==='ok'&&!i.def.opt&&i.b1&&i.b1.length>60&&i.def.sig!==false);
+  const rank=i=>i.def.id==='d:BTCUSD'?0:i.def.id==='d:XAUTUSD'?1:/_INDEX\|/.test(i.def.key||'')?2:i.def.fut?3:i.def.src==='delta'?4:5;const rows=its.sort((a,b)=>rank(a)-rank(b)).slice(0,14);
+  if(!rows.length)return '<div class="anzE">No live prices yet. Open the Scanner once so markets load.</div>';
+  const cols=[['5m',5],['15m',15],['1h',60],['4h',240],['KRONOS','kr'],['TRADEBOT','tb']];const lw=Math.min(118,W*.3),cw=(W-lw-4)/cols.length,ch=W<520?28:30,y0=22;let g=anzDefs('hg');
+  cols.forEach(([n],j)=>g+=aT(lw+j*cw+cw/2,y0-8,cw<60&&j>=4?(j===4?'KRON':'TB'):n,{a:'middle',f:j>=4?'var(--cyan)':'var(--dim)',s:j>=4?8.5:10,w:800,ls:.3}));
+  rows.forEach((it,i)=>{const y=y0+i*ch,nm=it.def.name.split(' · ')[0];g+=aT(lw-8,y+ch/2+4,esc(nm.length>14?nm.slice(0,13)+'…':nm),{a:'end',f:'var(--text)',s:11,w:700});
+    cols.forEach(([n,m],j)=>{const v=m==='kr'?anzKr(it):m==='tb'?anzTB(it):anzTrend(it,m),x=lw+j*cw;
+      if(v==null){g+=`<rect x="${x+2}" y="${y+2}" width="${cw-4}" height="${ch-4}" rx="3" fill="rgba(255,255,255,.025)" stroke="rgba(255,255,255,.05)"/>`+aT(x+cw/2,y+ch/2+4,'·',{a:'middle',f:'var(--faint)',s:11});return}
+      const rgb=v>=0?'0,255,157':'255,45,111',a=.07+Math.abs(v)*.6;g+=`<rect x="${x+2}" y="${y+2}" width="${cw-4}" height="${ch-4}" rx="3" fill="rgba(${rgb},${a.toFixed(2)})" stroke="rgba(${rgb},${Math.min(1,a+.2).toFixed(2)})" stroke-width=".8" ${m==='tb'&&it.active&&it.active.r==null?'filter="url(#hgg)"':''}/>`;
+      if(Math.abs(v)>=.35)g+=aT(x+cw/2,y+ch/2+4,(v>0?'▲':'▼')+Math.round(Math.abs(v)*100),{a:'middle',f:'#fff',s:10.5,w:800})})});
+  const by=y0+rows.length*ch+16;return `<svg width="${W}" height="${by+6}">${g}</svg><div class="anzNote">Trend columns: price vs its recent average (up to 21 candles), scaled by normal candle size (▲ above, ▼ below). Kronos: share of paths up vs down. TradeBot: open trade (bright) or setup forming (faint). Green = buy side, red = sell side.</div>`}
+
+/* ---------- 03 order-book river (Delta public order book, watch-only) ---------- */
+async function anzObPoll(){for(const sym of ['BTCUSD','XAUTUSD']){try{const j=await jget(`${DAPI}/v2/l2orderbook/${sym}?depth=50`);const r=j.result||{};const B=(r.buy||[]).map(x=>[+x.price,+x.size]),A=(r.sell||[]).map(x=>[+x.price,+x.size]);if(!B.length||!A.length)continue;
+  const mid=(B[0][0]+A[0][0])/2,bands=sym==='BTCUSD'?[.0005,.0015,.004]:[.0003,.001,.003];const sum=(L,w)=>L.filter(x=>Math.abs(x[0]/mid-1)<=w).reduce((s,x)=>s+x[1],0);
+  const sizes=[...B,...A].map(x=>x[1]).sort((a,b)=>a-b),med=sizes[Math.floor(sizes.length/2)]||1;const big=[...B.map(x=>[1,x]),...A.map(x=>[-1,x])].filter(([,x])=>x[1]>=5*med&&Math.abs(x[0]/mid-1)<=bands[2]).map(([s,x])=>({s,d:Math.abs(x[0]/mid-1)/bands[2],z:Math.min(3,x[1]/med/5)}));
+  const q=ANZ.ob[sym];q.push({t:Date.now(),mid,b:bands.map(w=>sum(B,w)),a:bands.map(w=>sum(A,w)),big});while(q.length>180)q.shift()}catch(e){}}
+  if(ANZ.open)anzDraw('ob')}
+function anzRiver(W){const lanes=[['BTCUSD','Bitcoin',v=>'$'+v.toLocaleString('en-US',{maximumFractionDigits:1})],['XAUTUSD','Gold',v=>'$'+v.toLocaleString('en-US',{maximumFractionDigits:2})]];
+  const lh=W<520?150:168,H=lanes.length*(lh+10)+4;let g=anzDefs('ob');const N0=180;let any=false;
+  lanes.forEach(([sym,name,fp],li)=>{const q=ANZ.ob[sym],y0=li*(lh+10),mid=y0+lh/2,hh=lh/2-8;g+=`<rect x="0" y="${y0}" width="${W}" height="${lh}" fill="rgba(0,0,0,.18)" stroke="rgba(120,170,255,.08)"/>`;
+    if(q.length<2){g+=aT(W/2,mid+4,q.length?'collecting…':'connecting to Delta order book…',{a:'middle',s:11});return}any=true;
+    const N=Math.max(q.length,6),X=i=>4+i*(W-8)/(N-1),off=N-q.length,mx=Math.max(...q.flatMap(s=>[s.b[2],s.a[2]]))||1;
+    for(let k=2;k>=0;k--){const up=q.map((s,i)=>[X(off+i),mid-s.b[k]/mx*hh]),dn=q.map((s,i)=>[X(off+i),mid+s.a[k]/mx*hh]);const op=[.85,.6,.35][k];
+      g+=`<path d="${aSmooth(up)}L${X(N-1)} ${mid}L${X(off)} ${mid}Z" fill="url(#obb)" opacity="${op}"/><path d="${aSmooth(dn)}L${X(N-1)} ${mid}L${X(off)} ${mid}Z" fill="url(#oba)" opacity="${op}"/>`}
+    g+=`<path d="${aSmooth(q.map((s,i)=>[X(off+i),mid-s.b[2]/mx*hh]))}" fill="none" stroke="var(--cyan)" stroke-width="1.4" filter="url(#obg)"/><path d="${aSmooth(q.map((s,i)=>[X(off+i),mid+s.a[2]/mx*hh]))}" fill="none" stroke="var(--ssell)" stroke-width="1.4" filter="url(#obg)"/>`;
+    g+=`<path d="${aSmooth(q.map((s,i)=>[X(off+i),mid-(s.b[2]-s.a[2])/(s.b[2]+s.a[2]||1)*hh]))}" fill="none" stroke="var(--t2)" stroke-width="1.8" filter="url(#obg)"/>`;
+    q.forEach((s,i)=>{if(i%3)return;for(const b of s.big)g+=`<circle cx="${X(off+i)}" cy="${mid-b.s*(6+b.d*(hh-10))}" r="${2+b.z*2}" fill="none" stroke="${b.s>0?'var(--cyan)':'var(--ssell)'}" stroke-opacity=".55"/>`});
+    g+=`<line x1="4" x2="${W-4}" y1="${mid}" y2="${mid}" stroke="rgba(255,255,255,.22)" stroke-dasharray="2 4"/>`;
+    const L=q[q.length-1],pb=Math.round(100*L.b[2]/(L.b[2]+L.a[2]||1)),lab=pb>=55?['BUYERS PUSHING','var(--cyan)']:pb<=45?['SELLERS PUSHING','var(--ssell)']:['BALANCED','var(--dim)'];
+    g+=`<rect x="6" y="${y0+6}" width="128" height="38" rx="3" fill="rgba(3,8,18,.78)" stroke="rgba(255,255,255,.1)"/>`+aT(14,y0+21,name.toUpperCase(),{f:'var(--text)',s:10.5,w:800,ls:1})+aT(14,y0+38,fp(L.mid),{f:'var(--text)',s:12,w:700});
+    g+=`<rect x="${W-138}" y="${y0+6}" width="132" height="38" rx="3" fill="rgba(3,8,18,.78)" stroke="${lab[1]}" stroke-opacity=".6"/>`+aT(W-130,y0+21,lab[0],{f:lab[1],s:9.5,w:800,ls:.4})+aT(W-130,y0+38,pb+'% buy orders',{f:'var(--text)',s:12.5,w:800})});
+  const mins=Math.round((ANZ.ob.BTCUSD.length*2)/60*10)/10;
+  return `<svg width="${W}" height="${H}">${g}</svg><div class="anzLgS"><span><i style="background:var(--cyan)"></i>Buy orders near price</span><span><i style="background:var(--ssell)"></i>Sell orders</span><span><i style="background:var(--t2);height:3px"></i>Imbalance</span><span>○ Big orders</span></div>
+   <div class="anzNote">Live from Delta's public order book every 2 s while this screen is open${any?` · ${mins} min shown`:''}. <b>Watch only</b>: in our tests order-book pressure did not give a trading edge — big orders often get pulled before price reaches them.</div>`}
+
+/* ---------- shell ---------- */
+const ANZ_P=[['eq','01','EQUITY','every strategy · after charges'],['ob','03','ORDER-BOOK RIVER','Bitcoin & Gold · live'],['wr','04','REAL WIN-RATE','95% band vs break-even'],['mc','05','MONTE-CARLO RUIN CONE','next 100 trades'],['hg','06','SIGNAL HEAT GRID','buy ▲ ▼ sell']];
+function anzOpen(){let el=$('#anz');if(!el){el=document.createElement('div');el.id='anz';el.setAttribute('role','dialog');el.setAttribute('aria-label','Analysis');document.body.appendChild(el);
+    el.innerHTML=`<div class="anzTop"><div class="anzT"><b>ANALYSIS</b><span id="anzSub"></span></div><div class="anzCtl"><div class="anzSeg" id="anzPer"></div><div class="anzSeg" id="anzUnit"></div><button class="iconbtn" id="anzX" aria-label="Close analysis">✕</button></div></div>
+      <div class="anzG">${ANZ_P.map(([k,n,t,s])=>`<section class="anzp" data-p="${k}"><header><i>${n}</i><h3>${t}</h3><span>${s}</span>${k==='ob'?'<em class="anzLive">LIVE</em>':''}<button class="anzMax" data-max="${k}" aria-label="Full screen">⤢</button></header><div class="anzB" id="anz_${k}"></div></section>`).join('')}</div>`;
+    el.addEventListener('click',e=>{const b=e.target.closest('button,[data-anzf]');if(!b)return;
+      if(b.id==='anzX'){anzClose();return}
+      if(b.dataset.max){const p=el.querySelector(`[data-p="${b.dataset.max}"]`);const on=!p.classList.contains('max');el.querySelectorAll('.anzp.max').forEach(x=>x.classList.remove('max'));if(on)p.classList.add('max');ANZ.max=on?b.dataset.max:null;anzRender();return}
+      if(b.dataset.per!=null){ANZ.per=+b.dataset.per;store.set('pt.anzPer',ANZ.per);anzRender();return}
+      if(b.dataset.unit){ANZ.unit=b.dataset.unit;store.set('pt.anzUnit',ANZ.unit);anzRender();return}
+      if(b.dataset.anzs){const list=anzStrats();const cur=ANZ.show||list.filter(anzVis).map(s=>s.id);ANZ.show=cur.includes(b.dataset.anzs)?cur.filter(x=>x!==b.dataset.anzs):[...cur,b.dataset.anzs];store.set('pt.anzShow',ANZ.show);anzRender();return}
+      if(b.dataset.anzf){ANZ.focus=b.dataset.anzf;store.set('pt.anzFocus',ANZ.focus);anzRender();return}});
+    window.addEventListener('resize',()=>{if(ANZ.open){clearTimeout(ANZ.rz);ANZ.rz=setTimeout(anzRender,150)}});
+    window.addEventListener('paisa-feed',()=>{if(ANZ.open){clearTimeout(ANZ.fd);ANZ.fd=setTimeout(anzRender,800)}});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ANZ.open)anzClose()})}
+  ANZ.open=true;el.hidden=false;document.body.classList.add('anzOn');try{window.paisaLab&&window.paisaLab(true)}catch(e){}
+  anzRender();anzObPoll();clearInterval(ANZ.obT);ANZ.obT=setInterval(anzObPoll,2000);clearInterval(ANZ.rT);ANZ.rT=setInterval(()=>{anzDraw('hg');anzDraw('eq')},15000)}
+function anzClose(){ANZ.open=false;const el=$('#anz');if(el)el.hidden=true;document.body.classList.remove('anzOn');clearInterval(ANZ.obT);clearInterval(ANZ.rT);try{window.paisaLab&&window.paisaLab(S.view==='lab')}catch(e){}}
+function anzDraw(k){const b=$('#anz_'+k);if(!b||!ANZ.open)return;const W=Math.max(260,Math.floor(b.clientWidth));try{
+  const list=anzStrats(),f=anzFocus(list);
+  if(k==='eq')b.innerHTML=anzEquity(W,list)+anzLegend(list);else if(k==='wr')b.innerHTML=anzWin(W,list,f);else if(k==='mc')b.innerHTML=anzMC(W,f);else if(k==='hg')b.innerHTML=anzHeat(W);else if(k==='ob')b.innerHTML=anzRiver(W)}catch(e){b.innerHTML=`<div class="anzE">Could not draw this panel (${esc(e.message)}).</div>`}}
+function anzRender(){if(!ANZ.open)return;$('#anzPer').innerHTML=[[7,'7D'],[30,'30D'],[90,'90D'],[0,'ALL']].map(([d,n])=>`<button data-per="${d}" class="${ANZ.per===d?'on':''}">${n}</button>`).join('');
+  $('#anzUnit').innerHTML=['R','₹'].map(u=>`<button data-unit="${u}" class="${ANZ.unit===u?'on':''}" title="${u==='R'?'Risk units: 1R = one full loss. Fair across strategies.':'Rupees at the paper sizes'}">${u}</button>`).join('');
+  const list=anzStrats(),n=list.reduce((s,x)=>s+anzPeriod(x).length,0);$('#anzSub').textContent=`${list.length} strategies · ${n} closed paper trades${ANZ.per?` · last ${ANZ.per} days`:''}`;
+  for(const [k] of ANZ_P)anzDraw(k)}
+
 function renderLab(){if(S.view!=='lab'||!$('#lbGrid'))return;$('#lbGrid').classList.toggle('kr',LB.ix==='KRONOS');if(LB.ix!=='KRONOS'){KR.html='';const kb=$('#krBar');if(kb)kb.hidden=true}if(LB.ix==='KRONOS'){renderKronos();return}if(LB.ix==='CONDOR'){renderCondor();return}$('#lbPer').closest('.field').hidden=false;const F=window.FEED||{},X=lbX(),live=X?F.labx:F.lab,all=lbItems(),every=lbAll();const open=((live&&live.open)||[]).filter(t=>LB.ix==='ALL'||t.ix===LB.ix);
   const nm=t=>t.fut?`${t.ix==='BTC'?'Bitcoin':'Gold'} ${esc(t.type)}`:`${esc(t.ix)} ${t.strike} ${esc(t.type)}`;
   // status line
@@ -4002,7 +4212,7 @@ function renderBell(){const b=$('#bell');const on=CFG.alerts;b.setAttribute('ari
     :'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.7 3A6 6 0 0 1 18 8c0 2.8.5 4.7 1.1 6"/><path d="M17 17H3s3-2 3-9c0-.7.1-1.4.4-2"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/><path d="m2 2 20 20"/></svg>';
   const s=$('#sAlerts');if(s)s.checked=on}
 function setAlerts(on){CFG.alerts=on;saveCfg();renderBell();toast(on?'info':'wait',on?'Signal alerts ON':'Signal alerts OFF',on?'Popups, sound and vibration are back on.':'Signals still show on cards and in the log, silently.','',null,3500)}
-$('#bell').onclick=()=>setAlerts(!CFG.alerts);
+$('#bell').onclick=()=>setAlerts(!CFG.alerts);$('#anzBtn').onclick=()=>anzOpen();
 $('#sAlerts').onchange=e=>setAlerts(e.target.checked);
 
 /* ---------- per-market tuning: pick on older 60% of history, keep only if it also worked on the newest 40% ---------- */
@@ -4381,7 +4591,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=20.9"></script>
+<script type="module" src="auth.js?v=21.0"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
