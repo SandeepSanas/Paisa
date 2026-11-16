@@ -946,6 +946,13 @@ body.anzOn{overflow:hidden}
 .wlS{font-weight:800}.wlR.hot{border-color:var(--t1);animation:bigR .7s ease-in-out infinite alternate}.wlR.hot .wlS{color:var(--t1)}.wlR.warn .wlS{color:var(--cyan)}.wlR.ice .wlS{color:#c49bff}.wlR.ice{border-color:#c49bff}
 @media(max-width:480px){.wlR{grid-template-columns:1fr 1fr}.wlS{grid-column:1/-1}}
 .wlH{margin-top:8px;display:flex;flex-direction:column;gap:2px;font:500 11.5px var(--f-ui)}.wlH div{display:grid;grid-template-columns:62px 1fr;gap:6px;padding:3px 0;border-top:1px solid rgba(255,255,255,.04)}.wlH span:first-child{font-family:var(--f-num);color:var(--dim)}.wlH small{color:var(--dim)}
+
+.rdBox p{height:4.2em;overflow:hidden}.wlR{height:58px;overflow:hidden}.wlP{display:block!important}@media(max-width:480px){.wlR{height:84px}}.wlH div{height:22px;overflow:hidden;white-space:nowrap}.wlH div span:last-child{overflow:hidden;text-overflow:ellipsis}.flTr{height:22px}.flC .flT{min-height:1.3em}
+.wlSide{font:800 9.5px var(--f-ui);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:8px 0 2px}
+.wlR{min-height:58px}.wlR.wlE{opacity:.35}.wlH div{min-height:22px}.wlHe{opacity:0}
+.wlHelp{font:500 10.5px/1.5 var(--f-ui);color:var(--dim);margin:8px 0 0}
+.flTr{min-height:22px}
+#chFlow,.flC{overflow-anchor:none}
 .krst{font:600 11.5px/1.3 var(--f-ui);color:var(--cyan);margin-top:4px}.krst:empty{display:none}
 .kr2{font:700 10px/1 var(--f-ui);font-style:normal;padding:2px 4px;border-radius:4px;background:color-mix(in srgb,var(--cyan) 18%,transparent);color:var(--cyan);margin-left:3px}
 .krscore{font:500 12px/1.4 var(--f-ui);color:var(--dim);margin:6px 0 2px}.krscore b{color:var(--text)}.krscore small{display:block;font-size:11px;opacity:.85}.krsub{font:500 11.5px/1.35 var(--f-ui);color:var(--dim);margin:2px 0}
@@ -1157,7 +1164,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.3</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.4</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn anzBtn" id="anzBtn" aria-label="Open Analysis" title="Analysis: equity, real win-rate, ruin cone, heat grid, order book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/><circle cx="19" cy="6" r="1.6" fill="currentColor"/></svg><span>Analysis</span></button>
@@ -1291,7 +1298,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.3 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.4 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -4024,22 +4031,28 @@ async function flowUpstox(pairs){const live=pairs.filter(([,it])=>mktOpen(it.def
 /* ---- wall tracker: is a big wall holding, being eaten (real trades), pulled (cancelled), refilling (iceberg) or broken? ---- */
 const flK=n=>n==null?'—':n>=1e7?(n/1e7).toFixed(2)+' Cr':n>=1e5?(n/1e5).toFixed(2)+' L':n>=1e4?(n/1e3).toFixed(1)+'k':Math.round(n).toLocaleString('en-IN');
 function wallPick(L,mid,lim,mult){const med=flowMed(L.map(x=>x[1]))||1;return L.filter(x=>x[1]>=mult*med&&(!lim||Math.abs(x[0]/mid-1)<=lim)).sort((a,b)=>b[1]-a[1]).slice(0,2)}
-function wallTrack(f,B,A,trades,exact,lim){f.walls=f.walls||{};f.wev=f.wev||[];const now=Date.now();
-  for(const [sd,L] of [[1,B],[-1,A]])for(const [p,q] of wallPick(L,f.mid,lim,exact?3:2)){const k=sd+'|'+p;if(!f.walls[k])f.walls[k]={s:sd,p,peak:q,q,filled:0,pulled:0,refill:0,st:'hold',t0:now,lastFill:0}}
-  const act=Object.values(f.walls).filter(w=>!w.done);for(const sd of [1,-1]){const a=act.filter(w=>w.s===sd).sort((x,y)=>y.peak-x.peak);for(const w of a.slice(3))delete f.walls[w.s+'|'+w.p]}
+function wallTrack(f,B,A,trades,exact,lim){f.walls=f.walls||{};f.wev=f.wev||[];const now=Date.now(),claimed=new Set();
+  const tolP=x=>x*1e-7,moveTol=f.price*(exact?.0006:.0012);
   for(const k of Object.keys(f.walls)){const w=f.walls[k];if(w.done){if(now-w.done>25000)delete f.walls[k];continue}
-    const L=w.s>0?B:A;if(!L.length)continue;const tol=w.p*1e-7,lvl=L.find(x=>Math.abs(x[0]-w.p)<=tol),q1=lvl?lvl[1]:0,edge=L[L.length-1][0];
-    const crossed=w.s>0?f.price<w.p-tol:f.price>w.p+tol,outside=w.s>0?w.p<edge-tol:w.p>edge+tol;
+    const L=w.s>0?B:A;if(!L.length)continue;let lvl=L.find(x=>Math.abs(x[0]-w.p)<=tolP(w.p));
+    const crossed=w.s>0?f.price<w.p-tolP(w.p):f.price>w.p+tolP(w.p),edge=L[L.length-1][0],outside=w.s>0?w.p<edge:w.p>edge;
+    const gone=w.q-(lvl?lvl[1]:0);
+    if(!crossed&&gone>w.q*.5){   // a similar-size order re-appeared a few ticks away → it MOVED with price (market-maker robot), it was not cancelled
+      const mv=L.filter(x=>!claimed.has(x[0])&&Math.abs(x[0]-w.p)>tolP(w.p)&&Math.abs(x[0]-w.p)<=moveTol&&x[1]>=gone*.75&&x[1]<=w.q*1.4).sort((a,b)=>Math.abs(a[0]-w.p)-Math.abs(b[0]-w.p))[0];
+      if(mv){delete f.walls[k];w.p=mv[0];w.q=mv[1];w.moves=(w.moves||0)+1;w.lastMove=now;if(w.st!=='eat')w.st=w.moves>=2?'mm':w.st;f.walls[w.s+'|'+w.p]=w;claimed.add(mv[0]);continue}}
     if(!lvl&&outside&&!crossed){delete f.walls[k];continue}
+    if(lvl)claimed.add(lvl[0]);const q1=lvl?lvl[1]:0;
     const tr=trades.filter(x=>Math.abs(x.p-w.p)<=w.p*(exact?1e-7:2.5e-4)).reduce((a,x)=>a+x.q,0),d=w.q-q1;
     if(d>0){const fl=Math.min(d,tr);w.filled+=fl;w.pulled+=d-fl;if(fl>0)w.lastFill=now}
     else if(d<0){if(w.filled>0&&now-w.lastFill<15000)w.refill++;w.peak=Math.max(w.peak,q1)}
     w.q=q1;let st;
-    if(!lvl||q1<=w.peak*.1)st=crossed?'broken':w.pulled>w.filled?'pulled':'eaten';
-    else if(w.refill>=2)st='ice';else if(now-w.lastFill<10000&&q1<w.peak*.9)st='eat';else if(w.pulled>w.peak*.3&&q1<w.peak*.7)st='thin';else st='hold';
-    if(st!==w.st){if(['broken','pulled','eaten','ice'].includes(st))f.wev.unshift({t:now,s:w.s,p:w.p,st,peak:w.peak,filled:w.filled,pulled:w.pulled,exact});w.st=st;if(['broken','pulled','eaten'].includes(st))w.done=now}}
+    if(!lvl||q1<=w.peak*.1){if(w.moves>=1&&w.filled<w.peak*.3){delete f.walls[k];continue}st=w.filled>=w.peak*.3?(crossed?'broken':'eaten'):'pulled'}
+    else if(w.refill>=2)st='ice';else if(now-w.lastFill<10000&&q1<w.peak*.9)st='eat';else if(w.moves>=2)st='mm';else if(w.pulled>w.peak*.3&&q1<w.peak*.7)st='thin';else st='hold';
+    if(st!==w.st){if(['broken','pulled','eaten','ice'].includes(st)&&!(st==='pulled'&&w.moves>=2))f.wev.unshift({t:now,s:w.s,p:w.p,st,peak:w.peak,filled:w.filled,pulled:w.pulled,exact});w.st=st;if(['broken','pulled','eaten'].includes(st))w.done=now}}
+  for(const [sd,L] of [[1,B],[-1,A]])for(const [p,q] of wallPick(L,f.mid,lim,exact?3:2)){const k=sd+'|'+p;if(!f.walls[k]&&!claimed.has(p))f.walls[k]={s:sd,p,peak:q,q,filled:0,pulled:0,refill:0,moves:0,st:'hold',t0:now,lastFill:0}}
+  const act=Object.values(f.walls).filter(w=>!w.done);for(const sd of [1,-1]){const a=act.filter(w=>w.s===sd).sort((x,y)=>y.peak-x.peak);for(const w of a.slice(3))delete f.walls[w.s+'|'+w.p]}
   if(f.wev.length>8)f.wev.length=8}
-const WST={hold:['🧱','Holding','mid'],eat:['🍽️','Being eaten','hot'],thin:['📉','Thinning (orders cancelled)','warn'],ice:['🔁','Refilling — hidden big player','ice'],eaten:['🍽️','Eaten by real trades','hot'],pulled:['💨','Pulled — fake wall','warn'],broken:['✅','Broken — price went through','hot']};
+const WST={mm:['🤖','Moves with price (robot order)','mid'],hold:['🧱','Holding','mid'],eat:['🍽️','Being eaten','hot'],thin:['📉','Thinning (orders cancelled)','warn'],ice:['🔁','Refilling — hidden big player','ice'],eaten:['🍽️','Eaten by real trades','hot'],pulled:['💨','Pulled — fake wall','warn'],broken:['✅','Broken — price went through','hot']};
 /* ---- plain-English reading + direction lean (debounced; only changes when the picture really changes) ---- */
 function flowRead(f,cur){const W=f.sm??f.buy,v=f.v5||{b:0,s:0},vt=v.b+v.s,T=vt?v.b/vt:null,now=Date.now();const ws=Object.values(f.walls||{});
   const near=sd=>ws.filter(w=>w.s===sd&&!w.done).sort((a,b)=>Math.abs(a.p-f.price)-Math.abs(b.p-f.price))[0],up=near(-1),dn=near(1);
@@ -4096,8 +4109,8 @@ function flowCard(id,name,opt={}){const s=flowSrc(id);name=name||(s&&s.it?s.it.d
   const ladder=()=>{const n=Math.min(opt.full?10:6,f.B.length,f.A.length);let cb=0,ca=0;const cum=[];for(let i=0;i<n;i++){cb+=f.B[i][1];ca+=f.A[i][1];cum.push([cb,ca])}const mx=Math.max(cb,ca,1),mq=Math.max(...f.B.slice(0,n).map(x=>x[1]),...f.A.slice(0,n).map(x=>x[1]),1);
     let r='';for(let i=0;i<n;i++){const B=f.B[i],A=f.A[i],hb=B[1]>=mq*.8,ha=A[1]>=mq*.8;r+=`<div class="flLr"><span class="q ${hb?'hot':''}">${K(B[1])}</span><span class="bb"><i class="c" style="width:${cum[i][0]/mx*100}%"></i><i style="width:${B[1]/mx*100}%"></i></span><span class="p up">${fmtP(B[0])}</span><span class="p dn">${fmtP(A[0])}</span><span class="ab"><i class="c" style="width:${cum[i][1]/mx*100}%"></i><i style="width:${A[1]/mx*100}%"></i></span><span class="q ${ha?'hot':''}">${K(A[1])}</span></div>`}
     const spr=f.A[0][0]-f.B[0][0];return `<div class="flSec"><div class="flSt"><b>Order ladder</b><span>spread ${cur}${fmtP(spr)} · ${n} levels each side</span></div><div class="flLad"><div class="flLr hd"><span>qty</span><span>buyers waiting</span><span>buy at</span><span>sell at</span><span>sellers waiting</span><span>qty</span></div>${r}</div></div>`};
-  const tape=()=>{const L=f.tape.slice(0,opt.full?14:8);return `<div class="flSec"><div class="flSt"><b>${f.kind==='up'?'Traded every 3 s':'Live trades'}</b><span>${f.kind==='up'?'quantity traded between updates · side from price move':'green = buyer hit the ask · red = seller hit the bid'}</span></div>
-    ${L.length?`<div class="flTp">${L.map(x=>`<div class="flTr ${x.side>0?'up':x.side<0?'dn':''} ${x.big?'big':''}"><span>${new Date(x.t+IST*1000).toISOString().slice(11,19)}</span><span class="num">${cur}${fmtP(x.p)}</span><span class="num">${K(x.q)}</span><span>${x.big?'<em>BIG</em>':''}${x.side>0?'BUY':x.side<0?'SELL':'—'}</span></div>`).join('')}</div>`:'<p class="flM">Waiting for the first trades…</p>'}</div>`};
+  const tape=()=>{const nT=opt.full?14:8,L=f.tape.slice(0,nT);return `<div class="flSec"><div class="flSt"><b>${f.kind==='up'?'Traded every 3 s':'Live trades'}</b><span>${f.kind==='up'?'quantity traded between updates · side from price move':'green = buyer hit the ask · red = seller hit the bid'}</span></div>
+    ${L.length?`<div class="flTp" style="min-height:${nT*24}px">${L.map(x=>`<div class="flTr ${x.side>0?'up':x.side<0?'dn':''} ${x.big?'big':''}"><span>${new Date(x.t+IST*1000).toISOString().slice(11,19)}</span><span class="num">${cur}${fmtP(x.p)}</span><span class="num">${K(x.q)}</span><span>${x.big?'<em>BIG</em>':''}${x.side>0?'BUY':x.side<0?'SELL':'—'}</span></div>`).join('')}</div>`:'<p class="flM">Waiting for the first trades…</p>'}</div>`};
   const more=opt.full||FL.open[id];
   return box(`${opt.note?`<p class="flNote">${esc(opt.note)}</p>`:''}<div class="flTop"><div><div class="flH"><b>${esc(name)}</b>${opt.live?'<em class="anzLive">LIVE</em>':''}</div><div class="flPx num ${dir}">${cur}${fmtP(f.price)}</div>
       <div class="flChg">${pc!=null?`<span class="${pc>=0?'up':'dn'}">${pc>=0?'▲':'▼'} ${Math.abs(pc).toFixed(2)}% today</span>`:''}${f.ltq!=null?`<span>Last trade <b class="${f.lts>0?'up':f.lts<0?'dn':''}">${K(f.ltq)}</b> ${f.kind==='up'?'(qty in last 3 s)':''}</span>`:''}</div></div>
@@ -4109,24 +4122,24 @@ function flowCard(id,name,opt={}){const s=flowSrc(id);name=name||(s&&s.it?s.it.d
     <div class="flK"><div><small>Waiting to buy</small><b class="up">${K(tb)}</b></div><div><small>Waiting to sell</small><b class="dn">${K(ts)}</b></div><div><small>Bought · 5 min</small><b class="up">${K(v5.b)}</b></div><div><small>Sold · 5 min</small><b class="dn">${K(v5.s)}</b></div></div>
     ${vt?`<div class="flBar thin"><i class="b" style="width:${vb}%"></i><i class="s" style="width:${100-vb}%"></i><em></em></div><div class="flN"><span class="up">Bought ${vb}%</span><span class="flNs">actually traded · last 5 min</span><span class="dn">${100-vb}% Sold</span></div>`:''}
     ${sp}<div class="flT">${h.length>20?(trend>.04?'▲ buyers gaining':trend<-.04?'▼ sellers gaining':'• steady')+' · last '+anzClock(h.length*(f.kind==='delta'?2:3)/60):'building 5-minute history…'}${f.kind==='up'?` · whole book: ${wb}% buy orders`:''}</div>
-    ${wallsHTML(f,cur,K)}
-    ${more?ladder()+tape():''}${opt.full?'':`<button class="flMore" data-flo="${id}">${more?'Show less ▴':'Order ladder & live trades ▾'}</button>`}`,v[1])}
+    ${more?ladder()+tape()+wallsHTML(f,cur,K):''}${opt.full?'':`<button class="flMore" data-flo="${id}">${more?'Show less ▴':'Order ladder & live trades ▾'}</button>`}`,v[1])}
 
 function readHTML(f,id){const R=f.read;if(!R||!R.txt)return '';const ls=leanStats(id),mins=Math.round((Date.now()-(R.since||Date.now()))/60000);
   const lean=R.lean>0?'<em class="rdL up">Leaning UP</em>':R.lean<0?'<em class="rdL dn">Leaning DOWN</em>':'<em class="rdL">No lean</em>';
   const pc=x=>x.n?`${Math.round(100*x.w/x.n)}% of ${x.n}`:'—';
   return `<div class="rdBox ${R.lean>0?'up':R.lean<0?'dn':''}"><div class="rdH"><b>What this means</b>${lean}<small>${mins<1?'just changed':`for ${mins} min`}</small></div><p>${esc(R.txt)}</p>
    <div class="rdS">Lean track record on this phone: <b>5 min ${pc(ls.r5)}</b> · <b>15 min ${pc(ls.r15)}</b> · a coin flip is 50%${ls.r5.n<30?' · needs 30+ to judge':''}</div></div>`}
-function wallsHTML(f,cur,K){const ws=Object.values(f.walls||{}).filter(w=>!w.done||Date.now()-w.done<25000);const exact=f.kind==='delta';
-  const row=w=>{const st=WST[w.st]||WST.hold,pct=w.peak?Math.max(0,Math.min(100,w.q/w.peak*100)):0,dist=f.price?Math.abs(w.p/f.price-1)*100:0;
+function wallsHTML(f,cur,K){const exact=f.kind==='delta',act=Object.values(f.walls||{}).filter(w=>!w.done);
+  const row=w=>{if(!w)return '<div class="wlR wlE"><span class="wlP">—</span></div>';const st=WST[w.st]||WST.hold,pct=w.peak?Math.max(0,Math.min(100,w.q/w.peak*100)):0,dist=f.price?Math.abs(w.p/f.price-1)*100:0;
     return `<div class="wlR ${st[2]} ${w.s>0?'b':'s'}"><span class="wlP"><i class="${w.s>0?'up':'dn'}">●</i> ${w.s>0?'Buy':'Sell'} wall <b>${cur}${fmtP(w.p)}</b><small>${dist.toFixed(2)}% ${w.s>0?'below':'above'}</small></span>
-      <span class="wlQ"><span class="wlBar"><i style="width:${pct}%"></i></span><small>${K(w.q)} / ${K(w.peak)}</small></span>
-      <span class="wlS">${st[0]} ${exact||['hold','ice'].includes(w.st)?st[1]:'Likely '+st[1].toLowerCase()}${w.filled||w.pulled?`<small>filled ${K(w.filled)} · pulled ${K(w.pulled)}</small>`:''}</span></div>`};
-  const up=ws.filter(w=>w.s<0).sort((a,b)=>a.p-b.p),dn=ws.filter(w=>w.s>0).sort((a,b)=>b.p-a.p);
-  const ev=(f.wev||[]).slice(0,5);
-  return `<div class="flSec flWls"><div class="flSt"><b>Big walls</b><span>${exact?'checked against real trades every 2 s':'estimated (Upstox gives no trade-by-trade prices)'}</span></div>
-    ${up.length||dn.length?[...up.reverse(),...dn].map(row).join(''):'<p class="flM">No unusually big walls near the price right now.</p>'}
-    ${ev.length?`<div class="wlH">${ev.map(e=>{const st=WST[e.st];return `<div><span>${new Date(e.t+IST*1000).toISOString().slice(11,19)}</span><span>${st[0]} ${e.s>0?'Buy':'Sell'} wall ${cur}${fmtP(e.p)} — ${e.exact||e.st==='ice'?st[1].toLowerCase():'likely '+st[1].toLowerCase()}${e.st!=='ice'?` <small>(filled ${K(e.filled)}, pulled ${K(e.pulled)})</small>`:''}</span></div>`}).join('')}</div>`:''}</div>`}
+      <span class="wlQ"><span class="wlBar"><i style="width:${pct}%"></i></span><small>${K(w.q)} left of ${K(w.peak)}</small></span>
+      <span class="wlS">${st[0]} ${exact||['hold','ice','mm'].includes(w.st)?st[1]:'Likely '+st[1].toLowerCase()}<small>${w.filled?`filled ${K(w.filled)}`:'no trades at this price yet'}${w.pulled>w.peak*.05?` · cancelled ${K(w.pulled)}`:''}</small></span></div>`};
+  const up=act.filter(w=>w.s<0).sort((a,b)=>a.p-b.p).slice(0,2).reverse(),dn=act.filter(w=>w.s>0).sort((a,b)=>b.p-a.p).slice(0,2);while(up.length<2)up.unshift(null);while(dn.length<2)dn.push(null);
+  const ev=(f.wev||[]).slice(0,4);const evRows=ev.map(e=>{const st=WST[e.st];return `<div><span>${new Date(e.t+IST*1000).toISOString().slice(11,19)}</span><span>${st[0]} ${e.s>0?'Buy':'Sell'} wall ${cur}${fmtP(e.p)} — ${e.exact||e.st==='ice'?st[1].toLowerCase():'likely '+st[1].toLowerCase()}</span></div>`});while(evRows.length<4)evRows.push('<div class="wlHe"><span></span><span>&nbsp;</span></div>');
+  return `<div class="flSec flWls"><div class="flSt"><b>Big walls</b><span>2 nearest above & below · ${exact?'checked against real trades every 2 s':'estimated (Upstox gives no trade-by-trade prices)'}</span></div>
+    <div class="wlSide">Sellers above</div>${up.map(row).join('')}<div class="wlSide">Buyers below</div>${dn.map(row).join('')}
+    <div class="flSt" style="margin-top:8px"><b>Wall events</b><span>only real changes — eaten, broken, cancelled, iceberg</span></div><div class="wlH">${evRows.join('')}</div>
+    <p class="wlHelp">🧱 Holding = waiting · 🤖 Moves with price = a robot keeps its order next to the price (normal, not a bluff) · 🍽️ Eaten = really bought/sold by trades · 💨 Pulled = cancelled before price reached it · 🔁 Refilling = hidden big player · ✅ Broken = price went through.</p></div>`}
 function anzFlow(){return `<div class="flG">${FLOW_M.map(([id,n])=>flowCard(id,n)).join('')}</div><div class="anzNote">Top bar: orders <b>waiting</b> just below the price (buyers) vs just above (sellers). Second bar: what was <b>actually traded</b> in the last 5 minutes. Bitcoin & Gold: Delta every 2 s. MCX & futures: your Upstox token every 3 s (5 price levels — the most Upstox gives). <b>Watch only</b> — in our tests this did not predict the next move; big walls are often pulled before price reaches them.</div>`}
 /* chart tab: mood + order flow for the open market */
 function chMoodHTML(it){const m=anzMoodOf(it);if(!m)return '';const kr=anzKr(it),tb=anzTB(it);const arr=v=>v==null?'<i class="na">·</i>':`<i class="${v>.15?'up':v<-.15?'dn':'mid'}">${v>.15?'▲':v<-.15?'▼':'▬'}</i>`;
@@ -4867,7 +4880,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=21.3"></script>
+<script type="module" src="auth.js?v=21.4"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
