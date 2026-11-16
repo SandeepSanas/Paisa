@@ -844,7 +844,7 @@ body.anzOn{overflow:hidden}
 .anzp{border-radius:14px;padding:12px 14px 14px;transition:box-shadow .3s}
 .anzp:hover{box-shadow:inset 0 0 40px rgba(41,231,255,.06),0 0 0 1px rgba(41,231,255,.25),0 16px 50px rgba(0,0,0,.45)}
 .anzp header h3{font-size:13.5px}
-#anz .up{color:var(--sbuy)}#anz .dn{color:var(--ssell)}
+.anzS .up{color:var(--sbuy)}.anzS .dn{color:var(--ssell)}
 /* pulse */
 .plsS{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .plsS span{display:flex;align-items:center;gap:6px;font:500 11.5px var(--f-ui);color:var(--dim);padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025)}
@@ -905,6 +905,33 @@ body.anzOn{overflow:hidden}
 .mdX{grid-area:x;display:flex;flex-wrap:wrap;gap:6px}.mdX:empty{display:none}.mdX em{font:700 10.5px var(--f-ui);font-style:normal;padding:2px 8px;border-radius:999px;background:rgba(255,255,255,.05)}
 .mdX em.tbo{box-shadow:0 0 0 1px currentColor}
 @media(max-width:420px){.mdR{grid-template-columns:1fr auto;grid-template-areas:"n v" "a a" "x x"}.mdV{text-align:right}}
+
+#chFlow{margin:10px 0}#chFlow:empty{display:none}.chFlowWrap{display:flex;flex-direction:column;gap:8px}
+.chMd{cursor:default}.mdLbl{font:800 9px var(--f-ui);letter-spacing:.14em;color:var(--cyan)}.mdHelp{color:var(--dim)!important;background:transparent!important;font-weight:500!important}
+.flPx{font:800 26px/1.15 var(--f-num);letter-spacing:.01em;margin-top:2px;color:var(--text)}
+.flPx.fu{animation:fu 1.1s ease-out}.flPx.fd{animation:fd 1.1s ease-out}
+.flTop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.flH em.anzLive{margin-left:8px}
+.flChg{display:flex;flex-wrap:wrap;gap:4px 12px;font:600 11.5px var(--f-ui);color:var(--dim);margin-top:2px}.flChg b{font-family:var(--f-num)}
+.flBig{flex:none;text-align:right;padding:6px 10px;border-radius:10px;border:1px solid currentColor;animation:bigB .8s ease-in-out infinite alternate}
+.flBig b{display:block;font:900 12px var(--f-ui);letter-spacing:.1em}.flBig span{font:700 11.5px var(--f-num);color:var(--text)}
+.flBig.up{color:var(--sbuy);background:color-mix(in srgb,var(--sbuy) 14%,transparent)}.flBig.dn{color:var(--ssell);background:color-mix(in srgb,var(--ssell) 14%,transparent)}
+@keyframes bigB{from{box-shadow:0 0 0 0 currentColor;opacity:1}to{box-shadow:0 0 18px 2px currentColor;opacity:.75}}
+.flNs{font:500 9.5px var(--f-ui);color:var(--dim);text-transform:uppercase;letter-spacing:.06em;align-self:center}
+.flK{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0 8px}.flK div{display:flex;flex-direction:column;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06)}
+.flK small{font:600 9.5px var(--f-ui);color:var(--dim);letter-spacing:.04em;text-transform:uppercase}.flK b{font:800 15px var(--f-num)}
+@media(max-width:420px){.flK{grid-template-columns:1fr 1fr}}
+.flBar.thin{height:8px}
+.flSec{margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.07)}.flSt{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-bottom:4px}.flSt b{font:800 12px var(--f-ui);letter-spacing:.06em;text-transform:uppercase}.flSt span{font:500 10.5px var(--f-ui);color:var(--dim)}
+.flLr{grid-template-columns:58px 1fr auto auto 1fr 58px}.flLr .bb,.flLr .ab{position:relative;height:12px}.flLr .bb i,.flLr .ab i{position:absolute;top:0;bottom:0}.flLr .bb i{right:0}.flLr .ab i{left:0}
+.flLr .bb i.c{background:color-mix(in srgb,var(--sbuy) 18%,transparent)}.flLr .ab i.c{background:color-mix(in srgb,var(--ssell) 18%,transparent)}
+.flLr .q.hot{color:var(--t1);font-weight:800}.flLr .p{font-weight:800}
+.flTp{display:flex;flex-direction:column;gap:1px;font:600 11.5px var(--f-num)}
+.flTr{display:grid;grid-template-columns:64px 1fr 70px 76px;gap:6px;padding:3px 6px;border-radius:5px}.flTr span:nth-child(3){text-align:right}.flTr span:last-child{text-align:right;font:800 10.5px var(--f-ui)}
+.flTr.up{background:color-mix(in srgb,var(--sbuy) 7%,transparent)}.flTr.dn{background:color-mix(in srgb,var(--ssell) 7%,transparent)}.flTr.up span:last-child{color:var(--sbuy)}.flTr.dn span:last-child{color:var(--ssell)}
+.flTr.big{animation:bigR .7s ease-in-out infinite alternate;font-weight:800}.flTr.big em{font-style:normal;background:var(--t1);color:#000;border-radius:4px;padding:0 4px;margin-right:4px}
+.flTr.big.up{box-shadow:inset 3px 0 0 var(--sbuy)}.flTr.big.dn{box-shadow:inset 3px 0 0 var(--ssell)}
+@keyframes bigR{from{filter:brightness(1)}to{filter:brightness(1.9)}}
+.flNote{font:500 11px var(--f-ui);color:var(--t1);margin:0 0 6px}
 .krst{font:600 11.5px/1.3 var(--f-ui);color:var(--cyan);margin-top:4px}.krst:empty{display:none}
 .kr2{font:700 10px/1 var(--f-ui);font-style:normal;padding:2px 4px;border-radius:4px;background:color-mix(in srgb,var(--cyan) 18%,transparent);color:var(--cyan);margin-left:3px}
 .krscore{font:500 12px/1.4 var(--f-ui);color:var(--dim);margin:6px 0 2px}.krscore b{color:var(--text)}.krscore small{display:block;font-size:11px;opacity:.85}.krsub{font:500 11.5px/1.35 var(--f-ui);color:var(--dim);margin:2px 0}
@@ -1116,7 +1143,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.1</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.2</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn anzBtn" id="anzBtn" aria-label="Open Analysis" title="Analysis: equity, real win-rate, ruin cone, heat grid, order book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/><circle cx="19" cy="6" r="1.6" fill="currentColor"/></svg><span>Analysis</span></button>
@@ -1188,6 +1215,7 @@ body:not(.locked) .login{display:none}
       <div class="panel chartbox"><div id="chart"></div><div class="chmsg" id="chMsg">Loading chart…</div>
         <div class="chov"><div class="chovrow" id="chOvRow"></div><div class="chprice"><span class="px num" id="chPx">—</span><span class="chg num" id="chChg"></span></div></div></div>
       <div class="readout" id="chRead"></div>
+      <div id="chFlow"></div>
       <div class="ovl" id="chOvl"></div>
     </section>
 
@@ -1249,7 +1277,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.1 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.2 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -2257,7 +2285,7 @@ function show(v){if(S.view==='chart'&&v!=='chart'&&CH){try{S.chart.range=CH.char
   if(v!=='chart'&&$('#chTimer'))$('#chTimer').hidden=true;if(v==='chart'){if(MC.n>1)renderLayout();else{$('#chLay')&&$('#chLay').querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.n===1));loadChart(back&&!!CH&&S.chart.loaded===(S.chart.id+'@'+S.chart.tf))}}
   if(v!=='chart'&&MC.panes.length)mcDestroy();if(v==='opt')initOpt();if(v==='lab')openLab();if(v==='log')renderLog();if(v==='algo')renderAlgo();if(v==='set')renderSettings();if(v==='news')renderNews();window.scrollTo(0,0)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>show(b.dataset.v));
-function openChart(id){S.chart.id=id;if(MC.n>1){MC.n=1;mcSave();$('#v-chart').classList.remove('multi');$('#mGrid').hidden=true;mcDestroy()}show('chart')}
+function openChart(id){S.chart.id=id;setTimeout(()=>{chFlowRender();flowTick()},50);if(MC.n>1){MC.n=1;mcSave();$('#v-chart').classList.remove('multi');$('#mGrid').hidden=true;mcDestroy()}show('chart')}
 
 /* ---------- chart ---------- */
 let CH=null;
@@ -3950,43 +3978,84 @@ function anzPulse(){if(!ANZ.open||!$('#plsP'))return;
    <h4 style="margin-top:10px">Latest signals</h4>${ls.length?ls.map(x=>`<div class="plsL"><span class="sd ${x.side>0?'up':'dn'}">${x.side>0?'BUY':'SELL'}</span><span>${esc(x.n)} <small>${x.src}</small></span><small>${anzAgo(x.t)}</small></div>`).join(''):'<div class="plsN">No signals yet.</div>'}`}
 
 /* ---------- BUYERS vs SELLERS: who has more orders waiting near the price ---------- */
-const FLOW_M=[['BTCUSD','Bitcoin','delta',.0025],['XAUTUSD','Gold','delta',.0015],['u:FUT|CRUDEOIL','Crude oil','up'],['u:FUT|NATURALGAS','Natural gas','up'],['u:FUT|SILVER','Silver','up'],['u:FUT|NIFTY','NIFTY FUT','up'],['u:FUT|SENSEX','SENSEX FUT','up']];
-ANZ.fl={};
-function anzFlowPush(id,o){const f=ANZ.fl[id]=ANZ.fl[id]||{h:[]};Object.assign(f,o,{t:Date.now()});f.h.push(o.buy);while(f.h.length>150)f.h.shift();f.sm=f.h.slice(-5).reduce((a,b)=>a+b,0)/Math.min(5,f.h.length)}
-async function anzFlowPoll(){if(!ANZ.open)return;
-  await Promise.all(FLOW_M.filter(m=>m[2]==='delta').map(async([sym,,,band])=>{try{const j=await jget(`${DAPI}/v2/l2orderbook/${sym}?depth=60`);const r=j.result||{};
-    const B=(r.buy||[]).map(x=>[+x.price,+x.size]),A=(r.sell||[]).map(x=>[+x.price,+x.size]);if(!B.length||!A.length)return;const mid=(B[0][0]+A[0][0])/2;
-    const near=(L)=>L.filter(x=>Math.abs(x[0]/mid-1)<=band).reduce((s,x)=>s+x[1],0),bq=near(B),aq=near(A);const wall=L=>L.filter(x=>Math.abs(x[0]/mid-1)<=band*4).sort((a,b)=>b[1]-a[1])[0];
-    anzFlowPush(sym,{price:mid,buy:bq/(bq+aq||1),bw:wall(B),aw:wall(A),lad:{b:B.slice(0,8),a:A.slice(0,8)},open:true,usd:true})}catch(e){}}));
-  const ups=FLOW_M.filter(m=>m[2]==='up').map(m=>[m,S.inst.get(m[0])]).filter(([,it])=>it&&it.def&&it.def.key);
-  const live=ups.filter(([,it])=>mktOpen(it.def));for(const [m,it] of ups)if(!mktOpen(it.def))anzFlowPush(m[0],{closed:true,buy:.5,price:it.price});
-  if(CFG.token&&live.length&&(!ANZ.upT||Date.now()-ANZ.upT>2800)){ANZ.upT=Date.now();try{const q=await upQuotes(live.map(([,it])=>it.def.key));
-    for(const [m,it] of live){const v=Object.values(q).find(x=>x.instrument_token===it.def.key)||q[it.def.key];if(!v||!v.depth)continue;
-      const B=(v.depth.buy||[]).filter(x=>+x.quantity>0).map(x=>[+x.price,+x.quantity]),A=(v.depth.sell||[]).filter(x=>+x.quantity>0).map(x=>[+x.price,+x.quantity]);if(!B.length||!A.length)continue;
-      const bq=B.reduce((s,x)=>s+x[1],0),aq=A.reduce((s,x)=>s+x[1],0),top=L=>L.slice().sort((a,b)=>b[1]-a[1])[0];
-      anzFlowPush(m[0],{price:+v.last_price||(B[0][0]+A[0][0])/2,buy:bq/(bq+aq||1),bw:top(B),aw:top(A),lad:{b:B,a:A},open:true,tb:+v.total_buy_quantity,ts:+v.total_sell_quantity})}}catch(e){ANZ.upErr=e.status||1}}
-  anzDraw('fl')}
-function anzFlowCard(m){const [id,name,src]=m,f=ANZ.fl[id],it=src==='up'?S.inst.get(id):null;
-  const head=(price,usd)=>`<div class="flH"><b>${name}</b><span class="num">${price!=null?(usd?'$':'₹')+fmtP(price):''}</span></div>`;
-  if(src==='up'&&!it)return `<div class="flC off">${head(null)}<p class="flM">Not in your market list.</p></div>`;
-  if(src==='up'&&!CFG.token)return `<div class="flC off">${head(it.price)}<p class="flM">Needs your Upstox token (Settings) for live order data.</p></div>`;
-  if(f&&f.closed)return `<div class="flC off">${head(it&&it.price)}<p class="flM">Market closed — opens ${isMcx(it.def)?'9:00 am':'9:15 am'} on the next trading day.</p></div>`;
-  if(!f)return `<div class="flC off">${head(it&&it.price,src==='delta')}<p class="flM">Connecting…</p></div>`;
-  const b=Math.round((f.sm??f.buy)*100),s=100-b,usd=!!f.usd;const v=b>=60?['Buyers stronger','up']:b<=40?['Sellers stronger','dn']:b>=53?['Buyers slightly ahead','up2']:b<=47?['Sellers slightly ahead','dn2']:['Evenly matched','mid'];
-  const h=f.h.slice(-90),W=200,H=34;let sp='';if(h.length>2){const pts=h.map((x,i)=>[i/(h.length-1)*W,H-x*H]);sp=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" class="flSp"><line x1="0" x2="${W}" y1="${H/2}" y2="${H/2}" stroke="rgba(255,255,255,.25)" stroke-dasharray="3 3"/><path d="${aPath(pts)}L${W} ${H}L0 ${H}Z" fill="rgba(0,255,157,.10)"/><path d="${aPath(pts)}" fill="none" stroke="var(--sbuy)" stroke-width="1.6"/></svg>`}
-  const trend=h.length>20?(h.slice(-10).reduce((a,c)=>a+c,0)/10-h.slice(0,10).reduce((a,c)=>a+c,0)/10):0;
-  const dist=x=>x&&f.price?Math.abs(x[0]/f.price-1)*100:null,fp=x=>(usd?'$':'₹')+fmtP(x);
-  const lad=f.lad?(()=>{const mx=Math.max(...f.lad.b.map(x=>x[1]),...f.lad.a.map(x=>x[1]),1);const n=Math.min(6,f.lad.b.length,f.lad.a.length);let r='';for(let i=0;i<n;i++){const B=f.lad.b[i],A=f.lad.a[i];
-    r+=`<div class="flLr"><span class="q">${Math.round(B[1]).toLocaleString('en-IN')}</span><span class="bb"><i style="width:${B[1]/mx*100}%"></i></span><span class="p up">${fmtP(B[0])}</span><span class="p dn">${fmtP(A[0])}</span><span class="ab"><i style="width:${A[1]/mx*100}%"></i></span><span class="q">${Math.round(A[1]).toLocaleString('en-IN')}</span></div>`}
-    return `<div class="flLad"><div class="flLr hd"><span>qty</span><span></span><span>buy at</span><span>sell at</span><span></span><span>qty</span></div>${r}</div>`})():'';
-  return `<div class="flC ${v[1]}" data-fl="${id}">${head(f.price,usd)}
+/* ---------- ORDER FLOW (shared by Analysis and the Chart tab): order book, live trades, totals ---------- */
+const FLOW_M=[['d:BTCUSD','Bitcoin'],['d:XAUTUSD','Gold'],['u:FUT|CRUDEOIL','Crude oil'],['u:FUT|NATURALGAS','Natural gas'],['u:FUT|SILVER','Silver'],['u:FUT|NIFTY','NIFTY FUT'],['u:FUT|SENSEX','SENSEX FUT']];
+const FLOW_IDX={'NSE_INDEX|Nifty 50':'u:FUT|NIFTY','NSE_INDEX|Nifty Bank':'u:FUT|BANKNIFTY','BSE_INDEX|SENSEX':'u:FUT|SENSEX','NSE_INDEX|NIFTY MID SELECT':'u:FUT|MIDCPNIFTY','BSE_INDEX|BANKEX':'u:FUT|BANKEX','NSE_INDEX|Nifty Fin Service':'u:FUT|FINNIFTY'};
+const FL={s:{},open:{},upT:0,busy:false};
+function flowSrc(id){const it=S.inst.get(id);if(!it)return null;const d=it.def;if(d.src==='delta'&&d.sym)return {kind:'delta',it,sym:d.sym};if(FLOW_IDX[d.key])return {kind:'idx',it,to:FLOW_IDX[d.key]};if(d.key&&/^(NSE|BSE|MCX)_(FO|EQ)\|/.test(d.key)||d.fut||isMcx(d))return {kind:'up',it};return {kind:'none',it}}
+function flowState(id){return FL.s[id]=FL.s[id]||{h:[],tape:[],seen:new Set(),sizes:[]}}
+function flowMed(a){if(!a.length)return 0;const b=a.slice().sort((x,y)=>x-y);return b[b.length>>1]}
+function flowAddTrade(f,tr){f.tape.unshift(tr);if(f.tape.length>120)f.tape.length=120;f.sizes.push(tr.q);if(f.sizes.length>300)f.sizes.shift()}
+function flowFinish(f,o){Object.assign(f,o);f.t=Date.now();f.h.push(f.buy);while(f.h.length>150)f.h.shift();f.sm=f.h.slice(-5).reduce((a,b)=>a+b,0)/Math.min(5,f.h.length);
+  const cut=Date.now()-5*60000;let b=0,s=0;for(const x of f.tape){if(x.t<cut)break;if(x.side>0)b+=x.q;else if(x.side<0)s+=x.q}f.v5={b,s}}
+async function flowDelta(id,sym){const f=flowState(id),band=/BTC|ETH/.test(sym)?.0025:.0015;
+  const [bk,tr]=await Promise.all([jget(`${DAPI}/v2/l2orderbook/${sym}?depth=60`).catch(()=>null),jget(`${DAPI}/v2/trades/${sym}`).catch(()=>null)]);
+  const r=bk&&bk.result||{},B=(r.buy||[]).map(x=>[+x.price,+x.size]),A=(r.sell||[]).map(x=>[+x.price,+x.size]);if(!B.length||!A.length)return;
+  const mid=(B[0][0]+A[0][0])/2,near=L=>L.filter(x=>Math.abs(x[0]/mid-1)<=band).reduce((s,x)=>s+x[1],0),bq=near(B),aq=near(A),wall=L=>L.filter(x=>Math.abs(x[0]/mid-1)<=band*4).sort((a,b)=>b[1]-a[1])[0];
+  const list=((tr&&tr.result)||[]).slice().reverse();const med=Math.max(1,flowMed(f.sizes));let last=null;
+  for(const x of list){const k=`${x.timestamp}|${x.price}|${x.size}|${x.buyer_role}`;if(f.seen.has(k))continue;f.seen.add(k);const q=+x.size;
+    const t={t:Math.floor(+x.timestamp/1000),p:+x.price,q,side:x.buyer_role==='taker'?1:-1,big:f.sizes.length>30&&q>=5*med&&q>=10};if(f.tape.length||f.sizes.length)flowAddTrade(f,t);else f.sizes.push(q);last=t}
+  if(f.seen.size>2000)f.seen=new Set([...f.seen].slice(-600));
+  const lt=last||f.tape[0];flowFinish(f,{kind:'delta',usd:true,price:lt?lt.p:mid,mid,ltq:lt?lt.q:null,lts:lt?lt.side:0,buy:bq/(bq+aq||1),bw:wall(B),aw:wall(A),B:B.slice(0,10),A:A.slice(0,10),tb:B.reduce((s,x)=>s+x[1],0),ts:A.reduce((s,x)=>s+x[1],0),unit:'contracts',closed:false})}
+async function flowUpstox(pairs){const live=pairs.filter(([,it])=>mktOpen(it.def));for(const [id,it] of pairs)if(!mktOpen(it.def))flowState(id).closed=true;
+  if(!CFG.token||!live.length||Date.now()-FL.upT<2800)return;FL.upT=Date.now();
+  const q=await upQuotes(live.map(([,it])=>it.def.key));
+  for(const [id,it] of live){const v=Object.values(q).find(x=>x&&x.instrument_token===it.def.key)||q[it.def.key];if(!v||!v.depth)continue;const f=flowState(id);f.closed=false;
+    const B=(v.depth.buy||[]).filter(x=>+x.quantity>0).map(x=>[+x.price,+x.quantity]),A=(v.depth.sell||[]).filter(x=>+x.quantity>0).map(x=>[+x.price,+x.quantity]);if(!B.length||!A.length)continue;
+    const px=+v.last_price,vol=+v.volume||0;
+    if(f.vol!=null&&vol>f.vol){const dq=vol-f.vol,side=px>f.price?1:px<f.price?-1:(f.lts||0),med=Math.max(1,flowMed(f.sizes.slice(-40)));flowAddTrade(f,{t:Date.now(),p:px,q:dq,side,big:f.sizes.length>10&&dq>=5*med,burst:1})}
+    f.vol=vol;const bq=B.reduce((s,x)=>s+x[1],0),aq=A.reduce((s,x)=>s+x[1],0),top=L=>L.slice().sort((a,b)=>b[1]-a[1])[0];
+    flowFinish(f,{kind:'up',usd:false,price:px||(B[0][0]+A[0][0])/2,mid:(B[0][0]+A[0][0])/2,ltq:f.tape[0]&&f.tape[0].burst?f.tape[0].q:null,lts:f.tape[0]?f.tape[0].side:0,buy:bq/(bq+aq||1),bw:top(B),aw:top(A),B,A,tb:+v.total_buy_quantity||bq,ts:+v.total_sell_quantity||aq,unit:'qty',lot:it.def.lot})}}
+function flowWanted(){const ids=new Set();if(ANZ.open)FLOW_M.forEach(m=>ids.add(m[0]));if(S.view==='chart'&&!document.hidden&&S.chart&&S.chart.id){const s=flowSrc(S.chart.id);if(s)ids.add(s.kind==='idx'?s.to:S.chart.id)}return [...ids]}
+async function flowTick(){if(FL.busy)return;const ids=flowWanted();if(!ids.length)return;FL.busy=true;
+  try{const ups=[];await Promise.all(ids.map(async id=>{const s=flowSrc(id);if(!s)return;if(s.kind==='delta')await flowDelta(id,s.sym);else if(s.kind==='up')ups.push([id,s.it])}));
+    if(ups.length)try{await flowUpstox(ups)}catch(e){}}finally{FL.busy=false}
+  if(ANZ.open)anzDraw('fl');if(S.view==='chart')chFlowRender()}
+setInterval(flowTick,2000);
+document.addEventListener('click',e=>{const b=e.target.closest('#chFlow [data-flo]');if(!b)return;FL.open[b.dataset.flo]=!FL.open[b.dataset.flo];chFlowRender()});
+/* card */
+function flowCard(id,name,opt={}){const s=flowSrc(id);name=name||(s&&s.it?s.it.def.name.split(' · ')[0]:id);
+  const box=(inner,cls='')=>`<div class="flC ${cls}" data-fl="${id}">${cls==='off'&&opt.note?`<p class="flNote">${esc(opt.note)}</p>`:''}${inner}</div>`,hd=(p,usd)=>`<div class="flH"><b>${esc(name)}</b></div>${p!=null?`<div class="flPx num">${usd?'$':'₹'}${fmtP(p)}</div>`:''}`;
+  if(!s)return box(`${hd(null)}<p class="flM">Not in your market list. Turn it on in the Scanner's futures list.</p>`,'off');
+  if(s.kind==='none')return box(`${hd(s.it.price,s.it.def.src==='delta')}<p class="flM">No order book is available for this market.</p>`,'off');
+  if(s.kind==='idx'){const t=S.inst.get(s.to);if(!t)return box(`${hd(s.it.price)}<p class="flM">An index has no order book of its own. Turn on its futures in the Scanner to see orders here.</p>`,'off');return flowCard(s.to,null,{...opt,note:`${name} is an index (no order book of its own) — showing its futures.`})}
+  const it=s.it,f=FL.s[id];
+  if(s.kind==='up'&&!CFG.token)return box(`${hd(it.price)}<p class="flM">Needs your Upstox token (Settings) for live order data.</p>`,'off');
+  if(s.kind==='up'&&!mktOpen(it.def))return box(`${hd(it.price)}<p class="flM">Market closed — opens ${isMcx(it.def)?'9:00 am':'9:15 am'} on the next trading day.</p>`,'off');
+  if(!f||f.buy==null)return box(`${hd(it.price,s.kind==='delta')}<p class="flM">Connecting…</p>`,'off');
+  const usd=!!f.usd,cur=usd?'$':'₹',b=Math.round((f.sm??f.buy)*100),sl=100-b;const v=b>=60?['Buyers stronger','up']:b<=40?['Sellers stronger','dn']:b>=53?['Buyers slightly ahead','up2']:b<=47?['Sellers slightly ahead','dn2']:['Evenly matched','mid'];
+  const pc=pctOf(it),dir=f.lastShown!=null&&f.price!==f.lastShown?(f.price>f.lastShown?'fu':'fd'):'';f.lastShown=f.price;
+  const K=n=>n==null?'—':n>=1e7?(n/1e7).toFixed(2)+' Cr':n>=1e5?(n/1e5).toFixed(2)+' L':n>=1e4?(n/1e3).toFixed(1)+'k':Math.round(n).toLocaleString('en-IN');
+  const h=f.h.slice(-90),W=200,H=30;let sp='';if(h.length>2){const pts=h.map((x,i)=>[i/(h.length-1)*W,H-x*H]);sp=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" class="flSp"><line x1="0" x2="${W}" y1="${H/2}" y2="${H/2}" stroke="rgba(255,255,255,.25)" stroke-dasharray="3 3"/><path d="${aPath(pts)}L${W} ${H}L0 ${H}Z" fill="rgba(0,255,157,.10)"/><path d="${aPath(pts)}" fill="none" stroke="var(--sbuy)" stroke-width="1.6"/></svg>`}
+  const trend=h.length>20?(h.slice(-10).reduce((a,c)=>a+c,0)/10-h.slice(0,10).reduce((a,c)=>a+c,0)/10):0;const dist=x=>x&&f.price?Math.abs(x[0]/f.price-1)*100:0;
+  const v5=f.v5||{b:0,s:0},vt=v5.b+v5.s,vb=vt?Math.round(v5.b/vt*100):50,tb=f.tb||0,ts=f.ts||0,wb=tb+ts?Math.round(tb/(tb+ts)*100):50;
+  const bigNow=f.tape.find(x=>x.big&&Date.now()-x.t<8000);
+  const ladder=()=>{const n=Math.min(opt.full?10:6,f.B.length,f.A.length);let cb=0,ca=0;const cum=[];for(let i=0;i<n;i++){cb+=f.B[i][1];ca+=f.A[i][1];cum.push([cb,ca])}const mx=Math.max(cb,ca,1),mq=Math.max(...f.B.slice(0,n).map(x=>x[1]),...f.A.slice(0,n).map(x=>x[1]),1);
+    let r='';for(let i=0;i<n;i++){const B=f.B[i],A=f.A[i],hb=B[1]>=mq*.8,ha=A[1]>=mq*.8;r+=`<div class="flLr"><span class="q ${hb?'hot':''}">${K(B[1])}</span><span class="bb"><i class="c" style="width:${cum[i][0]/mx*100}%"></i><i style="width:${B[1]/mx*100}%"></i></span><span class="p up">${fmtP(B[0])}</span><span class="p dn">${fmtP(A[0])}</span><span class="ab"><i class="c" style="width:${cum[i][1]/mx*100}%"></i><i style="width:${A[1]/mx*100}%"></i></span><span class="q ${ha?'hot':''}">${K(A[1])}</span></div>`}
+    const spr=f.A[0][0]-f.B[0][0];return `<div class="flSec"><div class="flSt"><b>Order ladder</b><span>spread ${cur}${fmtP(spr)} · ${n} levels each side</span></div><div class="flLad"><div class="flLr hd"><span>qty</span><span>buyers waiting</span><span>buy at</span><span>sell at</span><span>sellers waiting</span><span>qty</span></div>${r}</div></div>`};
+  const tape=()=>{const L=f.tape.slice(0,opt.full?14:8);return `<div class="flSec"><div class="flSt"><b>${f.kind==='up'?'Traded every 3 s':'Live trades'}</b><span>${f.kind==='up'?'quantity traded between updates · side from price move':'green = buyer hit the ask · red = seller hit the bid'}</span></div>
+    ${L.length?`<div class="flTp">${L.map(x=>`<div class="flTr ${x.side>0?'up':x.side<0?'dn':''} ${x.big?'big':''}"><span>${new Date(x.t+IST*1000).toISOString().slice(11,19)}</span><span class="num">${cur}${fmtP(x.p)}</span><span class="num">${K(x.q)}</span><span>${x.big?'<em>BIG</em>':''}${x.side>0?'BUY':x.side<0?'SELL':'—'}</span></div>`).join('')}</div>`:'<p class="flM">Waiting for the first trades…</p>'}</div>`};
+  const more=opt.full||FL.open[id];
+  return box(`${opt.note?`<p class="flNote">${esc(opt.note)}</p>`:''}<div class="flTop"><div><div class="flH"><b>${esc(name)}</b>${opt.live?'<em class="anzLive">LIVE</em>':''}</div><div class="flPx num ${dir}">${cur}${fmtP(f.price)}</div>
+      <div class="flChg">${pc!=null?`<span class="${pc>=0?'up':'dn'}">${pc>=0?'▲':'▼'} ${Math.abs(pc).toFixed(2)}% today</span>`:''}${f.ltq!=null?`<span>Last trade <b class="${f.lts>0?'up':f.lts<0?'dn':''}">${K(f.ltq)}</b> ${f.kind==='up'?'(qty in last 3 s)':''}</span>`:''}</div></div>
+      ${bigNow?`<div class="flBig ${bigNow.side>0?'up':'dn'}"><b>BIG ${bigNow.side>0?'BUY':'SELL'}</b><span>${K(bigNow.q)} @ ${cur}${fmtP(bigNow.p)}</span></div>`:''}</div>
     <div class="flV">${v[0]}</div>
-    <div class="flBar"><i class="b" style="width:${b}%"></i><i class="s" style="width:${s}%"></i><em></em></div>
-    <div class="flN"><span class="up">Buyers ${b}%</span><span class="dn">${s}% Sellers</span></div>
-    ${sp}<div class="flT">${h.length>20?(trend>.04?'▲ buyers gaining':trend<-.04?'▼ sellers gaining':'• steady')+' · last '+anzClock(h.length*(src==='delta'?2:3)/60):'building 5-minute history…'}</div>
-    <div class="flW">${f.bw?`<span><i class="up">●</i> Big buy wall <b>${fp(f.bw[0])}</b> <small>${dist(f.bw).toFixed(2)}% below</small></span>`:''}${f.aw?`<span><i class="dn">●</i> Big sell wall <b>${fp(f.aw[0])}</b> <small>${dist(f.aw).toFixed(2)}% above</small></span>`:''}</div>
-    ${ANZ.flOpen===id?lad:''}<button class="flMore" data-flo="${id}">${ANZ.flOpen===id?'Hide order ladder ▴':'Show order ladder ▾'}</button></div>`}
-function anzFlow(){return `<div class="flG">${FLOW_M.map(anzFlowCard).join('')}</div><div class="anzNote">Each card compares orders waiting just below the price (buyers) with orders just above it (sellers). Bitcoin & Gold: Delta's order book every 2 s. MCX & futures: the 5 best price levels from your Upstox token every 3 s, while those markets are open. <b>Watch only</b> — in our tests this did not predict the next move; big walls are often pulled before price reaches them.</div>`}
+    <div class="flBar"><i class="b" style="width:${b}%"></i><i class="s" style="width:${sl}%"></i><em></em></div>
+    <div class="flN"><span class="up">Buyers ${b}%</span><span class="flNs">orders waiting near price</span><span class="dn">${sl}% Sellers</span></div>
+    <div class="flK"><div><small>Waiting to buy</small><b class="up">${K(tb)}</b></div><div><small>Waiting to sell</small><b class="dn">${K(ts)}</b></div><div><small>Bought · 5 min</small><b class="up">${K(v5.b)}</b></div><div><small>Sold · 5 min</small><b class="dn">${K(v5.s)}</b></div></div>
+    ${vt?`<div class="flBar thin"><i class="b" style="width:${vb}%"></i><i class="s" style="width:${100-vb}%"></i><em></em></div><div class="flN"><span class="up">Bought ${vb}%</span><span class="flNs">actually traded · last 5 min</span><span class="dn">${100-vb}% Sold</span></div>`:''}
+    ${sp}<div class="flT">${h.length>20?(trend>.04?'▲ buyers gaining':trend<-.04?'▼ sellers gaining':'• steady')+' · last '+anzClock(h.length*(f.kind==='delta'?2:3)/60):'building 5-minute history…'}${f.kind==='up'?` · whole book: ${wb}% buy orders`:''}</div>
+    <div class="flW">${f.bw?`<span><i class="up">●</i> Big buy wall <b>${cur}${fmtP(f.bw[0])}</b> · ${K(f.bw[1])} <small>${dist(f.bw).toFixed(2)}% below</small></span>`:''}${f.aw?`<span><i class="dn">●</i> Big sell wall <b>${cur}${fmtP(f.aw[0])}</b> · ${K(f.aw[1])} <small>${dist(f.aw).toFixed(2)}% above</small></span>`:''}</div>
+    ${more?ladder()+tape():''}${opt.full?'':`<button class="flMore" data-flo="${id}">${more?'Show less ▴':'Order ladder & live trades ▾'}</button>`}`,v[1])}
+function anzFlow(){return `<div class="flG">${FLOW_M.map(([id,n])=>flowCard(id,n)).join('')}</div><div class="anzNote">Top bar: orders <b>waiting</b> just below the price (buyers) vs just above (sellers). Second bar: what was <b>actually traded</b> in the last 5 minutes. Bitcoin & Gold: Delta every 2 s. MCX & futures: your Upstox token every 3 s (5 price levels — the most Upstox gives). <b>Watch only</b> — in our tests this did not predict the next move; big walls are often pulled before price reaches them.</div>`}
+/* chart tab: mood + order flow for the open market */
+function chMoodHTML(it){const m=anzMoodOf(it);if(!m)return '';const kr=anzKr(it),tb=anzTB(it);const arr=v=>v==null?'<i class="na">·</i>':`<i class="${v>.15?'up':v<-.15?'dn':'mid'}">${v>.15?'▲':v<-.15?'▼':'▬'}</i>`;
+  return `<div class="mdR ${m.ver[1]} chMd"><span class="mdN"><small class="mdLbl">MARKET MOOD</small><b>${esc(it.def.name.split(' · ')[0])}</b></span><span class="mdV">${m.ver[0]}</span>
+    <span class="mdA"><span><small>Now</small>${arr(m.t[0])}${arr(m.t[1])}</span><span><small>Bigger</small>${arr(m.t[2])}${arr(m.t[3])}</span></span>
+    <span class="mdX">${kr!=null?`<em class="${kr>0?'up':'dn'}">Kronos ${kr>0?'▲':'▼'}${Math.round(50+Math.abs(kr)*50)}%</em>`:''}${tb!=null&&Math.abs(tb)>.6?`<em class="tbo ${tb>0?'up':'dn'}">Trade open · ${tb>0?'BUY':'SELL'}</em>`:tb!=null?`<em class="${tb>0?'up':'dn'}">Setup forming</em>`:''}<em class="mdHelp">Now = 5m & 15m · Bigger = 1h & 4h</em></span></div>`}
+function chFlowRender(){const el=$('#chFlow');if(!el)return;const id=S.chart&&S.chart.id,it=id&&S.inst.get(id);if(!it||(typeof MC!=='undefined'&&MC.n>1)){el.innerHTML='';return}
+  if(!el._mt||el._id!==id||Date.now()-el._mt>15000){el._mt=Date.now();el._id=id;el._mood=chMoodHTML(it)}
+  el.innerHTML=`<div class="anzS chFlowWrap">${el._mood}${flowCard(id,null,{full:true,live:true})}<p class="anzNote">Watch only — order-book data did not predict the next move in our tests.</p></div>`}
 
 /* ---------- MARKET MOOD: one plain verdict per market ---------- */
 const MOOD_IDS=['d:BTCUSD','d:XAUTUSD','u:NSE_INDEX|Nifty 50','u:NSE_INDEX|Nifty Bank','u:BSE_INDEX|SENSEX','u:FUT|NIFTY','u:FUT|SENSEX','u:FUT|CRUDEOIL','u:FUT|NATURALGAS','u:FUT|SILVER'];
@@ -4008,13 +4077,13 @@ function anzMood(){const ids=[...MOOD_IDS];for(const it of S.inst.values())if(id
 /* ---------- shell ---------- */
 const ANZ_P=[['pl','LIVE PULSE','prices · market hours · open trades','full'],['fl','BUYERS vs SELLERS','orders waiting near the price · live','full'],['md','MARKET MOOD','rising or falling, in plain words',''],
   ['eq','EQUITY','every strategy · after charges',''],['wr','REAL WIN-RATE','is the edge real yet?',''],['mc','RUIN CONE','400 possible futures · next 100 trades','']];
-function anzOpen(){let el=$('#anz');if(!el){el=document.createElement('div');el.id='anz';el.setAttribute('role','dialog');el.setAttribute('aria-label','Analysis');document.body.appendChild(el);
+function anzOpen(){let el=$('#anz');if(!el){el=document.createElement('div');el.id='anz';el.className='anzS';el.setAttribute('role','dialog');el.setAttribute('aria-label','Analysis');document.body.appendChild(el);
     el.innerHTML=`<div class="anzTop"><div class="anzT"><b>ANALYSIS</b><span id="anzSub"></span></div><div class="anzLive2"><i></i><span id="anzClk"></span></div><div class="anzCtl"><div class="anzSeg" id="anzPer"></div><div class="anzSeg" id="anzUnit"></div><button class="iconbtn" id="anzX" aria-label="Close analysis">✕</button></div></div>
       <div class="anzG">${ANZ_P.map(([k,t,s,w],i)=>`<section class="anzp ${w}" data-p="${k}"><header><i>${String(i+1).padStart(2,'0')}</i><h3>${t}</h3><span>${s}</span>${k==='pl'||k==='fl'?'<em class="anzLive">LIVE</em>':''}<button class="anzMax" data-max="${k}" aria-label="Full screen">⤢</button></header><div class="anzB" id="anz_${k}">${k==='pl'?anzPulseHTML():''}</div></section>`).join('')}</div>`;
     el.addEventListener('click',e=>{const b=e.target.closest('button,[data-anzf]');if(!b)return;
       if(b.id==='anzX'){anzClose();return}
       if(b.dataset.chart){anzClose();openChart(b.dataset.chart);return}
-      if(b.dataset.flo){ANZ.flOpen=ANZ.flOpen===b.dataset.flo?null:b.dataset.flo;anzDraw('fl');return}
+      if(b.dataset.flo){FL.open[b.dataset.flo]=!FL.open[b.dataset.flo];anzDraw('fl');return}
       if(b.dataset.max){const p=el.querySelector(`[data-p="${b.dataset.max}"]`);const on=!p.classList.contains('max');el.querySelectorAll('.anzp.max').forEach(x=>x.classList.remove('max'));if(on)p.classList.add('max');ANZ.max=on?b.dataset.max:null;anzRender();return}
       if(b.dataset.per!=null){ANZ.per=+b.dataset.per;store.set('pt.anzPer',ANZ.per);anzRender();return}
       if(b.dataset.unit){ANZ.unit=b.dataset.unit;store.set('pt.anzUnit',ANZ.unit);anzRender();return}
@@ -4024,9 +4093,9 @@ function anzOpen(){let el=$('#anz');if(!el){el=document.createElement('div');el.
     window.addEventListener('paisa-feed',()=>{if(ANZ.open){clearTimeout(ANZ.fd);ANZ.fd=setTimeout(()=>{for(const k of ['eq','wr','mc'])anzDraw(k)},800)}});
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ANZ.open)anzClose()})}
   ANZ.open=true;el.hidden=false;document.body.classList.add('anzOn');try{window.paisaLab&&window.paisaLab(true)}catch(e){}
-  anzRender();anzFlowPoll();clearInterval(ANZ.obT);ANZ.obT=setInterval(anzFlowPoll,2000);clearInterval(ANZ.pT);ANZ.pT=setInterval(()=>{anzPulse();const c=$('#anzClk');if(c){const p=istParts();c.textContent=`${String(p.h).padStart(2,'0')}:${String(p.m).padStart(2,'0')}:${String(p.s).padStart(2,'0')} IST`}},1000);
+  anzRender();flowTick();clearInterval(ANZ.pT);ANZ.pT=setInterval(()=>{anzPulse();const c=$('#anzClk');if(c){const p=istParts();c.textContent=`${String(p.h).padStart(2,'0')}:${String(p.m).padStart(2,'0')}:${String(p.s).padStart(2,'0')} IST`}},1000);
   clearInterval(ANZ.rT);ANZ.rT=setInterval(()=>anzDraw('md'),15000)}
-function anzClose(){ANZ.open=false;const el=$('#anz');if(el)el.hidden=true;document.body.classList.remove('anzOn');clearInterval(ANZ.obT);clearInterval(ANZ.rT);clearInterval(ANZ.pT);try{window.paisaLab&&window.paisaLab(S.view==='lab')}catch(e){}}
+function anzClose(){ANZ.open=false;const el=$('#anz');if(el)el.hidden=true;document.body.classList.remove('anzOn');clearInterval(ANZ.rT);clearInterval(ANZ.pT);try{window.paisaLab&&window.paisaLab(S.view==='lab')}catch(e){}}
 function anzDraw(k){const b=$('#anz_'+k);if(!b||!ANZ.open)return;const W=Math.max(260,Math.floor(b.clientWidth));try{
   if(k==='pl'){anzPulse();return}if(k==='fl'){b.innerHTML=anzFlow();return}if(k==='md'){b.innerHTML=anzMood();return}
   const list=anzStrats(),f=anzFocus(list);
@@ -4718,7 +4787,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=21.1"></script>
+<script type="module" src="auth.js?v=21.2"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
