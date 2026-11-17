@@ -953,6 +953,17 @@ body.anzOn{overflow:hidden}
 .wlHelp{font:500 10.5px/1.5 var(--f-ui);color:var(--dim);margin:8px 0 0}
 .flTr{min-height:22px}
 #chFlow,.flC{overflow-anchor:none}
+
+.sxDesk{display:flex;flex-direction:column;gap:6px;padding:10px;border-radius:14px;background:linear-gradient(135deg,rgba(245,185,66,.08),rgba(176,124,255,.08));border:1px solid rgba(245,185,66,.4);box-shadow:0 0 18px rgba(245,185,66,.08)}
+.sxTop{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.sxTop b{font:800 13px var(--f-ui);letter-spacing:.08em;color:#f5b942}.sxTop span{font:600 11.5px var(--f-ui);color:var(--dim)}
+.sxR{border-radius:10px;border:1px solid var(--line);background:rgba(0,0,0,.18);overflow:hidden}.sxR.bu{border-left:4px solid var(--sbuy)}.sxR.se{border-left:4px solid var(--ssell)}
+.sxR.fresh{animation:bigR .8s ease-in-out infinite alternate;border-color:#f5b942}
+.sxH{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto 14px;gap:8px;align-items:center;padding:9px 10px;background:transparent;border:0;color:var(--text);text-align:left;cursor:pointer}
+.sxN{font:800 13.5px var(--f-ui);display:flex;align-items:center;gap:6px;flex-wrap:wrap}.sxM{display:flex;flex-direction:column;align-items:flex-end;gap:1px;font:700 12.5px var(--f-ui)}.sxM small{font:600 10.5px var(--f-num);color:var(--dim)}
+.sxS{font:800 10.5px var(--f-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}.sxS.up{color:var(--sbuy)}.sxS.dn{color:var(--ssell)}.sxH i{font-style:normal;color:var(--dim)}
+.sxBody{padding:0 10px 10px}.sxBody .swc{border:0;box-shadow:none;background:transparent;padding:0}
+.sxB{font:800 9.5px var(--f-ui);font-style:normal;padding:1px 6px;border-radius:999px;letter-spacing:.02em}.sxB.ok{background:color-mix(in srgb,var(--sbuy) 20%,transparent);color:var(--sbuy)}.sxB.no{background:color-mix(in srgb,var(--ssell) 18%,transparent);color:var(--ssell)}.sxB.nt{background:rgba(255,255,255,.08);color:var(--dim)}
+.sxChart{margin-top:6px}
 .krst{font:600 11.5px/1.3 var(--f-ui);color:var(--cyan);margin-top:4px}.krst:empty{display:none}
 .kr2{font:700 10px/1 var(--f-ui);font-style:normal;padding:2px 4px;border-radius:4px;background:color-mix(in srgb,var(--cyan) 18%,transparent);color:var(--cyan);margin-left:3px}
 .krscore{font:500 12px/1.4 var(--f-ui);color:var(--dim);margin:6px 0 2px}.krscore b{color:var(--text)}.krscore small{display:block;font-size:11px;opacity:.85}.krsub{font:500 11.5px/1.35 var(--f-ui);color:var(--dim);margin:2px 0}
@@ -1164,7 +1175,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.4</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.5</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn anzBtn" id="anzBtn" aria-label="Open Analysis" title="Analysis: equity, real win-rate, ruin cone, heat grid, order book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/><circle cx="19" cy="6" r="1.6" fill="currentColor"/></svg><span>Analysis</span></button>
@@ -1298,7 +1309,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.4 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.5 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -2383,7 +2394,7 @@ function drawChart(it,fit){const b=S.chart.bars;if(!CH||!b.length)return;const s
   if(fit)applyView()
   S.chart.ind=ind;renderReadout(it);updTimer()}
 // trade level lines: after T1 the stop sits on the entry price, so that line is labelled "SL = ENTRY" and drawn thicker
-function drawLines(it){if(!CH)return;try{drawSwingLines()}catch(e){}for(const pl of CH.lines)try{CH.candle.removePriceLine(pl)}catch(e){}CH.lines=[];const tr=actOf(it);CH.lineSig=tr?tr.id+tr.status:'';
+function drawLines(it){if(!CH)return;try{drawSwingLines()}catch(e){}try{swxChartLines()}catch(e){}for(const pl of CH.lines)try{CH.candle.removePriceLine(pl)}catch(e){}CH.lines=[];const tr=actOf(it);CH.lineSig=tr?tr.id+tr.status:'';
   for(const a of PA)if(a.inst===it.def.id&&!a.done)CH.lines.push(CH.candle.createPriceLine({price:a.price,color:'#c49bff',lineWidth:1,lineStyle:1,axisLabelVisible:true,title:'🔔 ALERT'}));
   if(!tr&&it.pend&&nowSec()<it.pend.until&&it.def.sig!==false){const p=it.pend;CH.lineSig='p'+p.id;const L2=(price,color,title,w)=>CH.lines.push(CH.candle.createPriceLine({price,color,lineWidth:w||1,lineStyle:1,axisLabelVisible:true,title}));
     L2(p.lim,indCol('lE'),(p.side>0?'BUY':'SELL')+' AT',2);L2(p.sl,indCol('lS'),'SL');L2(p.t1,indCol('lT1'),'T1');L2(p.t2,indCol('lT2'),'T2');renderSigBox();return}
@@ -3875,6 +3886,7 @@ function anzStrats(){const F=window.FEED||{},out=[];
   const LH=(F.labhist||{}).items||[],LX=(F.labhistx||{}).items||[];
   for(const [k,n] of LBS){if(k!=='ag')add('l_'+k,'Options · '+n,LH.filter(t=>t.s===k).map(t=>({t:t.out,R:lR(t),rs:t.pnl})),0);
     add('x_'+k,'BTC/Gold · '+n,LX.filter(t=>t.s===k).map(t=>({t:t.out,R:lR(t),rs:t.pnl})),0)}
+  {const X=SWXF()||{},C=SWC();for(const k of SWX_ORDER){const m=X[k];if(!m||!m.recent)continue;add('sx_'+k,m.name.replace(/ \(MCX\)/,'')+' SWING',m.recent.filter(t=>t.te).map(t=>{const R=swxNet(t,m);return {t:t.te*1000,R,rs:R*C.risk}}),k==='gold'||k==='silver')}}
   add('jp','Jackpot',(JP.picks||[]).filter(p=>p.done&&p.lot&&p.pnl!=null&&p.p0>0).map(p=>({t:p.t0,R:p.pnl/(p.p0*p.lot),rs:p.pnl})),1);
   // the best lab line is shown by default too
   const labs=out.filter(s=>/^[lx]_/.test(s.id)&&s.tr.length>=5).sort((a,b)=>b.tr.reduce((s,x)=>s+x.R,0)-a.tr.reduce((s,x)=>s+x.R,0));if(labs[0])labs[0].def=1;
@@ -4545,8 +4557,8 @@ function swSize(t){const C=SWC();return C.risk/(t.d*swUsd())}                   
 function swNet(t){const fee=t.feeR!=null?t.feeR:(t.entry+(t.exit||t.entry))*0.00069/t.d;return (t.r||0)-fee}
 function swLive(){const F=SWF();if(!F||!F.active)return null;const a=F.active;const it=S.inst.get('d:BTCUSD');const px=it&&it.price||F.price;const r=(px-a.entry)*a.side/a.d;return {a,px,r,net:r-(a.entry+px)*0.00069/a.d}}
 function swTradeOf(id){const F=SWF();if(!F)return null;if(F.active&&F.active.id===id)return F.active;return (F.recent||[]).find(x=>x.id===id)||null}
-function renderSwing(){const el=$('#swingBox');if(!el)return;const F=SWF(),C=SWC();if(C.on===false){el.hidden=true;return}el.hidden=false;
-  if(!F){el.innerHTML=`<div class="swc"><div class="swh"><span class="swb">🚀 BTC SWING · 4H</span><span class="sws">waiting for the server</span></div><p class="swp">Appears after the server update (step 1 of this version). Checks Bitcoin every 4 hours: 1:30, 5:30, 9:30 am/pm.</p></div>`;return}
+function btcSwingHTML(){const F=SWF(),C=SWC();
+  if(!F){return `<div class="swc"><div class="swh"><span class="swb">🚀 BTC SWING · 4H</span><span class="sws">waiting for the server</span></div><p class="swp">Appears after the server update (step 1 of this version). Checks Bitcoin every 4 hours: 1:30, 5:30, 9:30 am/pm.</p></div>`}
   const L=swLive();const rs=v=>`${v>=0?'+':'−'}₹${Math.abs(Math.round(v)).toLocaleString('en-IN')}`;
   const live=(F.recent||[]).filter(t=>t.t>=(F.since||0));const hist=F.recent||[];
   const tot=a=>a.reduce((s,t)=>s+swNet(t),0);const wins=a=>a.filter(t=>swNet(t)>0).length;
@@ -4556,11 +4568,73 @@ function renderSwing(){const el=$('#swingBox');if(!el)return;const F=SWF(),C=SWC
     <p class="swp">Size for ₹${C.risk.toLocaleString('en-IN')} risk: <b>${swSize(a).toFixed(3)} BTC</b> · opened ${istD(a.t*1000)} ${istT(a.t*1000)} · exits if a 4h candle closes ${buy?'below':'above'} the exit line (it moves every 4 hours).</p></div>`}
   else body=`<p class="swp"><b>No trade open.</b> Waiting for Bitcoin to break its 20-candle (≈3 days) ${'high or low'} in the direction of the long-term trend. Next check ${istT((F.nextCheck||0)*1000)}.</p>`;
   const rows=hist.slice(0,8).map(t=>{const n=swNet(t);return `<div class="swr"><span>${istD(t.t*1000)}</span><b class="${t.side>0?'sup':'sdn'}">${t.side>0?'BUY':'SELL'}</b><span>${usd$(t.entry)} → ${usd$(t.exit)}</span><span>${t.why==='stop'?'stop':'trend end'}</span><b class="${n>=0?'sup':'sdn'}">${n>=0?'+':''}${n.toFixed(2)}R</b></div>`}).join('');
-  el.innerHTML=`<div class="swc" data-swchart="1"><div class="swh"><span class="swb">🚀 BTC SWING · 4H</span><span class="sws ${L?'on':''}">${L?(L.a.side>0?'LIVE BUY':'LIVE SELL'):'watching'}</span></div>${body}
+  return `<div class="swc" data-swchart="1"><div class="swh"><span class="swb">🚀 BTC SWING · 4H</span><span class="sws ${L?'on':''}">${L?(L.a.side>0?'LIVE BUY':'LIVE SELL'):'watching'}</span></div>${body}
     <div class="swt"><span>Live since ${istD((F.since||0)*1000)}: <b>${live.length}</b> closed · <b class="${tot(live)>=0?'sup':'sdn'}">${tot(live)>=0?'+':''}${tot(live).toFixed(2)}R (${rs(tot(live)*C.risk)})</b></span><span>Last ${hist.length} incl. history: ${wins(hist)} wins · <b class="${tot(hist)>=0?'sup':'sdn'}">${tot(hist)>=0?'+':''}${tot(hist).toFixed(1)}R (${rs(tot(hist)*C.risk)})</b></span></div>
     ${rows?`<details class="swd"><summary>Recent BTC SWING trades</summary>${rows}<p class="swp">R after Delta fees. ₹ at your risk of ₹${C.risk.toLocaleString('en-IN')} per trade. Paper only: no real orders.</p></details>`:''}
     <p class="swp sm">About 4 signals a month · only 1 in 4 wins, the winners are big · several losses in a row are normal.</p></div>`;
-  const c=el.querySelector('[data-swchart]');if(c)c.onclick=e=>{if(e.target.closest('details'))return;openChart('d:BTCUSD')}}
+}
+
+/* ---------- SWING DESK: BTC SWING rules on Bitcoin + MCX + index (server feed/swingx) ---------- */
+const SWXF=()=>((window.FEED||{}).swingx||{}).mk||null;
+const SWX_ORDER=['gold','silver','crude','natgas','nifty','banknifty','sensex'];
+const SWX_INST={gold:'u:FUT|GOLD',silver:'u:FUT|SILVER',crude:'u:FUT|CRUDEOIL',natgas:'u:FUT|NATURALGAS',nifty:'u:NSE_INDEX|Nifty 50',banknifty:'u:NSE_INDEX|Nifty Bank',sensex:'u:BSE_INDEX|SENSEX'};
+const SWX_LOTS={gold:[['Gold (1 kg)',100],['Gold Mini (100 g)',10],['Gold Guinea (8 g)',0.8],['Gold Petal (1 g)',0.1]],silver:[['Silver (30 kg)',30],['Silver Mini (5 kg)',5],['Silver Micro (1 kg)',1]],crude:[['Crude (100 bbl)',100],['Crude Mini (10 bbl)',10]],natgas:[['Natural gas (1250)',1250],['Natural gas Mini (250)',250]],
+  nifty:[['NIFTY FUT lot',0]],banknifty:[['BANKNIFTY FUT lot',0]],sensex:[['SENSEX FUT lot',0]]};
+const SWX_FUTLOT={nifty:'u:FUT|NIFTY',banknifty:'u:FUT|BANKNIFTY',sensex:'u:FUT|SENSEX'},SWX_DEFLOT={nifty:65,banknifty:30,sensex:20};
+const swxP=(m,v)=>v==null?'—':(m.kind==='mcx'?'₹':'')+(Math.abs(v)>=1000?Math.round(v).toLocaleString('en-IN'):(+v).toFixed(2));
+function swxNet(t,m){const fee=t.feeR!=null?t.feeR:(t.entry+(t.exit||t.entry))*(m.fee||0.00025)/t.d;return (t.r||0)-fee}
+function swxPx(id,m){const it=S.inst.get(SWX_INST[id]);return it&&it.price!=null&&(m.kind!=='mcx'||!m.key||it.def.key===m.key)?it.price:m.price}
+function swxLive(id,m){if(!m||!m.active)return null;const a=m.active,px=swxPx(id,m),r=(px-a.entry)*a.side/a.d;return {a,px,r,net:r-(a.entry+px)*(m.fee||0.00025)/a.d}}
+function swxBadge(m,side){const v=m.tested?(side>0?m.tested.b:m.tested.s):0;return v>0?'<em class="sxB ok">tested ✓</em>':v<0?'<em class="sxB no">history ✗ · paper</em>':'<em class="sxB nt">not tested</em>'}
+function swxSize(id,m,d){const C=SWC(),per=C.risk/d;let lots=SWX_LOTS[id]||[];
+  if(SWX_FUTLOT[id]){const f=S.inst.get(SWX_FUTLOT[id]);lots=[[lots[0][0],(f&&f.def.lot)||SWX_DEFLOT[id]]]}
+  const fit=lots.map(([n,mu])=>[n,mu,Math.floor(per/mu)]).filter(x=>x[2]>=1);if(fit.length){const [n,mu,k]=fit[0];return `≈ <b>${k} × ${n}</b> (₹${mu.toLocaleString('en-IN')} per point)`}
+  const [n,mu]=lots[lots.length-1];return `smallest is 1 × ${n}: a stop-out would lose ≈ ₹${Math.round(mu*d).toLocaleString('en-IN')}`}
+function swxCard(id,m){const C=SWC(),L=swxLive(id,m),rs=v=>`${v>=0?'+':'−'}₹${Math.abs(Math.round(v)).toLocaleString('en-IN')}`,hist=m.recent||[],live=hist.filter(t=>t.t>=(m.since||0));
+  const tot=a=>a.reduce((x,t)=>x+swxNet(t,m),0),wins=a=>a.filter(t=>swxNet(t,m)>0).length;let body='';
+  if(m.warm)body=`<p class="swp">Warming up: ${m.warm} of 201 four-hour candles collected. Signals start once there is enough history.</p>`;
+  else if(L){const a=L.a,buy=a.side>0;body=`<div class="swa ${buy?'up':'dn'}"><div class="swa1"><b>${buy?'🚀 BUY':'🔻 SELL'} running</b>${swxBadge(m,a.side)}<span class="${L.net>=0?'sup':'sdn'}">${L.net>=0?'+':''}${L.net.toFixed(2)}R · ${rs(L.net*C.risk)}</span></div>
+    <div class="swg"><span><i>Entry</i>${swxP(m,a.entry)}</span><span><i>Now</i>${swxP(m,L.px)}</span><span><i>Stop</i>${swxP(m,a.sl)}</span><span><i>Exit line</i>${swxP(m,a.exitLine)}</span></div>
+    <p class="swp">For ₹${C.risk.toLocaleString('en-IN')} risk: ${swxSize(id,m,a.d)} · opened ${istD(a.t*1000)} ${istT(a.t*1000)}${a.rolled?' · moved to the new futures contract':''} · exits if a 4h candle closes ${buy?'below':'above'} the exit line.</p></div>`}
+  else body=`<p class="swp"><b>No trade open.</b> Next signal: <b class="sup">BUY</b> if a 4h candle closes above <b>${swxP(m,m.trig&&m.trig.b)}</b> ${swxBadge(m,1)} · <b class="sdn">SELL</b> if it closes below <b>${swxP(m,m.trig&&m.trig.s)}</b> ${swxBadge(m,-1)}. ${m.nextCheck?`Next check ${istT(m.nextCheck*1000)}.`:'Next check when the market opens.'}</p>`;
+  const rows=hist.slice(0,8).map(t=>{const n=swxNet(t,m);return `<div class="swr"><span>${istD(t.t*1000)}</span><b class="${t.side>0?'sup':'sdn'}">${t.side>0?'BUY':'SELL'}</b><span>${swxP(m,t.entry)} → ${swxP(m,t.exit)}</span><span>${t.why==='stop'?'stop':'trend end'}</span><b class="${n>=0?'sup':'sdn'}">${n>=0?'+':''}${n.toFixed(2)}R</b></div>`}).join('');
+  return `${body}<div class="swt"><span>Live since ${istD((m.since||0)*1000)}: <b>${live.length}</b> closed · <b class="${tot(live)>=0?'sup':'sdn'}">${tot(live)>=0?'+':''}${tot(live).toFixed(2)}R (${rs(tot(live)*C.risk)})</b></span><span>Last ${hist.length} incl. history: ${wins(hist)} wins · <b class="${tot(hist)>=0?'sup':'sdn'}">${tot(hist)>=0?'+':''}${tot(hist).toFixed(1)}R</b></span></div>
+    ${rows?`<details class="swd"><summary>Recent ${esc(m.name)} swing trades</summary>${rows}<p class="swp">R after charges. ₹ at your swing risk of ₹${C.risk.toLocaleString('en-IN')} per trade. Paper only.</p></details>`:''}
+    <button class="btn ghost sxChart" data-sxchart="${id}">Open chart</button>`}
+function swxRow(id,m,open){const L=swxLive(id,m),C=SWC();let st;
+  if(m.warm)st=`<span class="sxS">warming up</span>`;else if(L)st=`<span class="sxS ${L.a.side>0?'up':'dn'}">${L.a.side>0?'BUY':'SELL'} running</span><b class="${L.net>=0?'sup':'sdn'}">${L.net>=0?'+':''}${L.net.toFixed(2)}R</b>`;
+  else st=`<span class="sxS">waiting</span><small>BUY &gt; ${swxP(m,m.trig&&m.trig.b)} · SELL &lt; ${swxP(m,m.trig&&m.trig.s)}</small>`;
+  const ev=(m.events||[])[0],fresh=ev&&ev.live&&Date.now()/1000-ev.t<6*3600;
+  return `<div class="sxR ${L?(L.a.side>0?'bu':'se'):''} ${open?'open':''} ${fresh?'fresh':''}"><button class="sxH" data-sxo="${id}"><span class="sxN">${esc(m.name)}${L?swxBadge(m,L.a.side):''}</span><span class="sxM">${st}</span><i>${open?'▴':'▾'}</i></button>${open?`<div class="sxBody">${id==='btc'?btcSwingHTML():swxCard(id,m)}</div>`:''}</div>`}
+function renderSwing(){const el=$('#swingBox');if(!el)return;const C=SWC();if(C.on===false){el.hidden=true;return}el.hidden=false;
+  const X=SWXF()||{},F=SWF(),open=store.get('pt.sxOpen',{});
+  const btc=F?{name:'Bitcoin',kind:'crypto',active:F.active,price:F.price,tested:{b:1,s:1},events:F.events,recent:F.recent}:null;
+  const btcL=swLive();const btcRow=`<div class="sxR ${btcL?(btcL.a.side>0?'bu':'se'):''} ${open.btc?'open':''}"><button class="sxH" data-sxo="btc"><span class="sxN">Bitcoin${btcL?swxBadge(btc,btcL.a.side):''}</span><span class="sxM">${!F?'<span class="sxS">waiting for server</span>':btcL?`<span class="sxS ${btcL.a.side>0?'up':'dn'}">${btcL.a.side>0?'BUY':'SELL'} running</span><b class="${btcL.net>=0?'sup':'sdn'}">${btcL.net>=0?'+':''}${btcL.net.toFixed(2)}R</b>`:'<span class="sxS">waiting</span>'}</span><i>${open.btc?'▴':'▾'}</i></button>${open.btc?`<div class="sxBody">${btcSwingHTML()}</div>`:''}</div>`;
+  const ids=SWX_ORDER.filter(k=>X[k]);const run=ids.filter(k=>X[k].active),wait=ids.filter(k=>!X[k].active);
+  const runN=run.length+(btcL?1:0);
+  el.innerHTML=`<div class="sxDesk"><div class="sxTop"><b>🚀 SWING DESK · 4H</b><span>${runN} running · ${ids.length+1} markets · paper</span></div>
+    ${btcRow}${[...run,...wait].map(k=>swxRow(k,X[k],!!open[k])).join('')}${ids.length?'':'<p class="swp">Gold, Silver, Crude, Natural gas, NIFTY, BANK NIFTY and SENSEX appear after the server update.</p>'}
+    <p class="swp sm">Same rules everywhere: BUY when a 4-hour candle closes above its 20-candle high and the 200-candle average (SELL mirrored) · stop 2× normal candle size · exit when a candle closes beyond the 10-candle low/high · no fixed target. Only a few signals a month; most trades lose small, a few win big. Badges show what the history test found.</p></div>`;
+  el.onclick=e=>{const o=e.target.closest('[data-sxo]');if(o){const m=store.get('pt.sxOpen',{});m[o.dataset.sxo]=!m[o.dataset.sxo];store.set('pt.sxOpen',m);renderSwing();return}
+    const c=e.target.closest('[data-sxchart]');if(c){openChart(SWX_INST[c.dataset.sxchart]);return}
+    const b=e.target.closest('[data-swchart]');if(b&&!e.target.closest('details'))openChart('d:BTCUSD')}}
+function swxPopup(list,quiet){let el=$('#swPop');if(!el){el=document.createElement('div');el.id='swPop';el.className='swpop';document.body.appendChild(el)}const C=SWC();
+  const cards=list.map(({id,m,e,t})=>{if(!t)return '';const buy=t.side>0;
+    if(e.type==='open')return `<div class="swcard ${buy?'up':'dn'}"><div class="swbig">${buy?'🚀':'🔻'}</div><div class="swtt">${esc(m.name)} SWING · ${buy?'BUY':'SELL'} ${swxBadge(m,t.side)}</div><div class="swst">${istD(e.t*1000)} ${istT(e.t*1000)}</div>
+      <div class="swg"><span><i>Entry ~</i>${swxP(m,t.entry)}</span><span><i>Stop</i>${swxP(m,t.sl)}</span><span><i>Size (₹${C.risk.toLocaleString('en-IN')} risk)</i>${swxSize(id,m,t.d)}</span><span><i>Target</i>none · ride the trend</span></div>
+      <p>Exit when a 4-hour candle closes ${buy?'below':'above'} the 10-candle ${buy?'low':'high'}.</p></div>`;
+    const n=swxNet(t,m);return `<div class="swcard ex"><div class="swbig">${n>=0?'✅':'⛔'}</div><div class="swtt">${esc(m.name)} SWING · EXIT ${buy?'BUY':'SELL'}</div><div class="swst">${t.why==='stop'?'Stop hit':'Trend ended'} · ${istD(e.t*1000)} ${istT(e.t*1000)}</div>
+      <div class="swg"><span><i>Entry</i>${swxP(m,t.entry)}</span><span><i>Exit</i>${swxP(m,t.exit)}</span><span><i>Result</i><b class="${n>=0?'sup':'sdn'}">${n>=0?'+':''}${n.toFixed(2)}R</b></span><span><i>At your risk</i><b class="${n>=0?'sup':'sdn'}">${n>=0?'+':'−'}₹${Math.abs(Math.round(n*C.risk)).toLocaleString('en-IN')}</b></span></div></div>`}).join('');
+  el.innerHTML=`<div class="swin">${list.length>1?`<div class="swst">${list.length} swing updates</div>`:''}${cards}<div class="btns"><button class="btn" data-sw="sig">Open Swing desk</button><button class="btn pri" data-sw="ok">Got it</button></div></div>`;
+  el.hidden=false;el.onclick=e=>{const b=e.target.closest('[data-sw]');if(!b&&e.target!==el)return;el.hidden=true;if(b&&b.dataset.sw==='sig')show('log')};
+  if(!quiet){tone(list.some(x=>x.e.type==='open')?[[523,.12],[659,.12],[784,.12],[1047,.35]]:SOUNDS.info);if(CFG.vibe&&navigator.vibrate)try{navigator.vibrate([200,80,200,80,400])}catch(e){}}}
+function swxCheck(){const X=SWXF();if(!X||SWC().on===false)return;let seen=store.get('pt.sxseen',null);const now=Math.floor(Date.now()/1000);if(seen==null){store.set('pt.sxseen',now);return}
+  const fresh=[];for(const [id,m] of Object.entries(X))for(const e of m.events||[])if(e.live&&e.t>seen){const t=m.active&&m.active.id===e.id?m.active:(m.recent||[]).find(x=>x.id===e.id);fresh.push({id,m,e,t})}
+  if(fresh.length){fresh.sort((a,b)=>a.e.t-b.e.t);store.set('pt.sxseen',Math.max(...fresh.map(x=>x.e.t)));swxPopup(fresh,SWC().quiet!==false&&swNight())}}
+function swxChartLines(){if(!CH||!S.chart)return;for(const l of CH.sxLines||[])try{CH.candle.removePriceLine(l)}catch(e){}CH.sxLines=[];const X=SWXF();if(!X||SWC().on===false)return;
+  const id=Object.keys(SWX_INST).find(k=>SWX_INST[k]===S.chart.id);const m=id&&X[id];if(!m||!m.active)return;if(m.kind==='mcx'){const it=S.inst.get(S.chart.id);if(it&&m.key&&it.def.key!==m.key)return}
+  const a=m.active,buy=a.side>0,L=(price,color,title,style,w)=>price&&CH.sxLines.push(CH.candle.createPriceLine({price,color,lineWidth:w,lineStyle:style,axisLabelVisible:true,title}));
+  L(a.entry,'#f5b942',(buy?'🚀 SWING BUY':'🔻 SWING SELL'),0,2);L(a.sl,'#ff5d73','SWING STOP',2,1);L(a.exitLine,'#b07cff','SWING EXIT',1,2)}
 // pop-up for new signals / exits; morning summary
 function swPopup(list,quiet){let el=$('#swPop');if(!el){el=document.createElement('div');el.id='swPop';el.className='swpop';document.body.appendChild(el)}
   const C=SWC();const cards=list.map(({e,t})=>{if(!t)return '';const buy=t.side>0;
@@ -4573,7 +4647,7 @@ function swPopup(list,quiet){let el=$('#swPop');if(!el){el=document.createElemen
   el.hidden=false;el.onclick=e=>{const b=e.target.closest('[data-sw]');if(!b&&e.target!==el)return;el.hidden=true;if(b&&b.dataset.sw==='chart')openChart('d:BTCUSD')};
   if(!quiet){tone(list.some(x=>x.e.type==='open')?[[523,.12],[659,.12],[784,.12],[1047,.35]]:SOUNDS.info);if(CFG.vibe&&navigator.vibrate)try{navigator.vibrate([200,80,200,80,400])}catch(e){}
     const o=list.find(x=>x.e.type==='open'&&x.t);if(o&&CFG.ariaSpeak&&!ARIA.speaking&&!document.hidden)ariaSpeak(T2(`BTC swing ${o.t.side>0?'buy':'sell'} signal. Big move expected on Bitcoin.`,`बिटकॉइन स्विंग ${o.t.side>0?'खरेदी':'विक्री'} सिग्नल.`))}}
-function swingCheck(){const F=SWF(),C=SWC();if(!F||C.on===false)return;renderSwing();if(S.view==='chart'&&S.chart.id==='d:BTCUSD')drawSwingLines();
+function swingCheck(){const F=SWF(),C=SWC();if(C.on!==false){try{renderSwing();swxCheck();if(S.view==='chart')swxChartLines()}catch(e){}}if(!F||C.on===false)return;if(S.view==='chart'&&S.chart.id==='d:BTCUSD')drawSwingLines();
   let seen=store.get('pt.swseen',null);if(seen==null){store.set('pt.swseen',Math.floor(Date.now()/1000));return}
   const fresh=(F.events||[]).filter(e=>e.live&&e.t>seen).sort((a,b)=>a.t-b.t);
   const quiet=C.quiet!==false&&swNight();
@@ -4587,7 +4661,7 @@ function drawSwingLines(){if(!CH)return;for(const l of CH.swLines||[])try{CH.can
   L(a.entry,'#f5b942',(buy?'🚀 SWING BUY':'🔻 SWING SELL'),0,2);L(a.sl,'#ff5d73','SWING STOP',2,1);L(a.exitLine,'#b07cff','SWING EXIT',1,2)}
 function swingSettings(){const el=$('#swingSet');if(!el)return;const C=SWC();
   el.innerHTML=`<h3>🚀 BTC SWING (4-hour trend)</h3><p>A separate Bitcoin strategy for bigger moves: about 4 signals a month, held for about 3 days, no fixed target. Runs on the shared server, so the alert comes even when TradeBot is closed. Your 5-minute signals are not changed. Paper only.</p>
-    <div class="tg"><span>BTC SWING on (alerts, pop-up, chart lines, Signals section)</span><label class="switch"><input type="checkbox" id="swOn" ${C.on!==false?'checked':''}><span></span></label></div>
+    <div class="tg"><span>Swing desk on (Bitcoin, Gold, Silver, Crude, Natural gas, NIFTY, BANK NIFTY, SENSEX: alerts, pop-up, chart lines, Signals section)</span><label class="switch"><input type="checkbox" id="swOn" ${C.on!==false?'checked':''}><span></span></label></div>
     <label class="field"><span class="label">Risk per trade (₹) · sets the suggested size and the ₹ results</span><input type="number" id="swRisk" min="100" step="100" value="${C.risk}"></label>
     <div class="tg"><span>Quiet nights: 11 pm – 7 am the alert arrives without sound; the app shows what happened when you open it in the morning</span><label class="switch"><input type="checkbox" id="swQuiet" ${C.quiet!==false?'checked':''}><span></span></label></div>`;
   const save=()=>{CFG.swing={on:$('#swOn').checked,risk:Math.max(100,+$('#swRisk').value||1000),quiet:$('#swQuiet').checked};saveCfg();renderSwing();drawSwingLines();
@@ -4842,7 +4916,7 @@ function renderEvStrip(){const el=$('#evStrip');if(!el)return;const f=FD();const
   if(ev){const live=Math.abs(ev.t-now)<=EV_AFTER||(ev.t-now>0&&ev.t-now<EV_BEFORE);el.hidden=false;el.className='evs'+(ev.imp>=3&&live?' hot':'');
     el.innerHTML=`<span class="k">${live?'NOW':'NEXT'}</span><span><b>${esc(ev.name)}</b> at ${istT(ev.t)} IST ${ev.t>now?'· '+inTx(ev.t):''}${ev.imp>=3&&CFG.evPause!==false?` · new signals pause ${istT(ev.t-EV_BEFORE)}–${istT(ev.t+EV_AFTER)} for ${ev.mk.map(m=>MKN[m]).join(', ')}`:''}</span>`;el.onclick=()=>{NW.tab='cal';show('news')};return}
   el.hidden=true}
-let nwT=0;function onFeed(e){if(e&&/^(lab|condor|kronos)/.test(e.detail||'')){try{renderLab()}catch(x){}return}if(e&&e.detail==='signals')srvSyncAll();if(e&&e.detail==='swing'&&typeof booted!=='undefined'&&booted)try{swingCheck()}catch(x){}if(e&&e.detail==='futures'&&typeof booted!=='undefined'&&booted){syncInstruments();renderFilters()}clearTimeout(nwT);nwT=setTimeout(()=>{renderNews();newsBadge();renderEvStrip();if(S.view==='scan')for(const it of S.inst.values())markDirty(it)},250)}
+let nwT=0;function onFeed(e){if(e&&/^(lab|condor|kronos)/.test(e.detail||'')){try{renderLab()}catch(x){}return}if(e&&e.detail==='signals')srvSyncAll();if(e&&(e.detail==='swing'||e.detail==='swingx')&&typeof booted!=='undefined'&&booted)try{swingCheck()}catch(x){}if(e&&e.detail==='futures'&&typeof booted!=='undefined'&&booted){syncInstruments();renderFilters()}clearTimeout(nwT);nwT=setTimeout(()=>{renderNews();newsBadge();renderEvStrip();if(S.view==='scan')for(const it of S.inst.values())markDirty(it)},250)}
 /* notifications settings */
 function npPrefs(){const p=CFG.push||{};const W=SWC();return {sig:p.sig!==false,news:p.news!==false,data:p.data!==false,move:p.move!==false,nse:!!p.nse,swing:W.on!==false,swq:W.quiet!==false,algo:true,mute:allDefs().filter(d=>d.sig===false).map(d=>d.id)}}
 function npMsg(t,ok){const m=$('#npMsg');m.className='msg'+(ok?' ok':'');m.textContent=t||''}
@@ -4880,7 +4954,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=21.4"></script>
+<script type="module" src="auth.js?v=21.5"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
