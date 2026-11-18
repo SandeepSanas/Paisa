@@ -964,6 +964,14 @@ body.anzOn{overflow:hidden}
 .sxBody{padding:0 10px 10px}.sxBody .swc{border:0;box-shadow:none;background:transparent;padding:0}
 .sxB{font:800 9.5px var(--f-ui);font-style:normal;padding:1px 6px;border-radius:999px;letter-spacing:.02em}.sxB.ok{background:color-mix(in srgb,var(--sbuy) 20%,transparent);color:var(--sbuy)}.sxB.no{background:color-mix(in srgb,var(--ssell) 18%,transparent);color:var(--ssell)}.sxB.nt{background:rgba(255,255,255,.08);color:var(--dim)}
 .sxChart{margin-top:6px}
+
+.exbox{position:absolute;z-index:6;top:46px;right:84px;width:min(300px,78vw);padding:9px 11px;border-radius:12px;touch-action:none;cursor:grab;color:var(--text);background:rgba(6,12,24,.92);border:2px solid var(--ec);box-shadow:0 0 22px color-mix(in srgb,var(--ec) 55%,transparent);backdrop-filter:blur(6px);animation:exB 1.2s ease-in-out infinite alternate}
+.exbox.up{--ec:var(--sbuy)}.exbox.dn{--ec:var(--ssell)}.exbox.trig{animation-duration:.6s}
+@keyframes exB{from{box-shadow:0 0 6px color-mix(in srgb,var(--ec) 35%,transparent)}to{box-shadow:0 0 28px 4px color-mix(in srgb,var(--ec) 75%,transparent)}}
+.exH{display:flex;align-items:center;gap:8px}.exH b{font:900 15px var(--f-ui);letter-spacing:.1em;color:var(--ec)}.exX{margin-left:auto;background:transparent;border:0;color:var(--dim);font-size:14px;cursor:pointer}
+.exS{font:700 12px var(--f-ui);margin:3px 0 6px}.exG{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font:600 11.5px var(--f-ui)}.exG span{color:var(--dim)}.exG b{text-align:right;font-family:var(--f-num)}
+.exG i{font-style:normal}.exG i.ok{color:var(--sbuy)}.exG i.no{color:var(--ssell)}
+.exR{margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.08);font:500 10.5px/1.4 var(--f-ui);color:var(--dim)}.exR b{color:var(--text)}
 .krst{font:600 11.5px/1.3 var(--f-ui);color:var(--cyan);margin-top:4px}.krst:empty{display:none}
 .kr2{font:700 10px/1 var(--f-ui);font-style:normal;padding:2px 4px;border-radius:4px;background:color-mix(in srgb,var(--cyan) 18%,transparent);color:var(--cyan);margin-left:3px}
 .krscore{font:500 12px/1.4 var(--f-ui);color:var(--dim);margin:6px 0 2px}.krscore b{color:var(--text)}.krscore small{display:block;font-size:11px;opacity:.85}.krsub{font:500 11.5px/1.35 var(--f-ui);color:var(--dim);margin:2px 0}
@@ -1175,7 +1183,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.5</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.6</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn anzBtn" id="anzBtn" aria-label="Open Analysis" title="Analysis: equity, real win-rate, ruin cone, heat grid, order book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/><circle cx="19" cy="6" r="1.6" fill="currentColor"/></svg><span>Analysis</span></button>
@@ -1309,7 +1317,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.5 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.6 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -2317,7 +2325,7 @@ function show(v){if(S.view==='chart'&&v!=='chart'&&CH){try{S.chart.range=CH.char
   if(v!=='chart'&&$('#chTimer'))$('#chTimer').hidden=true;if(v==='chart'){if(MC.n>1)renderLayout();else{$('#chLay')&&$('#chLay').querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.n===1));loadChart(back&&!!CH&&S.chart.loaded===(S.chart.id+'@'+S.chart.tf))}}
   if(v!=='chart'&&MC.panes.length)mcDestroy();if(v==='opt')initOpt();if(v==='lab')openLab();if(v==='log')renderLog();if(v==='algo')renderAlgo();if(v==='set')renderSettings();if(v==='news')renderNews();window.scrollTo(0,0)}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>show(b.dataset.v));
-function openChart(id){S.chart.id=id;setTimeout(()=>{chFlowRender();flowTick()},50);if(MC.n>1){MC.n=1;mcSave();$('#v-chart').classList.remove('multi');$('#mGrid').hidden=true;mcDestroy()}show('chart')}
+function openChart(id){S.chart.id=id;setTimeout(()=>{chFlowRender();flowTick();try{exScan()}catch(e){}},50);if(MC.n>1){MC.n=1;mcSave();$('#v-chart').classList.remove('multi');$('#mGrid').hidden=true;mcDestroy()}show('chart')}
 
 /* ---------- chart ---------- */
 let CH=null;
@@ -4574,6 +4582,66 @@ function btcSwingHTML(){const F=SWF(),C=SWC();
     <p class="swp sm">About 4 signals a month · only 1 in 4 wins, the winners are big · several losses in a row are normal.</p></div>`;
 }
 
+
+/* ---------- EXHAUSTION WATCH: "Accumulation Time" (selling exhausted → bounce) / "Distribution Time" (buying exhausted → drop), 5-minute candles ----------
+   Checks: RSI ≤25 (≥75) in the last 4 candles · MACD stretched ≥0.4× ATR from its signal line · histogram fading · volume drying up · MACD divergence · reversal candle.
+   Stage WATCH = exhaustion forming (RSI + stretch + fading or divergence). TRIGGER = the reversal candle has closed. Heads-up only; the history test found ~4 in 10 bounce to 1R.
+   Every TRIGGER is recorded on this phone and checked 15/30/60 min later, so the pattern builds its own live track record. */
+const EXW={st:{},rec:store.get('pt.exw',[]),last:{},t:null};
+const exEma=(a,n)=>{const k=2/(n+1),o=new Array(a.length);o[0]=a[0];for(let i=1;i<a.length;i++)o[i]=a[i]*k+o[i-1]*(1-k);return o};
+function exDetect(it){const b5=aggBars(it.b1,5,isNse(it.def)),now=nowSec();const b=b5.filter(x=>x.t+300<=now);const n=b.length;if(n<60)return null;
+  const c=b.map(x=>x.c),r=rsiArr(c,14),at=atrArr(b,14),m12=exEma(c,12),m26=exEma(c,26),macd=c.map((_,i)=>m12[i]-m26[i]),sg=exEma(macd,9),h=macd.map((x,i)=>x-sg[i]),e21=exEma(c,21);const i=n-1;if(!(at[i]>0))return null;
+  const out=[];for(const s of [1,-1]){
+    const rx=s>0?Math.min(...r.slice(i-3,i+1)):Math.max(...r.slice(i-3,i+1));const rsiOk=s>0?rx<=25:rx>=75;
+    let gap=0;for(let j=i-6;j<=i;j++)gap=Math.max(gap,(s>0?sg[j]-macd[j]:macd[j]-sg[j])/at[j]);const gapOk=gap>=.4;
+    const fade=s>0?(h[i]>h[i-1]&&h[i]<0):(h[i]<h[i-1]&&h[i]>0);
+    const vPeak=Math.max(...b.slice(i-7,i-1).map(x=>x.v||0)),volOk=vPeak>0&&(b[i-1].v||0)<vPeak;
+    // divergence: price makes a new extreme vs the previous swing point, MACD does not
+    let div=false;{const k=s>0?i-5+b.slice(i-5,i+1).reduce((a,x,j,arr)=>x.l<arr[a].l?j:a,0):i-5+b.slice(i-5,i+1).reduce((a,x,j,arr)=>x.h>arr[a].h?j:a,0);
+      for(let j=i-8;j>=Math.max(3,i-45);j--){const piv=s>0?b.slice(j-2,j+3).every(x=>x.l>=b[j].l):b.slice(j-2,j+3).every(x=>x.h<=b[j].h);if(!piv)continue;
+        div=s>0?(b[k].l<b[j].l&&macd[k]>macd[j]):(b[k].h>b[j].h&&macd[k]<macd[j]);break}}
+    const cand=s>0?(b[i].c>b[i].o&&b[i].c>b[i-1].c):(b[i].c<b[i].o&&b[i].c<b[i-1].c);
+    if(!(rsiOk&&gapOk&&(fade||div)))continue;
+    const ext=s>0?Math.min(...b.slice(i-5,i+1).map(x=>x.l)):Math.max(...b.slice(i-5,i+1).map(x=>x.h)),stop=ext-s*.1*at[i],d=Math.abs(c[i]-stop);
+    out.push({s,stage:cand&&fade?'trigger':'watch',t:b[i].t,p:c[i],rsi:r[i],rx,gap,fade,volOk,div,cand,stop,d,tgt:e21[i],atr:at[i]})}
+  return out.length?out.sort((a,b)=>(b.stage==='trigger')-(a.stage==='trigger'))[0]:null}
+function exScan(){const now=nowSec();
+  for(const it of S.inst.values()){if(it.status!=='ok'||it.def.opt||!it.b1||it.b1.length<400)continue;let x=null;try{x=exDetect(it)}catch(e){}
+    const id=it.def.id,old=EXW.st[id];if(x){EXW.st[id]=x;
+      if(x.stage==='trigger'&&!EXW.rec.some(q=>q.m===id&&q.s===x.s&&Math.abs(q.t-x.t*1000)<1800000)){
+        EXW.rec.push({m:id,n:it.def.name.split(' · ')[0],s:x.s,t:x.t*1000,p:x.p,stop:x.stop,d:x.d,div:x.div?1:0});if(EXW.rec.length>600)EXW.rec=EXW.rec.slice(-600);store.set('pt.exw',EXW.rec);
+        if(CFG.exAlert!==false&&now-(EXW.last[id]||0)>1800){EXW.last[id]=now;const nm=it.def.name.split(' · ')[0];
+          toast(x.s>0?'buy':'sell',`${x.s>0?'🟢 ACCUMULATION TIME':'🔴 DISTRIBUTION TIME'} · ${nm}`,`${x.s>0?'Selling looks exhausted':'Buying looks exhausted'}: RSI reached ${x.rx.toFixed(0)}, MACD stretched${x.div?', divergence ✓':''}. Reversal candle closed. Stop ${fmtP(x.stop)}. Heads-up only — about 4 in 10 work.`,'',id,9000);
+          try{tone(x.s>0?SOUNDS.buy:SOUNDS.sell)}catch(e){}}}}
+    else if(old&&now-old.t>1800)delete EXW.st[id]}
+  exEval();if(S.view==='chart')exBadge()}
+function exPxAt(id,tms){const it=S.inst.get(id),b=it&&it.b1;if(!b||!b.length||b[b.length-1].t*1000<tms)return null;const s=Math.floor(tms/1000);const x=b.find(q=>q.t>=s-59);return x?x.c:null}
+function exEval(){let ch=false;for(const q of EXW.rec){for(const m of [15,30,60]){const k='r'+m;if(q[k]!=null||Date.now()<q.t+m*60000)continue;const px=exPxAt(q.m,q.t+m*60000);
+    if(px==null){if(Date.now()>q.t+m*60000+6*3600000){q[k]='x';ch=true}continue}q[k]=+(((px-q.p)*q.s)/q.d).toFixed(2);ch=true}
+  if(q.r60!=null&&q.stopHit==null){const it=S.inst.get(q.m),b=it&&it.b1;if(b){const w=b.filter(x=>x.t*1000>q.t&&x.t*1000<=q.t+3600000);if(w.length){q.stopHit=w.some(x=>q.s>0?x.l<=q.stop:x.h>=q.stop)?1:0;q.mfe=+(Math.max(...w.map(x=>((q.s>0?x.h:x.l)-q.p)*q.s))/q.d).toFixed(2);ch=true}}}}
+  if(ch)store.set('pt.exw',EXW.rec)}
+function exStats(id){const a=EXW.rec.filter(q=>!id||q.m===id),f=k=>{const v=a.filter(q=>typeof q[k]==='number');return {n:v.length,w:v.filter(q=>q[k]>0).length,avg:v.length?v.reduce((s,q)=>s+q[k],0)/v.length:0}};
+  const st=a.filter(q=>q.stopHit!=null);return {r15:f('r15'),r30:f('r30'),r60:f('r60'),stop:st.length?st.filter(q=>q.stopHit).length/st.length:null,all:a.length}}
+function exBadge(){const box=document.querySelector('.chartbox');if(!box)return;let el=$('#exBox');const id=S.chart&&S.chart.id,x=id&&EXW.st[id];
+  if(!x||store.get('pt.exHide',0)===x.t||S.view!=='chart'){if(el)el.hidden=true;return}
+  if(!el){el=document.createElement('div');el.id='exBox';el.className='exbox';box.appendChild(el);exDrag(el)}
+  const up=x.s>0,it=S.inst.get(id),ok=v=>v?'<i class="ok">✓</i>':'<i class="no">✗</i>',ag=Math.round((nowSec()-x.t-300)/60);const all=exStats(),me=exStats(id),pc=o=>o.n?`${Math.round(100*o.w/o.n)}% of ${o.n}`:'—';
+  el.hidden=false;el.className='exbox '+(up?'up':'dn')+(x.stage==='trigger'?' trig':'');
+  el.innerHTML=`<div class="exH"><b>${up?'ACCUMULATION TIME':'DISTRIBUTION TIME'}</b><button class="exX" data-exx="1" title="Hide">✕</button></div>
+   <div class="exS">${x.stage==='trigger'?`✅ Reversal candle closed ${ag<=0?'just now':ag+' min ago'}`:`⏳ Forming — wait for a ${up?'green':'red'} candle`}</div>
+   <div class="exG"><span>RSI ${up?'≤25':'≥75'}</span><b>${x.rx.toFixed(0)} ${ok(true)}</b><span>MACD stretched</span><b>${x.gap.toFixed(1)}×ATR ${ok(true)}</b><span>Histogram fading</span><b>${ok(x.fade)}</b>
+   <span>Volume drying</span><b>${ok(x.volOk)}</b><span>MACD divergence</span><b>${ok(x.div)}</b><span>Reversal candle</span><b>${ok(x.cand)}</b>
+   <span>Stop</span><b>${fmtP(x.stop)}</b><span>1st target (EMA21)</span><b>${fmtP(x.tgt)}</b></div>
+   <div class="exR">Live record · this market: <b>30 min ${pc(me.r30)}</b> · all markets: <b>30 min ${pc(all.r30)}</b>${all.stop!=null?` · stop hit ${Math.round(all.stop*100)}%`:''}<br>History test: about 4 in 10 bounce 1R. Heads-up, not a signal.</div>`;
+  el.querySelector('[data-exx]').onclick=e=>{e.stopPropagation();store.set('pt.exHide',x.t);el.hidden=true};
+  const pos=store.get('pt.expos',null);if(pos&&!EXW.drag){const bb=box.getBoundingClientRect();el.style.left=Math.max(0,Math.min(bb.width-el.offsetWidth,pos.x*bb.width))+'px';el.style.top=Math.max(0,Math.min(bb.height-el.offsetHeight,pos.y*bb.height))+'px';el.style.right='auto'}}
+function exDrag(el){let st=null;el.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;st={x:e.clientX,y:e.clientY,l:el.offsetLeft,t:el.offsetTop};try{el.setPointerCapture(e.pointerId)}catch(x){}});
+  el.addEventListener('pointermove',e=>{if(!st)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(!EXW.drag&&Math.hypot(dx,dy)<6)return;EXW.drag=true;e.preventDefault();const bb=el.parentElement.getBoundingClientRect();
+    el.style.right='auto';el.style.left=Math.max(0,Math.min(bb.width-el.offsetWidth,st.l+dx))+'px';el.style.top=Math.max(0,Math.min(bb.height-el.offsetHeight,st.t+dy))+'px'});
+  const up=()=>{if(!st)return;if(EXW.drag){const bb=el.parentElement.getBoundingClientRect();store.set('pt.expos',{x:el.offsetLeft/bb.width,y:el.offsetTop/bb.height});EXW.drag=false}st=null};
+  el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up)}
+setInterval(()=>{try{exScan()}catch(e){}},60000);setTimeout(()=>{try{exScan()}catch(e){}},8000);
+
 /* ---------- SWING DESK: BTC SWING rules on Bitcoin + MCX + index (server feed/swingx) ---------- */
 const SWXF=()=>((window.FEED||{}).swingx||{}).mk||null;
 const SWX_ORDER=['gold','silver','crude','natgas','nifty','banknifty','sensex'];
@@ -4954,7 +5022,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=21.5"></script>
+<script type="module" src="auth.js?v=21.6"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
