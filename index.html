@@ -783,6 +783,19 @@ body.locked .nbord{display:none!important}
 .jpfab{position:fixed;right:12px;top:calc(env(safe-area-inset-top) + 120px);z-index:8500;display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:9px 34px 9px 14px;border-radius:16px;cursor:pointer;color:#1a1200;background:linear-gradient(135deg,#ffe066,#ffb300);animation:jpfab 1s ease-in-out infinite;max-width:calc(100vw - 24px)}.jpfab[hidden]{display:none}
 .jpfab .t{font:900 16px/1.1 var(--f-ui);letter-spacing:.02em}.jpfab .s{font:700 11px/1.2 var(--f-ui);opacity:.85}.jpfab .x{position:absolute;top:4px;right:6px;width:24px;height:24px;border:0;border-radius:50%;background:#0002;color:#1a1200;font:800 16px/1 var(--f-ui);cursor:pointer}
 .jpnote{padding:9px 11px;border-radius:10px;margin:0 0 10px;font:500 12.5px/1.45 var(--f-ui);background:color-mix(in srgb,var(--wait) 14%,transparent)}
+#ecBody .label{text-transform:none;letter-spacing:0;font:500 12px/1.4 var(--f-ui);color:var(--dim)}#ecBody .ecbig .label{font-weight:700}
+.ecfab{background:linear-gradient(135deg,#7ff3ff,#29b6ff);color:#001522;top:calc(env(safe-area-inset-top) + 190px)}.ecfab .x{color:#001522}
+.eccard{border:1px solid color-mix(in srgb,var(--dim) 28%,transparent);border-radius:12px;padding:10px 12px;margin-bottom:12px}.eccard.live{border-color:var(--cyan);box-shadow:0 0 0 1px #29e7ff44}
+.eccard summary{cursor:pointer}.echd{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;font:600 14px var(--f-ui);margin-bottom:6px}.echd .label{margin-left:auto}
+.ecph{padding:6px 8px;border-radius:8px;background:var(--well);margin-bottom:8px;font:600 13px var(--f-ui)}.ecph .num{color:var(--t1);font-weight:800}
+.ecbig{display:grid;grid-template-columns:1.3fr 1fr;gap:10px;margin:6px 0}.ecv{font:900 30px/1.1 var(--f-num);color:var(--cyan)}.ecv.fin{color:var(--t1)}.ecv2{font:800 20px/1.2 var(--f-num);color:var(--dim)}
+.ecsp{width:100%;height:54px;display:block}.ecleg{display:flex;gap:12px;flex-wrap:wrap;font:500 11px var(--f-ui);color:var(--dim);margin:2px 0 8px}.ecleg i{display:inline-block;width:10px;height:3px;margin-right:4px;vertical-align:middle}
+.ectab,.ecsc{width:100%;border-collapse:collapse;font:600 14px var(--f-num);text-align:center}.ectab th,.ecsc th{font:600 11px var(--f-ui);color:var(--dim);padding:4px}.ectab th small,.eck small{display:block;font:500 10px var(--f-ui);color:var(--dim)}
+.ectab td{padding:6px 4px;border-top:1px solid var(--line)}.ecc{cursor:pointer;border-radius:6px}.ecc.otm{color:var(--dim)}.ecc.itm{color:var(--text);font-weight:800}.ecc.cheap{background:#ffd84d22;color:var(--t1)}.ecc.on{outline:2px solid var(--cyan)}
+.ecnote{margin-top:6px;line-height:1.45}.ecy{color:var(--t1)}.eccalc{margin-top:10px;padding:10px;border-radius:10px;background:var(--well)}.ecch{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font:600 14px var(--f-ui)}
+.ecch input{width:90px;padding:4px 6px;border-radius:6px;border:1px solid var(--line-hi);background:var(--deep);color:var(--text);font:700 14px var(--f-num)}
+.ecqty{display:flex;flex-wrap:wrap;gap:6px 14px;margin:8px 0;font:500 13px var(--f-ui)}.ecqty b{font-weight:800}.ecsc td{padding:4px;border-top:1px solid var(--line)}.ecsc tr.mid td{background:#29e7ff14}.ecsc td small{color:var(--dim);font:500 10px var(--f-ui)}
+.ecup{color:var(--sbuy)}.ecdn{color:var(--ssell)}.echr{padding:7px 0;border-top:1px solid var(--line)}.echr .label{margin-top:2px}.ecch2{display:flex;flex-wrap:wrap;gap:4px 10px;font:600 12px var(--f-num);margin-top:3px}
 .jpcard{border:1px solid color-mix(in srgb,var(--dim) 28%,transparent);border-radius:12px;padding:10px 12px;margin-bottom:12px}.jpcard.on{border-color:#ffc83d;box-shadow:0 0 0 1px #ffc83d55}
 .jph{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}.jph b{font:800 16px var(--f-ui)}.jph span{font:500 11.5px/1.35 var(--f-ui);color:var(--dim)}
 .jplight{margin:8px 0;padding:8px 10px;border-radius:9px;font:800 14px var(--f-ui);color:var(--dim);background:color-mix(in srgb,var(--dim) 10%,transparent)}.jplight small{display:block;font:500 11.5px/1.35 var(--f-ui)}
@@ -1183,7 +1196,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.7</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.8</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn anzBtn" id="anzBtn" aria-label="Open Analysis" title="Analysis: equity, real win-rate, ruin cone, heat grid, order book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/><circle cx="19" cy="6" r="1.6" fill="currentColor"/></svg><span>Analysis</span></button>
@@ -1263,7 +1276,7 @@ body:not(.locked) .login{display:none}
     <section class="view" id="v-opt" hidden>
       <div class="ohead">
         <div class="h2"><h2>Options &amp; OI</h2></div>
-        <div class="seg" id="oMode"><button data-m="chain" class="on">Chain</button><button data-m="jp">🎰 Jackpot</button></div>
+        <div class="seg" id="oMode"><button data-m="chain" class="on">Chain</button><button data-m="jp">🎰 Jackpot</button><button data-m="ec">⏱ Expiry close</button></div>
         <select id="oIdx" aria-label="Index"></select>
         <select id="oExp" aria-label="Expiry"></select>
         <span class="label" id="oUpd"></span>
@@ -1271,6 +1284,7 @@ body:not(.locked) .login{display:none}
       </div>
       <div id="oBody"></div>
       <div id="jpBody" hidden></div>
+      <div id="ecBody" hidden></div>
     </section>
 
     <!-- LOG -->
@@ -1317,7 +1331,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.7 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.8 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -3071,7 +3085,7 @@ $('#chFloat').onclick=()=>{const it=chartInst();if(!it)return;openFloat(it.def.i
 
 /* ---------- options & OI ---------- */
 let optInit=false;
-function initOpt(silent){if(!optInit){optInit=true;$('#oCalc').onclick=()=>openCalc();$('#oMode').onclick=e=>{const b=e.target.closest('[data-m]');if(b)jpMode(b.dataset.m==='jp')};if(JP.on)setTimeout(()=>jpMode(true),0);$('#oIdx').innerHTML=OPT_IDX.map((o,i)=>`<option value="${i}">${o.n}</option>`).join('');
+function initOpt(silent){if(!optInit){optInit=true;$('#oCalc').onclick=()=>openCalc();$('#oMode').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;if(b.dataset.m==='ec'){jpMode(false);ecMode(true)}else{ecMode(false);jpMode(b.dataset.m==='jp')}};if(JP.on)setTimeout(()=>jpMode(true),0);$('#oIdx').innerHTML=OPT_IDX.map((o,i)=>`<option value="${i}">${o.n}</option>`).join('');
   $('#oIdx').onchange=e=>{S.opt.idx=+e.target.value;S.opt.exp=null;S.opt.exps=[];S.opt.an=null;loadExp()};$('#oExp').onchange=e=>{S.opt.exp=e.target.value;loadChain()}}
   if(!CFG.token){$('#oBody').innerHTML=`<div class="empty">The option chain and OI need today's Upstox access token.<br><br><button class="btn pri" onclick="show('set')">Add token in Settings</button></div>`;$('#oExp').innerHTML='';return}
   if(!S.opt.exps.length)loadExp();else renderOpt()}
@@ -3374,6 +3388,115 @@ function renderJackpot(){const el=$('#jpBody');if(!el)return;if(!CFG.token){el.i
   el.innerHTML=h}
 function jpMode(on){JP.on=on;store.set('pt.jpOn',on);document.querySelectorAll('#oMode button').forEach(b=>b.classList.toggle('on',(b.dataset.m==='jp')===on));
   $('#oBody').hidden=on;$('#jpBody').hidden=!on;for(const id of ['#oIdx','#oExp','#oCalc'])$(id).hidden=on;if(on){renderJackpot();jpLoad(true);jpEval()}}
+/* ---------- EXPIRY CLOSE: live market-implied closing price on NIFTY / SENSEX expiry days (read-only, paper — never trades) ----------
+   During the closing auction (3:15–3:30 pm) the index price in the feed stops moving, but the options keep trading. For any strike K,
+   K + call − put = the price the market expects the index to settle at. Median over the 5 strikes nearest = "expected close". */
+const EC_IX=[{n:'NIFTY',step:50},{n:'SENSEX',step:100}];
+const EC={on:false,exp:{},lot:{},day:null,live:{},sel:null,risk:+store.get('pt.ecRisk',2000)||2000,busy:false,err:null,said:{},rT:0};
+function ecToday(){return ymdIST(Date.now())}
+function ecWin(){const m=jpHm();return m>=15*60+10&&m<=15*60+40}
+const ecIsExp=n=>(EC.exp[n]||[])[0]===ecToday();
+const ecFmt=v=>v==null||isNaN(v)?'—':(+v).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const ecRs=v=>(v<0?'−':'')+'₹'+Math.round(Math.abs(v)).toLocaleString('en-IN');
+const ecDay=d=>new Date(d+'T12:00:00+05:30').toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',timeZone:'Asia/Kolkata'});
+async function ecExpiries(){const today=ecToday();if(EC.day===today||!CFG.token)return;
+  for(const x of EC_IX){const ix=optIx(x.n);const j=await jget(`${UAPI}/v2/option/contract?instrument_key=${encodeURIComponent(ix.key)}`,upHeaders());const rows=j.data||[];
+    EC.exp[x.n]=[...new Set(rows.map(r=>r.expiry))].filter(e=>e>=today).sort();EC.lot[x.n]=+(rows[0]||{}).lot_size||0}
+  EC.day=today}
+function ecPx(o){const m=(o&&o.market_data)||{};const l=+m.ltp||0,b=+m.bid_price||0,a=+m.ask_price||0;return b>0&&a>0&&a-b<=Math.max(0.5,0.15*l)?(a+b)/2:l}
+async function ecPoll(n){const ix=optIx(n),today=ecToday();
+  const j=await jget(`${UAPI}/v2/option/chain?instrument_key=${encodeURIComponent(ix.key)}&expiry_date=${today}`,upHeaders());
+  const rows=(j.data||[]).filter(r=>r.call_options&&r.put_options);if(!rows.length)return;const spot=+rows[0].underlying_spot_price||0;
+  const L=EC.live[n]||(EC.live[n]={hist:[],frozen:null,fin:null,imp928:null});const ref=L.imp||spot;
+  const st=rows.map(r=>{const c=r.call_options.market_data||{},p=r.put_options.market_data||{};return {k:+r.strike_price,c:ecPx(r.call_options),p:ecPx(r.put_options),cl:+c.ltp||0,pl:+p.ltp||0,cv:+c.volume||0,pv:+p.volume||0}}).sort((a,b)=>a.k-b.k);
+  const v=st.filter(s=>s.c>0&&s.p>0).sort((a,b)=>Math.abs(a.k-ref)-Math.abs(b.k-ref)).slice(0,5).map(s=>s.k+s.c-s.p).sort((a,b)=>a-b);
+  const imp=v.length?v[v.length>>1]:null,m=jpHm(),now=Date.now();
+  Object.assign(L,{spot,imp,rows:st,at:now});if(imp)L.hist.push({t:now,imp,spot});if(L.hist.length>700)L.hist.splice(0,L.hist.length-700);
+  if(m>=15*60+16&&m<15*60+28&&L.frozen==null)L.frozen=spot;                          // the index feed stops moving in the auction
+  if(m>=15*60+27&&m<15*60+29&&imp)L.imp928=imp;                                       // last "expected" value before the freeze
+  if(L.fin==null&&m>=15*60+28&&((L.frozen!=null&&Math.abs(spot-L.frozen)>0.01)||m>=15*60+33)){L.fin=spot;ecSay(n,'fin')}
+  if(m>=15*60+20&&m<15*60+26)ecSay(n,'live');if(m>=15*60+26&&m<15*60+29)ecSay(n,'buy')}
+function ecCheap(n){const L=EC.live[n];if(!L||!L.rows||!L.imp)return [];const step=EC_IX.find(e=>e.n===n).step;
+  return L.rows.filter(s=>Math.abs(s.k-L.imp)<=1.5*step).flatMap(s=>[{k:s.k,t:'CE',px:s.cl||s.c},{k:s.k,t:'PE',px:s.pl||s.p}]).filter(o=>o.px>0&&o.px<=5).sort((a,b)=>a.px-b.px)}
+function ecSay(n,what){const key=ecToday()+n+what;if(EC.said[key])return;EC.said[key]=1;const L=EC.live[n]||{};
+  if(what==='live'){tone(SOUNDS.info);toast('info',`⏱ ${n} expiry — closing auction started`,`Expected close right now: ${ecFmt(L.imp)}. The index price in the feed is frozen until ~3:30. Open Options → ⏱ Expiry close.`,'',null,9000)}
+  if(what==='buy'){tone(SOUNDS.t1);const ch=ecCheap(n).slice(0,3).map(o=>`${o.k} ${o.t} ₹${o.px.toFixed(2)}`).join(', ');
+    toast('info',`⏱ ${n} — decision time (3:26–3:29)`,`Expected close ${ecFmt(L.imp)}. ${ch?'Cheap near it: '+ch+'.':'No option under ₹5 near it.'} Auction closes at a random moment 3:28–3:30. Paper info only.`,'',null,12000)}
+  if(what==='fin'){tone(SOUNDS.t2);const s=L.imp928!=null?L.fin-L.imp928:null;
+    toast('info',`⏱ ${n} closed at ${ecFmt(L.fin)}`,s!=null?`Market expected ${ecFmt(L.imp928)} at 3:28 → surprise ${s>=0?'+':''}${s.toFixed(1)} points.`:'Official close is in.','',null,12000)}}
+function ecPhase(){const p=istParts(),m=p.h*60+p.m,sec=m*60+p.s;
+  const P=[[15*60+15,'Normal trading','The closing auction starts at 3:15 pm.'],[15*60+20,'Continuous trading has stopped','The index price in the feed is frozen now. Watch the expected close instead.'],
+    [15*60+28,'Closing auction — orders being collected','Best time to decide: 3:26–3:29 pm. Options keep trading.'],[15*60+30,'Auction can close any second','It freezes at a random moment between 3:28 and 3:30 pm.'],
+    [15*60+40,'Close being published','The final close usually shows by ~3:30–3:35. Expiring options trade till 3:40, then settle at that close.']];
+  for(const [end,t,d] of P)if(m<end){const left=end*60-sec;return {t,d,left,next:end}}return {t:'Expiry over',d:'Options settled at the official close.',left:null}}
+function ecSpark(L){const h=L.hist.slice(-240);if(h.length<2)return '';const vs=h.flatMap(x=>[x.imp,x.spot]).filter(Boolean),lo=Math.min(...vs),hi=Math.max(...vs),r=hi-lo||1,W=300,H=54;
+  const pts=f=>h.map((x,i)=>`${(i/(h.length-1)*W).toFixed(1)},${(H-3-(x[f]-lo)/r*(H-6)).toFixed(1)}`).join(' ');
+  return `<svg class="ecsp" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-label="Expected close over time"><polyline points="${pts('spot')}" fill="none" stroke="var(--dim)" stroke-width="1.2" stroke-dasharray="3 3"/><polyline points="${pts('imp')}" fill="none" stroke="var(--cyan)" stroke-width="2"/></svg><div class="ecleg"><span><i style="background:var(--cyan)"></i>expected close</span><span><i style="background:var(--dim)"></i>index feed</span><span>${ecFmt(lo)} – ${ecFmt(hi)}</span></div>`}
+function ecTable(n){const L=EC.live[n],step=EC_IX.find(e=>e.n===n).step;if(!L||!L.rows)return '';const c=L.fin||L.imp||L.spot,base=Math.round(c/step)*step,ks=[];for(let d=3;d>=-3;d--)ks.push(base+d*step);
+  const sel=EC.sel&&EC.sel.n===n?EC.sel:null;
+  const cell=(s,t)=>{const px=t==='CE'?(s.cl||s.c):(s.pl||s.p),itm=t==='CE'?c>s.k:c<s.k,on=sel&&sel.k===s.k&&sel.t===t;
+    return `<td class="ecc ${itm?'itm':'otm'}${px>0&&px<=5?' cheap':''}${on?' on':''}" data-ec="${n}|${s.k}|${t}">${px>0?px.toFixed(2):'—'}</td>`};
+  const rows=ks.map(k=>L.rows.find(s=>s.k===k)).filter(Boolean).map(s=>{const d=s.k-c;return `<tr>${cell(s,'CE')}<td class="eck">${s.k}<small>${d>=0?'+':''}${d.toFixed(0)}</small></td>${cell(s,'PE')}</tr>`}).join('');
+  return `<table class="ectab"><thead><tr><th>CALL ₹</th><th>Strike<small>vs expected</small></th><th>PUT ₹</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="label ecnote">Tap a price to size it. <b class="ecy">Yellow</b> = ₹5 or less. Bright = would be in the money if the close lands at the expected close; dim = would expire at zero.</div>`}
+function ecCalc(n){const sel=EC.sel;if(!sel||sel.n!==n)return '';const L=EC.live[n],step=EC_IX.find(e=>e.n===n).step,lot=EC.lot[n]||1;const s=(L.rows||[]).find(r=>r.k===sel.k);if(!s)return '';
+  const px=sel.t==='CE'?(s.cl||s.c):(s.pl||s.p);if(!(px>0))return `<div class="eccalc"><b>${sel.k} ${sel.t}</b>: no price right now.</div>`;
+  const qty=Math.floor(EC.risk/px/lot)*lot,lots=qty/lot,cost=qty*px,be=sel.t==='CE'?sel.k+px:sel.k-px,c0=L.fin||L.imp||L.spot;
+  const sc=[-1,-.5,-.25,0,.25,.5,1].map(f=>Math.round((c0+f*step)*100)/100);
+  const rows=sc.map((x,i)=>{const val=Math.max(0,sel.t==='CE'?x-sel.k:sel.k-x)*qty,stt=val*0.00125,pnl=val-cost-stt-40;
+    return `<tr class="${i===3?'mid':''}"><td>${ecFmt(x)}${i===3?' <small>expected</small>':''}</td><td>${ecRs(val)}</td><td class="${pnl>=0?'ecup':'ecdn'}">${pnl>=0?'+':''}${ecRs(pnl)}</td></tr>`}).join('');
+  return `<div class="eccalc"><div class="ecch"><b>${n} ${sel.k} ${sel.t==='CE'?'CALL':'PUT'}</b> at ₹${px.toFixed(2)}
+      <label>Risk ₹ <input id="ecRisk" type="number" inputmode="numeric" min="100" step="100" value="${EC.risk}"></label></div>
+    ${qty>0?`<div class="ecqty"><span><b>${qty.toLocaleString('en-IN')}</b> qty</span><span><b>${lots}</b> lots × ${lot}</span><span>cost <b>${ecRs(cost)}</b></span><span>pays only if close ${sel.t==='CE'?'above':'below'} <b>${ecFmt(be)}</b></span></div>
+    <table class="ecsc"><thead><tr><th>If ${n} closes at</th><th>Worth</th><th>Profit / loss*</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="label ecnote">*After ~₹40 brokerage and 0.125% STT on the payout. Worst case you lose the full ${ecRs(cost)}. Big quantities are split into several orders by Upstox (exchange limit per order); at ₹0.20 there may not be ${qty.toLocaleString('en-IN')} qty on offer — check the depth before buying.</div>`
+    :`<div class="label">₹${EC.risk} is less than 1 lot (${lot} × ₹${px.toFixed(2)} = ${ecRs(lot*px)}).</div>`}</div>`}
+function ecLiveCard(n){const L=EC.live[n],ph=ecPhase(),lot=EC.lot[n];const mm=ph.left!=null?`${Math.floor(ph.left/60)}:${String(ph.left%60).padStart(2,'0')}`:'';
+  if(!L||!L.rows)return `<div class="eccard"><div class="echd"><b>${n}</b> · expiry today</div><div class="label">${EC.err?esc(EC.err):ecWin()?'Loading option prices…':'Goes live at 3:10 pm. A blinking ⏱ badge will appear.'}</div><div class="ecph"><b>${ph.t}</b>${mm?` · <span class="num">${mm}</span> left`:''}<div class="label">${ph.d}</div></div></div>`;
+  const diff=L.imp!=null?L.imp-L.spot:null,ago=Math.round((Date.now()-L.at)/1000);
+  const surprise=L.fin!=null&&L.imp928!=null?L.fin-L.imp928:null;
+  return `<div class="eccard live"><div class="echd"><b>${n}</b> · expiry today · lot ${lot||'—'}<span class="label">updated ${ago}s ago</span></div>
+    <div class="ecph"><b>${ph.t}</b>${mm?` · <span class="num">${mm}</span> left`:''}<div class="label">${ph.d}</div></div>
+    <div class="ecbig">${L.fin!=null?`<div><div class="label">FINAL CLOSE</div><div class="num ecv fin">${ecFmt(L.fin)}</div>${surprise!=null?`<div class="label">expected at 3:28 was ${ecFmt(L.imp928)} → <b class="${surprise>=0?'ecup':'ecdn'}">${surprise>=0?'+':''}${surprise.toFixed(1)} pts</b></div>`:''}</div>`
+      :`<div><div class="label">EXPECTED CLOSE (from option prices)</div><div class="num ecv">${ecFmt(L.imp)}</div></div>`}
+      <div><div class="label">INDEX FEED${L.frozen!=null&&L.fin==null?' · frozen':''}</div><div class="num ecv2">${ecFmt(L.spot)}</div>${diff!=null&&L.fin==null?`<div class="label">expected is ${diff>=0?'+':''}${diff.toFixed(1)} vs feed</div>`:''}</div></div>
+    ${ecSpark(L)}${ecTable(n)}${ecCalc(n)}</div>`}
+function ecHistory(){const it=(((window.FEED||{}).expclose||{}).items||[]);
+  if(!it.length)return `<div class="eccard"><div class="echd"><b>Past expiries</b></div><div class="label">Recorded automatically after each NIFTY / SENSEX expiry (from 19 Nov). Nothing yet.</div></div>`;
+  let won=0,tot=0,sur=[];
+  const rows=it.map(x=>{const e=x.imp&&(x.imp[928]||x.imp[927]);const s=e?x.fin-e:null;if(s!=null)sur.push(Math.abs(s));
+    const near=(x.cheap||[]).filter(o=>e&&Math.abs(o.k-e)<=x.step);for(const o of near){tot++;if(o.end>o.lo)won++}
+    const ch=(x.cheap||[]).filter(o=>e&&Math.abs(o.k-e)<=1.5*x.step).map(o=>`<span class="${o.end>o.lo?'ecup':'ecdn'}">${o.k} ${o.t} ₹${o.lo}→₹${o.end}</span>`).join(' ');
+    return `<div class="echr"><div><b>${ecDay(x.date)}</b> · ${x.n}</div><div class="label">expected ${ecFmt(e)} at 3:28 · closed <b>${ecFmt(x.fin)}</b>${s!=null?` · surprise <b class="${s>=0?'ecup':'ecdn'}">${s>=0?'+':''}${s.toFixed(1)}</b>`:''}</div>${ch?`<div class="ecch2">${ch}</div>`:''}</div>`}).join('');
+  const avg=sur.length?sur.reduce((a,b)=>a+b,0)/sur.length:null;
+  return `<div class="eccard"><div class="echd"><b>Past expiries</b><span class="label">${it.length} recorded</span></div>
+    <div class="label">${avg!=null?`Average miss of the 3:28 expected close: <b>${avg.toFixed(1)} pts</b>. `:''}${tot?`Cheap options (≤₹5) within 1 strike of it: <b>${won} of ${tot}</b> paid more than they cost.`:''}</div>${rows}</div>`}
+function ecRender(){const b=$('#ecBody');if(!b||b.hidden)return;
+  if(!CFG.token){b.innerHTML=`<div class="empty">Needs today's Upstox access token.<br><br><button class="btn pri" onclick="show('set')">Add token in Settings</button></div>`;return}
+  const act=document.activeElement&&document.activeElement.id==='ecRisk';if(act)return;            // don't redraw while typing the risk
+  const live=EC_IX.filter(x=>ecIsExp(x.n)).map(x=>x.n);
+  const next=EC_IX.map(x=>`${x.n} <b>${(EC.exp[x.n]||[])[0]?ecDay(EC.exp[x.n][0]):'—'}</b>`).join(' · ');
+  b.innerHTML=(live.length?live.map(ecLiveCard).join(''):`<div class="eccard"><div class="echd"><b>No NIFTY / SENSEX expiry today</b></div><div class="label">Next expiry: ${EC.day?next:'loading…'}<br>On expiry day this goes live at 3:10 pm, a blinking ⏱ badge appears, and you get alerts at 3:20, 3:26 and the final close.</div></div>`)
+    +`<details class="eccard"><summary><b>How this works</b></summary><div class="label ecnote">From 3:15 pm the exchange runs a closing auction; the official close (the expiry settlement price) comes out at a random moment between 3:28 and 3:30. During the auction the index price in the feed stops moving, but options keep trading. For any strike, <b>strike + call price − put price</b> = the close the market expects. We take the middle of the 5 nearest strikes and refresh it every 3 seconds.<br><br>
+      Cheap options near the expected close are a coin-flip: on 19 Nov the SENSEX 83000 call <i>and</i> the 83000 put both traded at ₹0.20 — the call paid ₹21.75, the put paid ₹0. The auction itself can move the close (that day +67 pts vs what the market expected at 3:28). The history below tracks whether this edge is real before any money goes in.</div></details>`
+    +ecHistory()}
+function ecMode(on){EC.on=on;$('#ecBody').hidden=!on;if(!on)return;
+  document.querySelectorAll('#oMode button').forEach(b=>b.classList.toggle('on',b.dataset.m==='ec'));
+  for(const id of ['#oBody','#jpBody','#oIdx','#oExp','#oCalc'])$(id).hidden=true;$('#oUpd').textContent='';
+  ecRender();ecExpiries().then(ecRender).catch(e=>{EC.err=e.status===401?'Upstox token expired — paste today\'s token in Settings.':'Could not load expiries.';ecRender()})}
+function ecFab(){const live=EC_IX.filter(x=>ecIsExp(x.n)&&ecWin()).map(x=>x.n),today=ecToday(),dis=store.get('pt.ecDis','');let el=$('#ecFab');
+  if(!live.length||dis===today||(S.view==='opt'&&EC.on)){if(el)el.hidden=true;return}
+  if(!el){el=document.createElement('div');el.id='ecFab';el.className='jpfab ecfab';el.setAttribute('role','button');el.tabIndex=0;el.innerHTML='<span class="t">⏱ EXPIRY CLOSE</span><span class="s"></span><button class="x" aria-label="Close expiry alert">×</button>';document.body.appendChild(el);
+    el.addEventListener('click',e=>{if(e.target.closest('.x')){store.set('pt.ecDis',ecToday());el.hidden=true;return}show('opt');initOpt(true);jpMode(false);ecMode(true)})}
+  el.querySelector('.s').textContent=live.map(n=>{const L=EC.live[n]||{};return `${n} · ${L.fin!=null?'closed '+ecFmt(L.fin):'expected '+ecFmt(L.imp)}`}).join(' · ')+' · tap';el.hidden=false}
+async function ecTick(){if(!CFG.token||EC.busy)return;EC.busy=true;try{
+    const m=jpHm();if(EC.day!==ecToday()&&(m>=9*60||EC.on))await ecExpiries();
+    if(ecWin())for(const x of EC_IX)if(ecIsExp(x.n))try{await ecPoll(x.n);EC.err=null}catch(e){EC.err=e.status===401?'Upstox token expired — paste today\'s token in Settings.':'Could not load option prices ('+(e.message||e)+').'}
+    ecFab();if(S.view==='opt'&&EC.on&&(ecWin()||Date.now()-EC.rT>20000)){EC.rT=Date.now();ecRender()}}
+  catch(e){}finally{EC.busy=false}}
+setInterval(ecTick,3000);
+document.addEventListener('click',e=>{const c=e.target.closest('[data-ec]');if(!c)return;const [n,k,t]=c.dataset.ec.split('|');EC.sel={n,k:+k,t};ecRender()});
+document.addEventListener('change',e=>{if(e.target&&e.target.id==='ecRisk'){EC.risk=Math.max(1,+e.target.value||2000);store.set('pt.ecRisk',EC.risk);e.target.blur();ecRender()}});
 function renderOpt(){const an=S.opt.an;if(!an){$('#oBody').innerHTML='<div class="empty">No option data for this expiry.</div>';return}const ix=OPT_IDX[S.opt.idx];
   $('#oUpd').textContent='Updated '+new Date(S.opt.at+IST*1000).toISOString().slice(11,19)+' IST';
   const it=S.inst.get('u:'+ix.key);const ev=it&&it.eng&&it.eng.last;const bias=ev&&ev.state!=='warm'?{trend:ev.trend,st:ev.st}:null;
@@ -4988,7 +5111,7 @@ function renderEvStrip(){const el=$('#evStrip');if(!el)return;const f=FD();const
   if(ev){const live=Math.abs(ev.t-now)<=EV_AFTER||(ev.t-now>0&&ev.t-now<EV_BEFORE);el.hidden=false;el.className='evs'+(ev.imp>=3&&live?' hot':'');
     el.innerHTML=`<span class="k">${live?'NOW':'NEXT'}</span><span><b>${esc(ev.name)}</b> at ${istT(ev.t)} IST ${ev.t>now?'· '+inTx(ev.t):''}${ev.imp>=3&&CFG.evPause!==false?` · new signals pause ${istT(ev.t-EV_BEFORE)}–${istT(ev.t+EV_AFTER)} for ${ev.mk.map(m=>MKN[m]).join(', ')}`:''}</span>`;el.onclick=()=>{NW.tab='cal';show('news')};return}
   el.hidden=true}
-let nwT=0;function onFeed(e){if(e&&/^(lab|condor|kronos)/.test(e.detail||'')){try{renderLab()}catch(x){}return}if(e&&e.detail==='signals')srvSyncAll();if(e&&(e.detail==='swing'||e.detail==='swingx')&&typeof booted!=='undefined'&&booted)try{swingCheck()}catch(x){}if(e&&e.detail==='futures'&&typeof booted!=='undefined'&&booted){syncInstruments();renderFilters()}clearTimeout(nwT);nwT=setTimeout(()=>{renderNews();newsBadge();renderEvStrip();if(S.view==='scan')for(const it of S.inst.values())markDirty(it)},250)}
+let nwT=0;function onFeed(e){if(e&&/^(lab|condor|kronos)/.test(e.detail||'')){try{renderLab()}catch(x){}return}if(e&&e.detail==='signals')srvSyncAll();if(e&&e.detail==='expclose'&&EC.on)try{ecRender()}catch(x){}if(e&&(e.detail==='swing'||e.detail==='swingx')&&typeof booted!=='undefined'&&booted)try{swingCheck()}catch(x){}if(e&&e.detail==='futures'&&typeof booted!=='undefined'&&booted){syncInstruments();renderFilters()}clearTimeout(nwT);nwT=setTimeout(()=>{renderNews();newsBadge();renderEvStrip();if(S.view==='scan')for(const it of S.inst.values())markDirty(it)},250)}
 /* notifications settings */
 function npPrefs(){const p=CFG.push||{};const W=SWC();return {sig:p.sig!==false,news:p.news!==false,data:p.data!==false,move:p.move!==false,nse:!!p.nse,swing:W.on!==false,swq:W.quiet!==false,algo:true,mute:allDefs().filter(d=>d.sig===false).map(d=>d.id)}}
 function npMsg(t,ok){const m=$('#npMsg');m.className='msg'+(ok?' ok':'');m.textContent=t||''}
@@ -5026,7 +5149,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=21.7"></script>
+<script type="module" src="auth.js?v=21.8"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
