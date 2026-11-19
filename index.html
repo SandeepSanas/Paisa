@@ -1183,7 +1183,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.6</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.7</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn anzBtn" id="anzBtn" aria-label="Open Analysis" title="Analysis: equity, real win-rate, ruin cone, heat grid, order book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/><circle cx="19" cy="6" r="1.6" fill="currentColor"/></svg><span>Analysis</span></button>
@@ -1317,7 +1317,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.6 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.7 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -4587,7 +4587,7 @@ function btcSwingHTML(){const F=SWF(),C=SWC();
    Checks: RSI ≤25 (≥75) in the last 4 candles · MACD stretched ≥0.4× ATR from its signal line · histogram fading · volume drying up · MACD divergence · reversal candle.
    Stage WATCH = exhaustion forming (RSI + stretch + fading or divergence). TRIGGER = the reversal candle has closed. Heads-up only; the history test found ~4 in 10 bounce to 1R.
    Every TRIGGER is recorded on this phone and checked 15/30/60 min later, so the pattern builds its own live track record. */
-const EXW={st:{},rec:store.get('pt.exw',[]),last:{},t:null};
+const EXW={st:{},rec:store.get('pt.exw',[]),last:{},lastW:{},t:null};
 const exEma=(a,n)=>{const k=2/(n+1),o=new Array(a.length);o[0]=a[0];for(let i=1;i<a.length;i++)o[i]=a[i]*k+o[i-1]*(1-k);return o};
 function exDetect(it){const b5=aggBars(it.b1,5,isNse(it.def)),now=nowSec();const b=b5.filter(x=>x.t+300<=now);const n=b.length;if(n<60)return null;
   const c=b.map(x=>x.c),r=rsiArr(c,14),at=atrArr(b,14),m12=exEma(c,12),m26=exEma(c,26),macd=c.map((_,i)=>m12[i]-m26[i]),sg=exEma(macd,9),h=macd.map((x,i)=>x-sg[i]),e21=exEma(c,21);const i=n-1;if(!(at[i]>0))return null;
@@ -4595,21 +4595,24 @@ function exDetect(it){const b5=aggBars(it.b1,5,isNse(it.def)),now=nowSec();const
     const rx=s>0?Math.min(...r.slice(i-3,i+1)):Math.max(...r.slice(i-3,i+1));const rsiOk=s>0?rx<=25:rx>=75;
     let gap=0;for(let j=i-6;j<=i;j++)gap=Math.max(gap,(s>0?sg[j]-macd[j]:macd[j]-sg[j])/at[j]);const gapOk=gap>=.4;
     const fade=s>0?(h[i]>h[i-1]&&h[i]<0):(h[i]<h[i-1]&&h[i]>0);
+    const slow=s>0?(macd[i]-macd[i-1]>macd[i-1]-macd[i-2]&&macd[i-1]<macd[i-2]):(macd[i]-macd[i-1]<macd[i-1]-macd[i-2]&&macd[i-1]>macd[i-2]);   // MACD line still moving but slowing / turning
     const vPeak=Math.max(...b.slice(i-7,i-1).map(x=>x.v||0)),volOk=vPeak>0&&(b[i-1].v||0)<vPeak;
     // divergence: price makes a new extreme vs the previous swing point, MACD does not
     let div=false;{const k=s>0?i-5+b.slice(i-5,i+1).reduce((a,x,j,arr)=>x.l<arr[a].l?j:a,0):i-5+b.slice(i-5,i+1).reduce((a,x,j,arr)=>x.h>arr[a].h?j:a,0);
       for(let j=i-8;j>=Math.max(3,i-45);j--){const piv=s>0?b.slice(j-2,j+3).every(x=>x.l>=b[j].l):b.slice(j-2,j+3).every(x=>x.h<=b[j].h);if(!piv)continue;
         div=s>0?(b[k].l<b[j].l&&macd[k]>macd[j]):(b[k].h>b[j].h&&macd[k]<macd[j]);break}}
     const cand=s>0?(b[i].c>b[i].o&&b[i].c>b[i-1].c):(b[i].c<b[i].o&&b[i].c<b[i-1].c);
-    if(!(rsiOk&&gapOk&&(fade||div)))continue;
+    if(!(rsiOk&&gapOk))continue;const conf=fade||slow||div;
     const ext=s>0?Math.min(...b.slice(i-5,i+1).map(x=>x.l)):Math.max(...b.slice(i-5,i+1).map(x=>x.h)),stop=ext-s*.1*at[i],d=Math.abs(c[i]-stop);
-    out.push({s,stage:cand&&fade?'trigger':'watch',t:b[i].t,p:c[i],rsi:r[i],rx,gap,fade,volOk,div,cand,stop,d,tgt:e21[i],atr:at[i]})}
+    out.push({s,stage:cand&&conf?'trigger':'watch',t:b[i].t,p:c[i],rsi:r[i],rx,gap,fade,slow,volOk,div,cand,stop,d,tgt:e21[i],atr:at[i]})}
   return out.length?out.sort((a,b)=>(b.stage==='trigger')-(a.stage==='trigger'))[0]:null}
 function exScan(){const now=nowSec();
   for(const it of S.inst.values()){if(it.status!=='ok'||it.def.opt||!it.b1||it.b1.length<400)continue;let x=null;try{x=exDetect(it)}catch(e){}
-    const id=it.def.id,old=EXW.st[id];if(x){EXW.st[id]=x;
-      if(x.stage==='trigger'&&!EXW.rec.some(q=>q.m===id&&q.s===x.s&&Math.abs(q.t-x.t*1000)<1800000)){
-        EXW.rec.push({m:id,n:it.def.name.split(' · ')[0],s:x.s,t:x.t*1000,p:x.p,stop:x.stop,d:x.d,div:x.div?1:0});if(EXW.rec.length>600)EXW.rec=EXW.rec.slice(-600);store.set('pt.exw',EXW.rec);
+    const id=it.def.id,old=EXW.st[id];if(x){if(old&&old.s===x.s&&x.t-old.t<=1800){if(old.ft&&x.stage==='trigger'){x.ft=old.ft;x.fp=old.fp;x.stop=old.stop;x.d=old.d}if(old.wt)x.wt=old.wt}
+      if(x.stage==='trigger'&&!x.ft){x.ft=x.t;x.fp=x.p}if(!x.wt)x.wt=x.t;EXW.st[id]=x;
+      if(x.stage==='watch'&&!(old&&old.s===x.s)&&CFG.exAlert!==false&&now-(EXW.lastW[id]||0)>1800){EXW.lastW[id]=now;const nm=it.def.name.split(' · ')[0];toast('info',`${x.s>0?'⏳ Accumulation forming':'⏳ Distribution forming'} · ${nm}`,`RSI ${x.rx.toFixed(0)}, MACD stretched. Watch for a ${x.s>0?'green':'red'} candle.`,'',id,6000)}
+      if(x.stage==='trigger'&&!EXW.rec.some(q=>q.m===id&&q.s===x.s&&Math.abs(q.t-x.ft*1000)<1800000)){
+        EXW.rec.push({m:id,n:it.def.name.split(' · ')[0],s:x.s,t:x.ft*1000,p:x.fp,stop:x.stop,d:x.d,div:x.div?1:0});if(EXW.rec.length>600)EXW.rec=EXW.rec.slice(-600);store.set('pt.exw',EXW.rec);
         if(CFG.exAlert!==false&&now-(EXW.last[id]||0)>1800){EXW.last[id]=now;const nm=it.def.name.split(' · ')[0];
           toast(x.s>0?'buy':'sell',`${x.s>0?'🟢 ACCUMULATION TIME':'🔴 DISTRIBUTION TIME'} · ${nm}`,`${x.s>0?'Selling looks exhausted':'Buying looks exhausted'}: RSI reached ${x.rx.toFixed(0)}, MACD stretched${x.div?', divergence ✓':''}. Reversal candle closed. Stop ${fmtP(x.stop)}. Heads-up only — about 4 in 10 work.`,'',id,9000);
           try{tone(x.s>0?SOUNDS.buy:SOUNDS.sell)}catch(e){}}}}
@@ -4625,11 +4628,11 @@ function exStats(id){const a=EXW.rec.filter(q=>!id||q.m===id),f=k=>{const v=a.fi
 function exBadge(){const box=document.querySelector('.chartbox');if(!box)return;let el=$('#exBox');const id=S.chart&&S.chart.id,x=id&&EXW.st[id];
   if(!x||store.get('pt.exHide',0)===x.t||S.view!=='chart'){if(el)el.hidden=true;return}
   if(!el){el=document.createElement('div');el.id='exBox';el.className='exbox';box.appendChild(el);exDrag(el)}
-  const up=x.s>0,it=S.inst.get(id),ok=v=>v?'<i class="ok">✓</i>':'<i class="no">✗</i>',ag=Math.round((nowSec()-x.t-300)/60);const all=exStats(),me=exStats(id),pc=o=>o.n?`${Math.round(100*o.w/o.n)}% of ${o.n}`:'—';
+  const up=x.s>0,it=S.inst.get(id),ok=v=>v?'<i class="ok">✓</i>':'<i class="no">✗</i>',ag=Math.round((nowSec()-(x.ft||x.t)-300)/60);const all=exStats(),me=exStats(id),pc=o=>o.n?`${Math.round(100*o.w/o.n)}% of ${o.n}`:'—';
   el.hidden=false;el.className='exbox '+(up?'up':'dn')+(x.stage==='trigger'?' trig':'');
   el.innerHTML=`<div class="exH"><b>${up?'ACCUMULATION TIME':'DISTRIBUTION TIME'}</b><button class="exX" data-exx="1" title="Hide">✕</button></div>
-   <div class="exS">${x.stage==='trigger'?`✅ Reversal candle closed ${ag<=0?'just now':ag+' min ago'}`:`⏳ Forming — wait for a ${up?'green':'red'} candle`}</div>
-   <div class="exG"><span>RSI ${up?'≤25':'≥75'}</span><b>${x.rx.toFixed(0)} ${ok(true)}</b><span>MACD stretched</span><b>${x.gap.toFixed(1)}×ATR ${ok(true)}</b><span>Histogram fading</span><b>${ok(x.fade)}</b>
+   <div class="exS">${x.stage==='trigger'?`✅ Reversal candle closed ${ag<=0?'just now':ag+' min ago'} at ${fmtP(x.fp||x.p)}`:`⏳ Forming — wait for a ${up?'green':'red'} candle`}</div>
+   <div class="exG"><span>RSI ${up?'≤25':'≥75'}</span><b>${x.rx.toFixed(0)} ${ok(true)}</b><span>MACD stretched</span><b>${x.gap.toFixed(1)}×ATR ${ok(true)}</b><span>Histogram fading</span><b>${ok(x.fade)}</b><span>MACD slowing / turning</span><b>${ok(x.slow)}</b>
    <span>Volume drying</span><b>${ok(x.volOk)}</b><span>MACD divergence</span><b>${ok(x.div)}</b><span>Reversal candle</span><b>${ok(x.cand)}</b>
    <span>Stop</span><b>${fmtP(x.stop)}</b><span>1st target (EMA21)</span><b>${fmtP(x.tgt)}</b></div>
    <div class="exR">Live record · this market: <b>30 min ${pc(me.r30)}</b> · all markets: <b>30 min ${pc(all.r30)}</b>${all.stop!=null?` · stop hit ${Math.round(all.stop*100)}%`:''}<br>History test: about 4 in 10 bounce 1R. Heads-up, not a signal.</div>`;
@@ -4641,6 +4644,7 @@ function exDrag(el){let st=null;el.addEventListener('pointerdown',e=>{if(e.targe
   const up=()=>{if(!st)return;if(EXW.drag){const bb=el.parentElement.getBoundingClientRect();store.set('pt.expos',{x:el.offsetLeft/bb.width,y:el.offsetTop/bb.height});EXW.drag=false}st=null};
   el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up)}
 setInterval(()=>{try{exScan()}catch(e){}},60000);setTimeout(()=>{try{exScan()}catch(e){}},8000);
+(function exAlign(){const ms=300000-(Date.now()%300000)+4000;setTimeout(()=>{try{exScan()}catch(e){}exAlign()},ms)})();   // also right after every 5-minute candle close
 
 /* ---------- SWING DESK: BTC SWING rules on Bitcoin + MCX + index (server feed/swingx) ---------- */
 const SWXF=()=>((window.FEED||{}).swingx||{}).mk||null;
@@ -5022,7 +5026,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=21.6"></script>
+<script type="module" src="auth.js?v=21.7"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
