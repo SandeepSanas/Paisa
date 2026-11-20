@@ -1202,7 +1202,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.11</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.12</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn anzBtn" id="anzBtn" aria-label="Open Analysis" title="Analysis: equity, real win-rate, ruin cone, heat grid, order book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/><circle cx="19" cy="6" r="1.6" fill="currentColor"/></svg><span>Analysis</span></button>
@@ -1337,7 +1337,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.11 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.12 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -3424,7 +3424,7 @@ async function ecPoll(n,exp,practice){const ix=optIx(n),today=ecToday();exp=exp|
   // practice: later-expiring options carry a little extra (the 'carry'); measure it 3:10–3:14 while the index still moves, then remove it
   if(raw&&m<15*60+15&&spot){L.bs.push(raw-spot);const b=L.bs.slice().sort((a,c)=>a-c);L.basis=b[b.length>>1]}
   const imp=raw==null?null:practice&&L.basis!=null?raw-L.basis:raw;
-  Object.assign(L,{spot,imp,rows:st,at:now});if(imp)L.hist.push({t:now,imp,spot});if(L.hist.length>700)L.hist.splice(0,L.hist.length-700);
+  const fz=L.fin!=null;Object.assign(L,{spot,imp:fz?L.imp:imp,rows:st,at:now});if(imp&&!fz)L.hist.push({t:now,imp,spot});if(L.hist.length>700)L.hist.splice(0,L.hist.length-700);
   if(m>=15*60+16&&m<15*60+28&&L.frozen==null)L.frozen=spot;                          // the index feed stops moving in the auction
   if(m>=15*60+27&&m<15*60+29&&imp)L.imp928=imp;                                       // last "expected" value before the freeze
   if(L.fin==null&&m>=15*60+28&&((L.frozen!=null&&Math.abs(spot-L.frozen)>0.01)||m>=15*60+33)){L.fin=spot;ecSay(n,'fin')}
@@ -3436,16 +3436,20 @@ const EC_W={"NIFTY":{"ex":"NSE_EQ","s":[["HDFCBANK","INE040A01034",0.10822],["IC
    if the auction ended now (Upstox Full Market Quotes V3). Index close ≈ frozen index × Σ weight × IEP / price-at-3:15.
    Checked on 11 days (5–19 Nov 2026) with real closing prices: within ±6 points while the auction moved the index up to 198 points. */
 async function ecAuction(n,L){const W=EC_W[n],m=jpHm();if(!W||m<15*60+15||m>15*60+31||L.fin!=null)return;
-  const keys=W.s.map(x=>W.ex+'|'+x[1]);const j=await jget(`${UAPI}/v3/market-quote/quotes?instrument_key=${keys.map(encodeURIComponent).join(',')}`,upHeaders());
+  // SENSEX closes on BSE prices; NSE's auction for the same stocks is also read, as a second estimate to compare
+  const exs=W.ex==='BSE_EQ'?['BSE_EQ','NSE_EQ']:[W.ex];const keys=exs.flatMap(ex=>W.s.map(x=>ex+'|'+x[1]));
+  const j=await jget(`${UAPI}/v3/market-quote/quotes?instrument_key=${keys.map(encodeURIComponent).join(',')}`,upHeaders());
   const q={};for(const v of Object.values((j&&j.data)||{}))if(v&&v.instrument_token)q[v.instrument_token]=v;
-  L.base=L.base||{};const If=L.frozen!=null?L.frozen:L.spot;if(!If)return;let r=0,wI=0,imb=0,wB=0;const mv=[];
-  for(const [s,isin,w] of W.s){const v=q[W.ex+'|'+isin];if(!v)continue;const lp=+v.last_price||0;if(!L.base[isin]&&lp>0)L.base[isin]=lp;const b=L.base[isin];
-    const iep=+v.indicative_equilibrium_price||0,ieq=+v.indicative_equilibrium_quantity||0,iiq=+v.indicative_imbalance_quantity_total||0;
-    if(b>0&&iep>0){r+=w*iep/b;wI+=w;const pts=If*w*(iep/b-1);mv.push({s,pct:(iep/b-1)*100,pts})}else r+=w;
-    if(ieq+Math.abs(iiq)>0){imb+=w*iiq/(ieq+Math.abs(iiq));wB+=w}}
-  if(wI<0.5){L.au={ind:null,cov:wI,at:Date.now()};return}
-  mv.sort((a,b)=>Math.abs(b.pts)-Math.abs(a.pts));
-  L.au={ind:If*r,cov:wI,imb:wB?imb/wB:0,mv:mv.slice(0,5),at:Date.now()}}
+  L.base=L.base||{};const If=L.frozen!=null?L.frozen:L.spot;if(!If)return;
+  const calc=ex=>{let r=0,wI=0,imb=0,wB=0;const mv=[];
+    for(const [s,isin,w] of W.s){const k=ex+'|'+isin,v=q[k];if(!v){r+=w;continue}const lp=+v.last_price||0;if(!L.base[k]&&lp>0)L.base[k]=lp;const b=L.base[k];
+      const iep=+v.indicative_equilibrium_price||0,ref=+v.reference_price||0,ieq=+v.indicative_equilibrium_quantity||0,iiq=+v.indicative_imbalance_quantity_total||0;
+      // no auction price yet → the exchange closes the stock at its reference price (average 3:00–3:15), not its last trade
+      const px=iep>0?iep:ref>0?ref:0;
+      if(b>0&&px>0){r+=w*px/b;wI+=w;const pts=If*w*(px/b-1);mv.push({s,pct:(px/b-1)*100,pts,ref:!(iep>0)})}else r+=w;
+      if(ieq+Math.abs(iiq)>0){imb+=w*iiq/(ieq+Math.abs(iiq));wB+=w}}
+    mv.sort((a,b)=>Math.abs(b.pts)-Math.abs(a.pts));return {ind:wI>=0.5?If*r:null,cov:wI,imb:wB?imb/wB:0,mv:mv.slice(0,5)}};
+  const A=calc(exs[0]);A.at=Date.now();if(exs[1]){const B=calc(exs[1]);A.alt=B.ind;A.altEx='NSE'}L.au=A}
 // best estimate of the close: official close → auction (IEP) close → options-implied close
 const ecC=L=>L?(L.fin!=null?L.fin:L.au&&L.au.ind?L.au.ind:L.imp):null;
 /* the panel's call, from the auction close C. A single option is suggested only when C is clearly past its strike (margin M) and the option
@@ -3458,7 +3462,7 @@ function ecDecide(n){const L=EC.live[n],step=EC_IX.find(e=>e.n===n).step,lot=EC.
     for(const t of ['CE','PE']){const ev=t==='CE'?C-s.k:s.k-C,p=px(s,t);if(ev<M||!(p>0)||p>ev*0.5)continue;const x=ev/p;if(!best||x>best.x)best={act:'BUY',k:s.k,t,px:p,ev,x}}}
   if(!best){const k0=Math.round(C/step)*step,s=L.rows.find(r=>r.k===k0);
     if(s&&Math.abs(C-k0)<M){const cost=px(s,'CE')+px(s,'PE');if(cost>0&&cost<=M/2)best={act:'PAIR',k:k0,px:cost,ev:null}}}
-  const d=best||{act:'NONE',C};if(best){const q=Math.floor(EC.risk/best.px/lot)*lot;Object.assign(d,{qty:q,cost:q*best.px})}d.C=C;d.at=Date.now();
+  const d=best||{act:'NONE',C};if(best){const q=Math.floor(EC.risk/best.px/lot)*lot;Object.assign(d,{qty:q,cost:q*best.px})}d.C=C;d.alt=L.au.alt||null;d.at=Date.now();
   if(m>=15*60+20)L.call27=d;return d}
 function ecCallHTML(n){const d=ecDecide(n),L=EC.live[n],lot=EC.lot[n]||1;if(!d)return '';const step=EC_IX.find(e=>e.n===n).step;
   if(d.act==='WAIT')return `<div class="eccall wait"><b>Waiting for the auction</b><span>Stock auction prices start at 3:20 pm. Then the call appears here.</span></div>`;
@@ -3472,14 +3476,14 @@ function ecCallHTML(n){const d=ecDecide(n),L=EC.live[n],lot=EC.lot[n]||1;if(!d)r
     <span>Auction close ${ecFmt(d.C)} is ${Math.abs(d.ev).toFixed(0)} pts ${d.t==='CE'?'above':'below'} ${d.k}. If it holds, worth ≈ ₹${d.ev.toFixed(2)} (${d.x.toFixed(1)}×). Risk: last-minute orders can still move it.</span>${res}</div>`}
 function ecAuHTML(L){const a=L.au;if(!a||!a.ind)return '';const im=Math.round(50+50*(a.imb||0));
   return `<div class="ecau"><div class="ecimb"><span>Buyers waiting <b>${im}%</b></span><div class="ecbar"><i style="width:${im}%"></i></div><span><b>${100-im}%</b> sellers</span></div>
-    <div class="ecmv">${(a.mv||[]).map(x=>`<span class="${x.pts>=0?'ecup':'ecdn'}">${esc(x.s)} ${x.pct>=0?'+':''}${x.pct.toFixed(2)}% → ${x.pts>=0?'+':''}${x.pts.toFixed(0)} pts</span>`).join('')}</div>
-    <div class="label">Stocks moving the index most in the auction. Covers ${Math.round(a.cov*100)}% of the index.</div></div>`}
+    <div class="ecmv">${(a.mv||[]).map(x=>`<span class="${x.pts>=0?'ecup':'ecdn'}">${esc(x.s)}${x.ref?'*':''} ${x.pct>=0?'+':''}${x.pct.toFixed(2)}% → ${x.pts>=0?'+':''}${x.pts.toFixed(0)} pts</span>`).join('')}</div>
+    <div class="label">Stocks moving the index most in the auction (* = no auction price yet, using its 3:00–3:15 average). Covers ${Math.round(a.cov*100)}% of the index.</div></div>`}
 function ecLog(n){const L=EC.live[n];if(!L||L.fin==null||!L.call27||L.logged)return;L.logged=1;const d=L.call27;
-  const log=store.get('pt.ecLog',[]);log.unshift({date:ecToday(),n,pr:!!L.practice,au:d.C,imp:L.imp928,fin:L.fin,act:d.act,k:d.k,t:d.t,px:d.px,qty:d.qty,cost:d.cost});store.set('pt.ecLog',log.slice(0,120))}
+  const log=store.get('pt.ecLog',[]);log.unshift({date:ecToday(),n,pr:!!L.practice,au:d.C,alt:d.alt||null,imp:L.imp928,fin:L.fin,act:d.act,k:d.k,t:d.t,px:d.px,qty:d.qty,cost:d.cost});store.set('pt.ecLog',log.slice(0,120))}
 function ecLogHTML(){const log=store.get('pt.ecLog',[]);if(!log.length)return '';let w=0,t=0,sum=0;
   const rows=log.slice(0,30).map(x=>{let out='';if(x.act==='BUY'||x.act==='PAIR'){const pay=x.act==='PAIR'?Math.abs(x.fin-x.k):Math.max(0,x.t==='CE'?x.fin-x.k:x.k-x.fin),net=pay*(x.qty||0)-(x.cost||0);t++;if(net>0)w++;sum+=net;
       out=`${x.act==='PAIR'?`PAIR ${x.k}`:`${x.k} ${x.t}`} ₹${(+x.px).toFixed(2)}→₹${pay.toFixed(2)} <b class="${net>=0?'ecup':'ecdn'}">${net>=0?'+':''}${ecRs(net)}</b>`}else out='no trade';
-    return `<div class="echr"><b>${ecDay(x.date)}</b> · ${x.n}${x.pr?' · practice':''}<div class="label">auction close ${ecFmt(x.au)} vs actual <b>${ecFmt(x.fin)}</b> (miss ${(x.fin-x.au).toFixed(1)}) · ${out}</div></div>`}).join('');
+    return `<div class="echr"><b>${ecDay(x.date)}</b> · ${x.n}${x.pr?' · practice':''}<div class="label">auction close ${ecFmt(x.au)} vs actual <b>${ecFmt(x.fin)}</b> (miss ${(x.fin-x.au).toFixed(1)}${x.alt?`; NSE-based miss ${(x.fin-x.alt).toFixed(1)}`:''}) · ${out}</div></div>`}).join('');
   return `<div class="eccard"><div class="echd"><b>The panel's calls (this phone)</b><span class="label">${log.length}</span></div><div class="label">${t?`${w} of ${t} trades won · total <b class="${sum>=0?'ecup':'ecdn'}">${sum>=0?'+':''}${ecRs(sum)}</b> (practice days are not real expiries).`:'No trades suggested yet.'}</div>${rows}</div>`}
 function ecCheap(n){const L=EC.live[n];if(!L||!L.rows||!L.imp)return [];const step=EC_IX.find(e=>e.n===n).step;
   return L.rows.filter(s=>Math.abs(s.k-L.imp)<=1.5*step).flatMap(s=>[{k:s.k,t:'CE',px:s.cl||s.c},{k:s.k,t:'PE',px:s.pl||s.p}]).filter(o=>o.px>0&&o.px<=5).sort((a,b)=>a.px-b.px)}
@@ -3522,7 +3526,7 @@ function ecPair(n){const L=EC.live[n],step=EC_IX.find(e=>e.n===n).step,lot=EC.lo
   const cost1=P.cp+P.pp,qty=Math.floor(EC.risk/cost1/lot)*lot,cost=qty*cost1,val=x=>Math.max(0,x-P.hi)+Math.max(0,P.lo-x);
   const sc=[P.lo-step,P.lo-step/2,P.lo,P.imp,P.hi,P.hi+step/2,P.hi+step].map(x=>Math.round(x*100)/100);
   const rows=sc.map((x,i)=>{const v=val(x)*qty,pnl=v-cost-v*0.00125-80;return `<tr class="${i===3?'mid':''}"><td>${ecFmt(x)}${i===3?' <small>expected</small>':''}</td><td>${ecRs(v)}</td><td class="${pnl>=0?'ecup':'ecdn'}">${pnl>=0?'+':''}${ecRs(pnl)}</td></tr>`}).join('');
-  const res=L.fin!=null?(()=>{const pu=val(L.fin),net=pu*qty*(1-0.00125)-cost-80;return `<div class="ecres">Result at close ${ecFmt(L.fin)}: pair paid <b>₹${pu.toFixed(2)}</b> vs cost ₹${cost1.toFixed(2)} → <b class="${net>=0?'ecup':'ecdn'}">${net>=0?'+':''}${ecRs(net)}</b> on ${qty.toLocaleString('en-IN')} qty after charges</div>`})():'';
+  const res=L.fin!=null&&qty>0?(()=>{const pu=val(L.fin),net=pu*qty*(1-0.00125)-cost-80;return `<div class="ecres">Result at close ${ecFmt(L.fin)}: pair paid <b>₹${pu.toFixed(2)}</b> vs cost ₹${cost1.toFixed(2)} → <b class="${net>=0?'ecup':'ecdn'}">${net>=0?'+':''}${ecRs(net)}</b> on ${qty.toLocaleString('en-IN')} qty after charges</div>`})():'';
   return `<div class="eccalc ecpair"><div class="ecch"><b>Pair around the expected close</b><label>Budget ₹ <input id="ecRisk" type="number" inputmode="numeric" min="100" step="100" value="${EC.risk}"></label></div>
     <div class="ecqty"><span><b>${P.hi} CALL</b> ₹${P.cp.toFixed(2)}</span><span>+ <b>${P.lo} PUT</b> ₹${P.pp.toFixed(2)}</span><span>= <b>₹${cost1.toFixed(2)}</b> per unit</span></div>
     ${qty>0?`<div class="ecqty"><span><b>${qty.toLocaleString('en-IN')}</b> qty each (${qty/lot} lots × ${lot})</span><span>total <b>${ecRs(cost)}</b></span><span>profit if close is above <b>${ecFmt(P.hi+cost1)}</b> or below <b>${ecFmt(P.lo-cost1)}</b></span></div>
@@ -3537,9 +3541,9 @@ function ecLiveCard(x){const n=x.n,L=EC.live[n]&&EC.live[n].day===ecToday()?EC.l
   return `<div class="eccard live${x.practice?' prac':''}"><div class="echd"><b>${n}</b> · ${sub} · lot ${lot||'—'}${tag}<span class="label">updated ${ago}s ago</span></div>
     <div class="ecph"><b>${ph.t}</b>${mm?` · <span class="num">${mm}</span> left`:''}<div class="label">${ph.d}</div></div>
     ${ecCallHTML(n)}
-    <div class="ecbig">${L.fin!=null?`<div><div class="label">FINAL CLOSE</div><div class="num ecv fin">${ecFmt(L.fin)}</div><div class="label">${L.call27&&L.call27.C?`auction close at ${new Date(L.call27.at+IST*1000).toISOString().slice(11,16)} was ${ecFmt(L.call27.C)} (miss <b>${(L.fin-L.call27.C).toFixed(1)}</b>) · `:''}${surprise!=null?`options expected ${ecFmt(L.imp928)} (miss <b>${surprise.toFixed(1)}</b>)`:''}</div></div>`
-      :`<div><div class="label">AUCTION CLOSE (from stock auction prices)</div><div class="num ecv au">${L.au&&L.au.ind?ecFmt(L.au.ind):'from 3:20'}</div>${L.auErr?`<div class="label">${esc(L.auErr)}</div>`:''}</div>`}
-      <div><div class="label">OPTIONS EXPECT</div><div class="num ecv2">${ecFmt(L.imp)}</div><div class="label">INDEX FEED${L.frozen!=null&&L.fin==null?' · frozen':''} ${ecFmt(L.spot)}</div></div></div>
+    <div class="ecbig">${L.fin!=null?`<div><div class="label">FINAL CLOSE</div><div class="num ecv fin">${ecFmt(L.fin)}</div><div class="label">${L.call27&&L.call27.C?`auction close at ${new Date(L.call27.at+IST*1000).toISOString().slice(11,16)} was ${ecFmt(L.call27.C)} (miss <b>${(L.fin-L.call27.C).toFixed(1)}</b>)${L.call27.alt?`, NSE-based ${ecFmt(L.call27.alt)} (miss <b>${(L.fin-L.call27.alt).toFixed(1)}</b>)`:''} · `:''}${surprise!=null?`options expected ${ecFmt(L.imp928)} (miss <b>${surprise.toFixed(1)}</b>)`:''}</div></div>`
+      :`<div><div class="label">AUCTION CLOSE (from stock auction prices)</div><div class="num ecv au">${L.au&&L.au.ind?ecFmt(L.au.ind):'from 3:20'}</div>${L.au&&L.au.alt?`<div class="label">same stocks on NSE: <b>${ecFmt(L.au.alt)}</b></div>`:''}${L.auErr?`<div class="label">${esc(L.auErr)}</div>`:''}</div>`}
+      <div><div class="label">OPTIONS EXPECT${L.fin!=null?' · at the close':''}</div><div class="num ecv2">${ecFmt(L.imp)}</div><div class="label">INDEX FEED${L.frozen!=null&&L.fin==null?' · frozen':''} ${ecFmt(L.spot)}</div></div></div>
     ${L.fin==null?ecAuHTML(L):''}
     ${ecSpark(L)}${pnote}${ecTable(n)}${ecCalc(n)}${ecPair(n)}</div>`}
 function ecHistory(){const it=(((window.FEED||{}).expclose||{}).items||[]).filter(x=>x.v>=2);
@@ -5231,7 +5235,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=21.11"></script>
+<script type="module" src="auth.js?v=21.12"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
