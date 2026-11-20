@@ -797,7 +797,7 @@ body.locked .nbord{display:none!important}
 .ecqty{display:flex;flex-wrap:wrap;gap:6px 14px;margin:8px 0;font:500 13px var(--f-ui)}.ecqty b{font-weight:800}.ecsc td{padding:4px;border-top:1px solid var(--line)}.ecsc tr.mid td{background:#29e7ff14}.ecsc td small{color:var(--dim);font:500 10px var(--f-ui)}
 .ecprac{font:800 10px/1 var(--f-ui);letter-spacing:.06em;padding:3px 6px;border-radius:5px;background:#c49bff33;color:var(--chop)}.eccard.live.prac{border-color:var(--chop);box-shadow:0 0 0 1px #c49bff44}
 .ecc.pair{box-shadow:inset 0 0 0 2px var(--chop)}.ecpr{color:var(--chop)}.ecpair{border:1px solid #c49bff55;margin-bottom:10px}.ecres{margin:8px 0;font:600 14px var(--f-ui)}
-.eccall{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border-radius:10px;margin-bottom:8px;font:500 12.5px/1.4 var(--f-ui);color:var(--dim)}.eccall b{font:900 18px/1.2 var(--f-ui);color:var(--text)}.eccall i{font-style:normal;color:var(--t1)}
+.eccall{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border-radius:10px;margin-bottom:8px;font:500 12.5px/1.4 var(--f-ui);color:var(--dim)}.eccall b{font:900 18px/1.2 var(--f-ui);color:var(--text)}.eccall i{font-style:normal;color:var(--t1)}.ecst{font-weight:600}.ecst.ok{color:var(--sbuy)}.ecst b{color:inherit;font:800 12.5px var(--f-ui)}.eclad{margin-top:6px;color:var(--dim)}.eclad summary{cursor:pointer;color:var(--text);font-weight:700}.eclad .ecsc{margin:6px 0}
 .eccall.buy{background:#00ff9d1a;border:1px solid var(--sbuy)}.eccall.buy b{color:var(--sbuy)}.eccall.sell{background:#ff2d6f1a;border:1px solid var(--ssell)}.eccall.sell b{color:var(--ssell)}.eccall.pair{background:#c49bff1a;border:1px solid var(--chop)}.eccall.pair b{color:var(--chop)}.eccall.none,.eccall.wait{background:var(--well);border:1px solid var(--line-hi)}
 .ecv.au{color:var(--t1)}.ecau{margin:4px 0 8px}.ecimb{display:flex;align-items:center;gap:8px;font:500 12px var(--f-ui);color:var(--dim)}.ecimb b{color:var(--text)}.ecbar{flex:1;height:8px;border-radius:4px;background:var(--ssell);overflow:hidden}.ecbar i{display:block;height:100%;background:var(--sbuy)}
 .ecmv{display:flex;flex-wrap:wrap;gap:3px 12px;font:600 12px var(--f-num);margin:6px 0 2px}
@@ -1202,7 +1202,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.12</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.13</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn anzBtn" id="anzBtn" aria-label="Open Analysis" title="Analysis: equity, real win-rate, ruin cone, heat grid, order book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/><circle cx="19" cy="6" r="1.6" fill="currentColor"/></svg><span>Analysis</span></button>
@@ -1337,7 +1337,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.12 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.13 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -3463,7 +3463,15 @@ function ecDecide(n){const L=EC.live[n],step=EC_IX.find(e=>e.n===n).step,lot=EC.
   if(!best){const k0=Math.round(C/step)*step,s=L.rows.find(r=>r.k===k0);
     if(s&&Math.abs(C-k0)<M){const cost=px(s,'CE')+px(s,'PE');if(cost>0&&cost<=M/2)best={act:'PAIR',k:k0,px:cost,ev:null}}}
   const d=best||{act:'NONE',C};if(best){const q=Math.floor(EC.risk/best.px/lot)*lot;Object.assign(d,{qty:q,cost:q*best.px})}d.C=C;d.alt=L.au.alt||null;d.at=Date.now();
+  const key=d.act+(d.k||'')+(d.t||'');if(L.callKey!==key){L.callKey=key;L.callSince=Date.now()}d.since=L.callSince;   // how long the same call has held
   if(m>=15*60+20)L.call27=d;return d}
+function ecSteady(d,L){if(L.fin!=null||jpHm()>=15*60+28)return '';const s=Math.round((Date.now()-(d.since||Date.now()))/1000),ok=s>=60;
+  return `<span class="ecst ${ok?'ok':''}">${ok?'✓':'⏳'} Same call for <b>${Math.floor(s/60)} min ${s%60} s</b>${ok?'':' — wait until it holds 1 min'}</span>`}
+// optional low limit orders: a third of the budget each at 50%, 30% and 10% of today's price — they fill only if someone panic-sells
+function ecLadder(d,lot){if(d.act!=='BUY'||!(d.px>0))return '';const r5=x=>Math.max(0.05,Math.round(x*20)/20);
+  const rows=[0.5,0.3,0.1].map(f=>{const p=r5(d.px*f),q=Math.floor(EC.risk/3/p/lot)*lot;return q>0?`<tr><td>₹${p.toFixed(2)}</td><td>${q.toLocaleString('en-IN')}</td><td>${q/lot}</td><td>${ecRs(q*p)}</td></tr>`:''}).join('');
+  return rows?`<details class="eclad"><summary>Low limit orders (optional)</summary><table class="ecsc"><thead><tr><th>Limit price</th><th>Qty</th><th>Lots</th><th>Max cost</th></tr></thead><tbody>${rows}</tbody></table>
+    <span>Instead of buying at ₹${d.px.toFixed(2)}, place these 3 limit BUY orders on the same option. Each uses a third of your budget and fills only if someone sells that cheap. Unfilled orders cost nothing; cancel them after 3:40. Never place low orders on other strikes — those fill mostly when they are about to expire worthless.</span></details>`:''}
 function ecCallHTML(n){const d=ecDecide(n),L=EC.live[n],lot=EC.lot[n]||1;if(!d)return '';const step=EC_IX.find(e=>e.n===n).step;
   if(d.act==='WAIT')return `<div class="eccall wait"><b>Waiting for the auction</b><span>Stock auction prices start at 3:20 pm. Then the call appears here.</span></div>`;
   if(d.act==='LATE')return `<div class="eccall wait"><b>Too late to decide</b><span>The auction can close any second.</span></div>`;
@@ -3473,7 +3481,7 @@ function ecCallHTML(n){const d=ecDecide(n),L=EC.live[n],lot=EC.lot[n]||1;if(!d)r
   if(d.act==='NONE')return `<div class="eccall none"><b>NO TRADE</b><span>${locked}Auction close ${ecFmt(d.C)}: no option near it is cheap enough for the risk${Math.abs(d.C-Math.round(d.C/step)*step)<0.3*step?` (too close to the ${Math.round(d.C/step)*step} strike — coin flip)`:''}.</span>${L.fin!=null?`<span class="ecres">Close ${ecFmt(L.fin)}</span>`:''}</div>`;
   if(d.act==='PAIR')return `<div class="eccall pair"><b>BUY PAIR ${d.k} CALL + ${d.k} PUT</b><span>${locked}₹${d.px.toFixed(2)} per unit · ${d.qty.toLocaleString('en-IN')} qty each (${d.qty/lot} lots) = ${ecRs(d.cost)}</span><span>Auction close ${ecFmt(d.C)} sits on the ${d.k} strike and the pair is cheap: it pays if the close moves more than ₹${d.px.toFixed(2)} either way.</span>${res}</div>`;
   return `<div class="eccall ${d.t==='CE'?'buy':'sell'}"><b>BUY ${d.k} ${d.t==='CE'?'CALL':'PUT'} @ ₹${d.px.toFixed(2)}</b><span>${locked}${d.qty>0?`${d.qty.toLocaleString('en-IN')} qty (${d.qty/lot} lots) = ${ecRs(d.cost)}`:`budget below 1 lot (${ecRs(lot*d.px)})`}</span>
-    <span>Auction close ${ecFmt(d.C)} is ${Math.abs(d.ev).toFixed(0)} pts ${d.t==='CE'?'above':'below'} ${d.k}. If it holds, worth ≈ ₹${d.ev.toFixed(2)} (${d.x.toFixed(1)}×). Risk: last-minute orders can still move it.</span>${res}</div>`}
+    <span>Auction close ${ecFmt(d.C)} is ${Math.abs(d.ev).toFixed(0)} pts ${d.t==='CE'?'above':'below'} ${d.k}. If it holds, worth ≈ ₹${d.ev.toFixed(2)} (${d.x.toFixed(1)}×). Risk: last-minute orders can still move it.</span>${ecSteady(d,L)}${L.fin==null?ecLadder(d,lot):''}${res}</div>`}
 function ecAuHTML(L){const a=L.au;if(!a||!a.ind)return '';const im=Math.round(50+50*(a.imb||0));
   return `<div class="ecau"><div class="ecimb"><span>Buyers waiting <b>${im}%</b></span><div class="ecbar"><i style="width:${im}%"></i></div><span><b>${100-im}%</b> sellers</span></div>
     <div class="ecmv">${(a.mv||[]).map(x=>`<span class="${x.pts>=0?'ecup':'ecdn'}">${esc(x.s)}${x.ref?'*':''} ${x.pct>=0?'+':''}${x.pct.toFixed(2)}% → ${x.pts>=0?'+':''}${x.pts.toFixed(0)} pts</span>`).join('')}</div>
@@ -5235,7 +5243,7 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=21.12"></script>
+<script type="module" src="auth.js?v=21.13"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
