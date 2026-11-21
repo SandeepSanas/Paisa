@@ -20,6 +20,7 @@ const db = getFirestore(app);
 window.__fbReady = true;
 
 const $ = id => document.getElementById(id);
+const PANE = new URLSearchParams(location.search).has('pane');   // a window inside Multi window (the main app does syncing, push and updates)
 const MAIN_KEYS = ['pt.cfg','pt.watch','pt.n50cfg','pt.icol','pt.ovl','pt.zoom','pt.lab','pt.palerts','pt.olock','pt.draw','pt.macdp','pt.sbpos','pt.pbook','pt.pledg','pt.logclr'];
 const LOG_KEYS = ['pt.log','pt.lablog'];
 let cur = null, dirtyMain = false, dirtyLogs = false, tMain = null, tLogs = null, pushing = false;
@@ -30,6 +31,8 @@ const EYE = '<svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-
 const EYE_OFF = '<svg viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.6 10.6 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.1 4.1M6.6 6.6C3.9 8.4 2 12 2 12s3.6 7 10 7a9.8 9.8 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
 const eye = $('lgEye'), pass = $('lgPass'), email = $('lgEmail');
 eye.innerHTML = EYE;
+// signed in before on this device: show a short "welcome back" instead of the login form while Firebase restores the session
+try { if (localStorage.getItem('pt.owner')) { $('lgState').hidden = false; $('lgFields').hidden = true; $('lgStateTx').textContent = 'Welcome back — opening TradeBot…'; } } catch (e) {}
 eye.onclick = () => { const show = pass.type === 'password'; pass.type = show ? 'text' : 'password'; eye.innerHTML = show ? EYE_OFF : EYE;
   eye.setAttribute('aria-pressed', String(show)); eye.setAttribute('aria-label', show ? 'Hide password' : 'Show password'); pass.focus(); };
 function msg(t, ok) { const m = $('lgMsg'); m.textContent = t || ''; m.className = 'lg-msg' + (ok ? ' ok' : ''); }
@@ -120,7 +123,7 @@ async function push(full) {
 }
 // called by the app every time it saves something; main settings sync within ~8 s, logs within ~60 s
 window.syncMark = k => {
-  if (!cur || !k || !k.startsWith('pt.')) return;
+  if (PANE || !cur || !k || !k.startsWith('pt.')) return;
   if (LOG_KEYS.includes(k)) { dirtyLogs = true; if (!tLogs) tLogs = setTimeout(() => { tLogs = null; push(false); }, 60000); }
   else if (MAIN_KEYS.includes(k)) { dirtyMain = true; clearTimeout(tMain); tMain = setTimeout(() => push(false), 8000); }
 };
@@ -280,7 +283,7 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('mess
 });
 
 /* ---------------- session flow ---------------- */
-function start(u) { wireAccount(u); window.startApp && window.startApp(); startFeeds(); refreshDevice(); setTimeout(() => liveSync(u.uid), 3000); setTimeout(() => algoStart(u.uid), 1500); }
+function start(u) { wireAccount(u); window.startApp && window.startApp(); startFeeds(); if (PANE) return; refreshDevice(); setTimeout(() => liveSync(u.uid), 3000); setTimeout(() => algoStart(u.uid), 1500); }
 onAuthStateChanged(auth, async u => {
   if (!u) { cur = null; state(null); clearForm(); setTimeout(() => email.focus(), 300); return; }
   cur = u; msg(''); state('Loading your data…');
@@ -288,6 +291,14 @@ onAuthStateChanged(auth, async u => {
     const owner = localStorage.getItem('pt.owner');
     if (owner && owner !== u.uid) clearLocal();          // never show another person's data
     if (sessionStorage.getItem('pt.synced') === u.uid) { localStorage.setItem('pt.owner', u.uid); start(u); return; }
+    // same person, data already on this device (e.g. Android restarted the app in the background): open straight away, no reload;
+    // if another device saved newer settings meanwhile, offer a reload instead of forcing one
+    if (owner === u.uid && localStorage.getItem('pt.cfg')) {
+      sessionStorage.setItem('pt.synced', u.uid); start(u);
+      if (!PANE) setTimeout(async () => { try { const m = await getDoc(ref(u.uid, 'state', 'main')); const t = m.exists() ? (m.data().updatedAt || 0) : 0;
+        if (t > Number(localStorage.getItem('pt.syncAt') || 0) + 1000 && !dirtyMain) { sessionStorage.removeItem('pt.synced'); window.appToast && window.appToast('Updated on another device', 'Close and reopen TradeBot (or reload) to load those changes.', 9000); } } catch (e) {} }, 4000);
+      return;
+    }
     const had = await pull(u.uid);
     localStorage.setItem('pt.owner', u.uid); sessionStorage.setItem('pt.synced', u.uid);
     if (had) { location.reload(); return; }               // reload so the app reads your synced data
@@ -300,7 +311,7 @@ onAuthStateChanged(auth, async u => {
 });
 
 /* ---------------- installable app + updates ---------------- */
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && !PANE) {
   let refreshing = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => { if (!refreshing) { refreshing = true; location.reload(); } });
   navigator.serviceWorker.register('sw.js').then(reg => {

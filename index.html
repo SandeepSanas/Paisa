@@ -68,7 +68,7 @@ button{cursor:pointer}
 @keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-5px) rotate(4deg)}}
 .logo{font:700 19px/1.05 var(--f-logo);letter-spacing:.02em;background:linear-gradient(90deg,var(--logo-a),var(--cyan) 70%);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
 .ver{font:700 10px/1 var(--f-ui);padding:2px 5px;border-radius:5px;border:1px solid var(--line-hi);color:var(--cyan);vertical-align:2px}
-.tvfab{position:fixed;z-index:50;left:12px;bottom:calc(235px + env(safe-area-inset-bottom));width:56px;height:56px;border-radius:50%;display:grid;place-items:center;color:#fff;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;background:radial-gradient(circle at 30% 25%,#ff6b8a,#e11d48 55%,#7f1030);border:2px solid rgba(255,255,255,.25);box-shadow:0 6px 20px rgba(225,29,72,.45),0 0 0 4px color-mix(in srgb,#e11d48 18%,transparent)}
+.tvfab{position:fixed;z-index:66;left:12px;bottom:calc(235px + env(safe-area-inset-bottom));width:56px;height:56px;border-radius:50%;display:grid;place-items:center;color:#fff;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;background:radial-gradient(circle at 30% 25%,#ff6b8a,#e11d48 55%,#7f1030);border:2px solid rgba(255,255,255,.25);box-shadow:0 6px 20px rgba(225,29,72,.45),0 0 0 4px color-mix(in srgb,#e11d48 18%,transparent)}
 .tvfab .lv{position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);padding:2px 5px;border-radius:6px;background:#0b1122;border:1px solid #e11d48;color:#ff6b8a;font:800 8.5px/1 var(--f-ui);letter-spacing:.06em;opacity:.55}
 .tvfab.on .lv{opacity:1;color:#fff;background:#e11d48}.tvfab.on{animation:tvpulse 1.8s ease-in-out infinite}.tvfab.drag{cursor:grabbing;animation:none}
 @keyframes tvpulse{0%,100%{box-shadow:0 6px 20px rgba(225,29,72,.45),0 0 0 4px rgba(225,29,72,.18)}50%{box-shadow:0 6px 24px rgba(225,29,72,.7),0 0 0 9px rgba(225,29,72,.08)}}
@@ -780,6 +780,35 @@ body.locked .nbord{display:none!important}
 .krrepb{align-self:flex-start;height:32px;padding:0 14px;border-radius:9px;border:1px solid color-mix(in srgb,var(--cyan) 45%,transparent);background:color-mix(in srgb,var(--cyan) 10%,transparent);color:var(--cyan);font:700 13px var(--f-ui);cursor:pointer}
 .kreport{flex:1;min-height:0;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font:500 12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--text);background:color-mix(in srgb,var(--dim) 7%,transparent);border-radius:10px;padding:12px}
 @keyframes jpfab{0%,100%{transform:scale(1);box-shadow:0 0 0 2px #ffc83d,0 6px 22px #ffb30066}50%{transform:scale(1.06);box-shadow:0 0 0 4px #ffe08a,0 0 34px #ffc83dcc}}
+
+/* multi window */
+.mwbtn{padding:6px 10px;font:700 12px var(--f-ui);white-space:nowrap}
+#mw{position:fixed;inset:0;z-index:8800;background:var(--deep,#0b1122);display:flex;flex-direction:column}
+#mw[hidden]{display:none}
+.mwbar{display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top) + 6px) 10px 6px;border-bottom:1px solid var(--line);font:600 14px var(--f-ui)}
+.mwbar .mwn{color:var(--dim);font-size:12px;margin-right:auto}
+.mwbar button{padding:6px 10px;border-radius:8px;border:1px solid var(--line-hi);background:var(--well);color:var(--text);font:700 12px var(--f-ui);cursor:pointer}
+.mwbar .mwx{font-size:15px;padding:5px 11px}
+.mwpick{padding:8px 10px;border-bottom:1px solid var(--line)}
+.mwchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.mwchip{padding:7px 11px;border-radius:999px;border:1px solid var(--line-hi);background:var(--well);color:var(--text);font:600 13px var(--f-ui);cursor:pointer}
+.mwchip.on{background:#29e7ff22;border-color:var(--cyan);color:var(--cyan)}
+.mwchip.shake{animation:mwshake .35s}@keyframes mwshake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.mwgrid{flex:1;min-height:0;display:grid;gap:4px;padding:4px;grid-template-columns:1fr;grid-auto-rows:1fr}
+.mwgrid[data-n="2"].wide{grid-template-columns:1fr 1fr}
+.mwgrid[data-n="3"]{grid-template-columns:1fr 1fr}.mwgrid[data-n="3"] .mwp[data-slot="2"]{grid-column:1 / span 2}
+.mwgrid[data-n="4"]{grid-template-columns:1fr 1fr}
+.mwp{display:flex;flex-direction:column;min-height:0;min-width:0;border:1px solid var(--line-hi);border-radius:8px;overflow:hidden;background:var(--bg,#0b1122)}
+.mwph{display:flex;align-items:center;gap:4px;padding:3px 4px;background:var(--well);border-bottom:1px solid var(--line)}
+.mwph select{flex:1;min-width:0;padding:3px 4px;border-radius:6px;border:1px solid var(--line-hi);background:var(--deep,#0b1122);color:var(--text);font:600 12px var(--f-ui)}
+.mwph button{padding:2px 8px;border-radius:6px;border:1px solid var(--line-hi);background:transparent;color:var(--text);font:700 13px var(--f-ui);cursor:pointer}
+.mwp iframe{flex:1;width:100%;border:0;min-height:0;background:transparent}
+.mwempty{display:grid;place-items:center;padding:24px;text-align:center;color:var(--dim);font:500 14px/1.5 var(--f-ui)}
+body.mwOn{overflow:hidden}
+/* a window inside Multi window shows only its screen */
+html.pane header.top,html.pane #nav,html.pane .tvfab,html.pane .tvm,html.pane .tvbox,html.pane .jpfab,html.pane .ariafab,html.pane .mascot,html.pane .banner,html.pane #mwBtn,html.pane .toast,html.pane .upd,html.pane #welcome,html.pane #mw,html.pane .mclock,html.pane .nbord,html.pane #ecFab{display:none!important}
+html.pane main{padding-block:6px 16px;padding-left:8px;padding-right:8px}
+html.pane #anzX{display:none!important}
 .jpfab{position:fixed;right:12px;top:calc(env(safe-area-inset-top) + 120px);z-index:8500;display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:9px 34px 9px 14px;border-radius:16px;cursor:pointer;color:#1a1200;background:linear-gradient(135deg,#ffe066,#ffb300);animation:jpfab 1s ease-in-out infinite;max-width:calc(100vw - 24px)}.jpfab[hidden]{display:none}
 .jpfab .t{font:900 16px/1.1 var(--f-ui);letter-spacing:.02em}.jpfab .s{font:700 11px/1.2 var(--f-ui);opacity:.85}.jpfab .x{position:absolute;top:4px;right:6px;width:24px;height:24px;border:0;border-radius:50%;background:#0002;color:#1a1200;font:800 16px/1 var(--f-ui);cursor:pointer}
 .jpnote{padding:9px 11px;border-radius:10px;margin:0 0 10px;font:500 12.5px/1.45 var(--f-ui);background:color-mix(in srgb,var(--wait) 14%,transparent)}
@@ -1202,7 +1231,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.13</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.14</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn anzBtn" id="anzBtn" aria-label="Open Analysis" title="Analysis: equity, real win-rate, ruin cone, heat grid, order book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/><circle cx="19" cy="6" r="1.6" fill="currentColor"/></svg><span>Analysis</span></button>
@@ -1264,7 +1293,7 @@ body:not(.locked) .login{display:none}
         <button class="btn ghost" id="chFit" title="Reset zoom and price scale">Fit</button>
         <button class="btn ghost" id="chFloat" title="Keep a small live chart on screen while you use other tabs">⧉ Float</button>
         <button class="btn ghost" id="chDraw" title="Draw trend lines, levels, zones, Fibonacci, notes">✏️ Draw</button>
-        <div class="seg lay" id="chLay" role="group" aria-label="Charts on screen"><button data-n="1" title="One chart">1</button><button data-n="2" title="Two charts">2</button><button data-n="3" title="Three charts">3</button><button data-n="4" title="Four charts">4</button></div>
+        <div class="seg lay" id="chLay" role="group" aria-label="Charts on screen"><button data-n="1" title="One chart">1</button><button data-n="2" title="Two charts">2</button><button data-n="3" title="Three charts">3</button><button data-n="4" title="Four charts">4</button></div><button type="button" class="btn mwbtn" id="mwBtn" title="Multi window: several screens at once">⊞ Multi</button>
       </div>
       <div class="panel paform" id="paBox" hidden><span class="label">Alert when price reaches</span><input type="text" inputmode="decimal" id="paPrice"><button class="btn pri" id="paAdd">Add alert</button><div class="palist" id="paList" style="flex-basis:100%"></div></div>
       <button class="wrow" id="wrow2" aria-expanded="false" title="World market hours. Tap for details."></button>
@@ -1337,7 +1366,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.13 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.14 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -1742,6 +1771,8 @@ if(typeof module!=='undefined')module.exports={tmOdds,runReversal,revPreview,rev
 <script>
 /* ===================== APP ===================== */
 'use strict';
+const PANE=(()=>{try{return new URLSearchParams(location.search).get('pane')}catch(e){return null}})();   // multi-window copy showing one screen
+if(PANE)document.documentElement.classList.add('pane');
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let mem={};
@@ -2339,7 +2370,7 @@ function renderFilters(){const nf=(CFG.fav||[]).filter(id=>S.inst.has(id)).lengt
 function renderLegend(){$('#legend').innerHTML=LEGEND.map(k=>`<span class="pill" style="--sc:var(${STATES[k][1]})">${STATES[k][0]}</span>`).join('')}
 
 /* ---------- views ---------- */
-function show(v){if(S.view==='chart'&&v!=='chart'&&CH){try{S.chart.range=CH.chart.timeScale().getVisibleLogicalRange()}catch(e){}}const back=v==='chart'&&S.view!=='chart';S.view=v;try{window.paisaLab&&window.paisaLab(v==='lab')}catch(e){}for(const s of document.querySelectorAll('.view'))s.hidden=s.id!=='v-'+v;
+function show(v){if(!show._b&&!PANE&&S.view&&S.view!==v){NAVH.push(S.view);if(NAVH.length>30)NAVH.shift()}if(S.view==='chart'&&v!=='chart'&&CH){try{S.chart.range=CH.chart.timeScale().getVisibleLogicalRange()}catch(e){}}const back=v==='chart'&&S.view!=='chart';S.view=v;try{window.paisaLab&&window.paisaLab(v==='lab')}catch(e){}for(const s of document.querySelectorAll('.view'))s.hidden=s.id!=='v-'+v;
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
   if(v==='scan'){S.unseen=0;$('#navDot').hidden=true;for(const it of S.inst.values())markDirty(it)}
   if(v!=='chart'&&$('#chTimer'))$('#chTimer').hidden=true;if(v==='chart'){if(MC.n>1)renderLayout();else{$('#chLay')&&$('#chLay').querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.n===1));loadChart(back&&!!CH&&S.chart.loaded===(S.chart.id+'@'+S.chart.tf))}}
@@ -3309,7 +3340,7 @@ function oiBadgeStep(b,ix){const B=S.opt.badge=S.opt.badge||{};if(S.opt.at===B.a
   if(B.cnt===2&&b.st!=='wait'&&B.alerted!==b.st){B.alerted=b.st;const up=b.st==='call';
     tone(SOUNDS.info);toast(up?'buy':'sell',`${ix.n}: ${up?'CALL SIDE':'PUT SIDE'}`,`Option writers lean ${up?'bullish':'bearish'} on two checks in a row. ${b.why[0]||''}`,'',null,9000);
     if(CFG.ariaSpeak&&!ARIA.speaking)ariaSpeak(T2(`${ix.n} option chain turned ${up?'call side, bullish':'put side, bearish'}.`,`${ix.n} ऑप्शन चेन ${up?'कॉल साइड, तेजीकडे':'पुट साइड, मंदीकडे'} वळली.`));
-    try{if(Notification.permission==='granted'&&document.hidden)navigator.serviceWorker.ready.then(r=>r.showNotification(`${ix.n}: ${up?'CALL SIDE':'PUT SIDE'}`,{body:b.why[0]||'Option writers changed side.',tag:'oi-'+ix.n,icon:'icon-192.png'}))}catch(e){}}
+    try{if(!PANE&&Notification.permission==='granted'&&document.hidden)navigator.serviceWorker.ready.then(r=>r.showNotification(`${ix.n}: ${up?'CALL SIDE':'PUT SIDE'}`,{body:b.why[0]||'Option writers changed side.',tag:'oi-'+ix.n,icon:'icon-192.png'}))}catch(e){}}
   if(b.st==='wait'&&B.cnt>=2)B.alerted=null;
   const nb=document.querySelector('[data-v="opt"] .nbadge');if(nb){nb.className='nbadge '+b.st;nb.textContent=b.st==='call'?'CALL':b.st==='put'?'PUT':''}}
 function fiiLine(){const f=FD().fii;if(!f||!f.fii)return '';const x=f.fii;const lp=x.futL+x.futS?x.futL/(x.futL+x.futS)*100:null;
@@ -5240,10 +5271,83 @@ function boot(){weakOffOnce();mcxOnce();setTimeout(()=>{try{swingCheck()}catch(e
   S.chart.tf=CFG.tf;syncInstruments();connectDelta();connectFinnhub();setInterval(heartbeat,1000);heartbeat();applyWake();
   if(CFG.token)upstoxTick();greet();loadDeltaProducts().then(()=>{for(const it of S.inst.values())markDirty(it)});
   window.addEventListener('resize',()=>{for(const it of S.inst.values())markDirty(it)})}
-let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot()};
+/* ===================== MULTI WINDOW · BACK BUTTON · PANE MODE ===================== */
+/* Multi window: up to 4 live screens side by side. Each window is the app itself opened in "pane mode" (?pane=…):
+   no header / nav / floating buttons, and no sounds, pop-ups or phone notifications (those stay with the main app only). */
+const MW_V=[['chart','Chart'],['scan','Scanner'],['log','Signals'],['opt','Options · Chain'],['jp','Options · Jackpot'],['ec','Options · Expiry close'],['lab','Lab'],['algo','AlgoBot'],['anz','Analysis'],['news','News']];
+const mwName=v=>(MW_V.find(x=>x[0]===v)||[v,v])[1];
+const MW={list:store.get('pt.mw',['chart','ec']).filter(v=>MW_V.some(x=>x[0]===v)).slice(0,4),open:false,pick:false};
+function mwSave(){store.set('pt.mw',MW.list)}
+function mwUrl(v){return location.pathname+'?pane='+encodeURIComponent(v)}
+function mwEl(){let el=$('#mw');if(el)return el;el=document.createElement('div');el.id='mw';el.hidden=true;el.setAttribute('role','dialog');el.setAttribute('aria-label','Multi window');
+  el.innerHTML=`<div class="mwbar"><b>⊞ Multi window</b><span class="mwn"></span><button class="mwedit" type="button">＋ Choose screens</button><button class="mwx" type="button" aria-label="Close multi window">✕</button></div><div class="mwpick" hidden></div><div class="mwgrid"></div>`;
+  document.body.appendChild(el);
+  el.querySelector('.mwx').onclick=()=>mwClose();el.querySelector('.mwedit').onclick=()=>mwPicker(!MW.pick);
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-mwa]');if(!b)return;const i=+b.dataset.i,a=b.dataset.mwa;
+    if(a==='x'){MW.list.splice(i,1);mwSave();mwGrid()}
+    if(a==='full'){const v=MW.list[i];mwClose();mwGo(v)}
+    if(a==='tog'){const v=b.dataset.v,k=MW.list.indexOf(v);if(k>=0)MW.list.splice(k,1);else if(MW.list.length<4)MW.list.push(v);else{b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),400);return}mwSave();mwPicker(true);mwGrid()}});
+  el.addEventListener('change',e=>{const s=e.target.closest('select[data-i]');if(!s)return;MW.list[+s.dataset.i]=s.value;mwSave();mwGrid()});
+  addEventListener('resize',()=>{if(MW.open)mwLayout()});return el}
+function mwGo(v){if(v==='anz'){anzOpen();return}if(v==='jp'||v==='ec'){show('opt');initOpt(true);if(v==='jp'){ecMode(false);jpMode(true)}else{jpMode(false);ecMode(true)}return}if(v==='opt'){show('opt');ecMode(false);jpMode(false);return}show(v)}
+function mwPicker(on){MW.pick=on;const p=mwEl().querySelector('.mwpick');p.hidden=!on;mwEl().querySelector('.mwedit').textContent=on?'✓ Done':'＋ Choose screens';
+  if(on)p.innerHTML=`<div class="label">Tap to add or remove (up to 4). ${MW.list.length}/4 chosen.</div><div class="mwchips">${MW_V.map(([v,t])=>`<button type="button" class="mwchip${MW.list.includes(v)?' on':''}" data-mwa="tog" data-v="${v}">${MW.list.includes(v)?'✓ ':''}${t}</button>`).join('')}</div>`}
+function mwLayout(){const g=mwEl().querySelector('.mwgrid'),n=MW.list.length,wide=innerWidth>innerHeight;g.dataset.n=n;g.classList.toggle('wide',wide)}
+function mwGrid(){const el=mwEl(),g=el.querySelector('.mwgrid');el.querySelector('.mwn').textContent=MW.list.length?`${MW.list.length} screen${MW.list.length>1?'s':''}`:'';
+  const have=[...g.children];
+  if(!MW.list.length){g.innerHTML=`<div class="mwempty">No screens chosen. Tap <b>＋ Choose screens</b> and pick up to 4 — for example Chart, Expiry close, Signals and Lab.</div>`;mwLayout();return}
+  // keep running windows that are still wanted (no reload), add new ones
+  const keep={};for(const c of have){const v=c.dataset&&c.dataset.v;if(v&&MW.list.includes(v)&&!keep[v])keep[v]=c}
+  g.innerHTML='';MW.list.forEach((v,i)=>{let c=keep[v];
+    if(!c){c=document.createElement('div');c.className='mwp';c.dataset.v=v;c.innerHTML=`<div class="mwph"><select aria-label="Screen"></select><button type="button" data-mwa="full" title="Open as full tab">⤢</button><button type="button" data-mwa="x" title="Remove" aria-label="Remove window">✕</button></div><iframe title="${esc(mwName(v))}" loading="eager" src="${mwUrl(v)}"></iframe>`}
+    c.querySelector('select').dataset.i=i;c.querySelectorAll('[data-mwa]').forEach(b=>b.dataset.i=i);
+    c.querySelector('select').innerHTML=MW_V.map(([x,t])=>`<option value="${x}"${x===v?' selected':''}${x!==v&&MW.list.includes(x)?' disabled':''}>${t}</option>`).join('');
+    c.dataset.slot=i;g.appendChild(c)});
+  mwLayout()}
+function mwOpen(){const el=mwEl();MW.open=true;el.hidden=false;document.body.classList.add('mwOn');mwGrid();if(!MW.list.length)mwPicker(true)}
+function mwClose(){const el=$('#mw');if(!el)return;MW.open=false;el.hidden=true;document.body.classList.remove('mwOn');mwPicker(false);el.querySelector('.mwgrid').innerHTML=''}   // closing stops the windows (saves data and battery)
+
+/* Pane mode: this copy of the app shows one screen only */
+function paneStart(){if(!PANE)return;document.body.classList.add('pane');try{$('#welcome').hidden=true}catch(e){}
+  setTimeout(()=>{try{mwGo(PANE)}catch(e){}if(PANE==='anz')document.body.classList.add('paneAnz')},400)}
+
+/* Phone back button: close the open panel → previous tab → "press back again to exit" */
+const NAVH=[];let backArm=0,backT=null;
+function closeTop(){
+  if(MW.open){if(MW.pick){mwPicker(false);return true}mwClose();return true}
+  const tm=$('#tvMenu');if(tm&&!tm.hidden){tvMenu(false);return true}
+  const kr=$('#krFull');if(kr&&!kr.hidden){krClose();return true}
+  const ov=[...document.querySelectorAll('.overlay,.swpop')].filter(o=>!o.hidden&&getComputedStyle(o).display!=='none').pop();
+  if(ov){const b=ov.querySelector('[data-sdx],[aria-label="Close"],[aria-label^="Close "],.x,.close');if(b)b.click();else ov.hidden=true;if(!ov.hidden&&ov.isConnected)ov.hidden=true;return true}
+  const a=$('#anz');if(a&&!a.hidden){anzClose();return true}
+  const fs=document.fullscreenElement;if(fs){try{document.exitFullscreen()}catch(e){}return true}
+  return false}
+function backInit(){if(PANE||backInit.done)return;backInit.done=1;try{history.pushState({tb:1},'')}catch(e){}
+  addEventListener('popstate',()=>{
+    const again=()=>{try{history.pushState({tb:1},'')}catch(e){}};
+    if(closeTop()){again();return}
+    if(NAVH.length){const v=NAVH.pop();show._b=1;try{show(v)}finally{show._b=0}again();return}
+    if(S.view!=='scan'){show._b=1;try{show('scan')}finally{show._b=0}again();return}
+    if(Date.now()-backArm<2500)return;            // second back within 2.5 s → leave the app
+    backArm=Date.now();toast('info','Press back again to exit','','',null,2500);clearTimeout(backT);backT=setTimeout(()=>{if(Date.now()-backArm>=2400)again()},2500)})}
+
+/* TV button: always on screen and above other badges; long-press puts it back in its corner */
+function tvFabFix(){const b=$('#tvFab');if(!b||PANE)return;const r=b.getBoundingClientRect(),vw=(window.visualViewport&&visualViewport.width)||innerWidth,vh=(window.visualViewport&&visualViewport.height)||innerHeight;
+  if(!vw||!vh)return;const off=r.width===0||r.right<20||r.bottom<20||r.left>vw-20||r.top>vh-20;
+  if(off){b.style.left=Math.max(4,Math.min(vw-60,r.left))+'px';b.style.top=Math.max(4,Math.min(vh-120,r.top))+'px';b.style.bottom='auto'}
+  if(r.width&&!off&&(r.left<0||r.top<0||r.left>vw-56||r.top>vh-56)){b.style.left=Math.max(4,Math.min(vw-60,r.left))+'px';b.style.top=Math.max(4,Math.min(vh-120,r.top))+'px';b.style.bottom='auto'}}
+function tvFabReset(){const b=$('#tvFab');if(!b)return;store.set('tvfab',null);b.style.left='';b.style.top='';b.style.bottom='';toast('info','TV button moved back to its corner','','',null,2500)}
+(function(){const b=$('#tvFab');if(!b||PANE)return;let t=null;b.addEventListener('pointerdown',()=>{clearTimeout(t);t=setTimeout(()=>{if(!b.classList.contains('drag'))tvFabReset()},900)});
+  for(const ev of ['pointerup','pointercancel','pointermove'])b.addEventListener(ev,e=>{if(ev!=='pointermove'||b.classList.contains('drag'))clearTimeout(t)});
+  addEventListener('resize',()=>setTimeout(tvFabFix,300));if(window.visualViewport)visualViewport.addEventListener('resize',()=>setTimeout(tvFabFix,300));
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(tvFabFix,500)});setInterval(tvFabFix,5000)})();
+
+if(PANE){toast=function(){};tone=function(){};vibe=function(){}}   // windows inside Multi window stay silent
+document.getElementById('mwBtn').onclick=()=>mwOpen();
+let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot();paneStart();setTimeout(backInit,1500)};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=21.13"></script>
+<script type="module" src="auth.js?v=21.14"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
