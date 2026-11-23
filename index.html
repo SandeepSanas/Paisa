@@ -781,6 +781,15 @@ body.locked .nbord{display:none!important}
 .kreport{flex:1;min-height:0;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font:500 12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--text);background:color-mix(in srgb,var(--dim) 7%,transparent);border-radius:10px;padding:12px}
 @keyframes jpfab{0%,100%{transform:scale(1);box-shadow:0 0 0 2px #ffc83d,0 6px 22px #ffb30066}50%{transform:scale(1.06);box-shadow:0 0 0 4px #ffe08a,0 0 34px #ffc83dcc}}
 
+#nwFlash{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 64px);z-index:8700;width:min(680px,calc(100vw - 20px));max-height:70vh;overflow:auto;border-radius:14px;border:2px solid var(--t1);background:color-mix(in srgb,var(--deep,#0b1122) 94%,transparent);box-shadow:0 10px 40px #000a,0 0 0 4px #ffd84d22;animation:nwfGlow 1.6s ease-in-out infinite alternate}
+#nwFlash[hidden]{display:none}@keyframes nwfGlow{from{box-shadow:0 10px 40px #000a,0 0 0 2px #ffd84d22}to{box-shadow:0 10px 40px #000a,0 0 0 7px #ffd84d44}}
+.nwfr{padding:10px 12px}.nwfr+.nwfr,.nwfmore .nwfr{border-top:1px solid var(--line)}
+.nwfh{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font:600 12px var(--f-ui);color:var(--dim)}.nwfh b{color:var(--t1);font:900 13px var(--f-ui);letter-spacing:.04em}.nwfr.up .nwfh b{color:var(--sbuy)}.nwfr.dn .nwfh b{color:var(--ssell)}
+.nwfh i{font-style:normal;font:800 10px var(--f-ui);padding:2px 6px;border-radius:5px;border:1px solid var(--line-hi);color:var(--text)}
+.nwft{display:block;margin:5px 0 7px;font:700 15.5px/1.35 var(--f-ui);color:var(--text);text-decoration:none}
+.nwfb{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.nwfb button{padding:5px 10px;border-radius:8px;border:1px solid var(--line-hi);background:var(--well);color:var(--text);font:700 12px var(--f-ui);cursor:pointer}
+.nwfb button[data-nwf="seen"]{border-color:var(--t1);color:var(--t1)}
+html.pane #nwFlash{display:none!important}
 /* multi window */
 .mwbtn{padding:6px 10px;font:700 12px var(--f-ui);white-space:nowrap}
 #mw{position:fixed;inset:0;z-index:8800;background:var(--deep,#0b1122);display:flex;flex-direction:column}
@@ -1233,7 +1242,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.16</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.17</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn anzBtn" id="anzBtn" aria-label="Open Analysis" title="Analysis: equity, real win-rate, ruin cone, heat grid, order book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/><circle cx="19" cy="6" r="1.6" fill="currentColor"/></svg><span>Analysis</span></button>
@@ -1368,7 +1377,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.16 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.17 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -5362,11 +5371,44 @@ function tvFabReset(){const b=$('#tvFab');if(!b)return;store.set('tvfab',null);b
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(tvFabFix,500)});setInterval(tvFabFix,5000)})();
 
 if(PANE){toast=function(){};tone=function(){};vibe=function(){}}   // windows inside Multi window stay silent
+/* ---------- FLASH NEWS: big market-moving headlines stay on screen until you tap "Seen" ---------- */
+const NWF_BIG=/\b(soar|surge|plunge|crash|tumble|jump|sink|slump|rall(?:y|ies|ied)|tank|skyrocket|nosedive|spike|slide|drop|fall|fell)\w*\b[^.]{0,50}?\d[\d,.]*\s?(%|pts|points|per ?cent)/i;
+const NWF_SHOCK=/\b(rate (hike|cut|decision)|hikes? rates?|cuts? rates?|emergency|circuit (breaker|filter)|trading halt\w*|halted|war|missile|airstrike|invasion|ceasefire|default|bankrupt\w*|reinstat\w*|resign\w*|ousted|steps? down|budget|repo rate)\b/i;
+const NWF={open:false,heard:new Set(store.get('pt.nwHeard',[]))};
+const nwfSeen=()=>new Set(store.get('pt.nwSeen',[]));
+const nwfIs=x=>x&&(x.flash||((x.imp||0)>=3&&(NWF_BIG.test(x.title||'')||NWF_SHOCK.test(x.title||''))));
+const NWF_MK={us:'US',india:'INDIA',crypto:'BTC',gold:'GOLD',oil:'OIL'};
+function nwfMk(x){const m=new Set(x.mk||[]);if(m.has('us')&&NWF_BIG.test(x.title||'')){m.add('crypto');m.add('gold')}return [...m].map(k=>NWF_MK[k]||k.toUpperCase())}
+// similar headlines about the same event (e.g. 4 "Nasdaq soars 7%" versions) are grouped
+const nwfWords=t=>new Set(String(t).toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(w=>w.length>3));
+function nwfList(){const n=(window.FEED||{}).news;if(!n||!n.items)return [];const seen=nwfSeen(),now=Date.now();
+  const it=n.items.filter(x=>nwfIs(x)&&now-x.t<12*3600e3).sort((a,b)=>b.t-a.t),out=[];
+  for(const x of it){const w=nwfWords(x.title);const g=out.find(o=>Math.abs(o.t-x.t)<45*60e3&&[...w].filter(v=>o.w.has(v)).length/Math.max(1,Math.min(w.size,o.w.size))>=0.4);
+    if(g){g.ids.push(x.id);g.more++}else out.push({...x,w,ids:[x.id],more:0})}
+  return out.filter(g=>!g.ids.every(id=>seen.has(id)))}
+function nwfSeenIds(ids){const s=nwfSeen();for(const i of ids)s.add(i);store.set('pt.nwSeen',[...s].slice(-500));nwfRender()}
+function nwfRender(){if(PANE)return;const L=nwfList();let el=$('#nwFlash');
+  if(!L.length){if(el)el.hidden=true;NWF.open=false;return}
+  if(!el){el=document.createElement('div');el.id='nwFlash';el.setAttribute('role','alert');document.body.appendChild(el);
+    el.addEventListener('click',e=>{const b=e.target.closest('[data-nwf]');if(!b)return;const a=b.dataset.nwf;
+      if(a==='seen')nwfSeenIds(b.dataset.ids.split(','));
+      if(a==='all')nwfSeenIds(nwfList().flatMap(g=>g.ids));
+      if(a==='more'){NWF.open=!NWF.open;nwfRender()}
+      if(a==='open'){show('news')}})}
+  // a sound once for each new flash headline
+  let fresh=false;for(const g of L)for(const id of g.ids)if(!NWF.heard.has(id)){NWF.heard.add(id);fresh=true}
+  if(fresh){store.set('pt.nwHeard',[...NWF.heard].slice(-500));try{tone(SOUNDS.info)}catch(e){}}
+  const row=(g,top)=>{const tm=new Date(g.t).toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit',timeZone:'Asia/Kolkata'}),dir=g.sent>0?'▲':g.sent<0?'▼':'⚡';
+    return `<div class="nwfr ${g.sent>0?'up':g.sent<0?'dn':''}"><div class="nwfh"><b>${dir} FLASH NEWS</b><span>${tm} · ${esc(g.src||'')}</span>${nwfMk(g).map(m=>`<i>${esc(m)}</i>`).join('')}</div>
+      <a class="nwft" href="${esc(g.url||'#')}" target="_blank" rel="noopener">${esc(g.title)}</a>
+      <div class="nwfb">${g.more?`<span class="label">+${g.more} similar headline${g.more>1?'s':''}</span>`:''}<button type="button" data-nwf="seen" data-ids="${esc(g.ids.join(','))}">✓ Seen</button>${top&&L.length>1?`<button type="button" data-nwf="more">${NWF.open?'▴ Hide':`+${L.length-1} more ▾`}</button><button type="button" data-nwf="all">All seen</button>`:''}${top?`<button type="button" data-nwf="open">News tab</button>`:''}</div></div>`};
+  el.innerHTML=row(L[0],true)+(NWF.open?`<div class="nwfmore">${L.slice(1).map(g=>row(g,false)).join('')}</div>`:'');el.hidden=false}
+addEventListener('paisa-feed',e=>{if(e.detail==='news')nwfRender()});setInterval(nwfRender,60000);setTimeout(nwfRender,3000);
 document.getElementById('mwBtn').onclick=()=>mwOpen();
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot();paneStart();setTimeout(backInit,1500)};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=21.16"></script>
+<script type="module" src="auth.js?v=21.17"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
