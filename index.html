@@ -1242,7 +1242,7 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.17</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.18</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn anzBtn" id="anzBtn" aria-label="Open Analysis" title="Analysis: equity, real win-rate, ruin cone, heat grid, order book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/><circle cx="19" cy="6" r="1.6" fill="currentColor"/></svg><span>Analysis</span></button>
@@ -1377,7 +1377,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.17 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.18 · synced to your account</span></div>
       <div class="sets">
         <div class="panel set">
           <h3>Account</h3>
@@ -4467,7 +4467,7 @@ function anzMood(){const ids=[...MOOD_IDS];for(const it of S.inst.values())if(id
 const ANZ_P=[['pl','LIVE PULSE','prices · market hours · open trades','full'],['fl','BUYERS vs SELLERS','orders waiting near the price · live','full'],['md','MARKET MOOD','rising or falling, in plain words',''],
   ['eq','EQUITY','every strategy · after charges',''],['wr','REAL WIN-RATE','is the edge real yet?',''],['mc','RUIN CONE','400 possible futures · next 100 trades','']];
 function anzOpen(){let el=$('#anz');if(!el){el=document.createElement('div');el.id='anz';el.className='anzS';el.setAttribute('role','dialog');el.setAttribute('aria-label','Analysis');document.body.appendChild(el);
-    el.innerHTML=`<div class="anzTop"><div class="anzT"><b>ANALYSIS</b><span id="anzSub"></span></div><div class="anzLive2"><i></i><span id="anzClk"></span></div><div class="anzCtl"><div class="anzSeg" id="anzPer"></div><div class="anzSeg" id="anzUnit"></div><button class="iconbtn" id="anzX" aria-label="Close analysis">✕</button></div></div>
+    el.innerHTML=`<div class="anzTop"><div class="anzT"><b>ANALYSIS</b><span id="anzSub"></span></div><div class="anzLive2"><i></i><span id="anzClk"></span></div><div class="anzCtl"><div class="anzSeg" id="anzPer"></div><div class="anzSeg" id="anzUnit"></div><button class="btn" id="anzExp" type="button" title="Save every paper result to one file for a full review">📦 Export all results</button><button class="iconbtn" id="anzX" aria-label="Close analysis">✕</button></div></div>
       <div class="anzG">${ANZ_P.map(([k,t,s,w],i)=>`<section class="anzp ${w}" data-p="${k}"><header><i>${String(i+1).padStart(2,'0')}</i><h3>${t}</h3><span>${s}</span>${k==='pl'||k==='fl'?'<em class="anzLive">LIVE</em>':''}<button class="anzMax" data-max="${k}" aria-label="Full screen">⤢</button></header><div class="anzB" id="anz_${k}">${k==='pl'?anzPulseHTML():''}</div></section>`).join('')}</div>`;
     el.addEventListener('click',e=>{const b=e.target.closest('button,[data-anzf]');if(!b)return;
       if(b.id==='anzX'){anzClose();return}
@@ -5404,11 +5404,28 @@ function nwfRender(){if(PANE)return;const L=nwfList();let el=$('#nwFlash');
       <div class="nwfb">${g.more?`<span class="label">+${g.more} similar headline${g.more>1?'s':''}</span>`:''}<button type="button" data-nwf="seen" data-ids="${esc(g.ids.join(','))}">✓ Seen</button>${top&&L.length>1?`<button type="button" data-nwf="more">${NWF.open?'▴ Hide':`+${L.length-1} more ▾`}</button><button type="button" data-nwf="all">All seen</button>`:''}${top?`<button type="button" data-nwf="open">News tab</button>`:''}</div></div>`};
   el.innerHTML=row(L[0],true)+(NWF.open?`<div class="nwfmore">${L.slice(1).map(g=>row(g,false)).join('')}</div>`:'');el.hidden=false}
 addEventListener('paisa-feed',e=>{if(e.detail==='news')nwfRender()});setInterval(nwfRender,60000);setTimeout(nwfRender,3000);
+/* ---------- EXPORT ALL RESULTS: one JSON file with every paper result the app can see, for a full strategy review ---------- */
+async function exportAll(btn){const old=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent='Collecting…'}
+  try{try{window.paisaLab&&window.paisaLab(true)}catch(e){}try{krMineWatch()}catch(e){}
+    const need=['labhist','labhistx','condorhist','kronoshist'],t0=Date.now();
+    while(Date.now()-t0<9000&&need.some(k=>!(window.FEED||{})[k]))await new Promise(r=>setTimeout(r,300));
+    const F=window.FEED||{},L=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
+    const out={app:(document.querySelector('.ver')||{}).textContent||document.title,exported:new Date().toISOString(),
+      feeds:Object.fromEntries(['signals','swing','swingx','lab','labhist','labx','labhistx','condor','condorhist','kronos','kronoshist','expclose','moves','status'].map(k=>[k,F[k]??null])),
+      mine:{signalLog:L('pt.log'),labLog:L('pt.lablog'),paperLedger:L('pt.pledg'),bookings:L('pt.pbook'),expiryCalls:L('pt.ecLog'),exhaustion:L('pt.exw'),
+        algo:{hist:(typeof ALGO!=='undefined'&&ALGO.hist)||null,settings:(typeof ALGO!=='undefined'&&ALGO.settings)||null},kronosMine:(typeof KR!=='undefined'&&KR.mine)||null}};
+    const txt=JSON.stringify(out),name=`tradebot-results-${ymdIST(Date.now())}.json`,file=new File([txt],name,{type:'application/json'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:'TradeBot results'});toast('info','Results exported',`${name} · ${(txt.length/1024).toFixed(0)} KB`,'',null,5000);return}catch(e){if(e&&e.name==='AbortError')return}}
+    const a=document.createElement('a');a.href=URL.createObjectURL(file);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);
+    toast('info','Results exported',`${name} (${(txt.length/1024).toFixed(0)} KB) saved to Downloads. Send it to Claude.`,'',null,7000)}
+  catch(e){toast('info','Export failed',String(e.message||e),'',null,7000)}
+  finally{if(btn){btn.disabled=false;btn.textContent=old}}}
 document.getElementById('mwBtn').onclick=()=>mwOpen();
+document.addEventListener('click',e=>{const b=e.target.closest('#anzExp');if(b)exportAll(b)});
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot();paneStart();setTimeout(backInit,1500)};
 window.appToast=(t,b,ms)=>{try{toast('info',t,b,'',null,ms||5000)}catch(e){}};
 </script>
-<script type="module" src="auth.js?v=21.17"></script>
+<script type="module" src="auth.js?v=21.18"></script>
 <script>
 // login background: drifting neural network with signal pulses, and a boot line. Stops as soon as you're signed in.
 (()=>{const cv=document.getElementById('lgNet');if(!cv)return;const g=cv.getContext('2d');const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
