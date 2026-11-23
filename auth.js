@@ -155,8 +155,14 @@ function wireAccount(u) {
 const FEEDS = ['swing', 'swingx', 'expclose', 'fii', 'futures', 'signals', 'news', 'releases', 'calendar', 'macro', 'moves', 'nse', 'status', 'config'];
 window.FEED = window.FEED || {};
 let unsubs = [];
+const ADMIN_EMAIL = 'sanassandeep507@gmail.com';   // the database rule allows only this login to change admin/switches
+window.paisaAdmin = {
+  is: () => !!(cur && (cur.email || '').toLowerCase() === ADMIN_EMAIL),
+  save: async v => { if (!window.paisaAdmin.is()) throw new Error('Only the admin can change this'); await setDoc(doc(db, 'admin', 'switches'), { ...v, upd: Date.now(), by: cur.email }); },
+};
 function startFeeds() {
   if (unsubs.length) return;
+  unsubs.push(onSnapshot(doc(db, 'admin', 'switches'), snap => { window.ADMIN = snap.exists() ? snap.data() : {}; window.dispatchEvent(new CustomEvent('paisa-feed', { detail: 'admin' })); }, () => {}));
   for (const n of FEEDS) unsubs.push(onSnapshot(doc(db, 'feed', n), snap => {
     window.FEED[n] = snap.exists() ? snap.data() : null; window.FEED.err = null;
     window.dispatchEvent(new CustomEvent('paisa-feed', { detail: n }));
