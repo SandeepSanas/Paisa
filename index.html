@@ -794,6 +794,36 @@ html.pane #nwFlash{display:none!important}
 .adm .admr{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
 .adm .admt{display:flex;flex-direction:column;gap:2px}.adm .admt b{font:700 14px var(--f-ui)}.adm .admt small{color:var(--dim);font:500 12px var(--f-ui)}.adm .admt i{font-style:normal;font-weight:800;margin-right:4px}
 .adm .admbar{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+/* delta pair planner */
+#dpBtn{font-size:17px}
+html.pane #dpBtn,html.pane #dpWin,html.pane #dpChip{display:none!important}
+#dpWin{position:fixed;right:8px;top:64px;width:min(96vw,440px);max-height:min(82vh,760px);z-index:8650;display:flex;flex-direction:column;background:var(--deep,#0b1122);border:1px solid var(--line-hi);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.55);overflow:hidden}
+#dpWin[hidden],#dpChip[hidden]{display:none}
+#dpWin.full{left:0!important;top:0!important;right:0!important;bottom:0!important;width:auto;max-height:none;border-radius:0}
+@media(min-width:900px){#dpWin{width:min(34vw,480px)}}
+.dpbar{display:flex;align-items:center;gap:6px;padding:7px 8px 7px 12px;background:var(--raise);border-bottom:1px solid var(--line);cursor:move;touch-action:none;user-select:none;font:700 14px var(--f-ui)}
+.dpbar b{flex:1;white-space:nowrap}.dpupd{font-size:10px}
+.dpbar button{width:30px;height:28px;border-radius:8px;border:1px solid var(--line);background:var(--deep);color:var(--text);font:700 14px var(--f-ui)}
+.dpbody .label,.dpbar .label{text-transform:none;letter-spacing:0;font:500 12px/1.4 var(--f-ui);color:var(--dim)}
+.dpbody{overflow:auto;padding:8px 10px 12px;display:flex;flex-direction:column;gap:8px;font:500 13px var(--f-ui)}
+.dptabs{display:flex;gap:6px}.dptabs button{flex:1;padding:6px;border-radius:9px;border:1px solid var(--line);background:var(--raise);color:var(--dim);font:700 13px var(--f-ui)}
+.dptabs button.on{color:var(--text);border-color:var(--brand,#5b8cff);background:var(--deep)}
+.dphd{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}.dphd .num{font:700 17px var(--f-num)}
+.dpnote{line-height:1.4}
+.dpev{padding:6px 8px;border-radius:8px;background:rgba(255,190,60,.12);border:1px solid rgba(255,190,60,.35);font:600 12px var(--f-ui)}
+.dpev.warn{background:rgba(255,90,90,.1);border-color:rgba(255,90,90,.35)}
+.dppairs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.dpp{display:flex;flex-direction:column;gap:2px;padding:7px 5px;border-radius:10px;border:1px solid var(--line);background:var(--raise);color:var(--text);font:600 12px var(--f-num);text-align:center}
+.dpp b{font:700 13px var(--f-ui)}.dpp small{color:var(--dim);font:600 10.5px var(--f-ui)}
+.dpp.on{border-color:var(--brand,#5b8cff);box-shadow:0 0 0 1px var(--brand,#5b8cff) inset}.dpp.best b{color:var(--sbuy)}
+.dpsel{display:flex;flex-direction:column;gap:7px;padding:8px;border-radius:10px;border:1px solid var(--line);background:var(--raise)}
+.dprow{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}.dpk{font:700 13px var(--f-num);min-width:130px}
+.dpgrid{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:12.5px}.dpgrid span{color:var(--dim)}.dpgrid b{font-weight:700}.dpgrid small{color:var(--dim);font-weight:600}
+.dptab{font-size:12px}.dptab th small{display:block;font-size:9.5px;color:var(--dim)}.dptab tr.mid td{background:rgba(255,255,255,.04)}.dptab td:first-child{text-align:left;color:var(--dim)}
+.dpplan ul{margin:4px 0 8px;padding-left:18px;line-height:1.45}
+.dptrk,.dplog{display:flex;flex-direction:column;gap:4px;padding:8px;border-radius:10px;border:1px dashed var(--line-hi)}
+.dptrk .btn{align-self:flex-start}
+#dpChip{position:fixed;right:10px;bottom:150px;z-index:8650;padding:8px 12px;border-radius:20px;background:var(--raise);border:1px solid var(--line-hi);color:var(--text);font:700 13px var(--f-ui);box-shadow:0 6px 20px rgba(0,0,0,.45);cursor:pointer;touch-action:none;user-select:none;white-space:nowrap}
 /* multi window */
 .mwbtn{padding:6px 10px;font:700 12px var(--f-ui);white-space:nowrap}
 #mw{position:fixed;inset:0;z-index:8800;background:var(--deep,#0b1122);display:flex;flex-direction:column}
@@ -1246,10 +1276,11 @@ body:not(.locked) .login{display:none}
 <header class="top">
   <div class="brand">
     <span class="coin" id="botLogo" aria-hidden="true"><img src="logo-head.webp" alt="" width="40" height="40"></span>
-    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.19</span></div></div>
+    <div><div class="logo">TradeBot</div><div class="greet"><span id="greet">Hello</span> <span class="ver">v21.20</span></div></div>
   </div>
   <div class="hbtns">
     <button class="iconbtn anzBtn" id="anzBtn" aria-label="Open Analysis" title="Analysis: equity, real win-rate, ruin cone, heat grid, order book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 16l4-5 4 3 6-8"/><circle cx="19" cy="6" r="1.6" fill="currentColor"/></svg><span>Analysis</span></button>
+    <button class="iconbtn" id="dpBtn" aria-label="Delta pair planner" title="Delta pair planner (BTC / XAUT options)">🔀</button>
     <button class="iconbtn" id="bell" aria-label="Signal alerts on" title="Signal alerts on/off"></button>
     <button class="iconbtn" id="refreshAll" aria-label="Refresh all data" title="Refresh all data">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>
@@ -1381,7 +1412,7 @@ body:not(.locked) .login{display:none}
     </section>
 
     <section class="view" id="v-set" hidden>
-      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.19 · synced to your account</span></div>
+      <div class="h2"><h2>Settings</h2><span class="sub">TradeBot v21.20 · synced to your account</span></div>
       <div class="sets">
         <div id="admBox"></div>
         <div class="panel set">
@@ -5473,6 +5504,123 @@ async function admSave(next){const m=$('#admMsg');try{if(m)m.textContent='Saving
 document.addEventListener('change',e=>{const c=e.target.closest('[data-adm]');if(!c)return;const next=JSON.parse(JSON.stringify(ADM()));delete next.upd;delete next.by;admSet(next,c.dataset.adm,c.checked);admSave(next)});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-admall]');if(!b)return;const next={};for(const [,p,,v] of ADM_ROWS)admSet(next,p,b.dataset.admall==='on'?true:v!=='off');window.ADMIN={...ADM(),...next};admRender();admSave(next)});
 addEventListener('paisa-feed',e=>{if(e.detail!=='admin')return;admRender();try{for(const it of S.inst.values())markDirty(it)}catch(x){}try{nwfRender()}catch(x){}if(ADM().exw===false){try{const x=$('#exBox');if(x)x.hidden=true}catch(e){}}});
+/* ===================== DELTA PAIR PLANNER (BTC 5:30 pm · XAUT 9:30 pm daily options, Delta Exchange India) =====================
+   A call above + a put below the price. Public Delta data only; nothing is ordered. Settlement on Delta = average of the index over the
+   last 30 minutes before expiry, so the maths uses that average (late spikes count only partly). Paper tracker records the results. */
+const DPX={BTC:{sym:'BTC',perp:'BTCUSD',hh:12,name:'Bitcoin',tag:['crypto','us']},XAUT:{sym:'XAUT',perp:'XAUTUSD',hh:16,name:'Gold (XAUT)',tag:['gold','us']}};
+const DPL=0.5;   // settlement window, hours
+const DP={ui:Object.assign({open:false,min:false,asset:'BTC',sel:1,x:null,y:null,cx:null,cy:null},store.get('pt.dpUI',{})),rows:{},cv:{},at:{},err:null,busy:false,
+  risk:+store.get('pt.dpRisk',5000)||5000,track:store.get('pt.dpTrack',null),log:store.get('pt.dpLog',[]),twap:{}};
+const dpSave=()=>store.set('pt.dpUI',DP.ui);
+const dpINR=()=>{try{return RK().usdinr||88}catch(e){return 88}};
+const dpUSD=v=>(v<0?'−':'')+'$'+Math.abs(v).toLocaleString('en-US',{maximumFractionDigits:Math.abs(v)<10?2:0});
+const dpRs=v=>(v<0?'−':'')+'₹'+Math.round(Math.abs(v)).toLocaleString('en-IN');
+const dpP=v=>v==null||isNaN(v)?'—':(+v).toLocaleString('en-US',{maximumFractionDigits:Math.abs(v)<10?2:Math.abs(v)<100?1:0});
+const dpTm=ms=>new Date(ms).toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit',timeZone:'Asia/Kolkata'});
+const dpDay=ms=>{const f=t=>new Date(t).toLocaleDateString('en-IN',{timeZone:'Asia/Kolkata'}),n=Date.now();return f(ms)===f(n)?'today ':f(ms)===f(n+864e5)?'tomorrow ':new Date(ms).toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',timeZone:'Asia/Kolkata'})+' '};
+function dpSettleMs(code,a){const d=+code.slice(0,2),m=+code.slice(2,4),y=2000+ +code.slice(4,6);return Date.UTC(y,m-1,d,DPX[a].hh,0,0)}
+async function dpLoad(a){const j=await jget(`https://api.india.delta.exchange/v2/tickers?contract_types=call_options,put_options&underlying_asset_symbols=${a}`);
+  const now=Date.now(),rows=(j.result||[]).map(x=>{const q=x.quotes||{};const code=x.symbol.split('-').pop();return {s:x.symbol,t:x.contract_type==='call_options'?'C':'P',k:+x.strike_price,code,settle:dpSettleMs(code,a),
+    bid:+q.best_bid||0,ask:+q.best_ask||0,mark:+x.mark_price||0,iv:+(q.mark_iv||x.mark_vol)||0,spot:+x.spot_price||+(x.greeks||{}).spot||0,oi:+x.oi||0,th:+((x.greeks||{}).theta)||0}}).filter(r=>r.settle>now+60e3);
+  if(!rows.length)throw new Error('no live '+a+' options');const settle=Math.min(...rows.map(r=>r.settle));DP.rows[a]=rows.filter(r=>r.settle===settle);DP.at[a]=now;
+  if(!DP.cv[a]){try{const p=await jget(`https://api.india.delta.exchange/v2/products?contract_types=call_options&underlying_asset_symbols=${a}&states=live&page_size=1`);DP.cv[a]=+(((p.result||[])[0]||{}).contract_value)||0.001}catch(e){DP.cv[a]=0.001}}
+  // inside the settlement window: running average of the price so far (perpetual futures, 1-minute candles)
+  const start=settle-DPL*3600e3;if(now>start){try{const c=await jget(`https://api.india.delta.exchange/v2/history/candles?resolution=1m&symbol=${DPX[a].perp}&start=${Math.floor(start/1000)}&end=${Math.floor(now/1000)}`);
+    const v=(c.result||[]).map(x=>+x.close).filter(Boolean);DP.twap[a]=v.length?{avg:v.reduce((s,x)=>s+x,0)/v.length,n:v.length}:null}catch(e){}}else DP.twap[a]=null}
+// settlement distribution: lognormal around F with volatility sig over tau years (adjusted for the 30-minute average)
+function dpDist(S,iv,hoursLeft,known){const L=DPL;if(hoursLeft<=0)return {F:S,sig:0,tau:0};
+  if(hoursLeft>L){const h=hoursLeft-2*L/3;return {F:S,sig:iv,tau:h/8760}}
+  const f=(L-hoursLeft)/L,A=known!=null?known:S,F=f*A+(1-f)*S;return {F,sig:iv*(1-f)*S/F,tau:(hoursLeft/3)/8760}}
+const dpVal=(D,K,call)=>bsPrice(D.F,K,D.tau,D.sig,call);
+function dpProbBeyond(D,K,up){if(!(D.sig>0)||!(D.tau>0))return up?(D.F>K?1:0):(D.F<K?1:0);const s=D.sig*Math.sqrt(D.tau),d2=(Math.log(D.F/K)-s*s/2)/s;return up?nCdf(d2):nCdf(-d2)}
+const dpFee=(S,px)=>Math.min(0.0001*S,0.035*px)*1.18;     // Delta options: 0.01% of the underlying, capped at 3.5% of the premium, + 18% GST (per unit, per side)
+function dpPairs(a){const R=DP.rows[a];if(!R||!R.length)return [];const S=R[0].spot,ks=[...new Set(R.map(r=>r.k))].sort((x,y)=>x-y);
+  const calls=ks.filter(k=>k>S),puts=ks.filter(k=>k<S).reverse(),get=(k,t)=>R.find(r=>r.k===k&&r.t===t),settle=R[0].settle,h=(settle-Date.now())/3600e3,known=(DP.twap[a]||{}).avg;
+  const out=[];for(let i=0;i<3;i++){const kc=calls[i],kp=puts[i];if(kc==null||kp==null)continue;const c=get(kc,'C'),p=get(kp,'P');if(!c||!p||!(c.ask>0)||!(p.ask>0))continue;
+    const iv=((c.iv||0)+(p.iv||0))/2||c.iv||p.iv,D=dpDist(S,iv,h,known),cost=c.ask+p.ask,fee=dpFee(S,c.ask)+dpFee(S,p.ask),tot=cost+fee;
+    const fair=dpVal(dpDist(S,c.iv||iv,h,known),kc,true)+dpVal(dpDist(S,p.iv||iv,h,known),kp,false);
+    const D1=dpDist(S,iv,h-1,known),decay=h>1?(fair-(dpVal(D1,kc,true)+dpVal(D1,kp,false))):fair;
+    const beU=kc+tot,beD=kp-tot,prob=dpProbBeyond(D,beU,true)+dpProbBeyond(D,beD,false),move=D.F*D.sig*Math.sqrt(D.tau);
+    out.push({i,name:['Near','Medium','Wide'][i],kc,kp,c,p,S,iv,cost,fee,tot,fair,ratio:fair/tot,decay,beU,beD,prob,move,h,D})}
+  const best=out.filter(x=>x.ratio>=0.88).sort((x,y)=>y.ratio-x.ratio)[0];out.forEach(x=>x.best=best===x);return out}
+function dpEvent(a,h){try{const now=Date.now(),end=now+h*3600e3,it=(((window.FEED||{}).calendar||{}).items||[]).filter(e=>e.t>now&&e.t<end&&e.imp>=2&&(e.mk||[]).some(m=>DPX[a].tag.includes(m)));
+  return it.length?`⚡ ${esc(it[0].name)} at ${dpTm(it[0].t)} — before expiry. News days are when pairs most often pay.`:''}catch(e){return ''}}
+function dpTable(x,n,cv,inr){const step=Math.max(x.move*0.5,(x.kc-x.kp)/4),S=x.S,grid=[-2,-1.5,-1,-0.5,0,0.5,1,1.5,2].map(k=>S+k*step);
+  const cols=[[0,'Now'],[1,'+1 hour'],[3,'+3 hours'],[x.h,'At expiry']].filter(([hh],i)=>i===3||hh<x.h-0.05),known=(DP.twap[DP.ui.asset]||{}).avg;
+  const val=(P,hh)=>{const left=x.h-hh;if(left<=0.001)return Math.max(0,P-x.kc)+Math.max(0,x.kp-P);const Dc=dpDist(P,x.c.iv||x.iv,left,known),Dp=dpDist(P,x.p.iv||x.iv,left,known);return dpVal(Dc,x.kc,true)+dpVal(Dp,x.kp,false)};
+  const head=`<tr><th>If ${DP.ui.asset} is at</th>${cols.map(c=>`<th>${c[1]}<small>${dpTm(Date.now()+c[0]*3600e3)}</small></th>`).join('')}</tr>`;
+  const body=grid.map((P,i)=>`<tr class="${i===4?'mid':''}"><td>${dpP(P)}${i===4?' <small>now</small>':''}</td>${cols.map(([hh])=>{const v=val(P,hh),pl=(v-x.tot-dpFee(S,v))*n*cv*inr;return `<td class="${pl>=0?'ecup':'ecdn'}">${n?(pl>=0?'+':'')+dpRs(pl):dpUSD(v)}</td>`}).join('')}</tr>`).join('');
+  return `<table class="ecsc dptab"><thead>${head}</thead><tbody>${body}</tbody></table><div class="label ecnote">${n?'Profit / loss for your whole position after fees':'Pair value per 1 '+DP.ui.asset}. Model: each option's own IV, the 30-minute settlement average, no change in IV (a sudden news move usually lifts IV, which helps the pair).</div>`}
+function dpBody(){const a=DP.ui.asset,R=DP.rows[a];
+  const tabs=`<div class="dptabs">${Object.keys(DPX).map(k=>`<button type="button" data-dpa="${k}" class="${k===a?'on':''}">${k}</button>`).join('')}</div>`;
+  if(!R)return tabs+`<div class="label" style="padding:12px">${DP.err?esc(DP.err):'Loading Delta options…'}</div>`;
+  const S=R[0].spot,settle=R[0].settle,h=(settle-Date.now())/3600e3,win=settle-DPL*3600e3,P=dpPairs(a),inr=dpINR(),cv=DP.cv[a]||0.001,tw=DP.twap[a];
+  const exp=P[0]?P[0].move:0,ev=dpEvent(a,h);
+  let html=tabs+`<div class="dphd"><div><b>${DPX[a].name}</b> <span class="num">${dpP(S)}</span></div><div class="label">expires ${dpDay(settle)}${dpTm(settle)} · ${h>=1?Math.floor(h)+' h '+Math.round((h%1)*60)+' min':Math.round(h*60)+' min'} left</div></div>
+    <div class="label dpnote">Settles on the <b>average price ${dpTm(win)}–${dpTm(settle)}</b>${tw?` · average so far ${dpP(tw.avg)} (${tw.n} min)`:''}. Expected move by then: <b>±${dpP(exp)}</b> (from the options' own IV, 1 in 3 days it moves more).</div>${ev?`<div class="dpev">${ev}</div>`:''}`;
+  if(!P.length)return html+`<div class="label" style="padding:10px">No pair with prices on both sides right now.</div>`;
+  if(DP.ui.sel>=P.length)DP.ui.sel=0;
+  html+=`<div class="dppairs">${P.map((x,i)=>`<button type="button" class="dpp${i===DP.ui.sel?' on':''}${x.best?' best':''}" data-dps="${i}"><b>${x.name}${x.best?' ★':''}</b><span>${x.kc} C + ${x.kp} P</span><span>${dpUSD(x.tot)}</span><small>pays ${Math.round(x.prob*100)}% · ${x.ratio>=0.95?'fair':x.ratio>=0.88?'a bit dear':'expensive'}</small></button>`).join('')}</div>`;
+  if(!P.some(x=>x.best))html+=`<div class="dpev warn">All three pairs cost well over their fair value right now (spread + fees). Skip, or wait for a better price.</div>`;
+  const x=P[DP.ui.sel],unitInr=x.tot*cv*inr,n=Math.floor(DP.risk/unitInr),spend=n*unitInr,rn=n*cv;
+  html+=`<div class="dpsel"><div class="dprow"><span class="dpk">${a} ${x.kc} CALL</span><span>buy at <b>${dpUSD(x.c.ask)}</b></span><span class="label">bid ${dpUSD(x.c.bid)} · IV ${(x.c.iv*100).toFixed(0)}%</span></div>
+      <div class="dprow"><span class="dpk">${a} ${x.kp} PUT</span><span>buy at <b>${dpUSD(x.p.ask)}</b></span><span class="label">bid ${dpUSD(x.p.bid)} · IV ${(x.p.iv*100).toFixed(0)}%</span></div>
+    <div class="dpgrid"><span>Cost per 1 ${a}</span><b>${dpUSD(x.cost)} + fees ${dpUSD(x.fee)}</b><span>Fair value (model)</span><b>${dpUSD(x.fair)} <small>${x.ratio>=1?'✓ fair':'you pay '+Math.round((1/x.ratio-1)*100)+'% more'}</small></b>
+      <span>Profit at expiry if ${a}</span><b>above ${dpP(x.beU)} or below ${dpP(x.beD)}</b><span>Needs a move of</span><b>+${dpP(x.beU-x.S)} / −${dpP(x.S-x.beD)} <small>(expected ±${dpP(x.move)})</small></b>
+      <span>Chance it pays</span><b>${Math.round(x.prob*100)}%</b><span>If price stays still</span><b>loses ≈ ${dpUSD(x.decay)} per 1 ${a} in the next hour</b></div>
+    <div class="ecch"><label>Budget ₹ <input id="dpRisk" type="number" inputmode="numeric" min="100" step="100" value="${DP.risk}"></label>
+      <span>${n>0?`<b>${n}</b> contracts of each (${dpP(rn)} ${a}) = <b>${dpRs(spend)}</b>`:`budget below 1 contract (${dpRs(unitInr)})`}</span></div>
+    ${dpTable(x,n,cv,inr)}
+    <div class="dpplan"><b>Plan before you buy</b><ul><li>Take profit when the pair is worth <b>${dpUSD(2*x.tot)}</b> (2×) — sell the winning leg, the other is usually near zero.</li>
+      <li>Time-stop: if the pair is still below cost at <b>${dpTm(win-3600e3)}</b> (1 h before the averaging starts), sell both and keep what is left.</li>
+      <li>Never add to the losing side (the 62000 → 61000 → 60000 trap). One pair, one size, that's it.</li></ul>
+      <button type="button" class="btn pri" data-dptrack="1">📌 Track this pair (paper)</button></div></div>`;
+  return html+dpTrackHTML()+dpLogHTML()}
+function dpTrackLive(){const T=DP.track;if(!T)return null;const R=DP.rows[T.a];if(!R||R[0].settle!==T.settle)return null;const c=R.find(r=>r.s===T.sc),p=R.find(r=>r.s===T.sp);if(!c||!p)return null;
+  const val=(c.bid||0)+(p.bid||0),pl=(val-T.tot-dpFee(R[0].spot,val))*T.n*T.cv*T.inr;return {val,pl,S:R[0].spot}}
+function dpTrackHTML(){const T=DP.track;if(!T)return '';const L=dpTrackLive();
+  return `<div class="dptrk"><b>📌 Tracking: ${T.a} ${T.kc} C + ${T.kp} P</b><span class="label">bought ${dpUSD(T.tot)} at ${dpTm(T.at)} · ${T.n} contracts · expires ${dpTm(T.settle)}</span>
+    ${L?`<span>Worth now <b>${dpUSD(L.val)}</b> (sell price) → <b class="${L.pl>=0?'ecup':'ecdn'}">${L.pl>=0?'+':''}${dpRs(L.pl)}</b>${L.val>=2*T.tot?' · 🎯 2× reached — take profit':''}</span>`:'<span class="label">waiting for prices…</span>'}
+    <button type="button" class="btn" data-dpstop="1">Stop tracking</button></div>`}
+function dpLogHTML(){const L=DP.log;if(!L.length)return '';let w=0,s=0;for(const x of L){if(x.pl>0)w++;s+=x.pl}
+  return `<div class="dplog"><b>Tracked pairs</b><span class="label">${w} of ${L.length} made money · total <b class="${s>=0?'ecup':'ecdn'}">${s>=0?'+':''}${dpRs(s)}</b></span>${L.slice(0,8).map(x=>`<div class="label">${new Date(x.settle).toLocaleDateString('en-IN',{day:'numeric',month:'short'})} ${x.a} ${x.kc}C+${x.kp}P · cost ${dpUSD(x.tot)} → ${dpUSD(x.pay)} (${x.how}) · <b class="${x.pl>=0?'ecup':'ecdn'}">${x.pl>=0?'+':''}${dpRs(x.pl)}</b></div>`).join('')}</div>`}
+/* window: draggable, minimise to a draggable chip, full screen */
+function dpEls(){let w=$('#dpWin');if(w)return w;w=document.createElement('div');w.id='dpWin';w.hidden=true;w.setAttribute('role','dialog');w.setAttribute('aria-label','Delta pair planner');
+  w.innerHTML=`<div class="dpbar"><b>🔀 Delta pair planner</b><span class="dpupd label"></span><button type="button" data-dpw="min" aria-label="Minimise">–</button><button type="button" data-dpw="full" aria-label="Full screen">⤢</button><button type="button" data-dpw="x" aria-label="Close">✕</button></div><div class="dpbody"></div>`;
+  document.body.appendChild(w);const c=document.createElement('div');c.id='dpChip';c.hidden=true;c.setAttribute('role','button');c.tabIndex=0;document.body.appendChild(c);
+  dpDrag(w.querySelector('.dpbar'),w,'x','y');dpDrag(c,c,'cx','cy',()=>{DP.ui.min=false;DP.ui.open=true;dpSave();dpShow()});
+  w.addEventListener('click',e=>{const b=e.target.closest('[data-dpw],[data-dpa],[data-dps],[data-dptrack],[data-dpstop]');if(!b)return;
+    if(b.dataset.dpw==='min'){DP.ui.min=true;dpSave();dpShow()}else if(b.dataset.dpw==='x'){DP.ui.open=false;DP.ui.min=false;dpSave();dpShow()}else if(b.dataset.dpw==='full'){w.classList.toggle('full')}
+    else if(b.dataset.dpa){DP.ui.asset=b.dataset.dpa;DP.ui.sel=1;dpSave();dpRender();dpTick(true)}else if(b.dataset.dps){DP.ui.sel=+b.dataset.dps;dpSave();dpRender()}
+    else if(b.dataset.dptrack){const x=dpPairs(DP.ui.asset)[DP.ui.sel];if(!x)return;const inr=dpINR(),cv=DP.cv[DP.ui.asset]||0.001,n=Math.max(1,Math.floor(DP.risk/(x.tot*cv*inr)));
+      DP.track={a:DP.ui.asset,kc:x.kc,kp:x.kp,sc:x.c.s,sp:x.p.s,tot:x.tot,n,cv,inr,at:Date.now(),settle:x.c.settle,said:{}};store.set('pt.dpTrack',DP.track);toast('info','Tracking the pair (paper)',`${DP.ui.asset} ${x.kc} C + ${x.kp} P at ${dpUSD(x.tot)}. You get a sound at 2× and at the time-stop.`,'',null,6000);dpRender()}
+    else if(b.dataset.dpstop){DP.track=null;store.set('pt.dpTrack',null);dpRender()}});
+  w.addEventListener('change',e=>{if(e.target.id==='dpRisk'){DP.risk=Math.max(100,+e.target.value||5000);store.set('pt.dpRisk',DP.risk);dpRender()}});return w}
+function dpDrag(handle,el,kx,ky,onTap){let sx,sy,ox,oy,moved=false,id=null;
+  handle.addEventListener('pointerdown',e=>{if(e.target.closest('button,input,select'))return;id=e.pointerId;moved=false;const r=el.getBoundingClientRect();sx=e.clientX;sy=e.clientY;ox=r.left;oy=r.top;handle.setPointerCapture(id)});
+  handle.addEventListener('pointermove',e=>{if(e.pointerId!==id)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(!moved&&Math.hypot(dx,dy)<6)return;moved=true;
+    const r=el.getBoundingClientRect(),x=Math.max(0,Math.min(innerWidth-Math.min(r.width,80),ox+dx)),y=Math.max(0,Math.min(innerHeight-40,oy+dy));el.style.left=x+'px';el.style.top=y+'px';el.style.right='auto';el.style.bottom='auto';DP.ui[kx]=x/innerWidth;DP.ui[ky]=y/innerHeight});
+  handle.addEventListener('pointerup',e=>{if(e.pointerId!==id)return;id=null;if(moved)dpSave();else if(onTap)onTap()})}
+function dpPlace(el,kx,ky){if(DP.ui[kx]==null)return;const r=el.getBoundingClientRect();el.style.left=Math.max(0,Math.min(innerWidth-Math.min(r.width||200,80),DP.ui[kx]*innerWidth))+'px';el.style.top=Math.max(0,Math.min(innerHeight-40,DP.ui[ky]*innerHeight))+'px';el.style.right='auto';el.style.bottom='auto'}
+function dpShow(){if(PANE)return;const w=dpEls(),c=$('#dpChip');w.hidden=!(DP.ui.open&&!DP.ui.min);c.hidden=!((DP.ui.open&&DP.ui.min)||(!DP.ui.open&&DP.track));
+  if(!w.hidden){dpPlace(w,'x','y');dpRender();dpTick(true)}if(!c.hidden){dpPlace(c,'cx','cy');dpChip()}}
+function dpChip(){const c=$('#dpChip');if(!c||c.hidden)return;const L=dpTrackLive(),T=DP.track;c.innerHTML=T&&L?`🔀 ${T.a} pair <b class="${L.pl>=0?'ecup':'ecdn'}">${L.pl>=0?'+':''}${dpRs(L.pl)}</b>`:`🔀 ${DP.ui.asset} ${DP.rows[DP.ui.asset]?dpP(DP.rows[DP.ui.asset][0].spot):''}`}
+function dpRender(){const w=$('#dpWin');if(!w||w.hidden)return;if(document.activeElement&&document.activeElement.id==='dpRisk')return;const st=w.querySelector('.dpbody').scrollTop;w.querySelector('.dpbody').innerHTML=dpBody();w.querySelector('.dpbody').scrollTop=st;
+  const at=DP.at[DP.ui.asset];w.querySelector('.dpupd').textContent=at?'updated '+Math.round((Date.now()-at)/1000)+'s ago':''}
+async function dpTick(force){if(DP.busy)return;const open=DP.ui.open&&!DP.ui.min,T=DP.track;if(!open&&!T)return;const want=new Set();if(open)want.add(DP.ui.asset);if(T)want.add(T.a);
+  DP.busy=true;try{for(const a of want){if(force||Date.now()-(DP.at[a]||0)>(open?9000:19000)){try{await dpLoad(a);DP.err=null}catch(e){DP.err='Could not load Delta options: '+(e.message||e)}}}
+    if(T)await dpTrackCheck();dpRender();dpChip()}finally{DP.busy=false}}
+async function dpTrackCheck(){const T=DP.track;if(!T)return;const now=Date.now(),L=dpTrackLive();T.said=T.said||{};
+  if(L&&L.val>=2*T.tot&&!T.said.x2){T.said.x2=1;tone(SOUNDS.t2);toast('info',`🎯 ${T.a} pair reached 2×`,`Worth ${dpUSD(L.val)} vs ${dpUSD(T.tot)} paid → ${dpRs(L.pl)}. Plan: sell the winning leg.`,'',null,12000)}
+  const ts=T.settle-DPL*3600e3-3600e3;if(L&&now>=ts&&now<ts+20*60e3&&L.val<T.tot&&!T.said.ts){T.said.ts=1;tone(SOUNDS.info);toast('info',`⏰ ${T.a} pair time-stop`,`Still below cost (${dpUSD(L.val)} vs ${dpUSD(T.tot)}). Plan: sell both and keep what is left.`,'',null,12000)}
+  if(now>T.settle+3*60e3){let S=null;try{const c=await jget(`https://api.india.delta.exchange/v2/history/candles?resolution=1m&symbol=${DPX[T.a].perp}&start=${Math.floor((T.settle-DPL*3600e3)/1000)}&end=${Math.floor(T.settle/1000)}`);const v=(c.result||[]).map(x=>+x.close).filter(Boolean);if(v.length)S=v.reduce((s,x)=>s+x,0)/v.length}catch(e){}
+    if(S!=null){const pay=Math.max(0,S-T.kc)+Math.max(0,T.kp-S),pl=(pay-T.tot-(pay>0?dpFee(S,pay):0))*T.n*T.cv*T.inr;DP.log.unshift({a:T.a,kc:T.kc,kp:T.kp,tot:T.tot,pay:+pay.toFixed(2),pl:Math.round(pl),settle:T.settle,how:'settled ≈'+dpP(S)});store.set('pt.dpLog',DP.log.slice(0,100));
+      toast('info',`${T.a} pair settled`,`Average ≈ ${dpP(S)} → pair worth ${dpUSD(pay)} vs ${dpUSD(T.tot)} → ${pl>=0?'+':''}${dpRs(pl)}`,'',null,12000);DP.track=null}}
+  store.set('pt.dpTrack',DP.track)}
+setInterval(()=>{if(!document.hidden)dpTick(false)},5000);
+document.addEventListener('click',e=>{if(e.target.closest('#dpBtn')){if(DP.ui.open&&!DP.ui.min){DP.ui.min=true}else{DP.ui.open=true;DP.ui.min=false}dpSave();dpShow()}});
+addEventListener('resize',()=>{if(DP.ui.open||DP.track)dpShow()});
+setTimeout(()=>{if(DP.ui.open||DP.track)dpShow()},2500);
 document.getElementById('mwBtn').onclick=()=>mwOpen();
 document.addEventListener('click',e=>{const b=e.target.closest('#anzExp');if(b)exportAll(b)});
 let booted=false;window.startApp=()=>{if(booted)return;booted=true;document.body.classList.remove('locked');boot();paneStart();setTimeout(backInit,1500)};
